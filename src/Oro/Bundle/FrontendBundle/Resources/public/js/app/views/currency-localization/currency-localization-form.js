@@ -3,8 +3,8 @@ import ApiAccessor from 'oroui/js/tools/api-accessor';
 import mediator from 'oroui/js/mediator';
 import viewportManager from 'oroui/js/viewport-manager';
 import BaseView from 'oroui/js/app/views/base/view';
-import template from
-    'tpl-loader!orofrontend/templates/currency-localization/currency-localization-form.html';
+import template
+    from 'tpl-loader!orofrontend/templates/currency-localization/currency-localization-form.html';
 import SwitcherFieldView from './switcher-field-view';
 
 const CurrencyLocalizationFormView = BaseView.extend({

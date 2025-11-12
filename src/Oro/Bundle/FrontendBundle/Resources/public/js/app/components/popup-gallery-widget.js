@@ -1,323 +1,320 @@
-define(function(require) {
-    'use strict';
+import AbstractWidget from 'oroui/js/widget/abstract-widget';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'orotranslation/js/translator';
+import mediator from 'oroui/js/mediator';
+import routing from 'routing';
+import error from 'oroui/js/error';
+import manageFocus from 'oroui/js/tools/manage-focus';
+import Modal from 'oroui/js/modal';
+import arrowTpl from 'tpl-loader!orofrontend/templates/slick-arrow-button.html';
+import template from 'tpl-loader!orofrontend/templates/gallery-popup/gallery-popup.html';
+const rtl = _.isRTL();
+import 'slick';
 
-    const AbstractWidget = require('oroui/js/widget/abstract-widget');
-    const $ = require('jquery');
-    const _ = require('underscore');
-    const __ = require('orotranslation/js/translator');
-    const mediator = require('oroui/js/mediator');
-    const routing = require('routing');
-    const error = require('oroui/js/error');
-    const manageFocus = require('oroui/js/tools/manage-focus').default;
-    const Modal = require('oroui/js/modal');
-    const arrowTpl = require('tpl-loader!orofrontend/templates/slick-arrow-button.html');
-    const rtl = _.isRTL();
-    require('slick');
+const PopupGalleryWidget = AbstractWidget.extend({
+    /**
+     * @property {Object}
+     */
+    template,
 
-    const PopupGalleryWidget = AbstractWidget.extend({
-        /**
-         * @property {Object}
-         */
-        template: require('tpl-loader!orofrontend/templates/gallery-popup/gallery-popup.html'),
-
-        /**
-         * @property {Object}
-         */
-        options: {
-            bindWithSlider: '.product-view-media-gallery',
-            uniqueTriggerToOpenGallery: null,
-            galleryImages: [],
-            ajaxMode: false,
-            ajaxRoute: 'oro_product_frontend_ajax_images_by_id',
-            ajaxMethod: 'GET',
-            galleryFilter: null,
-            thumbnailsFilter: null,
-            alt: '',
-            use_thumb: false,
-            initialSlide: false,
-            imageOptions: {
-                fade: true,
-                slidesToShow: 1,
-                slidesToScroll: 1,
-                arrows: true,
-                lazyLoad: 'progressive',
-                asNavFor: null,
-                adaptiveHeight: false,
-                dots: false,
-                prevArrow: arrowTpl({
-                    ariaLabel: __('Previous'),
-                    iconName: 'chevron-left',
-                    iconSize: 'theme-icon',
-                    className: 'slick-prev'
-                }),
-                nextArrow: arrowTpl({
-                    ariaLabel: __('Next'),
-                    iconName: 'chevron-right',
-                    iconSize: 'theme-icon',
-                    className: 'slick-next'
-                }),
-                infinite: true,
-                rtl: rtl,
-                responsive: [
-                    {
-                        breakpoint: 993,
-                        settings: {
-                            dots: false
-                        }
+    /**
+     * @property {Object}
+     */
+    options: {
+        bindWithSlider: '.product-view-media-gallery',
+        uniqueTriggerToOpenGallery: null,
+        galleryImages: [],
+        ajaxMode: false,
+        ajaxRoute: 'oro_product_frontend_ajax_images_by_id',
+        ajaxMethod: 'GET',
+        galleryFilter: null,
+        thumbnailsFilter: null,
+        alt: '',
+        use_thumb: false,
+        initialSlide: false,
+        imageOptions: {
+            fade: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            arrows: true,
+            lazyLoad: 'progressive',
+            asNavFor: null,
+            adaptiveHeight: false,
+            dots: false,
+            prevArrow: arrowTpl({
+                ariaLabel: __('Previous'),
+                iconName: 'chevron-left',
+                iconSize: 'theme-icon',
+                className: 'slick-prev'
+            }),
+            nextArrow: arrowTpl({
+                ariaLabel: __('Next'),
+                iconName: 'chevron-right',
+                iconSize: 'theme-icon',
+                className: 'slick-next'
+            }),
+            infinite: true,
+            rtl: rtl,
+            responsive: [
+                {
+                    breakpoint: 993,
+                    settings: {
+                        dots: false
                     }
-                ]
-            },
-            navOptions: {
-                slidesToShow: 7,
-                slidesToScroll: 7,
-                asNavFor: null,
-                centerMode: true,
-                focusOnSelect: true,
-                lazyLoad: 'progressive',
-                arrows: true,
-                dots: false,
-                variableWidth: true,
-                infinite: true,
-                rtl: rtl
-            },
-            modalOptions: {
-                // do not render (show) the "Ok" button
-                allowCancel: false,
-                // do not render (show) the "Cancel" button
-                allowOk: false,
-                className: 'modal oro-modal-normal popup-gallery-widget'
-            }
-        },
-
-        /**
-         * @inheritdoc
-         */
-        constructor: function PopupGalleryWidget(options) {
-            PopupGalleryWidget.__super__.constructor.call(this, options);
-        },
-
-        /**
-         * @constructor
-         * @param {Object} options
-         */
-        initialize(options) {
-            const {_initEvent: initEvent, ...restOptions} = options;
-            this.options = {...this.options, ...restOptions};
-            this.$triggerGalleryOpen = this.$('[data-trigger-gallery-open]');
-
-            if (this.options.uniqueTriggerToOpenGallery) {
-                this.$triggerGalleryOpen = $(this.options.uniqueTriggerToOpenGallery);
-            }
-
-            this.$triggerGalleryOpen
-                .on(`keydown${this.eventNamespace()}`, e => {
-                    // Open gallery if SPACE or ENTER was pressed
-                    if (e.keyCode === 32 || e.keyCode === 13) {
-                        this.onOpenTriggerClick(e);
-                    }
-                })
-                .on(`click${this.eventNamespace()}`, this.onOpenTriggerClick.bind(this));
-
-            if (this.options.ajaxMode) {
-                this.options.galleryImages = [];
-            }
-
-            if (
-                initEvent && initEvent.type === 'click' && (
-                    this.$triggerGalleryOpen.is(initEvent.target) ||
-                    $.contains(this.$triggerGalleryOpen[0], initEvent.target)
-                )
-            ) {
-                this.onOpenTriggerClick(initEvent);
-            }
-        },
-
-        onOpen() {
-            const modal = new Modal({
-                ...this.options.modalOptions,
-                content: this.template({
-                    images: this.options.galleryImages,
-                    use_thumb: this.useThumb()
-                })
-            });
-
-            this.subview('modal', modal);
-            this.listenTo(modal, {
-                shown: this.onModalShown.bind(this, modal),
-                close: this.onModalClose.bind(this, modal)
-            });
-            modal.open();
-        },
-
-        onOpenTriggerClick(e) {
-            e.preventDefault();
-
-            if (!this.options.ajaxMode || this.options.galleryImages.length) {
-                this.onOpen();
-
-                return;
-            }
-
-            const data = {
-                id: this.options.id,
-                filters: []
-            };
-
-            if (this.options.galleryFilter) {
-                data.filters.push(this.options.galleryFilter);
-            } else {
-                error.showErrorInConsole('No have gallery filter!');
-                return;
-            }
-
-            if (this.options.thumbnailsFilter) {
-                data.filters.push(this.options.thumbnailsFilter);
-            } else {
-                this.options.use_thumb = false;
-            }
-
-            $.ajax({
-                url: routing.generate(this.options.ajaxRoute, data),
-                method: this.options.ajaxMethod,
-                dataType: 'json',
-                beforeSend: () => {
-                    mediator.execute('showLoading');
-                },
-                success: data => {
-                    _.each(data, function(item, key) {
-                        const image = {
-                            alt: this.options.alt
-                        };
-                        if (Array.isArray(item[this.options.galleryFilter])) {
-                            image.src = _.toArray(item[this.options.galleryFilter]).slice(-1)[0].srcset || '';
-                            image.sources = _.toArray(item[this.options.galleryFilter]).slice(0, -1);
-                        } else {
-                            image.src = item[this.options.galleryFilter];
-                        }
-                        if (_.has(item, 'isInitial') && item['isInitial']) {
-                            this.options.initialSlide = key;
-                        }
-                        if (this.useThumb()) {
-                            if (Array.isArray(item[this.options.thumbnailsFilter])) {
-                                image.thumb = _.toArray(item[this.options.thumbnailsFilter]).slice(-1)[0].srcset || '';
-                                image.thumbSources = _.toArray(item[this.options.thumbnailsFilter]).slice(0, -1);
-                            } else {
-                                image.thumb = item[this.options.thumbnailsFilter];
-                            }
-                        }
-                        this.options.galleryImages.push(image);
-                    }, this);
-                    this.onOpen();
-                },
-                complete: () => {
-                    mediator.execute('hideLoading');
                 }
-            });
+            ]
         },
+        navOptions: {
+            slidesToShow: 7,
+            slidesToScroll: 7,
+            asNavFor: null,
+            centerMode: true,
+            focusOnSelect: true,
+            lazyLoad: 'progressive',
+            arrows: true,
+            dots: false,
+            variableWidth: true,
+            infinite: true,
+            rtl: rtl
+        },
+        modalOptions: {
+            // do not render (show) the "Ok" button
+            allowCancel: false,
+            // do not render (show) the "Cancel" button
+            allowOk: false,
+            className: 'modal oro-modal-normal popup-gallery-widget'
+        }
+    },
 
-        onModalShown(modal) {
-            const $gallery = modal.$('[data-gallery-images]');
-            const $thumbnails = modal.$('[data-gallery-thumbnails]');
+    /**
+     * @inheritdoc
+     */
+    constructor: function PopupGalleryWidget(options) {
+        PopupGalleryWidget.__super__.constructor.call(this, options);
+    },
 
-            if ($gallery.length === 0) {
-                throw new Error('The template should contain an element with "data-gallery-images" attribute');
+    /**
+     * @constructor
+     * @param {Object} options
+     */
+    initialize(options) {
+        const {_initEvent: initEvent, ...restOptions} = options;
+        this.options = {...this.options, ...restOptions};
+        this.$triggerGalleryOpen = this.$('[data-trigger-gallery-open]');
+
+        if (this.options.uniqueTriggerToOpenGallery) {
+            this.$triggerGalleryOpen = $(this.options.uniqueTriggerToOpenGallery);
+        }
+
+        this.$triggerGalleryOpen
+            .on(`keydown${this.eventNamespace()}`, e => {
+                // Open gallery if SPACE or ENTER was pressed
+                if (e.keyCode === 32 || e.keyCode === 13) {
+                    this.onOpenTriggerClick(e);
+                }
+            })
+            .on(`click${this.eventNamespace()}`, this.onOpenTriggerClick.bind(this));
+
+        if (this.options.ajaxMode) {
+            this.options.galleryImages = [];
+        }
+
+        if (
+            initEvent && initEvent.type === 'click' && (
+                this.$triggerGalleryOpen.is(initEvent.target) ||
+                $.contains(this.$triggerGalleryOpen[0], initEvent.target)
+            )
+        ) {
+            this.onOpenTriggerClick(initEvent);
+        }
+    },
+
+    onOpen() {
+        const modal = new Modal({
+            ...this.options.modalOptions,
+            content: this.template({
+                images: this.options.galleryImages,
+                use_thumb: this.useThumb()
+            })
+        });
+
+        this.subview('modal', modal);
+        this.listenTo(modal, {
+            shown: this.onModalShown.bind(this, modal),
+            close: this.onModalClose.bind(this, modal)
+        });
+        modal.open();
+    },
+
+    onOpenTriggerClick(e) {
+        e.preventDefault();
+
+        if (!this.options.ajaxMode || this.options.galleryImages.length) {
+            this.onOpen();
+
+            return;
+        }
+
+        const data = {
+            id: this.options.id,
+            filters: []
+        };
+
+        if (this.options.galleryFilter) {
+            data.filters.push(this.options.galleryFilter);
+        } else {
+            error.showErrorInConsole('No have gallery filter!');
+            return;
+        }
+
+        if (this.options.thumbnailsFilter) {
+            data.filters.push(this.options.thumbnailsFilter);
+        } else {
+            this.options.use_thumb = false;
+        }
+
+        $.ajax({
+            url: routing.generate(this.options.ajaxRoute, data),
+            method: this.options.ajaxMethod,
+            dataType: 'json',
+            beforeSend: () => {
+                mediator.execute('showLoading');
+            },
+            success: data => {
+                _.each(data, function(item, key) {
+                    const image = {
+                        alt: this.options.alt
+                    };
+                    if (Array.isArray(item[this.options.galleryFilter])) {
+                        image.src = _.toArray(item[this.options.galleryFilter]).slice(-1)[0].srcset || '';
+                        image.sources = _.toArray(item[this.options.galleryFilter]).slice(0, -1);
+                    } else {
+                        image.src = item[this.options.galleryFilter];
+                    }
+                    if (_.has(item, 'isInitial') && item['isInitial']) {
+                        this.options.initialSlide = key;
+                    }
+                    if (this.useThumb()) {
+                        if (Array.isArray(item[this.options.thumbnailsFilter])) {
+                            image.thumb = _.toArray(item[this.options.thumbnailsFilter]).slice(-1)[0].srcset || '';
+                            image.thumbSources = _.toArray(item[this.options.thumbnailsFilter]).slice(0, -1);
+                        } else {
+                            image.thumb = item[this.options.thumbnailsFilter];
+                        }
+                    }
+                    this.options.galleryImages.push(image);
+                }, this);
+                this.onOpen();
+            },
+            complete: () => {
+                mediator.execute('hideLoading');
             }
+        });
+    },
 
-            if ($(document.activeElement).hasClass('focus-visible')) {
-                this.beforeOpenFocusedElement = document.activeElement;
-            }
+    onModalShown(modal) {
+        const $gallery = modal.$('[data-gallery-images]');
+        const $thumbnails = modal.$('[data-gallery-thumbnails]');
 
-            if (!this.options.navOptions.asNavFor) {
-                this.options.navOptions.asNavFor = `.${$gallery.attr('class')}`;
-            }
+        if ($gallery.length === 0) {
+            throw new Error('The template should contain an element with "data-gallery-images" attribute');
+        }
 
-            if (!this.options.imageOptions.asNavFor && this.useThumb()) {
-                this.options.imageOptions.asNavFor = `.${$thumbnails.attr('class')}`;
-            }
+        if ($(document.activeElement).hasClass('focus-visible')) {
+            this.beforeOpenFocusedElement = document.activeElement;
+        }
 
-            // Initialize main slider
-            $gallery.not('.slick-initialized').slick(this.options.imageOptions);
+        if (!this.options.navOptions.asNavFor) {
+            this.options.navOptions.asNavFor = `.${$gallery.attr('class')}`;
+        }
 
-            let extraSlick = null;
-            // Initialize extra slider if necessary
-            if (this.useThumb() && $thumbnails.length) {
-                $thumbnails.not('.slick-initialized').slick(this.options.navOptions);
+        if (!this.options.imageOptions.asNavFor && this.useThumb()) {
+            this.options.imageOptions.asNavFor = `.${$thumbnails.attr('class')}`;
+        }
 
-                extraSlick = $thumbnails.slick('getSlick');
+        // Initialize main slider
+        $gallery.not('.slick-initialized').slick(this.options.imageOptions);
 
-                $thumbnails
-                    .toggleClass('slick-no-slide', extraSlick.slideCount <= extraSlick.options.slidesToShow);
-            }
+        let extraSlick = null;
+        // Initialize extra slider if necessary
+        if (this.useThumb() && $thumbnails.length) {
+            $thumbnails.not('.slick-initialized').slick(this.options.navOptions);
 
-            const dependentSlider = this.options.bindWithSlider;
-            let slideIndex = 0;
+            extraSlick = $thumbnails.slick('getSlick');
 
-            if (dependentSlider && this.$el.find(`${dependentSlider} .slick-slide`).length) {
-                slideIndex = this.$el.find(dependentSlider).slick('slickCurrentSlide');
-            } else if (typeof this.options.initialSlide === 'number') {
-                slideIndex = this.options.initialSlide;
-            }
+            $thumbnails
+                .toggleClass('slick-no-slide', extraSlick.slideCount <= extraSlick.options.slidesToShow);
+        }
 
-            $gallery.slick('slickGoTo', slideIndex, true);
+        const dependentSlider = this.options.bindWithSlider;
+        let slideIndex = 0;
+
+        if (dependentSlider && this.$el.find(`${dependentSlider} .slick-slide`).length) {
+            slideIndex = this.$el.find(dependentSlider).slick('slickCurrentSlide');
+        } else if (typeof this.options.initialSlide === 'number') {
+            slideIndex = this.options.initialSlide;
+        }
+
+        $gallery.slick('slickGoTo', slideIndex, true);
+
+        if (extraSlick) {
+            $thumbnails.slick('slickGoTo', slideIndex, true);
+        }
+
+        // Manually refresh positioning of slick
+        const refreshPositions = () => {
+            $gallery.slick('setPosition');
 
             if (extraSlick) {
-                $thumbnails.slick('slickGoTo', slideIndex, true);
+                $thumbnails.slick('setPosition');
             }
+        };
 
-            // Manually refresh positioning of slick
-            const refreshPositions = () => {
-                $gallery.slick('setPosition');
-
-                if (extraSlick) {
-                    $thumbnails.slick('setPosition');
-                }
-            };
-
-            refreshPositions();
-            this.listenTo(mediator, 'layout:reposition', () => {
-                _.delay(() => refreshPositions(), 100);
-            });
-            $(document).on(`keydown${this.eventNamespace()}`, e => {
-                if (e.keyCode === 37) {
-                    $gallery.slick('slickPrev');
-                } else if (e.keyCode === 39) {
-                    $gallery.slick('slickNext');
-                }
-            });
-            modal.$el.addClass('opened');
-            manageFocus.focusTabbable($gallery);
-        },
-
-        onModalClose(modal) {
-            if (this.beforeOpenFocusedElement) {
-                this.beforeOpenFocusedElement.focus();
-
-                delete this.beforeOpenFocusedElement;
+        refreshPositions();
+        this.listenTo(mediator, 'layout:reposition', () => {
+            _.delay(() => refreshPositions(), 100);
+        });
+        $(document).on(`keydown${this.eventNamespace()}`, e => {
+            if (e.keyCode === 37) {
+                $gallery.slick('slickPrev');
+            } else if (e.keyCode === 39) {
+                $gallery.slick('slickNext');
             }
+        });
+        modal.$el.addClass('opened');
+        manageFocus.focusTabbable($gallery);
+    },
 
-            this.stopListening(mediator);
-            $(document).off(this.eventNamespace());
-        },
+    onModalClose(modal) {
+        if (this.beforeOpenFocusedElement) {
+            this.beforeOpenFocusedElement.focus();
 
-        useThumb() {
-            return this.options.use_thumb;
-        },
-
-        render() {
-            return this;
-        },
-
-        dispose() {
-            if (this.disposed) {
-                return;
-            }
-
-            this.$triggerGalleryOpen.off(this.eventNamespace());
             delete this.beforeOpenFocusedElement;
-
-            PopupGalleryWidget.__super__.dispose.call(this);
         }
-    });
 
-    return PopupGalleryWidget;
+        this.stopListening(mediator);
+        $(document).off(this.eventNamespace());
+    },
+
+    useThumb() {
+        return this.options.use_thumb;
+    },
+
+    render() {
+        return this;
+    },
+
+    dispose() {
+        if (this.disposed) {
+            return;
+        }
+
+        this.$triggerGalleryOpen.off(this.eventNamespace());
+        delete this.beforeOpenFocusedElement;
+
+        PopupGalleryWidget.__super__.dispose.call(this);
+    }
 });
+
+export default PopupGalleryWidget;

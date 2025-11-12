@@ -1,40 +1,36 @@
-define(function(require, exports, module) {
-    'use strict';
+import _ from 'underscore';
+import BasePlugin from 'oroui/js/app/plugins/base/plugin';
+import ShowComponentAction from 'orofrontend/js/datagrid/action/toolbar-mass-action';
+import ToolbarMassActionComponent from 'orodatagrid/js/app/components/toolbar-mass-action-component';
+import moduleConfig from 'module-config';
 
-    const _ = require('underscore');
-    const BasePlugin = require('oroui/js/app/plugins/base/plugin');
-    const ShowComponentAction = require('orofrontend/js/datagrid/action/toolbar-mass-action');
-    const ToolbarMassActionComponent = require('orodatagrid/js/app/components/toolbar-mass-action-component').default;
+const config = {
+    wrapperClassName: 'toolbar-mass-actions',
+    ...moduleConfig(module.id)
+};
 
-    let config = require('module-config').default(module.id);
+const ToolbarMassActionPlugin = BasePlugin.extend({
+    enable: function() {
+        this.listenTo(this.main, 'beforeToolbarInit', this.onBeforeToolbarInit);
+        ToolbarMassActionPlugin.__super__.enable.call(this);
+    },
 
-    config = _.extend({
-        wrapperClassName: 'toolbar-mass-actions'
-    }, config);
+    onBeforeToolbarInit: function(toolbarOptions) {
+        const options = {
+            datagrid: this.main,
+            launcherOptions: _.extend(config, {
+                componentConstructor: ToolbarMassActionComponent,
+                collection: toolbarOptions.collection,
+                actions: this.main.massActions
+            })
+        };
 
-    const ToolbarMassActionPlugin = BasePlugin.extend({
-        enable: function() {
-            this.listenTo(this.main, 'beforeToolbarInit', this.onBeforeToolbarInit);
-            ToolbarMassActionPlugin.__super__.enable.call(this);
-        },
-
-        onBeforeToolbarInit: function(toolbarOptions) {
-            const options = {
-                datagrid: this.main,
-                launcherOptions: _.extend(config, {
-                    componentConstructor: ToolbarMassActionComponent,
-                    collection: toolbarOptions.collection,
-                    actions: this.main.massActions
-                })
-            };
-
-            if (!toolbarOptions.massActionsPanel) {
-                toolbarOptions.massActionsPanel = [];
-            }
-
-            toolbarOptions.massActionsPanel.push(new ShowComponentAction(options));
+        if (!toolbarOptions.massActionsPanel) {
+            toolbarOptions.massActionsPanel = [];
         }
-    });
 
-    return ToolbarMassActionPlugin;
+        toolbarOptions.massActionsPanel.push(new ShowComponentAction(options));
+    }
 });
+
+export default ToolbarMassActionPlugin;

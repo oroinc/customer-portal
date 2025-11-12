@@ -1,44 +1,39 @@
-define(function(require) {
-    'use strict';
+import _ from 'underscore';
+import MultiSelectFilter from 'oro/filter/multiselect-filter';
+import FilterCountHelper from 'orofrontend/js/app/filter-count-helper';
 
-    const _ = require('underscore');
-    const MultiSelectFilterModule = require('oro/filter/multiselect-filter');
-    const MultiSelectFilter = MultiSelectFilterModule.default ?? MultiSelectFilterModule;
-    const FilterCountHelper = require('orofrontend/js/app/filter-count-helper');
+const FrontendSearchBooleanFilter = MultiSelectFilter.extend(_.extend({}, FilterCountHelper, {
+    /**
+     * @inheritdoc
+     */
+    populateDefault: false,
 
-    const FrontendSearchBooleanFilter = MultiSelectFilter.extend(_.extend({}, FilterCountHelper, {
-        /**
-         * @inheritdoc
-         */
-        populateDefault: false,
+    /**
+     * @property {Object}
+     */
+    listen: {
+        'metadata-loaded': 'onMetadataLoaded',
+        'filters-manager:after-applying-state mediator': 'rerenderFilter'
+    },
 
-        /**
-         * @property {Object}
-         */
-        listen: {
-            'metadata-loaded': 'onMetadataLoaded',
-            'filters-manager:after-applying-state mediator': 'rerenderFilter'
-        },
+    /**
+     * @inheritdoc
+     */
+    constructor: function FrontendBooleanFilter(options) {
+        FrontendSearchBooleanFilter.__super__.constructor.call(this, options);
+    },
 
-        /**
-         * @inheritdoc
-         */
-        constructor: function FrontendBooleanFilter(options) {
-            FrontendSearchBooleanFilter.__super__.constructor.call(this, options);
-        },
+    /**
+     * @inheritdoc
+     */
+    getTemplateData: function() {
+        let templateData = FrontendSearchBooleanFilter.__super__.getTemplateData.call(this);
 
-        /**
-         * @inheritdoc
-         */
-        getTemplateData: function() {
-            let templateData = FrontendSearchBooleanFilter.__super__.getTemplateData.call(this);
+        templateData = this.filterTemplateData(templateData);
+        this.visible = (_.size(templateData.options) > 1);
 
-            templateData = this.filterTemplateData(templateData);
-            this.visible = (_.size(templateData.options) > 1);
+        return templateData;
+    }
+}));
 
-            return templateData;
-        }
-    }));
-
-    return FrontendSearchBooleanFilter;
-});
+export default FrontendSearchBooleanFilter;

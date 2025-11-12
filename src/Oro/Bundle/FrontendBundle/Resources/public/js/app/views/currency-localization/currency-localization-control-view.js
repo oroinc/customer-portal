@@ -3,15 +3,15 @@ import viewportManager from 'oroui/js/viewport-manager';
 import CurrencyLocalizationForm from './currency-localization-form';
 
 import template from 'tpl-loader!orofrontend/templates/currency-localization/currency-localization-view.html';
-import templateDropdown from
-    'tpl-loader!orofrontend/templates/currency-localization/currency-localization-dropdown-view.html';
+import templateDropdown
+    from 'tpl-loader!orofrontend/templates/currency-localization/currency-localization-dropdown-view.html';
 
-import condensedDoubleViewTpl from
-    'tpl-loader!orofrontend/templates/currency-localization/condensed-double-view.html';
-import condensedMultipleViewTpl from
-    'tpl-loader!orofrontend/templates/currency-localization/condensed-multiple-view.html';
-import condensedSingleViewTpl from
-    'tpl-loader!orofrontend/templates/currency-localization/condensed-single-view.html';
+import condensedDoubleViewTpl
+    from 'tpl-loader!orofrontend/templates/currency-localization/condensed-double-view.html';
+import condensedMultipleViewTpl
+    from 'tpl-loader!orofrontend/templates/currency-localization/condensed-multiple-view.html';
+import condensedSingleViewTpl
+    from 'tpl-loader!orofrontend/templates/currency-localization/condensed-single-view.html';
 
 const CurrencyLocalizationControlView = BaseView.extend({
     optionNames: BaseView.prototype.optionNames.concat([

@@ -1,119 +1,114 @@
-define(function(require, exports, module) {
-    'use strict';
+import __ from 'orotranslation/js/translator';
+import AbstractFilter from 'oro/filter/abstract-filter';
+import moduleConfig from 'module-config';
 
-    const _ = require('underscore');
-    const __ = require('orotranslation/js/translator');
-    const AbstractFilter = require('oro/filter/abstract-filter').default;
+const config = {
+    animationDuration: 0,
+    clearFilterSelector: '[data-role="clear-filter"]',
+    filterEnableValueBadge: true,
+    allowClearButtonInFilter: true,
+    ...moduleConfig(module.id)
+};
 
-    let config = require('module-config').default(module.id);
+const FrontendAbstractFilter = AbstractFilter.extend({
+    /**
+     * Duration of slide up/down filter criteria
+     *
+     * @property {Number}
+     */
+    animationDuration: config.animationDuration,
 
-    config = _.extend({
-        animationDuration: 0,
-        clearFilterSelector: '[data-role="clear-filter"]',
-        filterEnableValueBadge: true,
-        allowClearButtonInFilter: true
-    }, config);
+    /**
+    * Reset filter selector
+    *
+    * @property {string}
+    */
+    clearFilterSelector: config.clearFilterSelector,
 
-    const FrontendAbstractFilter = AbstractFilter.extend({
-        /**
-         * Duration of slide up/down filter criteria
-         *
-         * @property {Number}
-         */
-        animationDuration: config.animationDuration,
+    /**
+     * Enable showing badge with count of selected values
+     *
+     * @property {boolean}
+     */
+    filterEnableValueBadge: config.filterEnableValueBadge,
 
-        /**
-        * Reset filter selector
-        *
-        * @property {string}
-        */
-        clearFilterSelector: config.clearFilterSelector,
+    /**
+     * Enable reset button for particular filter
+     * Allow reset filter separately
+     *
+     * @property {boolean}
+     */
+    allowClearButtonInFilter: config.allowClearButtonInFilter,
 
-        /**
-         * Enable showing badge with count of selected values
-         *
-         * @property {boolean}
-         */
-        filterEnableValueBadge: config.filterEnableValueBadge,
+    /**
+     * @inheritdoc
+     */
+    constructor: function FrontendAbstractFilter(options) {
+        FrontendAbstractFilter.__super__.constructor.call(this, options);
+    },
 
-        /**
-         * Enable reset button for particular filter
-         * Allow reset filter separately
-         *
-         * @property {boolean}
-         */
-        allowClearButtonInFilter: config.allowClearButtonInFilter,
-
-        /**
-         * @inheritdoc
-         */
-        constructor: function FrontendAbstractFilter(options) {
-            FrontendAbstractFilter.__super__.constructor.call(this, options);
-        },
-
-        /**
-         * Set filter button class
-         *
-         * @param {Object} element
-         * @param {Boolean} status
-         * @protected
-         */
-        _setButtonPressed: function(element, status) {
-            if (!this.animationDuration) {
-                return FrontendAbstractFilter.__super__._setButtonPressed.call(this, element, status);
-            }
-
-            if (status) {
-                element.slideDown(this.animationDuration, () => {
-                    this._setButtonExpanded(true);
-                    element.parent().addClass(this.buttonActiveClass);
-                });
-            } else {
-                element.slideUp(this.animationDuration, () => {
-                    this._setButtonExpanded(false);
-                    element.parent().removeClass(this.buttonActiveClass);
-                });
-            }
-        },
-
-        /**
-         * @return {Object}
-         */
-        getTemplateDataProps() {
-            return {
-                ...FrontendAbstractFilter.__super__.getTemplateDataProps.call(this),
-                allowClearButtonInFilter: this.allowClearButtonInFilter,
-                clearFilterButtonAriaLabel: __('oro.filter.clearFilterButton.aria_label', {
-                    label: `${__('oro.filter.by')} ${this.label}`}
-                )
-            };
-        },
-
-        getHintChips() {
-            return this.subview('hint').getChips();
-        },
-
-        _setInputValue(input, value) {
-            const $input = this.$(input);
-
-            switch ($input.attr('type')) {
-                case 'radio':
-                    $input.each((index, input) => {
-                        const $input = this.$(input);
-                        if ($input.attr('value') === value) {
-                            $input.prop('checked', true).trigger('change');
-                        } else {
-                            $input.prop('checked', false);
-                        }
-                    });
-                    break;
-                default:
-                    $input.val(value);
-            }
-
-            return this;
+    /**
+     * Set filter button class
+     *
+     * @param {Object} element
+     * @param {Boolean} status
+     * @protected
+     */
+    _setButtonPressed: function(element, status) {
+        if (!this.animationDuration) {
+            return FrontendAbstractFilter.__super__._setButtonPressed.call(this, element, status);
         }
-    });
 
-    return FrontendAbstractFilter;
+        if (status) {
+            element.slideDown(this.animationDuration, () => {
+                this._setButtonExpanded(true);
+                element.parent().addClass(this.buttonActiveClass);
+            });
+        } else {
+            element.slideUp(this.animationDuration, () => {
+                this._setButtonExpanded(false);
+                element.parent().removeClass(this.buttonActiveClass);
+            });
+        }
+    },
+
+    /**
+     * @return {Object}
+     */
+    getTemplateDataProps() {
+        return {
+            ...FrontendAbstractFilter.__super__.getTemplateDataProps.call(this),
+            allowClearButtonInFilter: this.allowClearButtonInFilter,
+            clearFilterButtonAriaLabel: __('oro.filter.clearFilterButton.aria_label', {
+                label: `${__('oro.filter.by')} ${this.label}`}
+            )
+        };
+    },
+
+    getHintChips() {
+        return this.subview('hint').getChips();
+    },
+
+    _setInputValue(input, value) {
+        const $input = this.$(input);
+
+        switch ($input.attr('type')) {
+            case 'radio':
+                $input.each((index, input) => {
+                    const $input = this.$(input);
+                    if ($input.attr('value') === value) {
+                        $input.prop('checked', true).trigger('change');
+                    } else {
+                        $input.prop('checked', false);
+                    }
+                });
+                break;
+            default:
+                $input.val(value);
+        }
+
+        return this;
+    }
 });
+
+export default FrontendAbstractFilter;

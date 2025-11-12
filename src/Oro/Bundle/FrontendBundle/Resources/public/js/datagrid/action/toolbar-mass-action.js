@@ -1,28 +1,24 @@
-define(function(require) {
-    'use strict';
+import AbstractAction from 'oro/datagrid/action/abstract-action';
+import toolbarMassActionLauncher from 'orofrontend/js/datagrid/toolbar-mass-action-launcher';
 
-    const AbstractAction = require('oro/datagrid/action/abstract-action').default;
-    const toolbarMassActionLauncher = require('orofrontend/js/datagrid/toolbar-mass-action-launcher');
+const ToolbarMassAction = AbstractAction.extend({
+    launcher: toolbarMassActionLauncher,
 
-    const ToolbarMassAction = AbstractAction.extend({
-        launcher: toolbarMassActionLauncher,
+    order: 50,
 
-        order: 50,
+    /**
+     * @inheritdoc
+     */
+    constructor: function ToolbarMassAction(options) {
+        ToolbarMassAction.__super__.constructor.call(this, options);
+    },
 
-        /**
-         * @inheritdoc
-         */
-        constructor: function ToolbarMassAction(options) {
-            ToolbarMassAction.__super__.constructor.call(this, options);
-        },
-
-        /**
-         * @inheritdoc
-         */
-        execute: function() {
-            // do nothing
-        }
-    });
-
-    return ToolbarMassAction;
+    /**
+     * @inheritdoc
+     */
+    execute: function() {
+        // do nothing
+    }
 });
+
+export default ToolbarMassAction;

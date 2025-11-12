@@ -17,7 +17,7 @@ const NavigationMenuComponent = BaseComponent.extend({
     initialize(options) {
         this.viewOptions = {
             el: options._sourceElement,
-            ...options.viewOptions ?? {}
+            ...(options.viewOptions ?? {})
         };
 
         // Initialize a view if it is a visible

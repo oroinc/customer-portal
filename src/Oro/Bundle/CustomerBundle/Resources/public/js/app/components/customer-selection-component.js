@@ -1,147 +1,143 @@
-define(function(require) {
-    'use strict';
+import BaseComponent from 'oroui/js/app/components/base/component';
+import LoadingMaskView from 'oroui/js/app/views/loading-mask-view';
+import $ from 'jquery';
+import _ from 'underscore';
+import __ from 'orotranslation/js/translator';
+import routing from 'routing';
+import mediator from 'oroui/js/mediator';
 
-    const BaseComponent = require('oroui/js/app/components/base/component');
-    const LoadingMaskView = require('oroui/js/app/views/loading-mask-view');
-    const $ = require('jquery');
-    const _ = require('underscore');
-    const __ = require('orotranslation/js/translator');
-    const routing = require('routing');
-    const mediator = require('oroui/js/mediator');
+const CustomerSelectionComponent = BaseComponent.extend({
+    /**
+     * @property {Object}
+     */
+    options: {
+        customerSelect: '.customer-customer-select input[type="hidden"]',
+        customerUserSelect: '.customer-customeruser-select input[type="hidden"]',
+        customerUserMultiSelect: '.customer-customeruser-multiselect input[type="hidden"]',
+        customerRoute: 'oro_customer_customer_user_get_customer',
+        errorMessage: 'Sorry, an unexpected error has occurred.'
+    },
 
-    const CustomerSelectionComponent = BaseComponent.extend({
-        /**
-         * @property {Object}
-         */
-        options: {
-            customerSelect: '.customer-customer-select input[type="hidden"]',
-            customerUserSelect: '.customer-customeruser-select input[type="hidden"]',
-            customerUserMultiSelect: '.customer-customeruser-multiselect input[type="hidden"]',
-            customerRoute: 'oro_customer_customer_user_get_customer',
-            errorMessage: 'Sorry, an unexpected error has occurred.'
-        },
+    /**
+     * @property {Object}
+     */
+    $customerSelect: null,
 
-        /**
-         * @property {Object}
-         */
-        $customerSelect: null,
+    /**
+     * @property {Object}
+     */
+    $customerUserSelect: null,
 
-        /**
-         * @property {Object}
-         */
-        $customerUserSelect: null,
+    /**
+     * @property {Object}
+     */
+    $customerUserMultiSelect: null,
 
-        /**
-         * @property {Object}
-         */
-        $customerUserMultiSelect: null,
+    /**
+     * @property {LoadingMaskView|null}
+     */
+    loadingMask: null,
 
-        /**
-         * @property {LoadingMaskView|null}
-         */
-        loadingMask: null,
+    /**
+     * @inheritdoc
+     */
+    constructor: function CustomerSelectionComponent(options) {
+        CustomerSelectionComponent.__super__.constructor.call(this, options);
+    },
 
-        /**
-         * @inheritdoc
-         */
-        constructor: function CustomerSelectionComponent(options) {
-            CustomerSelectionComponent.__super__.constructor.call(this, options);
-        },
+    /**
+     * @inheritdoc
+     */
+    initialize: function(options) {
+        this.options = _.defaults(options || {}, this.options);
+        this.$el = options._sourceElement;
+        this.loadingMask = new LoadingMaskView({container: this.$el});
 
-        /**
-         * @inheritdoc
-         */
-        initialize: function(options) {
-            this.options = _.defaults(options || {}, this.options);
-            this.$el = options._sourceElement;
-            this.loadingMask = new LoadingMaskView({container: this.$el});
+        this.$customerSelect = this.$el.find(this.options.customerSelect);
+        this.$customerUserSelect = this.$el.find(this.options.customerUserSelect);
+        this.$customerUserMultiSelect = this.$el.find(this.options.customerUserMultiSelect);
 
-            this.$customerSelect = this.$el.find(this.options.customerSelect);
-            this.$customerUserSelect = this.$el.find(this.options.customerUserSelect);
-            this.$customerUserMultiSelect = this.$el.find(this.options.customerUserMultiSelect);
+        this.$el
+            .on('change', this.options.customerSelect, this.onCustomerChanged.bind(this))
+            .on('change', this.options.customerUserSelect, this.onCustomerUserChanged.bind(this))
+            .on('change', this.options.customerUserMultiSelect, this.onCustomerUserChanged.bind(this))
+        ;
 
-            this.$el
-                .on('change', this.options.customerSelect, this.onCustomerChanged.bind(this))
-                .on('change', this.options.customerUserSelect, this.onCustomerUserChanged.bind(this))
-                .on('change', this.options.customerUserMultiSelect, this.onCustomerUserChanged.bind(this))
-            ;
+        this.updateCustomerUserSelectData({customer_id: this.$customerSelect.val()});
+    },
 
-            this.updateCustomerUserSelectData({customer_id: this.$customerSelect.val()});
-        },
+    /**
+     * Handle Customer change
+     */
+    onCustomerChanged: function() {
+        this.$customerUserSelect.inputWidget('val', '');
+        this.$customerUserMultiSelect.inputWidget('val', '');
 
-        /**
-         * Handle Customer change
-         */
-        onCustomerChanged: function() {
-            this.$customerUserSelect.inputWidget('val', '');
-            this.$customerUserMultiSelect.inputWidget('val', '');
+        this.updateCustomerUserSelectData({customer_id: this.$customerSelect.val()});
+        this.triggerChangeCustomerUserEvent(true, false);
+    },
 
-            this.updateCustomerUserSelectData({customer_id: this.$customerSelect.val()});
-            this.triggerChangeCustomerUserEvent(true, false);
-        },
+    /**
+     * Handle CustomerUser change
+     *
+     * @param {jQuery.Event} e
+     */
+    onCustomerUserChanged: function(e) {
+        const customerId = this.$customerSelect.val();
+        const customerUserId = $(e.target).val();
 
-        /**
-         * Handle CustomerUser change
-         *
-         * @param {jQuery.Event} e
-         */
-        onCustomerUserChanged: function(e) {
-            const customerId = this.$customerSelect.val();
-            const customerUserId = $(e.target).val();
+        if (customerId || !customerUserId) {
+            this.triggerChangeCustomerUserEvent(false, true);
 
-            if (customerId || !customerUserId) {
-                this.triggerChangeCustomerUserEvent(false, true);
-
-                return;
-            }
-
-            const self = this;
-            $.ajax({
-                url: routing.generate(this.options.customerRoute, {id: customerUserId}),
-                type: 'GET',
-                beforeSend: function() {
-                    self.loadingMask.show();
-                },
-                success: function(response) {
-                    self.$customerSelect.inputWidget('val', response.customerId || '');
-
-                    self.updateCustomerUserSelectData({customer_id: response.customerId});
-                    self.triggerChangeCustomerUserEvent(false, true);
-                },
-                complete: function() {
-                    self.loadingMask.hide();
-                },
-                errorHandlerMessage: __(this.options.errorMessage)
-            });
-        },
-
-        /**
-         * @param {Object} data
-         */
-        updateCustomerUserSelectData: function(data) {
-            this.$customerUserSelect.data('select2_query_additional_params', data);
-            this.$customerUserMultiSelect.data('select2_query_additional_params', data);
-        },
-
-        triggerChangeCustomerUserEvent: function(isCustomerChanged = false, isCustomerUserChanged = false) {
-            mediator.trigger('customer-customer-user:change', {
-                isCustomerChanged: isCustomerChanged,
-                isCustomerUserChanged: isCustomerUserChanged,
-                customerId: this.$customerSelect.val(),
-                customerUserId: this.$customerUserSelect.val()
-            });
-        },
-
-        dispose: function() {
-            if (this.disposed) {
-                return;
-            }
-
-            this.$el.off();
-
-            CustomerSelectionComponent.__super__.dispose.call(this);
+            return;
         }
-    });
 
-    return CustomerSelectionComponent;
+        const self = this;
+        $.ajax({
+            url: routing.generate(this.options.customerRoute, {id: customerUserId}),
+            type: 'GET',
+            beforeSend: function() {
+                self.loadingMask.show();
+            },
+            success: function(response) {
+                self.$customerSelect.inputWidget('val', response.customerId || '');
+
+                self.updateCustomerUserSelectData({customer_id: response.customerId});
+                self.triggerChangeCustomerUserEvent(false, true);
+            },
+            complete: function() {
+                self.loadingMask.hide();
+            },
+            errorHandlerMessage: __(this.options.errorMessage)
+        });
+    },
+
+    /**
+     * @param {Object} data
+     */
+    updateCustomerUserSelectData: function(data) {
+        this.$customerUserSelect.data('select2_query_additional_params', data);
+        this.$customerUserMultiSelect.data('select2_query_additional_params', data);
+    },
+
+    triggerChangeCustomerUserEvent: function(isCustomerChanged = false, isCustomerUserChanged = false) {
+        mediator.trigger('customer-customer-user:change', {
+            isCustomerChanged: isCustomerChanged,
+            isCustomerUserChanged: isCustomerUserChanged,
+            customerId: this.$customerSelect.val(),
+            customerUserId: this.$customerUserSelect.val()
+        });
+    },
+
+    dispose: function() {
+        if (this.disposed) {
+            return;
+        }
+
+        this.$el.off();
+
+        CustomerSelectionComponent.__super__.dispose.call(this);
+    }
 });
+
+export default CustomerSelectionComponent;

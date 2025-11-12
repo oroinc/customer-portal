@@ -1,8 +1,8 @@
 import BaseView from 'oroui/js/app/views/base/view';
 import template from 'tpl-loader!orofrontend/templates/currency-localization/switcher-field/select-field.html';
 import switcherTpl from 'tpl-loader!orofrontend/templates/currency-localization/switcher-field/switcher-field.html';
-import switcherVerticalTpl from
-    'tpl-loader!orofrontend/templates/currency-localization/switcher-field/switcher-vertical-field.html';
+import switcherVerticalTpl
+    from 'tpl-loader!orofrontend/templates/currency-localization/switcher-field/switcher-vertical-field.html';
 
 const SwitcherFieldView = BaseView.extend({
     optionNames: BaseView.prototype.optionNames.concat([

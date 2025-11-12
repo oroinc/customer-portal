@@ -1,57 +1,53 @@
-define(function(require) {
-    'use strict';
+import BaseView from 'oroui/js/app/views/base/view';
 
-    const BaseView = require('oroui/js/app/views/base/view');
+const CounterBadgeView = BaseView.extend({
+    /**
+     * @property
+     */
+    optionNames: BaseView.prototype.optionNames.concat([
+        'count'
+    ]),
 
-    const CounterBadgeView = BaseView.extend({
-        /**
-         * @property
-         */
-        optionNames: BaseView.prototype.optionNames.concat([
-            'count'
-        ]),
+    /**
+     * @property
+     */
+    tagName: 'span',
 
-        /**
-         * @property
-         */
-        tagName: 'span',
+    /**
+     * @property
+     */
+    className: 'badge',
 
-        /**
-         * @property
-         */
-        className: 'badge',
+    /**
+     * @property
+     */
+    count: 0,
 
-        /**
-         * @property
-         */
-        count: 0,
+    /**
+     * @inheritdoc
+     */
+    constructor: function CounterBadgeView(options) {
+        CounterBadgeView.__super__.constructor.call(this, options);
+    },
 
-        /**
-         * @inheritdoc
-         */
-        constructor: function CounterBadgeView(options) {
-            CounterBadgeView.__super__.constructor.call(this, options);
-        },
+    /**
+     * @inheritdoc
+     */
+    initialize: function(options) {
+        this.setCount(this.count);
 
-        /**
-         * @inheritdoc
-         */
-        initialize: function(options) {
-            this.setCount(this.count);
+        CounterBadgeView.__super__.initialize.call(this, options);
+    },
 
-            CounterBadgeView.__super__.initialize.call(this, options);
-        },
-
-        /**
-         * Count setter
-         * @param {String | Number} count
-         */
-        setCount: function(count) {
-            this.$el
-                .html(count || '')
-                .toggleClass('hidden', !count);
-        }
-    });
-
-    return CounterBadgeView;
+    /**
+     * Count setter
+     * @param {String | Number} count
+     */
+    setCount: function(count) {
+        this.$el
+            .html(count || '')
+            .toggleClass('hidden', !count);
+    }
 });
+
+export default CounterBadgeView;

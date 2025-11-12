@@ -1,102 +1,98 @@
-define(function(require) {
-    'use strict';
+/**
+ * This helper use in the context of component View
+ */
+import _ from 'underscore';
+import $ from 'jquery';
+
+export default {
+    /**
+     * @property {Object}
+     */
+    counts: null,
 
     /**
-     * This helper use in the context of component View
+     * @property {Object}
      */
-    const _ = require('underscore');
-    const $ = require('jquery');
+    countsWithoutFilters: null,
 
-    return {
-        /**
-         * @property {Object}
-         */
-        counts: null,
+    /**
+     * @property {Number}
+     */
+    totalRecordsCount: 0,
 
-        /**
-         * @property {Object}
-         */
-        countsWithoutFilters: null,
+    /**
+     * @property {Boolean}
+     */
+    isDisableFiltersEnabled: false,
 
-        /**
-         * @property {Number}
-         */
-        totalRecordsCount: 0,
+    /**
+     * @param {Object} metadata
+     */
+    onMetadataLoaded: function(metadata) {
+        this.counts = metadata.counts || null;
+        this.countsWithoutFilters = metadata.countsWithoutFilters || null;
+        this.isDisableFiltersEnabled = metadata.isDisableFiltersEnabled || false;
+        this.rerenderFilter();
+    },
 
-        /**
-         * @property {Boolean}
-         */
-        isDisableFiltersEnabled: false,
+    /**
+     * @param {Number} totalRecordsCount
+     */
+    onTotalRecordsCountUpdate: function(totalRecordsCount) {
+        this.totalRecordsCount = totalRecordsCount;
+    },
 
-        /**
-         * @param {Object} metadata
-         */
-        onMetadataLoaded: function(metadata) {
-            this.counts = metadata.counts || null;
-            this.countsWithoutFilters = metadata.countsWithoutFilters || null;
-            this.isDisableFiltersEnabled = metadata.isDisableFiltersEnabled || false;
-            this.rerenderFilter();
-        },
+    rerenderFilter: function() {
+        if (this.isRendered()) {
+            this.render();
+        }
+    },
 
-        /**
-         * @param {Number} totalRecordsCount
-         */
-        onTotalRecordsCountUpdate: function(totalRecordsCount) {
-            this.totalRecordsCount = totalRecordsCount;
-        },
+    /**
+     * @param {Object} data
+     */
+    filterTemplateData: function(data) {
+        if (this.counts === null) {
+            return data;
+        } else if (_.isEmpty(this.counts)) {
+            this.counts = Object.create(null);
+        }
 
-        rerenderFilter: function() {
-            if (this.isRendered()) {
-                this.render();
+        let options = $.extend(true, {}, data.options || {});
+        const filterOptions = option => {
+            if (this.isDisableFiltersEnabled && _.has(this.countsWithoutFilters, option.value)) {
+                option.disabled = true;
+            } else {
+                options = _.without(options, option);
             }
-        },
+        };
 
-        /**
-         * @param {Object} data
-         */
-        filterTemplateData: function(data) {
-            if (this.counts === null) {
-                return data;
-            } else if (_.isEmpty(this.counts)) {
-                this.counts = Object.create(null);
+        _.each(options, option => {
+            option.count = this.counts[option.value] || 0;
+            option.disabled = false;
+            if (option.count === 0 &&
+                !_.contains(data.selected.value, option.value)
+            ) {
+                filterOptions(option);
             }
+        });
 
-            let options = $.extend(true, {}, data.options || {});
-            const filterOptions = option => {
-                if (this.isDisableFiltersEnabled && _.has(this.countsWithoutFilters, option.value)) {
-                    option.disabled = true;
-                } else {
-                    options = _.without(options, option);
-                }
-            };
-
+        const nonZeroOptions = _.filter(options, option => {
+            return option.count > 0;
+        });
+        if (nonZeroOptions.length === 1) {
             _.each(options, option => {
-                option.count = this.counts[option.value] || 0;
-                option.disabled = false;
-                if (option.count === 0 &&
+                if (option.count === this.totalRecordsCount &&
                     !_.contains(data.selected.value, option.value)
                 ) {
                     filterOptions(option);
                 }
             });
-
-            const nonZeroOptions = _.filter(options, option => {
-                return option.count > 0;
-            });
-            if (nonZeroOptions.length === 1) {
-                _.each(options, option => {
-                    if (option.count === this.totalRecordsCount &&
-                        !_.contains(data.selected.value, option.value)
-                    ) {
-                        filterOptions(option);
-                    }
-                });
-            }
-
-            this.visible = !_.isEmpty(options);
-            data.options = options;
-
-            return data;
         }
-    };
-});
+
+        this.visible = !_.isEmpty(options);
+        data.options = options;
+
+        return data;
+    }
+};

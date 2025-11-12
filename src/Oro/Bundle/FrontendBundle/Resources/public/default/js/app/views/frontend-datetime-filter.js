@@ -1,24 +1,20 @@
-define(function(require) {
-    'use strict';
+import DateTimeFilter from 'oro/filter/datetime-filter';
 
-    const DateTimeFilter = require('oro/filter/datetime-filter').default;
+const FrontendDateTimeFilter = DateTimeFilter.extend({
+    criteriaValueSelectors: {
+        ...DateTimeFilter.prototype.criteriaValueSelectors,
+        type: 'input[data-choice-value-select]'
+    },
 
-    const FrontendDateTimeFilter = DateTimeFilter.extend({
-        criteriaValueSelectors: {
-            ...DateTimeFilter.prototype.criteriaValueSelectors,
-            type: 'input[data-choice-value-select]'
-        },
+    events() {
+        return {
+            [`change ${this.criteriaValueSelectors.type}`]: 'onChangeFilterType'
+        };
+    },
 
-        events() {
-            return {
-                [`change ${this.criteriaValueSelectors.type}`]: 'onChangeFilterType'
-            };
-        },
-
-        constructor: function FrontendDateTimeFilter(...args) {
-            FrontendDateTimeFilter.__super__.constructor.apply(this, args);
-        }
-    });
-
-    return FrontendDateTimeFilter;
+    constructor: function FrontendDateTimeFilter(...args) {
+        FrontendDateTimeFilter.__super__.constructor.apply(this, args);
+    }
 });
+
+export default FrontendDateTimeFilter;

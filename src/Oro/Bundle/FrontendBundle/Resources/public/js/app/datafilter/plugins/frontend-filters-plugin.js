@@ -1,86 +1,83 @@
-define(function(require, exports, module) {
-    'use strict';
-
-    const _ = require('underscore');
-    const __ = require('orotranslation/js/translator');
-    const FullScreenFiltersAction = require('orofrontend/js/app/datafilter/actions/fullscreen-filters-action');
-    const FiltersTogglePlugin = require('orofilter/js/plugins/filters-toggle-plugin').default;
-    const FullscreenFilters = require('orofrontend/js/app/datafilter/fullscreen-filters').default;
-    const config = require('module-config').default(module.id);
-    const launcherOptions = _.extend({
-        className: 'toggle-filters-action btn btn--flat',
-        attributes: {
-            'data-responsive-styler': '',
-            'data-input-widget-options': JSON.stringify({
-                responsive: {
-                    'mobile-big': {
-                        classes: 'btn btn--neutral'
-                    }
+import _ from 'underscore';
+import __ from 'orotranslation/js/translator';
+import FullScreenFiltersAction from 'orofrontend/js/app/datafilter/actions/fullscreen-filters-action';
+import FiltersTogglePlugin from 'orofilter/js/plugins/filters-toggle-plugin';
+import FullscreenFilters from 'orofrontend/js/app/datafilter/fullscreen-filters';
+import moduleConfig from 'module-config';
+const config = moduleConfig(module.id);
+const launcherOptions = _.extend({
+    className: 'toggle-filters-action btn btn--flat',
+    attributes: {
+        'data-responsive-styler': '',
+        'data-input-widget-options': JSON.stringify({
+            responsive: {
+                'mobile-big': {
+                    classes: 'btn btn--neutral'
                 }
-            })
-        },
-        launcherMode: 'icon-text',
-        icon: 'sliders',
-        label: __('oro_frontend.filters.label'),
-        title: __('oro_frontend.filters.title'),
-        ariaLabel: __('oro.filter.datagrid-toolbar.aria_label')
-    }, config.launcherOptions || {});
+            }
+        })
+    },
+    launcherMode: 'icon-text',
+    icon: 'sliders',
+    label: __('oro_frontend.filters.label'),
+    title: __('oro_frontend.filters.title'),
+    ariaLabel: __('oro.filter.datagrid-toolbar.aria_label')
+}, config.launcherOptions || {});
 
-    const FrontendFiltersTogglePlugin = FiltersTogglePlugin.extend({
-        /**
-         * @inheritdoc
-         */
-        constructor: function FrontendFiltersTogglePlugin(main, options) {
-            FrontendFiltersTogglePlugin.__super__.constructor.call(this, main, options);
-        },
+const FrontendFiltersTogglePlugin = FiltersTogglePlugin.extend({
+    /**
+     * @inheritdoc
+     */
+    constructor: function FrontendFiltersTogglePlugin(main, options) {
+        FrontendFiltersTogglePlugin.__super__.constructor.call(this, main, options);
+    },
 
-        initialize(options) {
-            FrontendFiltersTogglePlugin.__super__.initialize.call(this, options);
+    initialize(options) {
+        FrontendFiltersTogglePlugin.__super__.initialize.call(this, options);
 
-            this.fullscreenFilters = new FullscreenFilters({datagrid: this.main});
-            this.listenToOnce(this.main, 'filterManager:connected', () => {
-                this.fullscreenFilters.onceFilterManagerConnected();
-            });
-        },
+        this.fullscreenFilters = new FullscreenFilters({datagrid: this.main});
+        this.listenToOnce(this.main, 'filterManager:connected', () => {
+            this.fullscreenFilters.onceFilterManagerConnected();
+        });
+    },
 
-        onBeforeToolbarInit(toolbarOptions) {
-            this.addAction(toolbarOptions);
-        },
+    onBeforeToolbarInit(toolbarOptions) {
+        this.addAction(toolbarOptions);
+    },
 
-        addAction(toolbarOptions) {
-            let options = {
-                datagrid: this.main,
-                launcherOptions: launcherOptions,
-                order: config.order || 50,
-                fullscreenFilters: this.fullscreenFilters
-            };
-            let Action = FullScreenFiltersAction;
+    addAction(toolbarOptions) {
+        let options = {
+            datagrid: this.main,
+            launcherOptions: launcherOptions,
+            order: config.order || 50,
+            fullscreenFilters: this.fullscreenFilters
+        };
+        let Action = FullScreenFiltersAction;
 
-            if (_.isObject(toolbarOptions.customAction)) {
-                if (toolbarOptions.customAction.constructor) {
-                    Action = toolbarOptions.customAction.constructor;
-                }
-
-                options = Object.assign({}, options, toolbarOptions.customAction.options);
+        if (_.isObject(toolbarOptions.customAction)) {
+            if (toolbarOptions.customAction.constructor) {
+                Action = toolbarOptions.customAction.constructor;
             }
 
-            toolbarOptions.addToolbarExtraAction(new Action(options));
-        },
-
-        dispose() {
-            if (this.disposed) {
-                return;
-            }
-
-            this.disable();
-
-            if (this.fullscreenFilters && !this.fullscreenFilters.disposed) {
-                this.fullscreenFilters.dispose();
-                delete this.fullscreenFilters;
-            }
-
-            FrontendFiltersTogglePlugin.__super__.dispose.call(this);
+            options = Object.assign({}, options, toolbarOptions.customAction.options);
         }
-    });
-    return FrontendFiltersTogglePlugin;
+
+        toolbarOptions.addToolbarExtraAction(new Action(options));
+    },
+
+    dispose() {
+        if (this.disposed) {
+            return;
+        }
+
+        this.disable();
+
+        if (this.fullscreenFilters && !this.fullscreenFilters.disposed) {
+            this.fullscreenFilters.dispose();
+            delete this.fullscreenFilters;
+        }
+
+        FrontendFiltersTogglePlugin.__super__.dispose.call(this);
+    }
 });
+export default FrontendFiltersTogglePlugin;

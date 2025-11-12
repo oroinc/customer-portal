@@ -1,23 +1,19 @@
-define(function(require) {
-    'use strict';
+import EmptyFilter from 'oro/filter/empty-filter';
 
-    const EmptyFilter = require('oro/filter/empty-filter').default;
+const FrontendEmptyFilter = EmptyFilter.extend({
+    constructor: function FrontendEmptyFilter(...args) {
+        FrontendEmptyFilter.__super__.constructor.apply(this, args);
+    },
 
-    const FrontendEmptyFilter = EmptyFilter.extend({
-        constructor: function FrontendEmptyFilter(...args) {
-            FrontendEmptyFilter.__super__.constructor.apply(this, args);
-        },
+    _onClickChoiceValueSetType(type) {
+        const $typeInput = this.$(this.criteriaValueSelectors.type);
 
-        _onClickChoiceValueSetType(type) {
-            const $typeInput = this.$(this.criteriaValueSelectors.type);
-
-            if ($typeInput.is('[type="radio"]')) {
-                type = [type];
-            }
-
-            FrontendEmptyFilter.__super__._onClickChoiceValueSetType.call(this, type);
+        if ($typeInput.is('[type="radio"]')) {
+            type = [type];
         }
-    });
 
-    return FrontendEmptyFilter;
+        FrontendEmptyFilter.__super__._onClickChoiceValueSetType.call(this, type);
+    }
 });
+
+export default FrontendEmptyFilter;

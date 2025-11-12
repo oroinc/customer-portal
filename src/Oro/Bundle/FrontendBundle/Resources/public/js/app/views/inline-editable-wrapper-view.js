@@ -1,32 +1,30 @@
-define(function(require) {
-    'use strict';
-    const BaseView = require('oroui/js/app/views/base/view');
+import BaseView from 'oroui/js/app/views/base/view';
+import template from 'tpl-loader!../../../templates/editor/inline-editable-wrapper-view.html';
+
+/**
+ * @class
+ */
+const InlineEditorWrapperView = BaseView.extend({
+    template,
+
+    events: {
+        'click [data-role="start-editing"]': 'onInlineEditingStart'
+    },
 
     /**
-     * @class
+     * @inheritdoc
      */
-    const InlineEditorWrapperView = BaseView.extend({
-        template: require('tpl-loader!../../../templates/editor/inline-editable-wrapper-view.html'),
+    constructor: function InlineEditorWrapperView(options) {
+        InlineEditorWrapperView.__super__.constructor.call(this, options);
+    },
 
-        events: {
-            'click [data-role="start-editing"]': 'onInlineEditingStart'
-        },
+    onInlineEditingStart: function() {
+        this.trigger('start-editing');
+    },
 
-        /**
-         * @inheritdoc
-         */
-        constructor: function InlineEditorWrapperView(options) {
-            InlineEditorWrapperView.__super__.constructor.call(this, options);
-        },
-
-        onInlineEditingStart: function() {
-            this.trigger('start-editing');
-        },
-
-        getContainer: function() {
-            return this.$('[data-role="container"]');
-        }
-    });
-
-    return InlineEditorWrapperView;
+    getContainer: function() {
+        return this.$('[data-role="container"]');
+    }
 });
+
+export default InlineEditorWrapperView;

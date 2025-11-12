@@ -1,91 +1,87 @@
-define(function(require) {
-    'use strict';
+import BaseComponent from 'oroui/js/app/components/base/component';
+import mediator from 'oroui/js/mediator';
+import $ from 'jquery';
+import _ from 'underscore';
 
-    const BaseComponent = require('oroui/js/app/components/base/component');
-    const mediator = require('oroui/js/mediator');
-    const $ = require('jquery');
-    const _ = require('underscore');
+/**
+ * Fires oro:embedded-list show and click events for embedded list items.
+ */
+const EmbeddedListComponent = BaseComponent.extend({
+    /**
+     * @property {Object}
+     */
+    options: {
+        itemSelector: '[data-name="embedded-list-item"]'
+    },
 
     /**
-     * Fires oro:embedded-list show and click events for embedded list items.
+     * @property {jQuery}
      */
-    const EmbeddedListComponent = BaseComponent.extend({
-        /**
-         * @property {Object}
-         */
-        options: {
-            itemSelector: '[data-name="embedded-list-item"]'
-        },
+    $initItems: null,
 
-        /**
-         * @property {jQuery}
-         */
-        $initItems: null,
+    /**
+     * @inheritdoc
+     */
+    constructor: function EmbeddedListComponent(options) {
+        EmbeddedListComponent.__super__.constructor.call(this, options);
+    },
 
-        /**
-         * @inheritdoc
-         */
-        constructor: function EmbeddedListComponent(options) {
-            EmbeddedListComponent.__super__.constructor.call(this, options);
-        },
+    /**
+     * @param {Object} options
+     */
+    initialize: function(options) {
+        this.options = _.defaults(options || {}, this.options);
+        this.$el = options._sourceElement;
 
-        /**
-         * @param {Object} options
-         */
-        initialize: function(options) {
-            this.options = _.defaults(options || {}, this.options);
-            this.$el = options._sourceElement;
+        this.$initItems = this.$el.find(this.options.itemSelector);
+    },
 
-            this.$initItems = this.$el.find(this.options.itemSelector);
-        },
+    /**
+     * @inheritdoc
+     */
+    delegateListeners: function() {
+        EmbeddedListComponent.__super__.delegateListeners.call(this);
 
-        /**
-         * @inheritdoc
-         */
-        delegateListeners: function() {
-            EmbeddedListComponent.__super__.delegateListeners.call(this);
+        this.listenToOnce(mediator, 'page:afterChange', this._afterChange.bind(this));
+    },
 
-            this.listenToOnce(mediator, 'page:afterChange', this._afterChange.bind(this));
-        },
+    _afterChange: function() {
+        this.trigger('oro:embedded-list:shown', this.$initItems);
 
-        _afterChange: function() {
-            this.trigger('oro:embedded-list:shown', this.$initItems);
+        // Both click and mouseup needed to be able to track both left and middle buttons clicks.
+        this.$el.on('click mouseup', this.options.itemSelector + ' a', this._onClickLink.bind(this));
+    },
 
-            // Both click and mouseup needed to be able to track both left and middle buttons clicks.
-            this.$el.on('click mouseup', this.options.itemSelector + ' a', this._onClickLink.bind(this));
-        },
-
-        _onClickLink: function(event) {
-            if (event.type === 'mouseup' && event.which !== 2) {
-                // Skips when mouseup triggered for the left mouse button, as it will be fired by click afterwards.
-                return;
-            }
-
-            // Skips links without new url ("javascript:void(null)", "#" and equal)
-            const link = event.currentTarget;
-            if (link.protocol !== window.location.protocol ||
-                (link.pathname === window.location.pathname && link.search === window.location.search)
-            ) {
-                return;
-            }
-
-            const clickedItem = $(event.currentTarget).parents(this.options.itemSelector);
-            this.trigger('oro:embedded-list:clicked', clickedItem, event);
-        },
-
-        /**
-         * @inheritdoc
-         */
-        dispose: function() {
-            if (this.disposed) {
-                return;
-            }
-
-            this.$el.off('click mouseup', this.options.itemSelector + ' a', this._onClickLink.bind(this));
-
-            EmbeddedListComponent.__super__.dispose.call(this);
+    _onClickLink: function(event) {
+        if (event.type === 'mouseup' && event.which !== 2) {
+            // Skips when mouseup triggered for the left mouse button, as it will be fired by click afterwards.
+            return;
         }
-    });
 
-    return EmbeddedListComponent;
+        // Skips links without new url ("javascript:void(null)", "#" and equal)
+        const link = event.currentTarget;
+        if (link.protocol !== window.location.protocol ||
+            (link.pathname === window.location.pathname && link.search === window.location.search)
+        ) {
+            return;
+        }
+
+        const clickedItem = $(event.currentTarget).parents(this.options.itemSelector);
+        this.trigger('oro:embedded-list:clicked', clickedItem, event);
+    },
+
+    /**
+     * @inheritdoc
+     */
+    dispose: function() {
+        if (this.disposed) {
+            return;
+        }
+
+        this.$el.off('click mouseup', this.options.itemSelector + ' a', this._onClickLink.bind(this));
+
+        EmbeddedListComponent.__super__.dispose.call(this);
+    }
 });
+
+export default EmbeddedListComponent;

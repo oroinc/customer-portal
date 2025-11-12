@@ -1,27 +1,18 @@
 import frontendTypeMap from 'oroform/js/tools/frontend-type-map';
+import viewerTitle from 'orofrontend/js/app/views/viewer/title-view';
+import viewerText from 'orofrontend/js/app/views/viewer/text-view';
+import viewerWrapper from 'orofrontend/js/app/views/inline-editable-wrapper-view';
 
-frontendTypeMap.title = {
-    viewer: require('orofrontend/js/app/views/viewer/title-view'),
-    viewerWrapper: require('orofrontend/js/app/views/inline-editable-wrapper-view'),
-    editor: require('orofrontend/js/app/views/editor/title-editor-view')
-};
-frontendTypeMap.text = {
-    viewer: require('orofrontend/js/app/views/viewer/text-view'),
-    viewerWrapper: require('orofrontend/js/app/views/inline-editable-wrapper-view'),
-    editor: require('oroform/js/app/views/editor/text-editor-view')
-};
-frontendTypeMap.number = {
-    viewer: require('orofrontend/js/app/views/viewer/text-view'),
-    viewerWrapper: require('orofrontend/js/app/views/inline-editable-wrapper-view'),
-    editor: require('oroform/js/app/views/editor/number-editor-view')
-};
-frontendTypeMap.select = {
-    viewer: require('orofrontend/js/app/views/viewer/text-view'),
-    viewerWrapper: require('orofrontend/js/app/views/inline-editable-wrapper-view'),
-    editor: require('oroform/js/app/views/editor/select-editor-view')
-};
-frontendTypeMap.multilineText = {
-    viewer: require('orofrontend/js/app/views/viewer/text-view'),
-    viewerWrapper: require('orofrontend/js/app/views/inline-editable-wrapper-view'),
-    editor: require('orofrontend/js/app/views/editor/multiline-text-editor-view')
-};
+import editorTitle from 'orofrontend/js/app/views/editor/title-editor-view';
+import editorText from 'oroform/js/app/views/editor/text-editor-view';
+import editorNumber from 'oroform/js/app/views/editor/number-editor-view';
+import editorSelect from 'oroform/js/app/views/editor/select-editor-view';
+import editorMultilineText from 'orofrontend/js/app/views/editor/multiline-text-editor-view';
+
+frontendTypeMap.title = {viewer: viewerTitle, viewerWrapper, editor: editorTitle};
+frontendTypeMap.text = {viewer: viewerText, viewerWrapper, editor: editorText};
+frontendTypeMap.number = {viewer: viewerText, viewerWrapper, editor: editorNumber};
+frontendTypeMap.select = {viewer: viewerText, viewerWrapper, editor: editorSelect};
+frontendTypeMap.multilineText = {viewer: viewerText, viewerWrapper, editor: editorMultilineText};
+
+export default frontendTypeMap;
