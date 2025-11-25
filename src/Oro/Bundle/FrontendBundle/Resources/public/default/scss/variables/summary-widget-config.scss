@@ -29,7 +29,7 @@ $summary-widget-combined-bottons-shown-justify-content: end !default;
 
 $summary-widget-combined-bottons-wrapper-display: flex !default;
 $summary-widget-combined-bottons-wrapper-justify-content: end !default;
-$summary-widget-combined-bottons-wrapper-gap: spacing('sm') !default;
+$summary-widget-combined-bottons-wrapper-gap: spacing('base') spacing('sm') !default;
 
 // Desktop Big
 $summary-widget-combined-bottons-wrapper-desktop-big-flex-wrap: wrap !default;

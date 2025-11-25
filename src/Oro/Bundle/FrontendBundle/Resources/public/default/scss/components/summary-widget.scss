@@ -30,7 +30,7 @@
         grid-auto-columns: $summary-widget-combined-bottons-grid-auto-columns;
     }
 
-    &__combined-bottons-wrapper:has(&__order-limit-disabled-checkout-button) {
+    &__combined-bottons-wrapper:has(&__order-limit-disabled-checkout-button, &__disabled-rfp-button) {
         display: $summary-widget-combined-bottons-wrapper-display;
         justify-content: $summary-widget-combined-bottons-wrapper-justify-content;
         gap: $summary-widget-combined-bottons-wrapper-gap;
@@ -80,15 +80,16 @@
             grid-auto-flow: row;
         }
 
-        &__combined-bottons-wrapper:has(&__order-limit-disabled-checkout-button) {
+        &__combined-bottons-wrapper:has(&__order-limit-disabled-checkout-button, &__disabled-rfp-button) {
             flex-wrap: $summary-widget-combined-bottons-wrapper-desktop-big-flex-wrap;
-            gap: $summary-widget-combined-bottons-wrapper-desktop-big-gap;
 
-            .summary-widget__order-limit-disabled-checkout-button:not(:last-child) {
-                .checkout-button-separator {
-                    display: $summary-widget-combined-bottons-wrapper-divider-desktop-display;
-                    padding: $summary-widget-combined-bottons-wrapper-divider-desktop-padding;
-                }
+            &:not(:has(:nth-child(2))) {
+                gap: $summary-widget-combined-bottons-wrapper-desktop-big-gap;
+            }
+
+            .checkout-button-separator {
+                display: $summary-widget-combined-bottons-wrapper-divider-desktop-display;
+                padding: $summary-widget-combined-bottons-wrapper-divider-desktop-padding;
             }
         }
     }
@@ -131,7 +132,7 @@
             grid-auto-flow: $summary-widget-combined-bottons-mobile-landscape-grid-auto-flow;
         }
 
-        &__combined-bottons-wrapper:has(&__order-limit-disabled-checkout-button) {
+        &__combined-bottons-wrapper:has(&__order-limit-disabled-checkout-button, &__disabled-rfp-button) {
             .summary-widget__combined-bottons,
             .summary-widget__order-limit-disabled-checkout-button {
                 width: 100%;

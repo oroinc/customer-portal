@@ -55,6 +55,16 @@
         }
     }
 
+    @at-root #{selector.append(&, '__content')}:has(#{selector.append(&, '__description')}) {
+        display: grid;
+        grid-gap: $notification-flash-description-grid-gap;
+        grid-template-columns: $notification-flash-description-grid-template;
+    }
+
+    @at-root #{selector.append(&, '__description')} {
+        grid-column: $notification-flash-description-grid-column;
+    }
+
     @at-root #{selector.append(&, '__text')} {
         font-weight: $notification-flash-text-font-weight;
 
@@ -62,6 +72,10 @@
         ol {
             list-style-type: none;
         }
+    }
+
+    @at-root #{selector.append(&, '__text--normal')} {
+        font-weight: $notification-flash-text-normal-font-weight;
     }
 }
 

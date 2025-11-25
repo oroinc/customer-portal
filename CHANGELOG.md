@@ -2,18 +2,6 @@ The upgrade instructions are available at [Oro documentation website](https://do
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
-## UNRELEASED
-
-### Added
-
-#### FrontendBundle
-* Added a new `preload_fonts` layout block type that uses Symfony WebLink component and pushes fonts to clients before they even know that they need them.
-* All fonts for the `default` and `golden_carbon` themes have been moved to their respective `theme.yml` files to keep them in one place.
-  As a result, the SCSS `$theme-fonts` now contains an empty `map` value.
-* The `main` font is preloaded to speed up page loading, so make sure that the `Plus_Jakarta_Sans` font is not loaded twice, or disable preloading if you are using a different font.
-  More details are available at [Preload Critical Assets](https://doc.oroinc.com/frontend/storefront/preload-critical-assets/)
-
-
 ## Changes in the Customer Portal package versions
 
 - [6.1.0](#610-2025-03-31)
@@ -33,6 +21,22 @@ The current file describes significant changes in the code that may affect the u
 - [2.4.0](#240-2017-09-29)
 - [2.3.0](#230-2017-07-28)
 - [2.2.0](#220-2017-05-31)
+
+## UNRELEASED
+
+### Added
+
+#### FrontendBundle
+* Added a new `preload_fonts` layout block type that uses Symfony WebLink component and pushes fonts to clients before they even know that they need them.
+* All fonts for the `default` and `golden_carbon` themes have been moved to their respective `theme.yml` files to keep them in one place.
+  As a result, the SCSS `$theme-fonts` now contains an empty `map` value.
+* The `main` font is preloaded to speed up page loading, so make sure that the `Plus_Jakarta_Sans` font is not loaded twice, or disable preloading if you are using a different font.
+  More details are available at [Preload Critical Assets](https://doc.oroinc.com/frontend/storefront/preload-critical-assets/)
+* Added `oro_frontend_datagrid_mass_action` storefront route to handle datagrid mass actions.
+
+### Changed
+
+### Removed
 
 ## 6.1.1
 * Added `dashboard_page_top` wrapper for `dashboard_quick_access_menu` and `dashboard_scorecards_container`

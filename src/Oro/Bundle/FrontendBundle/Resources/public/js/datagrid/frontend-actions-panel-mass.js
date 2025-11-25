@@ -6,7 +6,8 @@ define(function(require) {
             'backgrid:selected collection': 'toggle',
             'backgrid:selectAll collection': 'toggle',
             'backgrid:selectAllVisible collection': 'toggle',
-            'backgrid:selectNone collection': 'toggle'
+            'backgrid:selectNone collection': 'toggle',
+            'updateState collection': 'toggle'
         },
 
         className: 'toolbar-mass-actions-panel',
@@ -45,7 +46,7 @@ define(function(require) {
             const data = {};
             this.collection.trigger('backgrid:getSelected', data);
 
-            const isSelected = Boolean(data.inset === false || data.selected.length);
+            const isSelected = Boolean(data.inset === false || data.selected.length) && this.collection.length > 0;
 
             if (isSelected) {
                 this.$el.removeClass('hidden');

@@ -11,6 +11,8 @@ $notification-flash-content-offset: spacing('sm') 0 !default;
 
 $notification-flash-text-font-weight: font-weight('semi-bold') !default;
 
+$notification-flash-text-normal-font-weight: font-weight('normal') !default;
+
 $notification-flash-success-background: get-color('success', 'light') !default;
 $notification-flash-success-before-background: get-color('success', 'dark') !default;
 $notification-flash-success-color: get-color('success', 'dark') !default;
@@ -28,3 +30,7 @@ $notification-flash-error-before-background: get-color('destructive', 'dark') !d
 $notification-flash-error-color: get-color('destructive', 'dark') !default;
 $notification-flash-error-close-color: get-color('destructive', 'dark') !default;
 $notification-flash-error-badge-background: get-color('destructive', 'dark') !default;
+
+$notification-flash-description-grid-template: auto 1fr !default;
+$notification-flash-description-grid-gap: spacing('xs') 0 !default;
+$notification-flash-description-grid-column: #{2 / 3} !default;

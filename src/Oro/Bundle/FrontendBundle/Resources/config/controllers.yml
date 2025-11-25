@@ -46,3 +46,9 @@ services:
         tags:
             - { name: container.service_subscriber }
             - { name: container.service_subscriber, id: oro_locale.helper.localized_slug_redirect, key: Oro\Bundle\FrontendLocalizationBundle\Helper\LocalizedSlugRedirectHelper }
+
+    Oro\Bundle\FrontendBundle\Controller\Frontend\AjaxGridMassActionController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }

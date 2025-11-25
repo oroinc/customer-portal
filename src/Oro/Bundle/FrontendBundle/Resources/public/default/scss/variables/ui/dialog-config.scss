@@ -43,6 +43,8 @@ $ui-dialog-buttonpane-background: $fullscreen-popup-footer-bg !default;
 $ui-dialog-buttonpane-form-actions-display: flex;
 $ui-dialog-buttonpane-form-actions-width: 100%;
 $ui-dialog-buttonpane-form-actions-justify: flex-end;
+$ui-dialog-buttonpane-form-actions-text-color: get-color('text', 'secondary') !default;
+$ui-dialog-buttonpane-form-actions-text-top-offset: spacing('base') !default;
 $ui-dialog-buttonpane-form-actions-pull-container-display: flex;
 $ui-dialog-buttonpane-form-actions-pull-container-justify: flex-end;
 
