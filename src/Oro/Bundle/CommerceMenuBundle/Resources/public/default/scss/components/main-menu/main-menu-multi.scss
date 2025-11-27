@@ -48,6 +48,12 @@
     .main-menu-standalone-mode {
         .main-menu-multi {
             &__container-inner {
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+
+                overflow: auto;
+
                 border-inline-end: $main-menu-multi-container-inner-border-inline-end;
             }
         }
