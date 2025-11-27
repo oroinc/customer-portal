@@ -42,6 +42,16 @@
             opacity: 1;
         }
     }
+
+    #{$namespace}-multi__container-inner {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+
+        height: 100%;
+
+        overflow-y: auto;
+    }
 }
 
 @mixin main-menu-stack-actions-arrow {
