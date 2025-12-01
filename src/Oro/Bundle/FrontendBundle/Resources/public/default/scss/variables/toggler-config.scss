@@ -5,7 +5,7 @@ $toggler-active-color: get-color('primary', 'active') !default;
 $toggler-background-color: get-color('neutral', 'grey1') !default;
 $toggler-background-color-active: get-color('neutral', 'white-100') !default;
 $toggler-color-active: get-color('primary', 'active') !default;
-$toggler-switcher-box-shadow: 0 1px 11px 0 #5b7e8321, 0 0 4px 0 #053b4217 !default;
+$toggler-switcher-box-shadow: 0 0 4px 0 rgba(7, 29, 54, .25), 0 1px 11px 0 rgba(15, 35, 64, .15) !default;
 $toggler-padding: 12px !default;
 $toggler-font-size: 14px !default;
 $toggler-line-height: 1.4286 !default;
