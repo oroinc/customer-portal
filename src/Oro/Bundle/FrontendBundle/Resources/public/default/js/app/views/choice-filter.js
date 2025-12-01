@@ -38,7 +38,9 @@ define(function(require) {
             if (!this.changeChoiceValueHandling) {
                 this.changeChoiceValueHandling = true;
                 this._onClickChoiceValueSetType(e.currentTarget.value);
-                this._updateValueField();
+                this._updateValueField({
+                    focusCriteriaField: false
+                });
                 delete this.changeChoiceValueHandling;
             }
             this._onValueChanged();
