@@ -77,7 +77,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
     }
 
     /**
-     * @depend testCreate
+     * @depends testCreate
      */
     public function testUpdate(): int
     {
@@ -102,7 +102,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
 
         $form = $crawler->selectButton('Save and Close')->form();
 
-        $token = $this->getCsrfToken('oro_customer_customer_user_role')->getValue();
+        $token = $this->getCsrfToken('submit')->getValue();
         $this->client->followRedirects(true);
         $crawler = $this->client->request($form->getMethod(), $form->getUri(), [
             'oro_customer_customer_user_role' => [

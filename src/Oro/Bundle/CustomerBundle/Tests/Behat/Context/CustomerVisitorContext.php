@@ -28,4 +28,15 @@ class CustomerVisitorContext extends OroFeatureContext
             }
         }
     }
+
+    /**
+     * Example: Then Customer visitor cookie should not exist
+     *
+     * @Then /^Customer visitor cookie should not exist$/
+     */
+    public function assertCustomerVisitorCookieDoesNotExist()
+    {
+        $cookie = $this->getSession()->getCookie(AnonymousCustomerUserAuthenticationListener::COOKIE_NAME);
+        static::assertNull($cookie, 'Customer visitor cookie should not exist');
+    }
 }

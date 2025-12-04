@@ -186,7 +186,7 @@ class CustomerUserControllerTest extends WebTestCase
     }
 
     /**
-     * @depend testCreate
+     * @depends testCreate
      */
     public function testUpdate(): int
     {

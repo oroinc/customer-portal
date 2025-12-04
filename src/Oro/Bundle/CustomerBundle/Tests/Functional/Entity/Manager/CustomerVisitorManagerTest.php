@@ -45,7 +45,7 @@ class CustomerVisitorManagerTest extends WebTestCase
         $this->assertInstanceOf(CustomerVisitor::class, $manager->findOrCreate());
     }
 
-    public function testAnonymousCustomerVisitorCookies(): void
+    public function testAnonymousCustomerVisitorCookiesNotCreated(): void
     {
         $this->customerUserLoginRequest();
 
@@ -60,7 +60,7 @@ class CustomerVisitorManagerTest extends WebTestCase
                 $anonymousVisitorCookieExists = true;
             }
         }
-        $this->assertTrue($anonymousVisitorCookieExists);
+        self::assertFalse($anonymousVisitorCookieExists);
     }
 
     public function testCustomerVisitorInsertion(): void

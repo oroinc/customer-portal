@@ -123,10 +123,12 @@ class AnonymousCustomerUserAuthenticationListener
             return;
         }
 
-        $request->attributes->set(
-            self::COOKIE_ATTR_NAME,
-            $this->cookieFactory->getCookie($visitor->getId(), $visitor->getSessionId())
-        );
+        if ($visitor->getSessionId()) {
+            $request->attributes->set(
+                self::COOKIE_ATTR_NAME,
+                $this->cookieFactory->getCookie($visitor->getId(), $visitor->getSessionId())
+            );
+        }
     }
 
     private function shouldBeAuthenticatedAsCustomerVisitor(Request $request, TokenInterface $token = null): bool

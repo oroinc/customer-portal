@@ -117,7 +117,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
 
         $form = $crawler->selectButton('Save')->form();
 
-        $token = $this->getCsrfToken('oro_customer_frontend_customer_user_role')->getValue();
+        $token = $this->getCsrfToken('submit')->getValue();
 
         $this->client->followRedirects(true);
         $crawler = $this->client->request($form->getMethod(), $form->getUri(), [
@@ -200,7 +200,7 @@ class CustomerUserRoleControllerTest extends WebTestCase
         );
 
         $form = $crawler->selectButton('Save')->form();
-        $token = $this->getCsrfToken('oro_customer_frontend_customer_user_role')->getValue();
+        $token = $this->getCsrfToken('submit')->getValue();
 
         $this->client->followRedirects(true);
         $crawler = $this->client->request($form->getMethod(), $form->getUri(), [

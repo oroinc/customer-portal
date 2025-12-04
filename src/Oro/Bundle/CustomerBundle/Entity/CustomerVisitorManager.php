@@ -43,7 +43,9 @@ class CustomerVisitorManager
         }
         if ($this->isAnonymousVisitorEnabled()) {
             $visitor = new CustomerVisitor();
-            $visitor->setSessionId($sessionId ?: self::generateSessionId());
+            if ($sessionId) {
+                $visitor->setSessionId($sessionId);
+            }
 
             return $visitor;
         }

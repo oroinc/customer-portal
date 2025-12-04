@@ -67,9 +67,6 @@ class CustomerVisitorManagerTest extends \PHPUnit\Framework\TestCase
             ->method('getConnection')
             ->willReturn($this->defaultConnection);
         $this->configManager = $this->createMock(ConfigManager::class);
-        $this->configManager->method('get')
-            ->with('oro_customer.create_customer_visitor_immediately')
-            ->willReturn(true);
         $this->manager = new CustomerVisitorManager($this->doctrine);
         $this->manager->setConfigManager($this->configManager);
     }
@@ -88,6 +85,10 @@ class CustomerVisitorManagerTest extends \PHPUnit\Framework\TestCase
 
     public function testFindOrCreateForNonExistedUser()
     {
+        $this->configManager->method('get')
+            ->with('oro_customer.create_customer_visitor_immediately')
+            ->willReturn(true);
+
         $this->repository->expects($this->once())
             ->method('findOneBy')
             ->with(['sessionId' => self::SESSION_ID])
@@ -106,14 +107,56 @@ class CustomerVisitorManagerTest extends \PHPUnit\Framework\TestCase
         $this->defaultConnection->expects($this->once())
             ->method('insert');
 
-        $this->assertInstanceOf(
-            CustomerVisitor::class,
-            $this->manager->findOrCreate(self::ENTITY_ID, self::SESSION_ID)
-        );
+        $visitor = $this->manager->findOrCreate(self::ENTITY_ID, self::SESSION_ID);
+        self::assertInstanceOf(CustomerVisitor::class, $visitor);
+    }
+
+    public function testFindOrCreateForNonExistedUserAnonymousVisitorEnabled()
+    {
+        $this->configManager->method('get')
+            ->with('oro_customer.create_customer_visitor_immediately')
+            ->willReturn(false);
+
+        $this->repository->expects($this->once())
+            ->method('findOneBy')
+            ->with(['sessionId' => self::SESSION_ID])
+            ->willReturn(null);
+
+        $this->repository->expects($this->never())
+            ->method('find');
+
+        $this->defaultConnection->expects($this->never())
+            ->method('lastInsertId');
+
+        $this->defaultConnection->expects($this->never())
+            ->method('insert');
+
+        $visitor = $this->manager->findOrCreate(self::ENTITY_ID, self::SESSION_ID);
+        self::assertInstanceOf(CustomerVisitor::class, $visitor);
+        self::assertEquals(self::SESSION_ID, $visitor->getSessionId());
+    }
+
+    public function testFindOrCreateWithEmptySessionId(): void
+    {
+        $this->configManager->method('get')
+            ->with('oro_customer.create_customer_visitor_immediately')
+            ->willReturn(false);
+
+        $this->repository->expects(self::never())
+            ->method(self::anything());
+
+        self::assertInstanceOf(CustomerVisitor::class, $this->manager->findOrCreate(null));
+        $visitor = $this->manager->findOrCreate(null);
+        self::assertInstanceOf(CustomerVisitor::class, $visitor);
+        self::assertNull($visitor->getSessionId());
     }
 
     public function testFindOrCreateWithoutId()
     {
+        $this->configManager->method('get')
+            ->with('oro_customer.create_customer_visitor_immediately')
+            ->willReturn(true);
+
         $this->repository->expects($this->never())
             ->method('findOneBy');
 
@@ -135,6 +178,10 @@ class CustomerVisitorManagerTest extends \PHPUnit\Framework\TestCase
 
     public function testFindOrCreateWithoutIdWithWriteConnection()
     {
+        $this->configManager->method('get')
+            ->with('oro_customer.create_customer_visitor_immediately')
+            ->willReturn(true);
+
         $this->repository->expects($this->never())
             ->method('findOneBy');
 
