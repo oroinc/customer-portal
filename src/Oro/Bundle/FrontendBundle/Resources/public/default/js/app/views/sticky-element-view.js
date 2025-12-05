@@ -120,6 +120,7 @@ const StickyElementView = BaseView.extend({
      * Update CSS variables, update sticky element state
      */
     update() {
+        const stickyPlaceholderTop = this.stickyPlaceholder.offsetTop;
         this.isActive = this.isActiveElement();
 
         if (!this.isActive) {
@@ -132,11 +133,11 @@ const StickyElementView = BaseView.extend({
 
         if (this.name) {
             this.setRootVar(this.getRootVarName(`element-height`), `${height}px`);
-            this.setRootVar(this.getRootVarName(`offset-${this.group}`), `${this.stickyPlaceholder.offsetTop}px`);
+            this.setRootVar(this.getRootVarName(`offset-${this.group}`), `${stickyPlaceholderTop}px`);
             this.setRootVar(
                 this.getRootVarName(
                     `element-offset-${this.group}`),
-                `${height + this.stickyPlaceholder.offsetTop}px`
+                `${height + stickyPlaceholderTop}px`
             );
         }
     },
