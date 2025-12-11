@@ -18,15 +18,24 @@
         reloadEvents: ['shopping-list:refresh', 'frontend:shopping-list-item-quantity:update', 'frontend:item:delete'],
         keepAttrs: ['aria-label']
     } %}
-    <button{% if togglerId is defined %} id="{{ togglerId }}"{% endif %}
-        type="button"
-        class="btn btn--inverse shopping-list-trigger"
-        data-toggle="dropdown"
-        data-popper="false"
-        aria-haspopup="true" aria-expanded="false"
-        aria-label="{{ ariaLabel }}"
-        data-page-component-view="oroui/js/app/views/layout-subtree-view"
-        data-page-component-options="{{ options|json_encode }}">
+
+    {% set attr =  layout_attr_defaults(attr, {
+        'type': 'button',
+        '~class': ' shopping-list-trigger ' ~ triggerClass|default('btn'),
+        'data-toggle': 'dropdown',
+        'data-popper': 'false',
+        'aria-haspopup': 'true',
+        'aria-expanded': 'false',
+        'aria-label': ariaLabel,
+        'data-page-component-view': 'oroui/js/app/views/layout-subtree-view',
+        'data-page-component-options': options|json_encode
+    }) %}
+
+    {% if togglerId is defined %}
+        {% set attr = layout_attr_defaults(attr, {'id': togglerId}) %}
+    {% endif %}
+
+    <button {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </button>
 {% endblock %}
