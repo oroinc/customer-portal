@@ -26,15 +26,17 @@ Feature: New admin role with global permissions can create customer users
     Given go to System/User Management/Users
     And click "Create User"
     And fill "User Form" with:
-      | Username                  | User with Create Customer User Role |
-      | Password                  | Administrator1@example.org          |
-      | Re-Enter Password         | Administrator1@example.org          |
-      | First Name                | First Name                          |
-      | Last Name                 | Last Name                           |
-      | Primary Email             | Administrator1@example.org          |
-      | OroCRM Organization       | true                                |
-      | Create Customer User Role | true                                |
-      | Enabled                   | Enabled                             |
+      | Username                    | User with Create Customer User Role |
+      | Password                    | Administrator1@example.org          |
+      | Re-Enter Password           | Administrator1@example.org          |
+      | First Name                  | First Name                          |
+      | Last Name                   | Last Name                           |
+      | Primary Email               | Administrator1@example.org          |
+      | Create Customer User Role   | true                                |
+      | Enabled                     | Enabled                             |
+    And I click "Organization Business Units Element"
+    And I should see "Oro / Main"
+    And I click "Business Unit First Result Element"
     When I save and close form
     Then I should see "User saved" flash message
 
