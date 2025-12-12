@@ -9,6 +9,7 @@ use Oro\Bundle\CustomerBundle\Tests\Functional\ImportExport\Strategy\DataFixture
 use Oro\Bundle\ImportExportBundle\Context\Context;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Oro\Bundle\UserBundle\Entity\User;
+use Oro\Bundle\UserBundle\EventListener\UserOrganizationListener;
 use Oro\Component\Testing\ReflectionUtil;
 
 /**
@@ -56,8 +57,12 @@ class CustomerAddOrReplaceStrategyTest extends WebTestCase
         $customer = $this->createCustomer($this->getReference('user_without_main_organization_access'));
 
         $processedCustomer = $this->strategy->process($customer);
-        $this->assertEquals(['Error in row #1. You have no access to set given owner'], $this->context->getErrors());
-        $this->assertNull($processedCustomer);
+        /**
+         * Here is no errors currently in reason of organization to user will be added by listener
+         * @see UserOrganizationListener
+         */
+        $this->assertEquals([], $this->context->getErrors());
+        $this->assertNotEmpty($processedCustomer);
     }
 
     public function testWithValidParent()
