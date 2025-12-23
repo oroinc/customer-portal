@@ -21,7 +21,7 @@
         left: $scroll-top-bl-left;
 
         &.scroll-top--landed {
-            margin: (- $scroll-top-size) 0 0 0;
+            margin: (- $scroll-top-size) 0 0;
         }
     }
 
@@ -31,7 +31,7 @@
         &.scroll-top--landed {
             float: right;
 
-            margin: (- $scroll-top-size) 0 0 0;
+            margin: (- $scroll-top-size) 0 0;
         }
     }
 
