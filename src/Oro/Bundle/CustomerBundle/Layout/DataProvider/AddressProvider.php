@@ -98,11 +98,10 @@ class AddressProvider
     public function getComponentOptions($entity)
     {
         if (!$this->listRouteName || !$this->createRouteName || !$this->updateRouteName || !$this->deleteRouteName) {
-            // @codingStandardsIgnoreStart
             throw new \UnexpectedValueException(
+                // phpcs:ignore
                 "Missing value. Make sure that \"list\", \"create\", \"update\" and \"delete\" route names are not empty."
             );
-            // @codingStandardsIgnoreEnd
         }
 
         if (!$entity instanceof $this->entityClass) {

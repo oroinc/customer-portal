@@ -10,7 +10,7 @@ use Doctrine\Persistence\ManagerRegistry;
 class CustomerVisitorManager
 {
     public function __construct(
-        readonly private ManagerRegistry $doctrine
+        private readonly ManagerRegistry $doctrine
     ) {
     }
 

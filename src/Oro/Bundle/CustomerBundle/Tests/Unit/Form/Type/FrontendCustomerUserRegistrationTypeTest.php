@@ -92,9 +92,8 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
 
         $userWithLongCompanyName = new CustomerUser();
         $expectedUserWithLongCompanyName = $this->createCustomerUserWithDefaultData($owner);
-        // @codingStandardsIgnoreStart
+        // phpcs:ignore
         $expectedUserWithLongCompanyName->getCustomer()->setName('Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.');
-        // @codingStandardsIgnoreEnd
         $userWithLongCompanyName->setSalt($expectedUserWithLongCompanyName->getSalt());
 
         $userWithCompanyNameDisabled = new CustomerUser();
@@ -138,9 +137,9 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
             'new user with long company name' => [
                 'defaultData' => $userWithLongCompanyName,
                 'submittedData' => [
-                    // @codingStandardsIgnoreStart
+                    // phpcs:disable
                     'companyName' => 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
-                    // @codingStandardsIgnoreEnd
+                    // phpcs:enable
                     'firstName' => 'John',
                     'lastName' => 'Doe',
                     'email' => 'johndoe@example.com',

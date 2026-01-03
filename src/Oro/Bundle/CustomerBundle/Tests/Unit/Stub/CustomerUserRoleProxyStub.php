@@ -5,7 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Stub;
 use Doctrine\Persistence\Proxy;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 
-// @codingStandardsIgnoreStart
+// phpcs:disable
 class CustomerUserRoleProxyStub extends CustomerUserRole implements Proxy
 {
     private $initialized = true;
@@ -22,4 +22,4 @@ class CustomerUserRoleProxyStub extends CustomerUserRole implements Proxy
         return $this->initialized;
     }
 }
-// @codingStandardsIgnoreEnd
+// phpcs:enable

@@ -162,7 +162,6 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
         $columnManager->close();
     }
 
-    //@codingStandardsIgnoreStart
     /**
      * @When /^(?:|I )show column "(?P<columnName>(?:[^"]|\\")*)" in frontend grid$/
      * @When /^(?:|I )show column "(?P<columnName>(?:[^"]|\\")*)" in "(?P<datagridName>(?:[^"]|\\")*)" frontend grid$/
@@ -170,7 +169,6 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
      * @param string $columnName
      * @param string|null $datagridName
      */
-    //@codingStandardsIgnoreEnd
     public function checkColumnOptionFrontendDatagrid($columnName, $datagridName = null)
     {
         /** @var FrontendGridColumnManager $columnManager */
@@ -313,12 +311,12 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     }
 
     /**
-     * @codingStandardsIgnoreStart
+     * phpcs:disable
      *
      * @Then /^(?:|I )should see available "(?P<filter>(?:[^"]|\\")*)" filter in frontend grid$/
      * @Then /^(?:|I )should see available "(?P<filter>(?:[^"]|\\")*)" filter in "(?P<datagridName>[\w\s]+)" frontend grid$/
      *
-     * @codingStandardsIgnoreEnd
+     * phpcs:enable
      */
     public function assertHasFilterInManagerInFrontendGrid(string $filter, ?string $dataGridName = null)
     {
@@ -332,12 +330,12 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
     }
 
     /**
-     * @codingStandardsIgnoreStart
+     * phpcs:disable
      *
      * @Then /^(?:|I )should see no available "(?P<filter>(?:[^"]|\\")*)" filter in frontend grid$/
      * @Then /^(?:|I )should see no available "(?P<filter>(?:[^"]|\\")*)" filter in "(?P<datagridName>[\w\s]+)" frontend grid$/
      *
-     * @codingStandardsIgnoreEnd
+     * phpcs:enable
      */
     public function assertHasNoFilterInManagerInFrontendGrid(string $filter, ?string $dataGridName = null)
     {
@@ -403,7 +401,7 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
         $sorterSelect->setValue($options[$sorter]);
     }
 
-    //@codingStandardsIgnoreStart
+    //phpcs:disable
     /**
      * @Then /^(?:|I )shouldn't see "(?P<columnName>(?:[^"]|\\")*)" column in frontend grid$/
      * @Then /^(?:|I )shouldn't see "(?P<columnName>(?:[^"]|\\")*)" column in "(?P<datagridName>[\w\s]+)" frontend grid$/
@@ -411,7 +409,7 @@ class FrontendGridContext extends OroFeatureContext implements OroPageObjectAwar
      * @param string $columnName
      * @param null|string $datagridName
      */
-    //@codingStandardsIgnoreEnd
+    //phpcs:enable
     public function iShouldNotSeeColumnInGrid($columnName, $datagridName = null)
     {
         self::assertFalse(

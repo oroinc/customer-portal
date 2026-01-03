@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @OroScript("Update website URL")
  */
