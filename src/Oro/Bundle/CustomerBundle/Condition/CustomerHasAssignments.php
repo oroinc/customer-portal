@@ -18,7 +18,7 @@ class CustomerHasAssignments extends AbstractCondition implements ContextAccesso
 {
     use ContextAccessorAwareTrait;
 
-    const NAME = 'customer_has_assignments';
+    public const NAME = 'customer_has_assignments';
 
     /** @var CustomerAssignHelper */
     protected $helper;

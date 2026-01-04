@@ -13,9 +13,9 @@ class CustomerGroupMenuUpdateData extends AbstractFixture implements DependentFi
 {
     use MenuUpdateTrait;
 
-    const MENU_UPDATE_1 = 'customer_group_menu_update.1';
-    const MENU_UPDATE_1_1 = 'customer_group_menu_update.1_1';
-    const MENU_UPDATE_1_1_1 = 'customer_group_menu_update.1_1_1';
+    public const MENU_UPDATE_1 = 'customer_group_menu_update.1';
+    public const MENU_UPDATE_1_1 = 'customer_group_menu_update.1_1';
+    public const MENU_UPDATE_1_1_1 = 'customer_group_menu_update.1_1_1';
 
     /** @var array */
     protected static $menuUpdates = [

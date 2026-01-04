@@ -10,7 +10,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CustomerUserRoleSelectType extends AbstractType
 {
-    const NAME = 'oro_customer_customer_user_role_select';
+    public const NAME = 'oro_customer_customer_user_role_select';
 
     /**
      * @var TranslatorInterface

@@ -8,8 +8,8 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
 
 class Configuration implements ConfigurationInterface
 {
-    const URL = 'url';
-    const SECURE_URL = 'secure_url';
+    public const URL = 'url';
+    public const SECURE_URL = 'secure_url';
 
     #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder

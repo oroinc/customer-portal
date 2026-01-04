@@ -26,23 +26,23 @@ class OroAccountBundle implements
     use ActivityExtensionAwareTrait;
     use ExtendExtensionAwareTrait;
 
-    const ORO_B2B_ACCOUNT_TABLE_NAME = 'orob2b_account';
-    const ORO_B2B_ACCOUNT_USER_TABLE_NAME = 'orob2b_account_user';
-    const ORO_B2B_ACC_USER_ACCESS_ROLE_TABLE_NAME = 'orob2b_acc_user_access_role';
-    const ORO_B2B_ACCOUNT_GROUP_TABLE_NAME = 'orob2b_account_group';
-    const ORO_B2B_ACCOUNT_USER_ORG_TABLE_NAME = 'orob2b_account_user_org';
-    const ORO_B2B_ACCOUNT_USER_ROLE_TABLE_NAME = 'orob2b_account_user_role';
-    const ORO_B2B_ACCOUNT_ROLE_TO_WEBSITE_TABLE_NAME = 'orob2b_account_role_to_website';
-    const ORO_B2B_WEBSITE_TABLE_NAME = 'orob2b_website';
-    const ORO_ORGANIZATION_TABLE_NAME = 'oro_organization';
-    const ORO_B2B_ACCOUNT_ADDRESS_TABLE_NAME = 'orob2b_account_address';
-    const ORO_B2B_ACCOUNT_ADDRESS_TO_ADDRESS_TABLE_NAME = 'orob2b_account_adr_adr_type';
-    const ORO_DICTIONARY_REGION_TABLE_NAME = 'oro_dictionary_region';
-    const ORO_DICTIONARY_COUNTRY_TABLE_NAME = 'oro_dictionary_country';
-    const ORO_ADDRESS_TYPE_TABLE_NAME = 'oro_address_type';
-    const ORO_EMAIL = 'oro_email';
-    const ORO_B2B_ACCOUNT_USER_ADDRESS_TABLE_NAME = 'orob2b_account_user_address';
-    const ORO_B2B_ACC_USR_ADR_TO_ADR_TYPE_TABLE_NAME = 'orob2b_acc_usr_adr_to_adr_type';
+    public const ORO_B2B_ACCOUNT_TABLE_NAME = 'orob2b_account';
+    public const ORO_B2B_ACCOUNT_USER_TABLE_NAME = 'orob2b_account_user';
+    public const ORO_B2B_ACC_USER_ACCESS_ROLE_TABLE_NAME = 'orob2b_acc_user_access_role';
+    public const ORO_B2B_ACCOUNT_GROUP_TABLE_NAME = 'orob2b_account_group';
+    public const ORO_B2B_ACCOUNT_USER_ORG_TABLE_NAME = 'orob2b_account_user_org';
+    public const ORO_B2B_ACCOUNT_USER_ROLE_TABLE_NAME = 'orob2b_account_user_role';
+    public const ORO_B2B_ACCOUNT_ROLE_TO_WEBSITE_TABLE_NAME = 'orob2b_account_role_to_website';
+    public const ORO_B2B_WEBSITE_TABLE_NAME = 'orob2b_website';
+    public const ORO_ORGANIZATION_TABLE_NAME = 'oro_organization';
+    public const ORO_B2B_ACCOUNT_ADDRESS_TABLE_NAME = 'orob2b_account_address';
+    public const ORO_B2B_ACCOUNT_ADDRESS_TO_ADDRESS_TABLE_NAME = 'orob2b_account_adr_adr_type';
+    public const ORO_DICTIONARY_REGION_TABLE_NAME = 'oro_dictionary_region';
+    public const ORO_DICTIONARY_COUNTRY_TABLE_NAME = 'oro_dictionary_country';
+    public const ORO_ADDRESS_TYPE_TABLE_NAME = 'oro_address_type';
+    public const ORO_EMAIL = 'oro_email';
+    public const ORO_B2B_ACCOUNT_USER_ADDRESS_TABLE_NAME = 'orob2b_account_user_address';
+    public const ORO_B2B_ACC_USR_ADR_TO_ADR_TYPE_TABLE_NAME = 'orob2b_acc_usr_adr_to_adr_type';
 
     #[\Override]
     public function up(Schema $schema, QueryBag $queries)

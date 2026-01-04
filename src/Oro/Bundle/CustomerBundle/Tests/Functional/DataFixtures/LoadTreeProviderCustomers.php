@@ -10,9 +10,9 @@ use Oro\Bundle\UserBundle\Entity\User;
 
 class LoadTreeProviderCustomers extends AbstractFixture implements DependentFixtureInterface
 {
-    const CUSTOMER_LEVEL_1_2 = 'customer.level_1_2';
-    const CUSTOMER_LEVEL_1_2_DOT_1 = 'customer.level_1_2.1';
-    const CUSTOMER_LEVEL_1_2_DOT_1_DOT_1 = 'customer.level_1_2.1.1';
+    public const CUSTOMER_LEVEL_1_2 = 'customer.level_1_2';
+    public const CUSTOMER_LEVEL_1_2_DOT_1 = 'customer.level_1_2.1';
+    public const CUSTOMER_LEVEL_1_2_DOT_1_DOT_1 = 'customer.level_1_2.1.1';
 
     #[\Override]
     public function getDependencies(): array

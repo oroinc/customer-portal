@@ -21,7 +21,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
  */
 class FrontendCustomerUserRegistrationFormProvider extends AbstractFormProvider
 {
-    const ACCOUNT_USER_REGISTER_ROUTE_NAME = 'oro_customer_frontend_customer_user_register';
+    public const ACCOUNT_USER_REGISTER_ROUTE_NAME = 'oro_customer_frontend_customer_user_register';
 
     /** @var ConfigManager */
     private $configManager;

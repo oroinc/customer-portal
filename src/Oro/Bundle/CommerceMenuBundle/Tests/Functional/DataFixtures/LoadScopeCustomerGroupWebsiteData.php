@@ -11,7 +11,7 @@ use Oro\Bundle\WebsiteBundle\Tests\Functional\DataFixtures\LoadWebsiteData;
 
 class LoadScopeCustomerGroupWebsiteData extends AbstractFixture implements DependentFixtureInterface
 {
-    const GROUP_1_WEBSITE_1_SCOPE = 'group_1_website_2_scope';
+    public const GROUP_1_WEBSITE_1_SCOPE = 'group_1_website_2_scope';
 
     #[\Override]
     public function getDependencies()

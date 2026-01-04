@@ -21,7 +21,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FrontendOwnerSelectType extends AbstractType
 {
-    const NAME = 'oro_customer_frontend_owner_select';
+    public const NAME = 'oro_customer_frontend_owner_select';
 
     /**
      * @var ManagerRegistry

@@ -8,8 +8,8 @@ use Oro\Bundle\UserBundle\Entity\User;
 
 class RoleTranslationPrefixResolver
 {
-    const BACKEND_PREFIX = 'oro.customer.security.access-level.';
-    const FRONTEND_PREFIX = 'oro.customer.frontend.security.access-level.';
+    public const BACKEND_PREFIX = 'oro.customer.security.access-level.';
+    public const FRONTEND_PREFIX = 'oro.customer.frontend.security.access-level.';
 
     /** @var TokenAccessorInterface */
     protected $tokenAccessor;

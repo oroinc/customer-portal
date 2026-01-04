@@ -22,7 +22,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class FrontendCustomerUserRegistrationType extends AbstractType
 {
-    const NAME = 'oro_customer_frontend_customer_user_register';
+    public const NAME = 'oro_customer_frontend_customer_user_register';
 
     /** @var ConfigManager */
     private $configManager;

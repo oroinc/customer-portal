@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class CustomerVisitorEmailAddressType extends EmailAddressType
 {
-    const NAME = 'oro_customer_visitor_email_address';
+    public const NAME = 'oro_customer_visitor_email_address';
 
     /**
      * @var TokenStorageInterface

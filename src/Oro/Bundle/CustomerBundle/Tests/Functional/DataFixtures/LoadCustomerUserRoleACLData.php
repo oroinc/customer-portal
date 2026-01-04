@@ -9,16 +9,16 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 
 class LoadCustomerUserRoleACLData extends AbstractLoadACLData
 {
-    const ROLE_WITHOUT_ACCOUNT_1_USER_LOCAL = 'Role without customer user local';
-    const ROLE_WITH_ACCOUNT_1_USER_LOCAL = 'Role with customer user local';
-    const ROLE_WITH_ACCOUNT_1_USER_DEEP = 'Role with customer user deep';
-    const ROLE_WITH_ACCOUNT_1_2_USER_LOCAL = 'Role with customer 1.2 user local';
-    const ROLE_WITH_ACCOUNT_2_USER_LOCAL = 'Role with customer 2 user local';
-    const ROLE_WITHOUT_ACCOUNT_1_USER_LOCAL_CANT_DELETED = 'Role without customer user local for user';
-    const ROLE_WITH_ACCOUNT_1_USER_LOCAL_CANT_DELETED = 'Role with customer user local for user';
-    const ROLE_WITH_ACCOUNT_1_USER_DEEP_CANT_DELETED = 'Role with customer user deep for user';
-    const ROLE_WITH_ACCOUNT_1_2_USER_LOCAL_CANT_DELETED = 'Role with customer 1.2 user local for user';
-    const ROLE_WITH_ACCOUNT_2_USER_LOCAL_CANT_DELETED = 'Role with customer 2 user local for user';
+    public const ROLE_WITHOUT_ACCOUNT_1_USER_LOCAL = 'Role without customer user local';
+    public const ROLE_WITH_ACCOUNT_1_USER_LOCAL = 'Role with customer user local';
+    public const ROLE_WITH_ACCOUNT_1_USER_DEEP = 'Role with customer user deep';
+    public const ROLE_WITH_ACCOUNT_1_2_USER_LOCAL = 'Role with customer 1.2 user local';
+    public const ROLE_WITH_ACCOUNT_2_USER_LOCAL = 'Role with customer 2 user local';
+    public const ROLE_WITHOUT_ACCOUNT_1_USER_LOCAL_CANT_DELETED = 'Role without customer user local for user';
+    public const ROLE_WITH_ACCOUNT_1_USER_LOCAL_CANT_DELETED = 'Role with customer user local for user';
+    public const ROLE_WITH_ACCOUNT_1_USER_DEEP_CANT_DELETED = 'Role with customer user deep for user';
+    public const ROLE_WITH_ACCOUNT_1_2_USER_LOCAL_CANT_DELETED = 'Role with customer 1.2 user local for user';
+    public const ROLE_WITH_ACCOUNT_2_USER_LOCAL_CANT_DELETED = 'Role with customer 2 user local for user';
     /**
      * @var array
      */

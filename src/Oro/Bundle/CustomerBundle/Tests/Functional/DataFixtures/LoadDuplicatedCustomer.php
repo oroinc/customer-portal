@@ -7,7 +7,7 @@ use Oro\Bundle\UserBundle\Entity\User;
 
 class LoadDuplicatedCustomer extends LoadCustomers
 {
-    const DUPLICATED_CUSTOMER_NAME = 'CustomerUser CustomerUser';
+    public const DUPLICATED_CUSTOMER_NAME = 'CustomerUser CustomerUser';
 
     #[\Override]
     public function load(ObjectManager $manager)

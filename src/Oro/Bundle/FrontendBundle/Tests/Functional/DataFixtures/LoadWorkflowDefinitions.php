@@ -11,9 +11,9 @@ use Symfony\Component\Yaml\Yaml;
 
 class LoadWorkflowDefinitions extends AbstractFixture implements ContainerAwareInterface
 {
-    const COMMERCE_WORKFLOW_FORMS = 'commerce_workflow_with_form_configuration';
-    const COMMERCE_WORKFLOW_FORMS_START_TRANSITION = 'start_transition';
-    const COMMERCE_WORKFLOW_FORMS_TRANSITION = 'transition_1';
+    public const COMMERCE_WORKFLOW_FORMS = 'commerce_workflow_with_form_configuration';
+    public const COMMERCE_WORKFLOW_FORMS_START_TRANSITION = 'start_transition';
+    public const COMMERCE_WORKFLOW_FORMS_TRANSITION = 'transition_1';
 
     /**
      * @var ContainerInterface

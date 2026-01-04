@@ -12,7 +12,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuUserAgentConditionsCollectionType extends AbstractType
 {
-    const NAME = 'oro_commerce_menu_user_agent_conditions_collection';
+    public const NAME = 'oro_commerce_menu_user_agent_conditions_collection';
 
     /**
      * @var DataTransformerInterface

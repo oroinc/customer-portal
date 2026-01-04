@@ -70,7 +70,7 @@ class Customer implements DatesAwareInterface, ExtendEntityInterface
     use DatesAwareTrait;
     use ExtendEntityTrait;
 
-    const INTERNAL_RATING_CODE = 'acc_internal_rating';
+    public const INTERNAL_RATING_CODE = 'acc_internal_rating';
 
     /**
      * @var integer

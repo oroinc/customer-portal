@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerGroupSelectType extends AbstractType
 {
-    const NAME = 'oro_customer_customer_group_select';
+    public const NAME = 'oro_customer_customer_group_select';
 
     #[\Override]
     public function configureOptions(OptionsResolver $resolver)

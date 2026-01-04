@@ -16,7 +16,7 @@ use Oro\Component\MessageQueue\Transport\SessionInterface;
  */
 class ClearLostCustomerUsers implements MessageProcessorInterface, TopicSubscriberInterface
 {
-    const BATCH_SIZE = 200;
+    public const BATCH_SIZE = 200;
 
     /** @var MessageProducerInterface */
     protected $messageProducer;

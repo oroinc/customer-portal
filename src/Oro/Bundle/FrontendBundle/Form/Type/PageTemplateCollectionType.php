@@ -8,7 +8,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class PageTemplateCollectionType extends AbstractType
 {
-    const NAME = 'oro_frontend_page_template_collection';
+    public const NAME = 'oro_frontend_page_template_collection';
 
     /**
      * @var PageTemplatesManager

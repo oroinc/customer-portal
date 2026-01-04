@@ -12,8 +12,8 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class FrontendCustomerUserRoleFormProvider extends AbstractFormProvider
 {
-    const CUSTOMER_USER_ROLE_CREATE_ROUTE_NAME = 'oro_customer_frontend_customer_user_role_create';
-    const CUSTOMER_USER_ROLE_UPDATE_ROUTE_NAME = 'oro_customer_frontend_customer_user_role_update';
+    public const CUSTOMER_USER_ROLE_CREATE_ROUTE_NAME = 'oro_customer_frontend_customer_user_role_create';
+    public const CUSTOMER_USER_ROLE_UPDATE_ROUTE_NAME = 'oro_customer_frontend_customer_user_role_update';
 
     /** @var CustomerUserRoleUpdateFrontendHandler */
     protected $handler;

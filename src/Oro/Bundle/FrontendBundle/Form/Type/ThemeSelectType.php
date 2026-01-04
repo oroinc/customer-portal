@@ -15,8 +15,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class ThemeSelectType extends AbstractType
 {
-    const NAME = 'oro_frontend_theme_select';
-    const GROUP = 'commerce';
+    public const NAME = 'oro_frontend_theme_select';
+    public const GROUP = 'commerce';
 
     /**
      * @var ThemeManager

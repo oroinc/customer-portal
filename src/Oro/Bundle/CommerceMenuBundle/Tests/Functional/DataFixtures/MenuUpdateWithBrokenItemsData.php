@@ -14,10 +14,10 @@ class MenuUpdateWithBrokenItemsData extends AbstractFixture implements Dependent
 {
     use MenuUpdateTrait;
 
-    const MENU_UPDATE_1 = 'global_menu_update.1';
-    const MENU_UPDATE_2 = 'global_menu_update.2';
-    const MENU_UPDATE_1_1 = 'global_menu_update.1_1';
-    const MENU_UPDATE_2_1 = 'global_menu_update.2_1';
+    public const MENU_UPDATE_1 = 'global_menu_update.1';
+    public const MENU_UPDATE_2 = 'global_menu_update.2';
+    public const MENU_UPDATE_1_1 = 'global_menu_update.1_1';
+    public const MENU_UPDATE_2_1 = 'global_menu_update.2_1';
 
     /** @var array */
     protected static $menuUpdates = [

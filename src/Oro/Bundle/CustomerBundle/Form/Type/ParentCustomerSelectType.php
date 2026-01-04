@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ParentCustomerSelectType extends AbstractType
 {
-    const NAME = 'oro_customer_parent_select';
+    public const NAME = 'oro_customer_parent_select';
 
     #[\Override]
     public function configureOptions(OptionsResolver $resolver)

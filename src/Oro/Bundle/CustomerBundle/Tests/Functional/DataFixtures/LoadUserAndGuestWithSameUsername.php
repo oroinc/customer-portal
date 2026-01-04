@@ -4,10 +4,10 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures;
 
 class LoadUserAndGuestWithSameUsername extends LoadCustomerUserData
 {
-    const SAME_FIRST_NAME = 'Customer User';
-    const SAME_LAST_NAME = 'Guest';
-    const SAME_EMAIL = 'customer-user-or-guest@example.com';
-    const SAME_PASSWORD = 'test';
+    public const SAME_FIRST_NAME = 'Customer User';
+    public const SAME_LAST_NAME = 'Guest';
+    public const SAME_EMAIL = 'customer-user-or-guest@example.com';
+    public const SAME_PASSWORD = 'test';
 
     /**
      * @var array

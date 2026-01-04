@@ -9,7 +9,7 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class AddMimeTypeOptionForMenu implements Migration
 {
-    const MIME_TYPES = [
+    public const MIME_TYPES = [
         'image/svg+xml',
     ];
 

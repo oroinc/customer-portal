@@ -8,7 +8,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
 
 class CustomerUserIdPlaceholder extends AbstractPlaceholder
 {
-    const NAME = 'CUSTOMER_USER_ID';
+    public const NAME = 'CUSTOMER_USER_ID';
 
     /**
      * @var TokenStorageInterface

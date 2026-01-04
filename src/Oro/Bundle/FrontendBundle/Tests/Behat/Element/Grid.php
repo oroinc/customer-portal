@@ -7,7 +7,7 @@ use Oro\Bundle\DataGridBundle\Tests\Behat\Element\Grid as BaseGrid;
 
 class Grid extends BaseGrid
 {
-    const DEFAULT_MAPPINGS = [
+    public const DEFAULT_MAPPINGS = [
         'GridRow' => 'FrontendGridRow',
         'GridRowStrict' => 'FrontendGridRow',
         'GridToolbarPaginator' => 'FrontendGridToolbarPaginator',

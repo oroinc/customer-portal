@@ -8,8 +8,8 @@ use Symfony\Component\Form\FormInterface;
 
 class CustomerGroupEvent extends AfterFormProcessEvent
 {
-    const PRE_REMOVE = 'oro_customer.customer_group.pre_remove';
-    const BEFORE_FLUSH = 'oro_customer.customer_group.before_flush';
+    public const PRE_REMOVE = 'oro_customer.customer_group.pre_remove';
+    public const BEFORE_FLUSH = 'oro_customer.customer_group.before_flush';
 
     public function __construct(CustomerGroup $customerGroup, ?FormInterface $form = null)
     {

@@ -76,7 +76,7 @@ class CustomerUser extends AbstractUser implements
 {
     use ExtendEntityTrait;
 
-    const SECURITY_GROUP = 'commerce';
+    public const SECURITY_GROUP = 'commerce';
 
     #[ORM\Id]
     #[ORM\Column(type: Types::INTEGER)]

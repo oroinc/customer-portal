@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerUserMultiSelectType extends BaseCustomerUserMultiSelectType
 {
-    const NAME = 'oro_customer_frontend_customer_user_multiselect';
+    public const NAME = 'oro_customer_frontend_customer_user_multiselect';
 
     #[\Override]
     public function configureOptions(OptionsResolver $resolver)

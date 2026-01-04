@@ -14,12 +14,12 @@ class OroCommerceMenuBundle implements
 {
     use AttachmentExtensionAwareTrait;
 
-    const ORO_FRONTEND_NAVIGATION_MENU_UPDATE_TABLE_NAME = 'oro_front_nav_menu_upd';
-    const ORO_FRONTEND_NAVIGATION_MENU_UPDATE_TITLE_TABLE_NAME = 'oro_front_nav_menu_upd_title';
+    public const ORO_FRONTEND_NAVIGATION_MENU_UPDATE_TABLE_NAME = 'oro_front_nav_menu_upd';
+    public const ORO_FRONTEND_NAVIGATION_MENU_UPDATE_TITLE_TABLE_NAME = 'oro_front_nav_menu_upd_title';
 
-    const MAX_MENU_UPDATE_IMAGE_SIZE_IN_MB = 10;
-    const THUMBNAIL_WIDTH_SIZE_IN_PX = 100;
-    const THUMBNAIL_HEIGHT_SIZE_IN_PX = 100;
+    public const MAX_MENU_UPDATE_IMAGE_SIZE_IN_MB = 10;
+    public const THUMBNAIL_WIDTH_SIZE_IN_PX = 100;
+    public const THUMBNAIL_HEIGHT_SIZE_IN_PX = 100;
 
     #[\Override]
     public function up(Schema $schema, QueryBag $queries)

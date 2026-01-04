@@ -9,7 +9,7 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
 class CustomerUserExtension extends AbstractExtension
 {
-    const ROUTE = 'oro_frontend_datagrid_index';
+    public const ROUTE = 'oro_frontend_datagrid_index';
 
     /** @var TokenAccessorInterface */
     private $tokenAccessor;

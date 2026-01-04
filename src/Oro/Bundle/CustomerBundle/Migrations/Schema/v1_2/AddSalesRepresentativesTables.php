@@ -8,13 +8,13 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 
 class AddSalesRepresentativesTables implements Migration
 {
-    const ORO_USER_TABLE_NAME = 'oro_user';
+    public const ORO_USER_TABLE_NAME = 'oro_user';
 
-    const ORO_B2B_ACCOUNT_TABLE_NAME = 'orob2b_account';
-    const ORO_B2B_ACCOUNT_USER_TABLE_NAME = 'orob2b_account_user';
+    public const ORO_B2B_ACCOUNT_TABLE_NAME = 'orob2b_account';
+    public const ORO_B2B_ACCOUNT_USER_TABLE_NAME = 'orob2b_account_user';
 
-    const ORO_B2B_ACCOUNT_SALES_REPRESENTATIVES_TABLE_NAME = 'orob2b_account_sales_reps';
-    const ORO_B2B_ACCOUNT_USER_SALES_REPRESENTATIVES_TABLE_NAME = 'orob2b_account_user_sales_reps';
+    public const ORO_B2B_ACCOUNT_SALES_REPRESENTATIVES_TABLE_NAME = 'orob2b_account_sales_reps';
+    public const ORO_B2B_ACCOUNT_USER_SALES_REPRESENTATIVES_TABLE_NAME = 'orob2b_account_user_sales_reps';
 
     #[\Override]
     public function up(Schema $schema, QueryBag $queries)

@@ -6,7 +6,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class CustomerUserRoleType extends AbstractCustomerUserRoleType
 {
-    const NAME = 'oro_customer_customer_user_role';
+    public const NAME = 'oro_customer_customer_user_role';
 
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)

@@ -14,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FrontendCustomerUserRoleType extends AbstractCustomerUserRoleType
 {
-    const NAME = 'oro_customer_frontend_customer_user_role';
+    public const NAME = 'oro_customer_frontend_customer_user_role';
 
     public function getName()
     {

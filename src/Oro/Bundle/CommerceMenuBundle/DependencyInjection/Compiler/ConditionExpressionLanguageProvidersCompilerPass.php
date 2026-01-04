@@ -8,8 +8,8 @@ use Symfony\Component\DependencyInjection\Reference;
 
 class ConditionExpressionLanguageProvidersCompilerPass implements CompilerPassInterface
 {
-    const TAG_NAME              = 'oro_commerce_menu.condition.expression_language_provider';
-    const EXPRESSION_LANGUAGE_SERVICE_ID  = 'oro_commerce_menu.expression_language';
+    public const TAG_NAME              = 'oro_commerce_menu.condition.expression_language_provider';
+    public const EXPRESSION_LANGUAGE_SERVICE_ID  = 'oro_commerce_menu.expression_language';
 
     #[\Override]
     public function process(ContainerBuilder $container)

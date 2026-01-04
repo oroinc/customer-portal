@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
 {
-    const NAME = 'oro_customer_frontend_typed_address';
+    public const NAME = 'oro_customer_frontend_typed_address';
 
     #[\Override]
     public function configureOptions(OptionsResolver $resolver)

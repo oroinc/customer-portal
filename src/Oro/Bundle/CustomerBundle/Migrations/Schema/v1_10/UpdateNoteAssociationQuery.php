@@ -9,8 +9,8 @@ use Psr\Log\LoggerInterface;
 
 class UpdateNoteAssociationQuery extends ParametrizedMigrationQuery
 {
-    const NOTE_CLASS = 'Oro\Bundle\NoteBundle\Entity\Note';
-    const NOTE_TABLE = 'oro_note';
+    public const NOTE_CLASS = 'Oro\Bundle\NoteBundle\Entity\Note';
+    public const NOTE_TABLE = 'oro_note';
 
     /**
      * @var Schema

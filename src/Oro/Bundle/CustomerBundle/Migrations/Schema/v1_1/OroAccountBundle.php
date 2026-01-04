@@ -13,19 +13,19 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
  */
 class OroAccountBundle implements Migration
 {
-    const ORO_B2B_ACCOUNT_TABLE_NAME = 'orob2b_account';
-    const ORO_B2B_ACCOUNT_GROUP_TABLE_NAME = 'orob2b_account_group';
+    public const ORO_B2B_ACCOUNT_TABLE_NAME = 'orob2b_account';
+    public const ORO_B2B_ACCOUNT_GROUP_TABLE_NAME = 'orob2b_account_group';
 
-    const ORO_B2B_CATEGORY_VISIBILITY_TABLE_NAME = 'orob2b_category_visibility';
-    const ORO_B2B_ACCOUNT_CATEGORY_VISIBILITY_TABLE_NAME = 'orob2b_acc_category_visibility';
-    const ORO_B2B_ACCOUNT_GROUP_CATEGORY_VISIBILITY_TABLE_NAME = 'orob2b_acc_grp_ctgr_visibility';
-    const ORO_B2B_CATEGORY_TABLE_NAME = 'orob2b_catalog_category';
+    public const ORO_B2B_CATEGORY_VISIBILITY_TABLE_NAME = 'orob2b_category_visibility';
+    public const ORO_B2B_ACCOUNT_CATEGORY_VISIBILITY_TABLE_NAME = 'orob2b_acc_category_visibility';
+    public const ORO_B2B_ACCOUNT_GROUP_CATEGORY_VISIBILITY_TABLE_NAME = 'orob2b_acc_grp_ctgr_visibility';
+    public const ORO_B2B_CATEGORY_TABLE_NAME = 'orob2b_catalog_category';
 
-    const ORO_B2B_PRODUCT_VISIBILITY_TABLE_NAME = 'orob2b_product_visibility';
-    const ORO_B2B_ACCOUNT_PRODUCT_VISIBILITY_TABLE_NAME = 'orob2b_acc_product_visibility';
-    const ORO_B2B_ACCOUNT_GROUP_PRODUCT_VISIBILITY_TABLE_NAME = 'orob2b_acc_grp_prod_visibility';
-    const ORO_B2B_PRODUCT_TABLE_NAME = 'orob2b_product';
-    const ORO_B2B_WEBSITE_TABLE_NAME = 'orob2b_website';
+    public const ORO_B2B_PRODUCT_VISIBILITY_TABLE_NAME = 'orob2b_product_visibility';
+    public const ORO_B2B_ACCOUNT_PRODUCT_VISIBILITY_TABLE_NAME = 'orob2b_acc_product_visibility';
+    public const ORO_B2B_ACCOUNT_GROUP_PRODUCT_VISIBILITY_TABLE_NAME = 'orob2b_acc_grp_prod_visibility';
+    public const ORO_B2B_PRODUCT_TABLE_NAME = 'orob2b_product';
+    public const ORO_B2B_WEBSITE_TABLE_NAME = 'orob2b_website';
 
     #[\Override]
     public function up(Schema $schema, QueryBag $queries)

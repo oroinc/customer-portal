@@ -16,16 +16,16 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class CustomerUserRoleVoter extends AbstractEntityVoter
 {
-    const ATTRIBUTE_VIEW = 'VIEW';
-    const ATTRIBUTE_EDIT = 'EDIT';
-    const ATTRIBUTE_DELETE = 'DELETE';
-    const ATTRIBUTE_ASSIGN = 'ASSIGN';
-    const ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_UPDATE = 'FRONTEND_CUSTOMER_ROLE_UPDATE';
-    const ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_VIEW = 'FRONTEND_CUSTOMER_ROLE_VIEW';
-    const ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_DELETE = 'FRONTEND_CUSTOMER_ROLE_DELETE';
+    public const ATTRIBUTE_VIEW = 'VIEW';
+    public const ATTRIBUTE_EDIT = 'EDIT';
+    public const ATTRIBUTE_DELETE = 'DELETE';
+    public const ATTRIBUTE_ASSIGN = 'ASSIGN';
+    public const ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_UPDATE = 'FRONTEND_CUSTOMER_ROLE_UPDATE';
+    public const ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_VIEW = 'FRONTEND_CUSTOMER_ROLE_VIEW';
+    public const ATTRIBUTE_FRONTEND_CUSTOMER_ROLE_DELETE = 'FRONTEND_CUSTOMER_ROLE_DELETE';
 
-    const VIEW = 'view';
-    const UPDATE = 'update';
+    public const VIEW = 'view';
+    public const UPDATE = 'update';
 
     protected $supportedAttributes = [
         self::ATTRIBUTE_VIEW,

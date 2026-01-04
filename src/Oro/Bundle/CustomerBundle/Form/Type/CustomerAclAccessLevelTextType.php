@@ -12,7 +12,7 @@ use Symfony\Component\Form\FormView;
 
 class CustomerAclAccessLevelTextType extends AbstractType
 {
-    const NAME = 'oro_customer_acl_access_level_text';
+    public const NAME = 'oro_customer_acl_access_level_text';
 
     /**
      * @var RoleTranslationPrefixResolver

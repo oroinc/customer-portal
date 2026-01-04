@@ -10,9 +10,9 @@ use Oro\Bundle\CustomerBundle\Entity\NavigationItem;
 
 class LoadNavigationItemData extends AbstractFixture implements DependentFixtureInterface
 {
-    const ITEM_1 = 'oro_customer_bundle.item_1';
-    const ITEM_2 = 'oro_customer_bundle.item_2';
-    const ITEM_3 = 'oro_customer_bundle.item_3';
+    public const ITEM_1 = 'oro_customer_bundle.item_1';
+    public const ITEM_2 = 'oro_customer_bundle.item_2';
+    public const ITEM_3 = 'oro_customer_bundle.item_3';
 
     #[\Override]
     public function load(ObjectManager $manager)

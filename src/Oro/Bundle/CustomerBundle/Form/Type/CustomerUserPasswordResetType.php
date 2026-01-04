@@ -13,7 +13,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class CustomerUserPasswordResetType extends AbstractType
 {
-    const NAME = 'oro_customer_customer_user_password_reset';
+    public const NAME = 'oro_customer_customer_user_password_reset';
 
     /**
      * @var string

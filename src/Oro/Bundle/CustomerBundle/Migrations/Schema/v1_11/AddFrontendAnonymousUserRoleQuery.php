@@ -9,7 +9,7 @@ use Psr\Log\LoggerInterface;
 
 class AddFrontendAnonymousUserRoleQuery extends ParametrizedMigrationQuery
 {
-    const ROLE_NAME  = 'ROLE_FRONTEND_ANONYMOUS';
+    public const ROLE_NAME  = 'ROLE_FRONTEND_ANONYMOUS';
 
     #[\Override]
     public function getDescription()

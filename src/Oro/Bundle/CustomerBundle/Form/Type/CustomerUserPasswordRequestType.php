@@ -13,7 +13,7 @@ use Symfony\Component\Validator\Constraints\NotBlank;
  */
 class CustomerUserPasswordRequestType extends AbstractType
 {
-    const NAME = 'oro_customer_customer_user_password_request';
+    public const NAME = 'oro_customer_customer_user_password_request';
 
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)

@@ -11,7 +11,7 @@ use Oro\Bundle\UIBundle\Provider\UserAgentProviderInterface;
  */
 class UserAgentConditionsEvaluator implements ConditionEvaluatorInterface
 {
-    const MENU_CONDITION_KEY_EXTRA = 'userAgentConditions';
+    public const MENU_CONDITION_KEY_EXTRA = 'userAgentConditions';
 
     /**
      * @var UserAgentProviderInterface

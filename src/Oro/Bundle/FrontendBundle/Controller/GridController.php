@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
  */
 class GridController extends AbstractController
 {
-    const EXPORT_BATCH_SIZE = 200;
+    public const EXPORT_BATCH_SIZE = 200;
 
     /**
      *

@@ -21,8 +21,8 @@ class LoadFeaturedMenuData extends AbstractFixture implements ContainerAwareInte
 {
     use ContainerAwareTrait;
 
-    const MENU = 'featured_menu';
-    const SCOPE_TYPE = 'menu_frontend_visibility';
+    public const MENU = 'featured_menu';
+    public const SCOPE_TYPE = 'menu_frontend_visibility';
 
     /** @var array */
     protected static $menuUpdates = [

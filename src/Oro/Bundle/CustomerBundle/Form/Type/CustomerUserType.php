@@ -26,7 +26,7 @@ use Symfony\Component\Validator\Constraint;
  */
 class CustomerUserType extends AbstractType
 {
-    const NAME = 'oro_customer_customer_user';
+    public const NAME = 'oro_customer_customer_user';
 
     /** @var string */
     protected $dataClass;

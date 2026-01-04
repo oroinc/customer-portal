@@ -13,10 +13,10 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'oro_menu_user_agent_condition')]
 class MenuUserAgentCondition
 {
-    const OPERATION_CONTAINS = 'contains';
-    const OPERATION_DOES_NOT_CONTAIN = 'does_not_contain';
-    const OPERATION_MATCHES = 'matches';
-    const OPERATION_DOES_NOT_MATCHES = 'does_not_match';
+    public const OPERATION_CONTAINS = 'contains';
+    public const OPERATION_DOES_NOT_CONTAIN = 'does_not_contain';
+    public const OPERATION_MATCHES = 'matches';
+    public const OPERATION_DOES_NOT_MATCHES = 'does_not_match';
 
     #[ORM\Id]
     #[ORM\Column(name: 'id', type: Types::INTEGER)]

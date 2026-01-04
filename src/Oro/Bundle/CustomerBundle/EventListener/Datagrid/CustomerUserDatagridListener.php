@@ -12,18 +12,18 @@ use Oro\Bundle\DataGridBundle\Event\PreBuild;
  */
 class CustomerUserDatagridListener
 {
-    const NEW_ACCOUNT_KEY = 'newCustomer';
-    const CHANGE_ACCOUNT_KEY = 'changeCustomerAction';
-    const ACCOUNT_KEY = 'customer';
-    const ROLE_KEY = 'role';
+    public const NEW_ACCOUNT_KEY = 'newCustomer';
+    public const CHANGE_ACCOUNT_KEY = 'changeCustomerAction';
+    public const ACCOUNT_KEY = 'customer';
+    public const ROLE_KEY = 'role';
 
-    const USER_SELECT_PART = 'user.id IN (:data_in) AND user.id NOT IN (:data_not_in)';
-    const ROLE_SELECT_PART = '(:role MEMBER OF user.userRoles OR user.id IN (:data_in)) '
+    public const USER_SELECT_PART = 'user.id IN (:data_in) AND user.id NOT IN (:data_not_in)';
+    public const ROLE_SELECT_PART = '(:role MEMBER OF user.userRoles OR user.id IN (:data_in)) '
         . 'AND user.id NOT IN (:data_not_in)';
-    const HAS_ROLE_SELECT = '(CASE WHEN %s THEN true ELSE false END) as hasRole';
+    public const HAS_ROLE_SELECT = '(CASE WHEN %s THEN true ELSE false END) as hasRole';
 
-    const ACCOUNT_CONDITION = 'user.customer = :customer';
-    const NEW_ACCOUNT_CONDITION = 'user.customer = :newCustomer';
+    public const ACCOUNT_CONDITION = 'user.customer = :customer';
+    public const NEW_ACCOUNT_CONDITION = 'user.customer = :newCustomer';
 
     public function onBuildBefore(PreBuild $event)
     {

@@ -10,10 +10,10 @@ use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
 
 class MenuUserAgentConditionData extends AbstractFixture implements DependentFixtureInterface
 {
-    const USER_AGENT_CONTAINS = 'user_agent_contains';
-    const USER_AGENT_MATCHES = 'user_agent_matches';
-    const USER_AGENT_DOES_NOT_CONTAIN = 'user_agent_does_not_contain';
-    const USER_AGENT_DOES_NOT_MATCHES = 'user_agent_does_not_matches';
+    public const USER_AGENT_CONTAINS = 'user_agent_contains';
+    public const USER_AGENT_MATCHES = 'user_agent_matches';
+    public const USER_AGENT_DOES_NOT_CONTAIN = 'user_agent_does_not_contain';
+    public const USER_AGENT_DOES_NOT_MATCHES = 'user_agent_does_not_matches';
 
     /** @var array */
     protected static $userAgentConditions = [

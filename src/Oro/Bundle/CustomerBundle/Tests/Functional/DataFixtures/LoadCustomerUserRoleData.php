@@ -13,14 +13,14 @@ use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 class LoadCustomerUserRoleData extends AbstractFixture implements DependentFixtureInterface
 {
-    const ROLE_WITH_ACCOUNT_USER = 'Role with customer user';
-    const ROLE_WITH_ACCOUNT = 'Role with customer';
-    const ROLE_WITH_WEBSITE = 'Role with website';
-    const ROLE_GUEST_FOR_WEBSITE = 'Role guest for website';
-    const ROLE_EMPTY = 'Role without any additional attributes';
-    const ROLE_NOT_SELF_MANAGED = 'Role that is not self managed';
-    const ROLE_SELF_MANAGED = 'Role that is self managed';
-    const ROLE_NOT_PUBLIC = 'Role that is not public';
+    public const ROLE_WITH_ACCOUNT_USER = 'Role with customer user';
+    public const ROLE_WITH_ACCOUNT = 'Role with customer';
+    public const ROLE_WITH_WEBSITE = 'Role with website';
+    public const ROLE_GUEST_FOR_WEBSITE = 'Role guest for website';
+    public const ROLE_EMPTY = 'Role without any additional attributes';
+    public const ROLE_NOT_SELF_MANAGED = 'Role that is not self managed';
+    public const ROLE_SELF_MANAGED = 'Role that is self managed';
+    public const ROLE_NOT_PUBLIC = 'Role that is not public';
 
     #[\Override]
     public function getDependencies()

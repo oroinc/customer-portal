@@ -22,8 +22,8 @@ use Symfony\Contracts\Service\ServiceSubscriberInterface;
  */
 class CustomerVoter extends AbstractEntityVoter implements ServiceSubscriberInterface
 {
-    const ATTRIBUTE_VIEW = 'ACCOUNT_VIEW';
-    const ATTRIBUTE_EDIT = 'ACCOUNT_EDIT';
+    public const ATTRIBUTE_VIEW = 'ACCOUNT_VIEW';
+    public const ATTRIBUTE_EDIT = 'ACCOUNT_EDIT';
 
     protected $supportedAttributes = [self::ATTRIBUTE_VIEW, self::ATTRIBUTE_EDIT];
 

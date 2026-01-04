@@ -8,8 +8,8 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 class MenuConditionEvaluator implements ConditionEvaluatorInterface
 {
-    const CONDITION_KEY = 'condition';
-    const DEFAULT_IS_ALLOWED_POLICY = true;
+    public const CONDITION_KEY = 'condition';
+    public const DEFAULT_IS_ALLOWED_POLICY = true;
 
     /**
      * @var ExpressionLanguage

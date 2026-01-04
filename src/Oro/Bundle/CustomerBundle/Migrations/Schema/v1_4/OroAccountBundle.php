@@ -12,9 +12,9 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
  */
 class OroAccountBundle implements Migration
 {
-    const ORO_B2B_CATEGORY_VISIBILITY_RESOLVED = 'orob2b_ctgr_vsb_resolv';
-    const ORO_B2B_ACCOUNT_GROUP_CATEGORY_VISIBILITY_RESOLVED = 'orob2b_acc_grp_ctgr_vsb_resolv';
-    const ORO_B2B_ACCOUNT_CATEGORY_VISIBILITY_RESOLVED = 'orob2b_acc_ctgr_vsb_resolv';
+    public const ORO_B2B_CATEGORY_VISIBILITY_RESOLVED = 'orob2b_ctgr_vsb_resolv';
+    public const ORO_B2B_ACCOUNT_GROUP_CATEGORY_VISIBILITY_RESOLVED = 'orob2b_acc_grp_ctgr_vsb_resolv';
+    public const ORO_B2B_ACCOUNT_CATEGORY_VISIBILITY_RESOLVED = 'orob2b_acc_ctgr_vsb_resolv';
 
     #[\Override]
     public function up(Schema $schema, QueryBag $queries)

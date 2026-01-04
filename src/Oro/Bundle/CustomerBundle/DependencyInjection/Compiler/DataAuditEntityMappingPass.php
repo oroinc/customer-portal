@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class DataAuditEntityMappingPass implements CompilerPassInterface
 {
-    const MAPPER_SERVICE = 'oro_dataaudit.loggable.audit_entity_mapper';
+    public const MAPPER_SERVICE = 'oro_dataaudit.loggable.audit_entity_mapper';
 
     #[\Override]
     public function process(ContainerBuilder $container)

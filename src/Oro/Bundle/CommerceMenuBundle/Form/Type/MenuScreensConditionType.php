@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuScreensConditionType extends AbstractType
 {
-    const NAME = 'oro_commerce_menu_screens_condition';
+    public const NAME = 'oro_commerce_menu_screens_condition';
 
     /**
      * @var ScreensProviderInterface

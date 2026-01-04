@@ -14,10 +14,10 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadGroups extends AbstractFixture implements ContainerAwareInterface, DependentFixtureInterface
 {
-    const GROUP1 = 'customer_group.group1';
-    const GROUP2 = 'customer_group.group2';
-    const GROUP3 = 'customer_group.group3';
-    const ANONYMOUS_GROUP = 'customer_group.anonymous';
+    public const GROUP1 = 'customer_group.group1';
+    public const GROUP2 = 'customer_group.group2';
+    public const GROUP3 = 'customer_group.group3';
+    public const ANONYMOUS_GROUP = 'customer_group.anonymous';
 
     /**
      * @var ContainerInterface

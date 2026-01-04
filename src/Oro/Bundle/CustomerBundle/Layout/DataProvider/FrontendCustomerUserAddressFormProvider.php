@@ -14,8 +14,8 @@ use Symfony\Component\Form\FormView;
  */
 class FrontendCustomerUserAddressFormProvider extends AbstractFormProvider
 {
-    const ACCOUNT_USER_ADDRESS_CREATE_ROUTE_NAME = 'oro_customer_frontend_customer_user_address_create';
-    const ACCOUNT_USER_ADDRESS_UPDATE_ROUTE_NAME = 'oro_customer_frontend_customer_user_address_update';
+    public const ACCOUNT_USER_ADDRESS_CREATE_ROUTE_NAME = 'oro_customer_frontend_customer_user_address_create';
+    public const ACCOUNT_USER_ADDRESS_UPDATE_ROUTE_NAME = 'oro_customer_frontend_customer_user_address_update';
 
     /**
      * Get customer user address form view

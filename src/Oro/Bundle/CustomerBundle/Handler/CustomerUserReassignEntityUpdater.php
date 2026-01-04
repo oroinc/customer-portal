@@ -19,7 +19,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  */
 class CustomerUserReassignEntityUpdater
 {
-    const BATCH_SIZE = 100;
+    public const BATCH_SIZE = 100;
 
     /** @var ManagerRegistry */
     private $registry;

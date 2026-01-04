@@ -21,8 +21,8 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class CustomerType extends AbstractType
 {
-    const NAME = 'oro_customer_type';
-    const GROUP_FIELD = 'group';
+    public const NAME = 'oro_customer_type';
+    public const GROUP_FIELD = 'group';
 
     /**
      * @var string

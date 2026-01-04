@@ -9,7 +9,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class RuleEditorTextareaType extends AbstractType
 {
-    const NAME = 'oro_frontend_rule_editor';
+    public const NAME = 'oro_frontend_rule_editor';
 
     /**
      * @var RuleEditorOptionsConfigurator

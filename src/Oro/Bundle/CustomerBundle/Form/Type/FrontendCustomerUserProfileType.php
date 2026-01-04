@@ -18,7 +18,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FrontendCustomerUserProfileType extends AbstractType
 {
-    const NAME = 'oro_customer_frontend_customer_user_profile';
+    public const NAME = 'oro_customer_frontend_customer_user_profile';
 
     /**
      * @var ConfigManager

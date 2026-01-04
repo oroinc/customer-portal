@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class FrontendCustomerUserType extends AbstractType
 {
-    const NAME = 'oro_customer_frontend_customer_user';
+    public const NAME = 'oro_customer_frontend_customer_user';
 
     /** @var AuthorizationCheckerInterface */
     protected $authorizationChecker;

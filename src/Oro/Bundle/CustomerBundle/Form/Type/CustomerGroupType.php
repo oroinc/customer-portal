@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerGroupType extends AbstractType
 {
-    const NAME = 'oro_customer_group_type';
+    public const NAME = 'oro_customer_group_type';
 
     /**
      * @var string

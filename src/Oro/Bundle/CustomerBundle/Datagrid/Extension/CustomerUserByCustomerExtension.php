@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CustomerUserByCustomerExtension extends AbstractExtension
 {
-    const SUPPORTED_GRID = 'customer-customer-user-select-grid';
-    const ACCOUNT_KEY = 'customer_id';
+    public const SUPPORTED_GRID = 'customer-customer-user-select-grid';
+    public const ACCOUNT_KEY = 'customer_id';
 
     /**
      * @var bool

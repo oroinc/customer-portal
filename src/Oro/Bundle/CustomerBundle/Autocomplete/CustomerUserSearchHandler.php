@@ -12,7 +12,7 @@ use Oro\Bundle\SearchBundle\Query\Result\Item;
  */
 class CustomerUserSearchHandler extends BaseSearchHandler
 {
-    const DELIMITER = ';';
+    public const DELIMITER = ';';
 
     #[\Override]
     protected function searchEntities($search, $firstResult, $maxResults)

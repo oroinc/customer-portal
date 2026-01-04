@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
  */
 class NavigationListener
 {
-    const MENU_ITEM_ID = 'oro_customer_frontend_customer_user_address_index';
+    public const MENU_ITEM_ID = 'oro_customer_frontend_customer_user_address_index';
 
     /** @var AuthorizationCheckerInterface */
     private $authorizationChecker;

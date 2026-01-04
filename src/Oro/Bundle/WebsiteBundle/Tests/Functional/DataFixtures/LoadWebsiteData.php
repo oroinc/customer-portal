@@ -19,9 +19,9 @@ class LoadWebsiteData extends AbstractFixture implements DependentFixtureInterfa
 {
     use ContainerAwareTrait;
 
-    const WEBSITE1 = 'US';
-    const WEBSITE2 = 'Canada';
-    const WEBSITE3 = 'CA';
+    public const WEBSITE1 = 'US';
+    public const WEBSITE2 = 'Canada';
+    public const WEBSITE3 = 'CA';
 
     /**
      * @var array

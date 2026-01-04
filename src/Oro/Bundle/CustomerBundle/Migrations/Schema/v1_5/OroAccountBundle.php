@@ -11,8 +11,8 @@ use Oro\Bundle\MigrationBundle\Migration\QueryBag;
  */
 class OroAccountBundle implements Migration
 {
-    const ORO_B2B_ACCOUNT_ADDRESS_TABLE_NAME = 'orob2b_account_address';
-    const ORO_B2B_ACCOUNT_USER_ADDRESS_TABLE_NAME = 'orob2b_account_user_address';
+    public const ORO_B2B_ACCOUNT_ADDRESS_TABLE_NAME = 'orob2b_account_address';
+    public const ORO_B2B_ACCOUNT_USER_ADDRESS_TABLE_NAME = 'orob2b_account_user_address';
 
     #[\Override]
     public function up(Schema $schema, QueryBag $queries)

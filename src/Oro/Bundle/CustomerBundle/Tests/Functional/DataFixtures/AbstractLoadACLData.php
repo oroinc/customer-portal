@@ -28,36 +28,36 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
     use SetRolePermissionsTrait;
 
     // existing roles
-    const ROLE_FRONTEND_BUYER = 'ROLE_FRONTEND_BUYER';
-    const ROLE_FRONTEND_ADMINISTRATOR = 'ROLE_FRONTEND_ADMINISTRATOR';
+    public const ROLE_FRONTEND_BUYER = 'ROLE_FRONTEND_BUYER';
+    public const ROLE_FRONTEND_ADMINISTRATOR = 'ROLE_FRONTEND_ADMINISTRATOR';
 
-    const ROLE_BASIC = 'ROLE_BASIC';
-    const ROLE_LOCAL = 'ROLE_LOCAL';
-    const ROLE_LOCAL_VIEW_ONLY = 'ROLE_LOCAL_VIEW_ONLY';
-    const ROLE_DEEP_VIEW_ONLY = 'ROLE_DEEP_VIEW_ONLY';
-    const ROLE_DEEP = 'ROLE_DEEP';
+    public const ROLE_BASIC = 'ROLE_BASIC';
+    public const ROLE_LOCAL = 'ROLE_LOCAL';
+    public const ROLE_LOCAL_VIEW_ONLY = 'ROLE_LOCAL_VIEW_ONLY';
+    public const ROLE_DEEP_VIEW_ONLY = 'ROLE_DEEP_VIEW_ONLY';
+    public const ROLE_DEEP = 'ROLE_DEEP';
 
     // customer.level_1.1
-    const USER_ACCOUNT_1_ROLE_LOCAL = 'customer1-role-local@example.com';
-    const USER_ACCOUNT_1_ROLE_BASIC = 'customer1-role-basic@example.com';
-    const USER_ACCOUNT_1_ROLE_DEEP = 'customer1-role-deep@example.com';
-    const USER_ACCOUNT_1_ROLE_LOCAL_VIEW_ONLY = 'customer1-role-local-view-only@example.com';
-    const USER_ACCOUNT_1_ROLE_DEEP_VIEW_ONLY = 'customer1-role-deep-view-only@example.com';
+    public const USER_ACCOUNT_1_ROLE_LOCAL = 'customer1-role-local@example.com';
+    public const USER_ACCOUNT_1_ROLE_BASIC = 'customer1-role-basic@example.com';
+    public const USER_ACCOUNT_1_ROLE_DEEP = 'customer1-role-deep@example.com';
+    public const USER_ACCOUNT_1_ROLE_LOCAL_VIEW_ONLY = 'customer1-role-local-view-only@example.com';
+    public const USER_ACCOUNT_1_ROLE_DEEP_VIEW_ONLY = 'customer1-role-deep-view-only@example.com';
 
     // customer.level_1.1.1
-    const USER_ACCOUNT_1_1_ROLE_LOCAL = 'customer1-1-role-local@example.com';
-    const USER_ACCOUNT_1_1_ROLE_BASIC = 'customer1-1-role-basic@example.com';
-    const USER_ACCOUNT_1_1_ROLE_DEEP = 'customer1-1-role-deep@example.com';
+    public const USER_ACCOUNT_1_1_ROLE_LOCAL = 'customer1-1-role-local@example.com';
+    public const USER_ACCOUNT_1_1_ROLE_BASIC = 'customer1-1-role-basic@example.com';
+    public const USER_ACCOUNT_1_1_ROLE_DEEP = 'customer1-1-role-deep@example.com';
 
     // customer.level_1.1.2
-    const USER_ACCOUNT_1_2_ROLE_LOCAL = 'customer1-2-role-local@example.com';
-    const USER_ACCOUNT_1_2_ROLE_BASIC = 'customer1-2-role-basic@example.com';
-    const USER_ACCOUNT_1_2_ROLE_DEEP = 'customer1-2-role-deep@example.com';
+    public const USER_ACCOUNT_1_2_ROLE_LOCAL = 'customer1-2-role-local@example.com';
+    public const USER_ACCOUNT_1_2_ROLE_BASIC = 'customer1-2-role-basic@example.com';
+    public const USER_ACCOUNT_1_2_ROLE_DEEP = 'customer1-2-role-deep@example.com';
 
     // customer.level_1.2
-    const USER_ACCOUNT_2_ROLE_LOCAL = 'customer2-role-local@example.com';
-    const USER_ACCOUNT_2_ROLE_BASIC = 'customer2-role-basic@example.com';
-    const USER_ACCOUNT_2_ROLE_DEEP = 'customer2-role-deep@example.com';
+    public const USER_ACCOUNT_2_ROLE_LOCAL = 'customer2-role-local@example.com';
+    public const USER_ACCOUNT_2_ROLE_BASIC = 'customer2-role-basic@example.com';
+    public const USER_ACCOUNT_2_ROLE_DEEP = 'customer2-role-deep@example.com';
 
     /**
      * @var User

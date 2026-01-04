@@ -11,7 +11,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class MenuUserAgentConditionType extends AbstractType
 {
-    const NAME = 'oro_commerce_menu_user_agent_condition';
+    public const NAME = 'oro_commerce_menu_user_agent_condition';
 
     #[\Override]
     public function buildForm(FormBuilderInterface $builder, array $options)

@@ -22,7 +22,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
  */
 class ResetController extends AbstractController
 {
-    const SESSION_EMAIL = 'oro_customer_user_reset_email';
+    public const SESSION_EMAIL = 'oro_customer_user_reset_email';
 
     #[Route(
         path: '/reset-request',

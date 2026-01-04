@@ -4,8 +4,8 @@ namespace Oro\Bundle\CustomerBundle\Doctrine;
 
 interface SoftDeleteableInterface
 {
-    const FIELD_NAME = 'deletedAt';
-    const NAME = 'Oro\Bundle\CustomerBundle\Doctrine\SoftDeleteableInterface';
+    public const FIELD_NAME = 'deletedAt';
+    public const NAME = 'Oro\Bundle\CustomerBundle\Doctrine\SoftDeleteableInterface';
 
     /**
      * @return \DateTime

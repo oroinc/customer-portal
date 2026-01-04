@@ -19,7 +19,7 @@ abstract class AbstractLoadCustomerUserDemoData extends AbstractFixture implemen
     ContainerAwareInterface,
     DependentFixtureInterface
 {
-    const ACCOUNT_USERS_REFERENCE_PREFIX = 'customer_user_demo_data_';
+    public const ACCOUNT_USERS_REFERENCE_PREFIX = 'customer_user_demo_data_';
 
     /** @var ContainerInterface */
     protected $container;

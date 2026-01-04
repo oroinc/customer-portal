@@ -8,7 +8,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CustomerUserMultiSelectType extends AbstractType
 {
-    const NAME = 'oro_customer_customer_user_multiselect';
+    public const NAME = 'oro_customer_customer_user_multiselect';
 
     #[\Override]
     public function getParent(): ?string

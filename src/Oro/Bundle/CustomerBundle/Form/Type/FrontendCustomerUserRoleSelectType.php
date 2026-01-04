@@ -14,7 +14,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class FrontendCustomerUserRoleSelectType extends AbstractType
 {
-    const NAME = 'oro_customer_frontend_customer_user_role_select';
+    public const NAME = 'oro_customer_frontend_customer_user_role_select';
 
     /** @var TokenAccessorInterface */
     protected $tokenAccessor;

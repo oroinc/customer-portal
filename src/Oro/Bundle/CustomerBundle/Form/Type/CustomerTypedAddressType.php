@@ -19,7 +19,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
  */
 class CustomerTypedAddressType extends AbstractType
 {
-    const NAME = 'oro_customer_typed_address';
+    public const NAME = 'oro_customer_typed_address';
 
     /** @var string */
     protected $dataClass;

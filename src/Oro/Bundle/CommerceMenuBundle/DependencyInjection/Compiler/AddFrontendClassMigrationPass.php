@@ -7,7 +7,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class AddFrontendClassMigrationPass implements CompilerPassInterface
 {
-    const FRONTEND_CLASS_MIGRATION_SERVICE_ID = 'oro_frontend.class_migration';
+    public const FRONTEND_CLASS_MIGRATION_SERVICE_ID = 'oro_frontend.class_migration';
 
     #[\Override]
     public function process(ContainerBuilder $container)

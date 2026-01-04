@@ -7,7 +7,7 @@ use Symfony\Contracts\EventDispatcher\Event;
 
 class CustomerEvent extends Event
 {
-    const ON_CUSTOMER_GROUP_CHANGE = 'oro_customer.customer.on_customer_group_change';
+    public const ON_CUSTOMER_GROUP_CHANGE = 'oro_customer.customer.on_customer_group_change';
 
     /**
      * @var  Customer

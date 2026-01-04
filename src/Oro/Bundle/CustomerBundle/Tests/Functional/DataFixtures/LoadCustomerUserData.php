@@ -17,40 +17,40 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class LoadCustomerUserData extends AbstractFixture implements DependentFixtureInterface, ContainerAwareInterface
 {
-    const FIRST_NAME = 'Grzegorz';
-    const LAST_NAME = 'Brzeczyszczykiewicz';
-    const EMAIL = 'grzegorz.brzeczyszczykiewicz@example.com';
-    const PASSWORD = 'test';
+    public const FIRST_NAME = 'Grzegorz';
+    public const LAST_NAME = 'Brzeczyszczykiewicz';
+    public const EMAIL = 'grzegorz.brzeczyszczykiewicz@example.com';
+    public const PASSWORD = 'test';
 
-    const LEVEL_1_FIRST_NAME = 'First';
-    const LEVEL_1_LAST_NAME = 'Last';
-    const LEVEL_1_EMAIL = 'other.user@test.com';
-    const LEVEL_1_PASSWORD = 'pass';
+    public const LEVEL_1_FIRST_NAME = 'First';
+    public const LEVEL_1_LAST_NAME = 'Last';
+    public const LEVEL_1_EMAIL = 'other.user@test.com';
+    public const LEVEL_1_PASSWORD = 'pass';
 
-    const LEVEL_1_1_FIRST_NAME = 'FirstName';
-    const LEVEL_1_1_LAST_NAME = 'LastName';
-    const LEVEL_1_1_EMAIL = 'second_customer.user@test.com';
-    const LEVEL_1_1_PASSWORD = 'pass';
+    public const LEVEL_1_1_FIRST_NAME = 'FirstName';
+    public const LEVEL_1_1_LAST_NAME = 'LastName';
+    public const LEVEL_1_1_EMAIL = 'second_customer.user@test.com';
+    public const LEVEL_1_1_PASSWORD = 'pass';
 
-    const ANONYMOUS_FIRST_NAME = 'FirstCustomerUser';
-    const ANONYMOUS_LAST_NAME = 'LastCustomerUser';
-    const ANONYMOUS_EMAIL = 'customer.user2@test.com';
-    const ANONYMOUS_PASSWORD = 'pass';
+    public const ANONYMOUS_FIRST_NAME = 'FirstCustomerUser';
+    public const ANONYMOUS_LAST_NAME = 'LastCustomerUser';
+    public const ANONYMOUS_EMAIL = 'customer.user2@test.com';
+    public const ANONYMOUS_PASSWORD = 'pass';
 
-    const ORPHAN_FIRST_NAME = 'FirstOrphan';
-    const ORPHAN_LAST_NAME = 'LastOrphan';
-    const ORPHAN_EMAIL = 'orphan.user@test.com';
-    const ORPHAN_PASSWORD = 'pass';
+    public const ORPHAN_FIRST_NAME = 'FirstOrphan';
+    public const ORPHAN_LAST_NAME = 'LastOrphan';
+    public const ORPHAN_EMAIL = 'orphan.user@test.com';
+    public const ORPHAN_PASSWORD = 'pass';
 
-    const GROUP2_FIRST_NAME = 'FirstCustomerUserGroup2';
-    const GROUP2_LAST_NAME = 'LastCustomerUserGroup2';
-    const GROUP2_EMAIL = 'customer.level_1.2@test.com';
-    const GROUP2_PASSWORD = 'pass';
+    public const GROUP2_FIRST_NAME = 'FirstCustomerUserGroup2';
+    public const GROUP2_LAST_NAME = 'LastCustomerUserGroup2';
+    public const GROUP2_EMAIL = 'customer.level_1.2@test.com';
+    public const GROUP2_PASSWORD = 'pass';
 
-    const RESET_FIRST_NAME = 'Ryan';
-    const RESET_LAST_NAME = 'Range';
-    const RESET_EMAIL = 'Ryan1Range@example.org';
-    const RESET_PASSWORD = 'Ryan1Range@example.org';
+    public const RESET_FIRST_NAME = 'Ryan';
+    public const RESET_LAST_NAME = 'Range';
+    public const RESET_EMAIL = 'Ryan1Range@example.org';
+    public const RESET_PASSWORD = 'Ryan1Range@example.org';
 
     /** @var ContainerInterface */
     protected $container;

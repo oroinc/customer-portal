@@ -14,7 +14,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CustomerTypedAddressWithDefaultType extends AbstractType
 {
-    const NAME = 'oro_customer_typed_address_with_default';
+    public const NAME = 'oro_customer_typed_address_with_default';
 
     /** @var ManagerRegistry */
     protected $registry;
