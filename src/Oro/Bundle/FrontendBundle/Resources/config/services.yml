@@ -549,3 +549,15 @@ services:
         class: Oro\Bundle\FrontendBundle\Provider\StorefrontThemeConfigurationTypeProvider
         tags:
             - { name: oro_theme.theme_configuration_type_provider }
+
+    Oro\Bundle\FrontendBundle\Provider\StorefrontEntityUrlProvider:
+        arguments:
+            - '@router'
+            - '%oro_frontend.storefront_entity_routes%'
+
+    Oro\Bundle\FrontendBundle\Provider\EntityUrlProviderDecorator:
+        decorates: oro_entity_config.provider.entity_url.application_aware
+        arguments:
+            $backendProvider: '@Oro\Bundle\EntityConfigBundle\Provider\EntityUrlProvider'
+            $storefrontProvider: '@Oro\Bundle\FrontendBundle\Provider\StorefrontEntityUrlProvider'
+            $frontendHelper: '@oro_frontend.request.frontend_helper'

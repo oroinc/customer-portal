@@ -101,3 +101,9 @@ oro_entity:
 oro_test_framework:
     test_auth_firewalls:
         - frontend_api_secured
+
+oro_frontend:
+    storefront_entity_routes:
+        Oro\Bundle\CustomerBundle\Entity\CustomerUser:
+            index: oro_customer_frontend_customer_user_index
+            view: oro_customer_frontend_customer_user_view

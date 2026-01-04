@@ -49,6 +49,7 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
             ->replaceArgument(1, $config['routes_to_expose']);
 
         $container->setParameter('oro_frontend.debug_routes', $config['debug_routes']);
+        $container->setParameter('oro_frontend.storefront_entity_routes', $config['storefront_entity_routes']);
 
         $this->configureFrontendSession($container, $config);
         $this->configureApiDocViews($container, $config);

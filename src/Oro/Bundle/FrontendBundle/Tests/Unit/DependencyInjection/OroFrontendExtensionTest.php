@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\DependencyInjection;
 
 use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
@@ -448,5 +450,52 @@ class OroFrontendExtensionTest extends TestCase
         $extension->prepend($container);
 
         $this->assertEquals($expectedConfig, $container->getExtensionConfig('security'));
+    }
+
+    public function testStorefrontEntityRoutesParameterIsSet(): void
+    {
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
+
+        // Mock API bundle config to prevent "parameter not found" errors during extension loading
+        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
+
+        $config = [
+            'storefront_entity_routes' => [
+                'App\Entity\Order' => [
+                    'index' => 'oro_order_frontend_index',
+                    'view' => 'oro_order_frontend_view',
+                ],
+                'App\Entity\Product' => [
+                    'index' => 'oro_product_frontend_index',
+                    'view' => 'oro_product_frontend_view',
+                    'update' => 'oro_product_frontend_update',
+                ]
+            ]
+        ];
+
+        $extension = new OroFrontendExtension();
+        $extension->load([$config], $container);
+
+        self::assertTrue($container->hasParameter('oro_frontend.storefront_entity_routes'));
+        self::assertEquals(
+            $config['storefront_entity_routes'],
+            $container->getParameter('oro_frontend.storefront_entity_routes')
+        );
+    }
+
+    public function testStorefrontEntityRoutesParameterIsSetToEmptyArrayByDefault(): void
+    {
+        $container = new ContainerBuilder();
+        $container->setParameter('kernel.environment', 'prod');
+
+        // Mock API bundle config to prevent "parameter not found" errors during extension loading
+        DependencyInjectionUtil::setConfig($container, ['api_doc_views' => []]);
+
+        $extension = new OroFrontendExtension();
+        $extension->load([], $container);
+
+        self::assertTrue($container->hasParameter('oro_frontend.storefront_entity_routes'));
+        self::assertEquals([], $container->getParameter('oro_frontend.storefront_entity_routes'));
     }
 }
