@@ -161,6 +161,12 @@
                 text-align: $main-menu-button-arrow-text-align;
                 grid-column: $main-menu-button-arrow-grid-column;
                 grid-row: $main-menu-button-arrow-grid-row;
+
+                &:focus-visible {
+                    outline: $base-ui-element-focus-visible-outline;
+                    outline-offset: $base-ui-element-focus-visible-outline-offset;
+                    box-shadow: $focus-visible-style;
+                }
             }
 
             &__link + .main-menu__button {
