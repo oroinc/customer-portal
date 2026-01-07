@@ -5,11 +5,10 @@ import BaseView from 'oroui/js/app/views/base/view';
 import loadModules from 'oroui/js/app/services/load-modules';
 import mediator from 'oroui/js/mediator';
 import scrollHelper from 'oroui/js/tools/scroll-helper';
+import KEY_CODES from 'oroui/js/tools/keyboard-key-codes';
 import _ from 'underscore';
 import $ from 'jquery';
 import manageFocus from 'oroui/js/tools/manage-focus';
-
-const ESCAPE_KEYCODE = 27;
 
 const FullscreenPopupView = BaseView.extend({
     /**
@@ -76,7 +75,9 @@ const FullscreenPopupView = BaseView.extend({
     previousClass: null,
 
     events: {
-        click: 'show'
+        click: 'show',
+        keydown: 'handleKeyDown',
+        mousedown: 'handleMouseDown'
     },
 
     /**
@@ -107,6 +108,12 @@ const FullscreenPopupView = BaseView.extend({
      */
     toggleBtnActiveClassName: 'fullscreen-popup__opened',
 
+    /**
+     * Track if the last interaction was via mouse
+     * @property {boolean}
+     */
+    isMouseInteraction: true,
+
     container: document.body,
 
     /**
@@ -122,7 +129,22 @@ const FullscreenPopupView = BaseView.extend({
     initialize: function(options) {
         this.initLayoutOptions = options.initLayoutOptions || {};
         _.each(this.sections, this._initializeSection.bind(this, options));
+
         return FullscreenPopupView.__super__.initialize.call(this, options);
+    },
+
+    handleMouseDown: function() {
+        this.isMouseInteraction = true;
+    },
+
+    handleKeyDown: function(event) {
+        if (this.isKeyboardInteraction(event.keyCode)) {
+            this.isMouseInteraction = false;
+        }
+    },
+
+    isKeyboardInteraction: function(keyCode) {
+        return FullscreenPopupView.KEYBOARD_INTERACTION_KEYS.includes(keyCode);
     },
 
     /**
@@ -132,6 +154,8 @@ const FullscreenPopupView = BaseView.extend({
         if (this.disposed) {
             return;
         }
+
+
         this.remove();
         FullscreenPopupView.__super__.dispose.call(this);
     },
@@ -143,6 +167,10 @@ const FullscreenPopupView = BaseView.extend({
     show: function() {
         this.close();
         this.$popup = $(this.getTemplateFunction()(this.getTemplateData()));
+
+        if (!this.isMouseInteraction) {
+            this.$popup.attr('data-focus-visible', '');
+        }
 
         this.$popup.appendTo(this.appendToContainer());
 
@@ -348,7 +376,7 @@ const FullscreenPopupView = BaseView.extend({
             .on('click', '[data-role="close"]', this.close.bind(this))
             .on('touchstart', '[data-scroll="true"]', scrollHelper.removeIOSRubberEffect.bind(this))
             .on('keydown', e => {
-                if (e.keyCode === ESCAPE_KEYCODE) {
+                if (e.keyCode === KEY_CODES.ESCAPE) {
                     e.stopPropagation();
                     this.close();
                     this.$el.trigger('focus');
@@ -390,6 +418,16 @@ const FullscreenPopupView = BaseView.extend({
     getFocusTabbableElement() {
         return this.$popup;
     }
+}, {
+    KEYBOARD_INTERACTION_KEYS: [
+        KEY_CODES.ENTER,
+        KEY_CODES.SPACE,
+        KEY_CODES.TAB,
+        KEY_CODES.ARROW_LEFT,
+        KEY_CODES.ARROW_UP,
+        KEY_CODES.ARROW_RIGHT,
+        KEY_CODES.ARROW_DOWN
+    ]
 });
 
 export default FullscreenPopupView;
