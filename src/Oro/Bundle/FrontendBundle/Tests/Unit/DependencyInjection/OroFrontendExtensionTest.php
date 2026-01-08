@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Oro\Bundle\FrontendBundle\Tests\Unit\DependencyInjection;
 
 use Oro\Bundle\ApiBundle\Util\DependencyInjectionUtil;
+use Oro\Bundle\FrontendBundle\DependencyInjection\Configuration;
 use Oro\Bundle\FrontendBundle\DependencyInjection\OroFrontendExtension;
 use Oro\Bundle\FrontendBundle\Request\FrontendHelper;
 use Oro\Component\DependencyInjection\ExtendedContainerBuilder;
@@ -40,6 +41,7 @@ class OroFrontendExtensionTest extends \PHPUnit\Framework\TestCase
                         'frontend_theme' => ['value' => '%oro_layout.default_active_theme%', 'scope' => 'app'],
                         'page_templates' => ['value' => [], 'scope' => 'app'],
                         'guest_access_enabled' => ['value' => true, 'scope' => 'app'],
+                        Configuration::GUEST_ACCESS_ALLOWED_SYSTEM_PAGES => ['value' => [], 'scope' => 'app'],
                         'filter_value_selectors' => ['value' => 'dropdown', 'scope' => 'app'],
                         'web_api' => ['value' => false, 'scope' => 'app'],
                     ]

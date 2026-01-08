@@ -333,6 +333,10 @@ oro_frontend:
             guest_access_enabled:
                 label: 'Enable Guest Access'
                 tooltip: 'Select the option to enable guest users to access the website storefront. Clear the option to disable guest access and enable it to registered and signed-in users only. To allow guest users to register in the storefront, enable the self-registration option under Commerce>Customer>Customer Users>Registration Allowed.'
+            guest_access_allowed_system_pages:
+                label: 'Allow Guest Access to System Pages'
+                tooltip: 'Select the system pages that should remain available to guest users when guest access is disabled.'
+                placeholder: 'Select one or more system pages...'
             filter_value_selectors:
                 label: 'Value Selectors'
                 tooltip: 'Specify the way to display the multi-select filters in the storefront. The drop-down selector is better optimized for selecting from a long list of values.'

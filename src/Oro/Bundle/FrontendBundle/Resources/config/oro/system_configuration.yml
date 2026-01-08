@@ -38,6 +38,26 @@ system_configuration:
                 label: oro_frontend.system_configuration.fields.guest_access_enabled.label
                 tooltip: oro_frontend.system_configuration.fields.guest_access_enabled.tooltip
                 required: false
+                attr:
+                    'data-dependee-id': 'guest_access_enabled'
+
+        oro_frontend.guest_access_allowed_system_pages:
+            data_type: array
+            type: Oro\Bundle\NavigationBundle\Form\Type\RouteMultipleChoiceType
+            priority: 1900
+            options:
+                label: oro_frontend.system_configuration.fields.guest_access_allowed_system_pages.label
+                tooltip: oro_frontend.system_configuration.fields.guest_access_allowed_system_pages.tooltip
+                required: false
+                menu_name: 'frontend_menu'
+                options_filter:
+                    frontend: true
+                configs:
+                    component: dependent
+                    placeholder: oro_frontend.system_configuration.fields.guest_access_allowed_system_pages.placeholder
+                attr:
+                    'data-depend-on': 'guest_access_enabled'
+                    'data-show-if': 'unchecked'
 
         oro_frontend.filter_value_selectors:
             data_type: string
@@ -98,3 +118,4 @@ system_configuration:
                                         priority: 100
                                         children:
                                             - oro_frontend.guest_access_enabled
+                                            - oro_frontend.guest_access_allowed_system_pages
