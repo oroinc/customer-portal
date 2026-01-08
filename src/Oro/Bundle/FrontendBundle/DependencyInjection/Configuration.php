@@ -16,6 +16,8 @@ class Configuration implements ConfigurationInterface
     public const FILTER_VALUE_SELECTORS_ALL_AT_ONCE = 'all_at_once';
     public const FILTER_VALUE_SELECTORS_DROPDOWN = 'dropdown';
 
+    public const GUEST_ACCESS_ALLOWED_SYSTEM_PAGES = 'guest_access_allowed_system_pages';
+
     /**
      * {@inheritdoc}
      */
@@ -30,6 +32,7 @@ class Configuration implements ConfigurationInterface
                 'frontend_theme' => ['type' => 'string', 'value' => '%oro_layout.default_active_theme%'],
                 'page_templates' => ['type' => 'array', 'value' => []],
                 'guest_access_enabled' => ['type' => 'boolean', 'value' => true],
+                self::GUEST_ACCESS_ALLOWED_SYSTEM_PAGES => ['type' => 'array', 'value' => []],
                 'filter_value_selectors' => ['type' => 'string', 'value' => self::FILTER_VALUE_SELECTORS_DROPDOWN],
                 'web_api' => ['type' => 'boolean', 'value' => false]
             ]

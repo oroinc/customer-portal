@@ -1,15 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Oro\Bundle\FrontendBundle\Tests\Functional;
 
 use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserACLData;
+use Oro\Bundle\FrontendBundle\DependencyInjection\Configuration;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class GuestAccessTest extends WebTestCase
 {
     use ConfigManagerAwareTestTrait;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient();
@@ -17,6 +21,7 @@ class GuestAccessTest extends WebTestCase
         $this->setGuestAccess(false);
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         $this->setGuestAccess(true);
@@ -102,5 +107,44 @@ class GuestAccessTest extends WebTestCase
             ['/'],
             ['/customer/profile/']
         ];
+    }
+
+    public function testConfiguredSystemPageIsAccessibleWhenGuestAccessDisabled(): void
+    {
+        $configManager = self::getConfigManager();
+        $configKey = Configuration::getConfigKeyByName(Configuration::GUEST_ACCESS_ALLOWED_SYSTEM_PAGES);
+
+        $configManager->set($configKey, ['oro_customer_frontend_customer_user_register']);
+        $configManager->flush();
+
+        // Verify the page is accessible even though guest access is disabled
+        $this->client->request('GET', '/customer/user/registration');
+        $response = $this->client->getResponse();
+
+        self::assertResponseStatusCodeEquals($response, 200);
+
+        // Clean up
+        $configManager->set($configKey, []);
+        $configManager->flush();
+    }
+
+    public function testNonConfiguredSystemPageIsNotAccessibleWhenGuestAccessDisabled(): void
+    {
+        $configManager = self::getConfigManager();
+        $configKey = Configuration::getConfigKeyByName(Configuration::GUEST_ACCESS_ALLOWED_SYSTEM_PAGES);
+
+        $configManager->set($configKey, ['oro_customer_frontend_customer_user_register']);
+        $configManager->flush();
+
+        // Verify other pages are still redirected
+        $this->client->request('GET', '/');
+        $response = $this->client->getResponse();
+
+        self::assertResponseStatusCodeEquals($response, 302);
+        self::assertTrue($response->isRedirect('/customer/user/login'));
+
+        // Clean up
+        $configManager->set($configKey, []);
+        $configManager->flush();
     }
 }

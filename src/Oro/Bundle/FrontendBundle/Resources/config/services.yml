@@ -86,6 +86,12 @@ services:
             - [addAllowedUrlPattern, ['^%oro_api.rest.prefix%login$']]
         tags: ['oro_frontend.guest_access_urls_provider']
 
+    Oro\Bundle\FrontendBundle\GuestAccess\Provider\SystemPagesGuestAccessAllowedUrlsProvider:
+        arguments:
+            - '@oro_config.manager'
+            - '@router'
+        tags: ['oro_frontend.guest_access_urls_provider']
+
     oro_frontend.error_renderer.html:
         class: Oro\Bundle\FrontendBundle\ErrorRenderer\FrontendErrorRenderer
         decorates: error_renderer.html
