@@ -6,6 +6,7 @@ use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypes;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueAddressDefaultTypesValidator;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Exception\ValidatorException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
@@ -13,7 +14,7 @@ use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 class UniqueAddressDefaultTypesValidatorTest extends ConstraintValidatorTestCase
 {
     #[\Override]
-    protected function createValidator()
+    protected function createValidator(): ConstraintValidatorInterface
     {
         return new UniqueAddressDefaultTypesValidator();
     }

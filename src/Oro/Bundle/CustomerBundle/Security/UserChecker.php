@@ -24,7 +24,7 @@ class UserChecker implements UserCheckerInterface
     }
 
     #[\Override]
-    public function checkPostAuth(UserInterface $user)
+    public function checkPostAuth(UserInterface $user): void
     {
         $this->userCheckerInner->checkPostAuth($user);
 
@@ -57,7 +57,7 @@ class UserChecker implements UserCheckerInterface
     }
 
     #[\Override]
-    public function checkPreAuth(UserInterface $user)
+    public function checkPreAuth(UserInterface $user): void
     {
         if ($user instanceof CustomerUser && $user->isGuest()) {
             $exception = new GuestCustomerUserLoginException('The customer user is a guest.');

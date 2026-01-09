@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Owner;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\CustomerBundle\Async\Topic\CustomerCalculateOwnerTreeCacheTopic;
@@ -36,7 +36,7 @@ class FrontendOwnerTreeProviderTest extends OrmTestCase
     protected function setUp(): void
     {
         $conn = new ConnectionMock([], new DriverMock());
-        $conn->setDatabasePlatform(new MySqlPlatform());
+        $conn->setDatabasePlatform(new MySQLPlatform());
         $em = $this->getTestEntityManager($conn);
         $em->getConfiguration()->setMetadataDriverImpl(new AttributeDriver([]));
 

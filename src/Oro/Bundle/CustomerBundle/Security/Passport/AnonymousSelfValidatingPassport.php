@@ -14,7 +14,7 @@ class AnonymousSelfValidatingPassport extends SelfValidatingPassport
     #[\Override]
     public function getUser(): UserInterface
     {
-        if (null === $this->user) {
+        if (!isset($this->user)) {
             if (!$this->hasBadge(AnonymousCustomerUserBadge::class)) {
                 throw new \LogicException(
                     'Cannot get the Security user, no username or UserBadge configured for this passport.'

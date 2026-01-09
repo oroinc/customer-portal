@@ -5,6 +5,7 @@ namespace Oro\Bundle\CommerceMenuBundle\Tests\Unit\Validator\Constraints;
 use Oro\Bundle\CommerceMenuBundle\Validator\Constraints\MenuUpdateExpression;
 use Oro\Bundle\CommerceMenuBundle\Validator\Constraints\MenuUpdateExpressionValidator;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class MenuUpdateExpressionValidatorTest extends ConstraintValidatorTestCase
@@ -19,7 +20,7 @@ class MenuUpdateExpressionValidatorTest extends ConstraintValidatorTestCase
     }
 
     #[\Override]
-    protected function createValidator()
+    protected function createValidator(): ConstraintValidatorInterface
     {
         return new MenuUpdateExpressionValidator($this->expressionLanguage);
     }

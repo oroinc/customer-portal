@@ -13,9 +13,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -71,7 +71,7 @@ class SignInProviderTest extends TestCase
 
         $session->expects(self::once())
             ->method('get')
-            ->with(Security::LAST_USERNAME)
+            ->with(SecurityRequestAttributes::LAST_USERNAME)
             ->willReturn('last_name');
 
         self::assertEquals('last_name', $this->dataProvider->getLastName());
@@ -98,7 +98,7 @@ class SignInProviderTest extends TestCase
 
         $session->expects(self::once())
             ->method('has')
-            ->with(Security::AUTHENTICATION_ERROR)
+            ->with(SecurityRequestAttributes::AUTHENTICATION_ERROR)
             ->willReturn(true);
 
         $exception = new AuthenticationException('error');
@@ -110,7 +110,7 @@ class SignInProviderTest extends TestCase
 
         $session->expects(self::once())
             ->method('get')
-            ->with(Security::AUTHENTICATION_ERROR)
+            ->with(SecurityRequestAttributes::AUTHENTICATION_ERROR)
             ->willReturn($exception);
 
         self::assertEquals($translatedErrorMessage, $this->dataProvider->getError());
@@ -153,7 +153,7 @@ class SignInProviderTest extends TestCase
 
         $this->parameterBag->expects(self::once())
             ->method('has')
-            ->with(Security::AUTHENTICATION_ERROR)
+            ->with(SecurityRequestAttributes::AUTHENTICATION_ERROR)
             ->willReturn(true);
 
         $exception = new AuthenticationException('error');
@@ -165,7 +165,7 @@ class SignInProviderTest extends TestCase
 
         $this->parameterBag->expects(self::once())
             ->method('get')
-            ->with(Security::AUTHENTICATION_ERROR)
+            ->with(SecurityRequestAttributes::AUTHENTICATION_ERROR)
             ->willReturn($exception);
 
         self::assertEquals($translatedErrorMessage, $this->dataProvider->getError());
@@ -177,7 +177,7 @@ class SignInProviderTest extends TestCase
     {
         $this->parameterBag->expects(self::once())
             ->method('has')
-            ->with(Security::AUTHENTICATION_ERROR)
+            ->with(SecurityRequestAttributes::AUTHENTICATION_ERROR)
             ->willReturn(true);
 
         $exception = new \Exception('error');
@@ -186,7 +186,7 @@ class SignInProviderTest extends TestCase
 
         $this->parameterBag->expects(self::once())
             ->method('get')
-            ->with(Security::AUTHENTICATION_ERROR)
+            ->with(SecurityRequestAttributes::AUTHENTICATION_ERROR)
             ->willReturn($exception);
 
         self::assertEquals($exception->getMessage(), $this->dataProvider->getError());

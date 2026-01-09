@@ -17,7 +17,7 @@ use Symfony\Component\Form\FormEvents;
 class ScopeWithCustomerGroupAndCustomerExtension extends AbstractTypeExtension
 {
     #[\Override]
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->addEventListener(FormEvents::PRE_SUBMIT, function (PreSubmitEvent $event) {
             $form = $event->getForm();

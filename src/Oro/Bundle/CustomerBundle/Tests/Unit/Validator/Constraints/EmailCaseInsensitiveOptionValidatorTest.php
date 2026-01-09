@@ -12,6 +12,7 @@ use Oro\Bundle\FilterBundle\Form\Type\Filter\TextFilterType;
 use Oro\Bundle\FilterBundle\Grid\Extension\AbstractFilterExtension;
 use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 use Symfony\Contracts\Translation\TranslatorInterface;
@@ -32,7 +33,7 @@ class EmailCaseInsensitiveOptionValidatorTest extends ConstraintValidatorTestCas
     }
 
     #[\Override]
-    protected function createValidator()
+    protected function createValidator(): ConstraintValidatorInterface
     {
         $doctrine = $this->createMock(ManagerRegistry::class);
         $doctrine->expects($this->any())

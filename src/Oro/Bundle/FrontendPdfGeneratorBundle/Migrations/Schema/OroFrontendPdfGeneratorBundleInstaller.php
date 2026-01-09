@@ -19,8 +19,8 @@ use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
 use Oro\Bundle\PdfGeneratorBundle\Entity\PdfDocument;
 use Oro\Bundle\SecurityBundle\Migrations\Schema\UpdateSecurityConfigQuery;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Oro\Component\DependencyInjection\ContainerAwareInterface;
+use Oro\Component\DependencyInjection\ContainerAwareTrait;
 
 final class OroFrontendPdfGeneratorBundleInstaller implements
     Installation,

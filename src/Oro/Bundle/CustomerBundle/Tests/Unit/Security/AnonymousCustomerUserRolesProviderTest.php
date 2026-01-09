@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Security;
 
+use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Doctrine\Persistence\ManagerRegistry;
@@ -154,7 +155,7 @@ class AnonymousCustomerUserRolesProviderTest extends OrmTestCase
                 ['role_0' => $guestRoleName]
             ],
             [1 => $guestRoleId],
-            [1 => \PDO::PARAM_INT]
+            [1 => ParameterType::INTEGER]
         );
 
         self::assertSame([$guestRoleName], $this->rolesProvider->getRoles());
@@ -186,7 +187,7 @@ class AnonymousCustomerUserRolesProviderTest extends OrmTestCase
             'SELECT o0_.role AS role_0 FROM oro_customer_user_role o0_ WHERE o0_.id = ?',
             [],
             [1 => $guestRoleId],
-            [1 => \PDO::PARAM_INT]
+            [1 => ParameterType::INTEGER]
         );
 
         self::assertSame([], $this->rolesProvider->getRoles());

@@ -43,8 +43,8 @@ class OroCustomerTimestamps implements Migration, DatabasePlatformAwareInterface
         $schemaAfter = clone $schemaBefore;
 
         $table = $schemaAfter->getTable('oro_customer');
-        $table->changeColumn('created_at', ['notnull' => true]);
-        $table->changeColumn('updated_at', ['notnull' => true]);
+        $table->modifyColumn('created_at', ['notnull' => true]);
+        $table->modifyColumn('updated_at', ['notnull' => true]);
         if ($table->hasIndex('idx_oro_customer_updated_at') === false) {
             $table->addIndex(['updated_at'], 'idx_oro_customer_updated_at', []);
         }

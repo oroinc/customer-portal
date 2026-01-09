@@ -8,6 +8,7 @@ use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEma
 use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmailValidator;
 use Oro\Component\Testing\ReflectionUtil;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class UniqueCustomerUserNameAndEmailValidatorTest extends ConstraintValidatorTestCase
@@ -22,7 +23,7 @@ class UniqueCustomerUserNameAndEmailValidatorTest extends ConstraintValidatorTes
     }
 
     #[\Override]
-    protected function createValidator()
+    protected function createValidator(): ConstraintValidatorInterface
     {
         return new UniqueCustomerUserNameAndEmailValidator(
             $this->customerUserManager

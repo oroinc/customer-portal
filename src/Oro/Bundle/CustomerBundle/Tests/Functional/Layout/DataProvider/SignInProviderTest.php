@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Session\Storage\MockArraySessionStorage;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -47,7 +47,7 @@ class SignInProviderTest extends WebTestCase
         $session = new Session(new MockArraySessionStorage());
         $request->setSession($session);
 
-        $session->set(Security::LAST_USERNAME, $lastUsername);
+        $session->set(SecurityRequestAttributes::LAST_USERNAME, $lastUsername);
 
         $this->requestStack->push($request);
 
@@ -64,7 +64,7 @@ class SignInProviderTest extends WebTestCase
         $request->setSession($session);
 
         $exception = new AuthenticationException('Test Error');
-        $session->set(Security::AUTHENTICATION_ERROR, $exception);
+        $session->set(SecurityRequestAttributes::AUTHENTICATION_ERROR, $exception);
 
         $this->requestStack->push($request);
 

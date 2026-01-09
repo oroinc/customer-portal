@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Migrations\Schema\v1_4;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Oro\Bundle\MigrationBundle\Migration\ArrayLogger;
 use Oro\Bundle\MigrationBundle\Migration\Migration;
@@ -39,7 +39,7 @@ class OroCommerceMenuBundle extends ParametrizedMigrationQuery implements Migrat
     private function updateOroCommerceMenuUpdateTable(Schema $schema)
     {
         $table = $schema->getTable('oro_commerce_menu_upd');
-        $table->changeColumn('screens', ['notnull' => false]);
+        $table->modifyColumn('screens', ['notnull' => false]);
     }
 
     /**
@@ -52,7 +52,7 @@ class OroCommerceMenuBundle extends ParametrizedMigrationQuery implements Migrat
     private function setNullForEmptyScreens(LoggerInterface $logger, $dryRun = false)
     {
         // Issue is actual only on MySQL.
-        if (!$this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
+        if (!$this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
             return;
         }
 

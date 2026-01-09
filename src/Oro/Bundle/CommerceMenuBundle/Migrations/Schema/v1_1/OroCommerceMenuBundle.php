@@ -32,9 +32,9 @@ class OroCommerceMenuBundle implements Migration, RenameExtensionAwareInterface
         $table->addColumn('icon', 'string', ['length' => 150, 'notnull' => false]);
         $table->addColumn('is_divider', 'boolean', []);
         $table->addColumn('is_custom', 'boolean', []);
-        $table->changeColumn('ownership_type', ['type' => StringType::getType('string')]);
-        $table->changeColumn('owner_id', ['notnull' => true]);
-        $table->changeColumn('uri', ['length' => 1023]);
+        $table->modifyColumn('ownership_type', ['type' => StringType::getType('string')]);
+        $table->modifyColumn('owner_id', ['notnull' => true]);
+        $table->modifyColumn('uri', ['length' => 1023]);
         $table->removeForeignKey('FK_1B58D24F18F45C82');
         $table->dropColumn('website_id');
         $table->addUniqueIndex(['key', 'ownership_type', 'owner_id'], 'oro_commerce_menu_upd_uidx');

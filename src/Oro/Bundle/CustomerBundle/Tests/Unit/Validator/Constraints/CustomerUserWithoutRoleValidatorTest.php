@@ -8,13 +8,14 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserWithoutRole;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserWithoutRoleValidator;
 use Symfony\Component\Validator\Constraint;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class CustomerUserWithoutRoleValidatorTest extends ConstraintValidatorTestCase
 {
     #[\Override]
-    protected function createValidator()
+    protected function createValidator(): ConstraintValidatorInterface
     {
         return new CustomerUserWithoutRoleValidator();
     }

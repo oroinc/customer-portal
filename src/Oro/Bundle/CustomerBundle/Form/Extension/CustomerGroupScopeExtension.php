@@ -7,6 +7,9 @@ use Oro\Bundle\ScopeBundle\Form\Type\ScopeType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * Adds a customer group field to the scope form type.
+ */
 class CustomerGroupScopeExtension extends AbstractTypeExtension
 {
     public const SCOPE_FIELD = 'customerGroup';
@@ -17,7 +20,7 @@ class CustomerGroupScopeExtension extends AbstractTypeExtension
     protected $label;
 
     #[\Override]
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (array_key_exists(self::SCOPE_FIELD, $options['scope_fields'])) {
             $builder->add(

@@ -7,6 +7,9 @@ use Oro\Bundle\ScopeBundle\Form\Type\ScopeType;
 use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * Adds a customer field to the scope form type.
+ */
 class CustomerScopeExtension extends AbstractTypeExtension
 {
     public const SCOPE_FIELD = 'customer';
@@ -17,7 +20,7 @@ class CustomerScopeExtension extends AbstractTypeExtension
     protected $extendedType;
 
     #[\Override]
-    public function buildForm(FormBuilderInterface $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         if (array_key_exists(self::SCOPE_FIELD, $options['scope_fields'])) {
             $builder->add(

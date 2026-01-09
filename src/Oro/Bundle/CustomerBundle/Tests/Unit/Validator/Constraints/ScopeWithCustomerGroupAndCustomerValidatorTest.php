@@ -8,6 +8,7 @@ use Oro\Bundle\CustomerBundle\Validator\Constraints\ScopeWithCustomerGroupAndCus
 use Oro\Bundle\CustomerBundle\Validator\Constraints\ScopeWithCustomerGroupAndCustomerValidator;
 use Oro\Bundle\ScopeBundle\Tests\Unit\Stub\StubScope;
 use Oro\Component\Testing\ReflectionUtil;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class ScopeWithCustomerGroupAndCustomerValidatorTest extends ConstraintValidatorTestCase
@@ -32,7 +33,7 @@ class ScopeWithCustomerGroupAndCustomerValidatorTest extends ConstraintValidator
     }
 
     #[\Override]
-    protected function createValidator()
+    protected function createValidator(): ConstraintValidatorInterface
     {
         return new ScopeWithCustomerGroupAndCustomerValidator();
     }

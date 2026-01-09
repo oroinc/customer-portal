@@ -4,9 +4,12 @@ namespace Oro\Bundle\WebsiteBundle\Migrations\Data\ORM;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Persistence\ObjectManager;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Oro\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Initializes website URL settings from the application URL configuration.
+ */
 class LoadWebsiteUrlSetting extends AbstractFixture implements ContainerAwareInterface
 {
     /**

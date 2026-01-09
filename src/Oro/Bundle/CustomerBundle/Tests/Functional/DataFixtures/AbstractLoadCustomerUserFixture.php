@@ -17,8 +17,8 @@ use Oro\Bundle\SecurityBundle\Owner\Metadata\ChainOwnershipMetadataProvider;
 use Oro\Bundle\SecurityBundle\Tests\Functional\DataFixtures\SetRolePermissionsTrait;
 use Oro\Bundle\TestFrameworkBundle\Tests\Functional\DataFixtures\LoadUser;
 use Oro\Bundle\UserBundle\Entity\User;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Oro\Component\DependencyInjection\ContainerAwareInterface;
+use Oro\Component\DependencyInjection\ContainerAwareTrait;
 
 abstract class AbstractLoadCustomerUserFixture extends AbstractFixture implements
     ContainerAwareInterface,

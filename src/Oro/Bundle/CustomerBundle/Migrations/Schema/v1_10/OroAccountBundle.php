@@ -13,8 +13,8 @@ use Oro\Bundle\MigrationBundle\Migration\Migration;
 use Oro\Bundle\MigrationBundle\Migration\MigrationConstraintTrait;
 use Oro\Bundle\MigrationBundle\Migration\OrderedMigrationInterface;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Oro\Component\DependencyInjection\ContainerAwareInterface;
+use Oro\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyMethods)
@@ -143,11 +143,11 @@ class OroAccountBundle implements
             'account_809c1e34',
         ];
         foreach ($possibleNoteRelation as $relation) {
-            if ($schema->getTable('oro_note')->hasColumn($relation.'_id')) {
+            if ($schema->getTable('oro_note')->hasColumn($relation . '_id')) {
                 $table = $schema->getTable('oro_note');
-                $fk = $this->getConstraintName($table, $relation.'_id');
+                $fk = $this->getConstraintName($table, $relation . '_id');
                 $table->removeForeignKey($fk);
-                $table->dropColumn($relation.'_id');
+                $table->dropColumn($relation . '_id');
 
                 $query = new UpdateNoteAssociationQuery($schema);
                 $query->setTargetClass('Customer');
@@ -323,10 +323,10 @@ class OroAccountBundle implements
             ];
             $tableNote = $schema->getTable('oro_note');
             foreach ($possibleNoteRelation as $relation) {
-                if ($tableNote->hasColumn($relation.'_id')) {
-                    $fk = $this->getConstraintName($tableNote, $relation.'_id');
+                if ($tableNote->hasColumn($relation . '_id')) {
+                    $fk = $this->getConstraintName($tableNote, $relation . '_id');
                     $tableNote->removeForeignKey($fk);
-                    $tableNote->dropColumn($relation.'_id');
+                    $tableNote->dropColumn($relation . '_id');
                     $query = new UpdateNoteAssociationQuery($schema);
                     $query->setTargetClass('CustomerUserRole');
                     $query->setFieldName($relation);
@@ -602,8 +602,8 @@ class OroAccountBundle implements
             'account_group_1125b02'
         ];
         foreach ($possibleNoteRelation as $relation) {
-            if ($schema->getTable('oro_note')->hasColumn($relation.'_id')) {
-                $schema->getTable('oro_note')->dropColumn($relation.'_id');
+            if ($schema->getTable('oro_note')->hasColumn($relation . '_id')) {
+                $schema->getTable('oro_note')->dropColumn($relation . '_id');
                 $query = new UpdateNoteAssociationQuery($schema);
                 $query->setFieldName($relation);
                 $query->setTargetClass('CustomerGroup');
@@ -845,11 +845,11 @@ class OroAccountBundle implements
             'account_user_5919fc1d',
         ];
         foreach ($possibleNoteRelation as $relation) {
-            if ($schema->getTable('oro_note')->hasColumn($relation.'_id')) {
+            if ($schema->getTable('oro_note')->hasColumn($relation . '_id')) {
                 $table = $schema->getTable('oro_note');
-                $fk = $this->getConstraintName($table, $relation.'_id');
+                $fk = $this->getConstraintName($table, $relation . '_id');
                 $table->removeForeignKey($fk);
-                $table->dropColumn($relation.'_id');
+                $table->dropColumn($relation . '_id');
                 $query = new UpdateNoteAssociationQuery($schema);
                 $query->setTargetClass('CustomerUser');
                 $query->setFieldName($relation);

@@ -7,10 +7,13 @@ use Doctrine\Common\Collections\Collection;
 use Oro\Bundle\CommerceMenuBundle\Entity\MenuUserAgentCondition;
 use Symfony\Component\Form\DataTransformerInterface;
 
+/**
+ * Transforms menu user agent conditions between collection and grouped array formats.
+ */
 class MenuUserAgentConditionsCollectionTransformer implements DataTransformerInterface
 {
     #[\Override]
-    public function transform($menuUserAgentConditionsCollection)
+    public function transform($menuUserAgentConditionsCollection): mixed
     {
         // If value is already transformed in PRE_SET_DATA, return it as is.
         if (is_array($menuUserAgentConditionsCollection)) {
@@ -37,7 +40,7 @@ class MenuUserAgentConditionsCollectionTransformer implements DataTransformerInt
     }
 
     #[\Override]
-    public function reverseTransform($groupedConditionsArray)
+    public function reverseTransform($groupedConditionsArray): mixed
     {
         if (!is_array($groupedConditionsArray)) {
             return new ArrayCollection();

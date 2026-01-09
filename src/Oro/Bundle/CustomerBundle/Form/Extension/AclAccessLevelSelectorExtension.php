@@ -10,6 +10,9 @@ use Symfony\Component\Form\AbstractTypeExtension;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
+/**
+ * Extends the ACL access level selector form type to add role translation prefixes.
+ */
 class AclAccessLevelSelectorExtension extends AbstractTypeExtension
 {
     /**
@@ -29,7 +32,7 @@ class AclAccessLevelSelectorExtension extends AbstractTypeExtension
     }
 
     #[\Override]
-    public function finishView(FormView $view, FormInterface $form, array $options)
+    public function finishView(FormView $view, FormInterface $form, array $options): void
     {
         $permissionForm = $form->getParent();
         if (!$permissionForm) {

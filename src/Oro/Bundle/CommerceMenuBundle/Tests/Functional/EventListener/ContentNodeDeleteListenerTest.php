@@ -51,6 +51,7 @@ class ContentNodeDeleteListenerTest extends WebTestCase
         // Check cache not removed on any entity removal
         $this->em->remove($notInvolvedCustomer);
         $this->em->flush();
+        $this->em->clear();
 
         self::assertNotEmpty(
             $this->cache->get(

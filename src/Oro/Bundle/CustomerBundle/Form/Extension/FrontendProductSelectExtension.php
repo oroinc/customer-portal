@@ -22,7 +22,7 @@ class FrontendProductSelectExtension extends AbstractTypeExtension
     }
 
     #[\Override]
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         if ($this->frontendHelper->isFrontendRequest()) {
             $resolver->setDefault('grid_name', 'products-select-grid-frontend');

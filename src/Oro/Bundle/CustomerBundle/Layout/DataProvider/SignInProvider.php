@@ -5,8 +5,8 @@ namespace Oro\Bundle\CustomerBundle\Layout\DataProvider;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
-use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Csrf\CsrfTokenManagerInterface;
+use Symfony\Component\Security\Http\SecurityRequestAttributes;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -56,7 +56,7 @@ class SignInProvider
             $session = $request && $request->hasSession() ? $request->getSession() : null;
 
             // last username entered by the user
-            $this->options['last_username'] = $session ? $session->get(Security::LAST_USERNAME) : '';
+            $this->options['last_username'] = $session ? $session->get(SecurityRequestAttributes::LAST_USERNAME) : '';
         }
 
         return $this->options['last_username'];
@@ -72,13 +72,13 @@ class SignInProvider
 
             // get the error if any (works with forward and redirect -- see below)
             $request = $this->requestStack->getCurrentRequest();
-            if ($request->attributes->has(Security::AUTHENTICATION_ERROR)) {
-                $error = $request->attributes->get(Security::AUTHENTICATION_ERROR);
+            if ($request->attributes->has(SecurityRequestAttributes::AUTHENTICATION_ERROR)) {
+                $error = $request->attributes->get(SecurityRequestAttributes::AUTHENTICATION_ERROR);
             } else {
                 $session = $request->hasSession() ? $request->getSession() : null;
-                if (null !== $session && $session->has(Security::AUTHENTICATION_ERROR)) {
-                    $error = $session->get(Security::AUTHENTICATION_ERROR);
-                    $session->remove(Security::AUTHENTICATION_ERROR);
+                if (null !== $session && $session->has(SecurityRequestAttributes::AUTHENTICATION_ERROR)) {
+                    $error = $session->get(SecurityRequestAttributes::AUTHENTICATION_ERROR);
+                    $session->remove(SecurityRequestAttributes::AUTHENTICATION_ERROR);
                 }
             }
 

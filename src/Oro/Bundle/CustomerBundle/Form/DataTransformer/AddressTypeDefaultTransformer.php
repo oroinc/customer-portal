@@ -20,7 +20,7 @@ class AddressTypeDefaultTransformer implements DataTransformerInterface
     }
 
     #[\Override]
-    public function transform($elements)
+    public function transform($elements): mixed
     {
         if (null === $elements) {
             return [];
@@ -36,9 +36,9 @@ class AddressTypeDefaultTransformer implements DataTransformerInterface
     }
 
     #[\Override]
-    public function reverseTransform($value)
+    public function reverseTransform($value): mixed
     {
-        if (!isset($value['default']) || $value['default'] === null) {
+        if (empty($value['default']) || null === $value['default']) {
             return [];
         }
 

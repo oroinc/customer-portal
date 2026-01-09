@@ -22,7 +22,7 @@ class PageTemplateEntityFieldFallbackValueTransformer implements DataTransformer
     }
 
     #[\Override]
-    public function transform($value)
+    public function transform($value): mixed
     {
         if (empty($value)) {
             return null;
@@ -37,7 +37,7 @@ class PageTemplateEntityFieldFallbackValueTransformer implements DataTransformer
     }
 
     #[\Override]
-    public function reverseTransform($value)
+    public function reverseTransform($value): mixed
     {
         if (empty($value)) {
             return null;

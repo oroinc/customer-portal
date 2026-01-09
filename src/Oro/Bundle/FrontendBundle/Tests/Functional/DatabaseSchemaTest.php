@@ -30,8 +30,8 @@ class DatabaseSchemaTest extends WebTestCase
                 continue;
             }
 
-            $schemaManager = $connection->getSchemaManager();
-            $this->assertSchema($schemaManager->createSchema());
+            $schemaManager = $connection->createSchemaManager();
+            $this->assertSchema($schemaManager->introspectSchema());
             $testedConnections[] = $connectionIdentifier;
         }
     }

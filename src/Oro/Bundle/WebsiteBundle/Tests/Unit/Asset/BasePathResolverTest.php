@@ -5,9 +5,9 @@ namespace Oro\Bundle\WebsiteBundle\Tests\Unit\Asset;
 use Oro\Bundle\WebsiteBundle\Asset\BasePathResolver;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\ServerBag;
 
 class BasePathResolverTest extends TestCase
 {
@@ -32,8 +32,14 @@ class BasePathResolverTest extends TestCase
 
     public function testResolveBasePath(): void
     {
+        $serverBag = $this->createMock(ServerBag::class);
+        $serverBag->expects(self::once())
+            ->method('get')
+            ->with('WEBSITE_PATH')
+            ->willReturn('/path');
+
         $request = $this->createMock(Request::class);
-        $request->server = new ParameterBag(['WEBSITE_PATH' => '/path']);
+        $request->server = $serverBag;
 
         $this->requestStack->expects(self::once())
             ->method('getMainRequest')
@@ -44,8 +50,14 @@ class BasePathResolverTest extends TestCase
 
     public function testGetBasePathNoConfiguration(): void
     {
+        $serverBag = $this->createMock(ServerBag::class);
+        $serverBag->expects(self::once())
+            ->method('get')
+            ->with('WEBSITE_PATH')
+            ->willReturn(null);
+
         $request = $this->createMock(Request::class);
-        $request->server = new ParameterBag([]);
+        $request->server = $serverBag;
 
         $this->requestStack->expects(self::once())
             ->method('getMainRequest')

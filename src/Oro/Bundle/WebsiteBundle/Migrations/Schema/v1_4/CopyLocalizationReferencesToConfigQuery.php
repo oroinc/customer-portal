@@ -74,14 +74,14 @@ class CopyLocalizationReferencesToConfigQuery extends ParametrizedMigrationQuery
                 )'
             );
 
-            $stmt->bindValue(':entityName', 'website', 'string');
-            $stmt->bindValue(':fieldName', Configuration::ENABLED_LOCALIZATIONS, 'string');
-            $stmt->bindValue(':section', 'oro_locale', 'string');
-            $stmt->bindValue(':objectValue', null, 'object');
-            $stmt->bindValue(':type', 'array', 'string');
+            $stmt->bindValue('entityName', 'website', 'string');
+            $stmt->bindValue('fieldName', Configuration::ENABLED_LOCALIZATIONS, 'string');
+            $stmt->bindValue('section', 'oro_locale', 'string');
+            $stmt->bindValue('objectValue', null, 'object');
+            $stmt->bindValue('type', 'array', 'string');
             $now = new \DateTime();
-            $stmt->bindValue(':createdAt', $now, 'datetime');
-            $stmt->bindValue(':updatedAt', $now, 'datetime');
+            $stmt->bindValue('createdAt', $now, 'datetime');
+            $stmt->bindValue('updatedAt', $now, 'datetime');
 
             $this->enabledLocalizationsStatement = $stmt;
         }
@@ -116,15 +116,15 @@ class CopyLocalizationReferencesToConfigQuery extends ParametrizedMigrationQuery
                 )'
             );
 
-            $stmt->bindValue(':entityName', 'website', 'string');
-            $stmt->bindValue(':fieldName', Configuration::DEFAULT_LOCALIZATION, 'string');
-            $stmt->bindValue(':section', 'oro_locale', 'string');
-            $stmt->bindValue(':objectValue', null, 'object');
-            $stmt->bindValue(':arrayValue', null, 'array');
-            $stmt->bindValue(':type', 'scalar', 'string');
+            $stmt->bindValue('entityName', 'website', 'string');
+            $stmt->bindValue('fieldName', Configuration::DEFAULT_LOCALIZATION, 'string');
+            $stmt->bindValue('section', 'oro_locale', 'string');
+            $stmt->bindValue('objectValue', null, 'object');
+            $stmt->bindValue('arrayValue', null, 'array');
+            $stmt->bindValue('type', 'scalar', 'string');
             $now = new \DateTime();
-            $stmt->bindValue(':createdAt', $now, 'datetime');
-            $stmt->bindValue(':updatedAt', $now, 'datetime');
+            $stmt->bindValue('createdAt', $now, 'datetime');
+            $stmt->bindValue('updatedAt', $now, 'datetime');
             $this->defaultLocalizationStatement = $stmt;
         }
 

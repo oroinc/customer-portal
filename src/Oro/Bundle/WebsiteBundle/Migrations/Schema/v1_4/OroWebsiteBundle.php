@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\WebsiteBundle\Migrations\Schema\v1_4;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Doctrine\DBAL\Schema\Comparator;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\SchemaException;
@@ -82,7 +82,7 @@ class OroWebsiteBundle implements
             )
         );
 
-        if ($this->platform instanceof MySqlPlatform) {
+        if ($this->platform instanceof MySQLPlatform) {
             $queries->addQuery(
                 new ParametrizedSqlMigrationQuery(
                     'UPDATE orob2b_website SET is_default = :is_default ORDER BY id ASC LIMIT 1',
@@ -122,7 +122,7 @@ class OroWebsiteBundle implements
     {
         $postSchema = clone $schema;
         $postSchema->getTable('orob2b_website')
-            ->changeColumn('is_default', ['notnull' => true]);
+            ->modifyColumn('is_default', ['notnull' => true]);
         $postQueries = $this->getSchemaDiff($schema, $postSchema);
 
         foreach ($postQueries as $query) {

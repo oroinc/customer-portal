@@ -103,6 +103,21 @@ services:
             - '@router'
         tags: ['oro_frontend.guest_access_urls_provider']
 
+    # Override Symfony's SerializerErrorRenderer wiring
+    # to keep HTML/Frontend renderer as a fallback instead of error_renderer.default
+    # (Which may resolve to CliErrorRenderer in non-web runtime).
+    # This restores the old behavior where storefront errors rendered via SerializerErrorRenderer still go
+    # through error_renderer.html / FrontendErrorRenderer.
+    error_handler.error_renderer.serializer:
+        class: Symfony\Component\ErrorHandler\ErrorRenderer\SerializerErrorRenderer
+        arguments:
+            - '@serializer'
+            - !service
+                factory: ['Symfony\Component\ErrorHandler\ErrorRenderer\SerializerErrorRenderer', 'getPreferredFormat']
+                arguments: ['@request_stack']
+            - '@error_renderer.html'
+            - '%kernel.debug%'
+
     oro_frontend.error_renderer.html:
         class: Oro\Bundle\FrontendBundle\ErrorRenderer\FrontendErrorRenderer
         decorates: error_renderer.html

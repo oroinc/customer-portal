@@ -83,7 +83,7 @@ class OroAccountBundle implements Migration
         $table = $schema->createTable('orob2b_windows_state');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('customer_user_id', 'integer', []);
-        $table->addColumn('data', Types::JSON_ARRAY, ['comment' => '(DC2Type:json_array)']);
+        $table->addColumn('data', Types::JSON, ['comment' => '(DC2Type:json)']);
         $table->addColumn('created_at', 'datetime', ['comment' => '(DC2Type:datetime)']);
         $table->addColumn('updated_at', 'datetime', ['comment' => '(DC2Type:datetime)']);
         $table->addIndex(['customer_user_id'], 'orob2b_windows_state_acu_idx', []);

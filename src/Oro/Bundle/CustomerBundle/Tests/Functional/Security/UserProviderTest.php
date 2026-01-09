@@ -47,10 +47,10 @@ class UserProviderTest extends WebTestCase
         $this->assertSame($originalId, $customerUser->getId());
         $this->assertSame($originalId, $loggedUser->getId());
 
-        $this->refreshUser($customerUser);
+        $refreshedUser = $this->refreshUser($customerUser);
 
-        $this->assertSame(LoadCustomerUserData::EMAIL, $loggedUser->getUserIdentifier(), 'email after refresh');
-        $this->assertSame($originalId, $loggedUser->getId());
+        $this->assertSame(LoadCustomerUserData::EMAIL, $refreshedUser->getUserIdentifier(), 'email after refresh');
+        $this->assertSame($originalId, $refreshedUser->getId());
     }
 
     public function testReloadUserWithNotManagedEntity()

@@ -22,7 +22,7 @@ class AddressExtension extends AbstractTypeExtension
     }
 
     #[\Override]
-    public function configureOptions(OptionsResolver $resolver)
+    public function configureOptions(OptionsResolver $resolver): void
     {
         if ($this->frontendHelper->isFrontendRequest()) {
             $resolver->setDefault('region_route', 'oro_api_frontend_country_get_regions');

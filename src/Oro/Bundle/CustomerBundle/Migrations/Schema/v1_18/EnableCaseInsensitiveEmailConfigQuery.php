@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Migrations\Schema\v1_18;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\MySQLPlatform;
 use Oro\Bundle\MigrationBundle\Migration\ParametrizedMigrationQuery;
 use Psr\Log\LoggerInterface;
 
@@ -21,7 +21,7 @@ class EnableCaseInsensitiveEmailConfigQuery extends ParametrizedMigrationQuery
     #[\Override]
     public function execute(LoggerInterface $logger)
     {
-        if (!$this->connection->getDatabasePlatform() instanceof MySqlPlatform) {
+        if (!$this->connection->getDatabasePlatform() instanceof MySQLPlatform) {
             return;
         }
 
@@ -61,17 +61,17 @@ class EnableCaseInsensitiveEmailConfigQuery extends ParametrizedMigrationQuery
             )'
         );
 
-        $stmt->bindValue(':entityName', 'app', 'string');
-        $stmt->bindValue(':fieldName', 'case_insensitive_email_addresses_enabled', 'string');
-        $stmt->bindValue(':section', 'oro_customer', 'string');
-        $stmt->bindValue(':textValue', 1, 'text');
-        $stmt->bindValue(':objectValue', null, 'object');
-        $stmt->bindValue(':arrayValue', null, 'array');
-        $stmt->bindValue(':type', 'scalar', 'string');
+        $stmt->bindValue('entityName', 'app', 'string');
+        $stmt->bindValue('fieldName', 'case_insensitive_email_addresses_enabled', 'string');
+        $stmt->bindValue('section', 'oro_customer', 'string');
+        $stmt->bindValue('textValue', 1, 'text');
+        $stmt->bindValue('objectValue', null, 'object');
+        $stmt->bindValue('arrayValue', null, 'array');
+        $stmt->bindValue('type', 'scalar', 'string');
 
         $now = new \DateTime();
-        $stmt->bindValue(':createdAt', $now, 'datetime');
-        $stmt->bindValue(':updatedAt', $now, 'datetime');
+        $stmt->bindValue('createdAt', $now, 'datetime');
+        $stmt->bindValue('updatedAt', $now, 'datetime');
 
         $stmt->executeQuery();
     }

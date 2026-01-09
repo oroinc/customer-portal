@@ -6,12 +6,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRole;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerUserCheckRoleValidator;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class CustomerUserCheckRoleValidatorTest extends ConstraintValidatorTestCase
 {
     #[\Override]
-    protected function createValidator()
+    protected function createValidator(): ConstraintValidatorInterface
     {
         return new CustomerUserCheckRoleValidator();
     }

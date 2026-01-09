@@ -33,12 +33,12 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
      */
     private const DEFAULT_CACHE_TTL = 86400;
 
-    private ManagerRegistry                    $doctrine;
-    private TokenStorageInterface              $tokenStorage;
+    private ManagerRegistry $doctrine;
+    private TokenStorageInterface $tokenStorage;
     private OwnershipMetadataProviderInterface $ownershipMetadataProvider;
-    private ?Customer                          $currentCustomer = null;
-    private MessageProducerInterface           $messageProducer;
-    private int                                $cacheTtl;
+    private ?Customer $currentCustomer = null;
+    private MessageProducerInterface $messageProducer;
+    private int $cacheTtl;
 
     public function __construct(
         ManagerRegistry $doctrine,
@@ -142,7 +142,7 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         $executableQuery = QueryUtil::getExecutableSql($query, $parsedQuery);
 
         return [
-            $connection->executeQuery($executableQuery),
+            $connection->executeQuery($executableQuery)->fetchAllAssociative(),
             array_flip($parsedQuery->getResultSetMapping()->scalarMappings),
         ];
     }

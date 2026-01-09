@@ -9,6 +9,7 @@ use Oro\Bundle\CustomerBundle\Validator\Constraints\CircularCustomerReferenceVal
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProviderInterface;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Component\Validator\ConstraintValidatorInterface;
 use Symfony\Component\Validator\Test\ConstraintValidatorTestCase;
 
 class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
@@ -23,7 +24,7 @@ class CircularCustomerReferenceValidatorTest extends ConstraintValidatorTestCase
     }
 
     #[\Override]
-    protected function createValidator()
+    protected function createValidator(): ConstraintValidatorInterface
     {
         $ownerTreeProvider = $this->createMock(OwnerTreeProviderInterface::class);
         $ownerTreeProvider->expects($this->any())

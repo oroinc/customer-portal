@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity\Repository;
 
+use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
@@ -111,7 +112,7 @@ class CustomerUserRoleRepository extends EntityRepository
                     $qb->expr()->eq('CustomerUserRole.organization', ':organization')
                 )
             );
-            $qb->setParameter('selfManaged', true, \PDO::PARAM_BOOL);
+            $qb->setParameter('selfManaged', true, ParameterType::BOOLEAN);
         } else {
             $qb->where(
                 $qb->expr()->andX(

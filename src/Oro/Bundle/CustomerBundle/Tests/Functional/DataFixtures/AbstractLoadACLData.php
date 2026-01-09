@@ -17,8 +17,8 @@ use Oro\Bundle\UserBundle\Entity\Role;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Migrations\Data\ORM\LoadRolesData;
 use Oro\Bundle\WorkflowBundle\Acl\Extension\WorkflowMaskBuilder;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Oro\Component\DependencyInjection\ContainerAwareInterface;
+use Oro\Component\DependencyInjection\ContainerAwareTrait;
 
 abstract class AbstractLoadACLData extends AbstractFixture implements
     ContainerAwareInterface,
@@ -233,9 +233,9 @@ abstract class AbstractLoadACLData extends AbstractFixture implements
                 continue;
             }
             $role = $manager->getRepository(CustomerUserRole::class)
-                ->findOneBy(['role' => CustomerUserRole::PREFIX_ROLE.$key]);
+                ->findOneBy(['role' => CustomerUserRole::PREFIX_ROLE . $key]);
             if (!$role) {
-                $role = new CustomerUserRole(CustomerUserRole::PREFIX_ROLE.$key);
+                $role = new CustomerUserRole(CustomerUserRole::PREFIX_ROLE . $key);
                 $role->setLabel($key)
                     ->setSelfManaged(true)
                     ->setOrganization($user->getOrganization());

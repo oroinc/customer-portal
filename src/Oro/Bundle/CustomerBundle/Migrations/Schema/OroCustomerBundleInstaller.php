@@ -876,7 +876,7 @@ class OroCustomerBundleInstaller implements
         $table = $schema->createTable('oro_cus_windows_state');
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('customer_user_id', 'integer');
-        $table->addColumn('data', Types::JSON_ARRAY, ['comment' => '(DC2Type:json_array)']);
+        $table->addColumn('data', Types::JSON, ['comment' => '(DC2Type:json)']);
         $table->addColumn('created_at', 'datetime', ['comment' => '(DC2Type:datetime)']);
         $table->addColumn('updated_at', 'datetime', ['comment' => '(DC2Type:datetime)']);
         $table->setPrimaryKey(['id']);
@@ -1083,7 +1083,7 @@ class OroCustomerBundleInstaller implements
             $schema->getTable('oro_customer_user'),
             ['customer_user_id'],
             ['id'],
-            ['onDelete' => 'SET NULL', 'unique' => true, 'nullable' => true]
+            ['onDelete' => 'SET NULL', 'unique' => true, 'notnull' => false]
         );
         $table->dropIndex('IDX_F7961166BBB3772B');
         $table->addUniqueIndex(['customer_user_id'], 'UNIQ_F7961166BBB3772B');

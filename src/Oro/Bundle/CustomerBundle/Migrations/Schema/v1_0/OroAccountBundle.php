@@ -258,7 +258,7 @@ class OroAccountBundle implements
             'simple_array',
             ['notnull' => false, 'comment' => '(DC2Type:simple_array)']
         );
-        $table->addColumn('old_jsonarray', 'json_array', ['notnull' => false]);
+        $table->addColumn('old_jsonarray', 'json', ['notnull' => false]);
         $table->addColumn('new_datetimetz', 'datetimetz', ['notnull' => false]);
         $table->addColumn('new_object', 'object', ['notnull' => false, 'comment' => '(DC2Type:object)']);
         $table->addColumn('new_array', 'array', ['notnull' => false, 'comment' => '(DC2Type:array)']);
@@ -267,7 +267,7 @@ class OroAccountBundle implements
             'simple_array',
             ['notnull' => false, 'comment' => '(DC2Type:simple_array)']
         );
-        $table->addColumn('new_jsonarray', 'json_array', ['notnull' => false]);
+        $table->addColumn('new_jsonarray', 'json', ['notnull' => false]);
         $table->setPrimaryKey(['id']);
     }
 

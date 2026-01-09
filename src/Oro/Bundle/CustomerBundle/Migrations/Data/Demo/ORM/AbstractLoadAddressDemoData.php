@@ -8,8 +8,8 @@ use Oro\Bundle\AddressBundle\Entity\Country;
 use Oro\Bundle\AddressBundle\Entity\Region;
 use Oro\Bundle\CustomerBundle\Entity\AbstractDefaultTypedAddress;
 use Oro\Bundle\MigrationBundle\Fixture\AbstractEntityReferenceFixture;
-use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
+use Oro\Component\DependencyInjection\ContainerAwareInterface;
+use Oro\Component\DependencyInjection\ContainerAwareTrait;
 
 /**
  * The base class for fixtures that load customer and customer user addresses.
