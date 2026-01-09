@@ -6,6 +6,13 @@ use Knp\Menu\ItemInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
+/**
+ * Evaluates menu item display conditions using expression language.
+ *
+ * This evaluator uses Symfony's ExpressionLanguage to evaluate condition expressions configured
+ * on menu items. It handles evaluation errors gracefully by logging them and returning the default
+ * policy (allow display) when conditions cannot be evaluated.
+ */
 class MenuConditionEvaluator implements ConditionEvaluatorInterface
 {
     public const CONDITION_KEY = 'condition';

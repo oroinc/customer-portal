@@ -6,6 +6,13 @@ use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
+/**
+ * Validator for the MenuUpdateExpression constraint.
+ *
+ * This validator checks that expression strings used in menu updates are syntactically valid
+ * by attempting to evaluate them with the expression language. It reports any evaluation errors
+ * as constraint violations.
+ */
 class MenuUpdateExpressionValidator extends ConstraintValidator
 {
     /** @var ExpressionLanguage */

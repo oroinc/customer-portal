@@ -8,6 +8,13 @@ use Oro\Component\Action\Exception\InvalidParameterException;
 use Oro\Component\ConfigExpression\ContextAccessor;
 use Symfony\Component\PropertyAccess\PropertyPathInterface;
 
+/**
+ * Handles the action of assigning the current website to a context attribute.
+ *
+ * This action retrieves the currently active website from the {@see WebsiteManager} and assigns it
+ * to a specified attribute in the action context. It is typically used in workflow definitions
+ * and action chains to make the current website available for subsequent operations.
+ */
 class AssignCurrentWebsite extends AbstractAction
 {
     /**

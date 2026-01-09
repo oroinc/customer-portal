@@ -6,6 +6,13 @@ use Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Provides a form type for selecting a customer user with inline creation capability.
+ *
+ * This form type extends OroEntitySelectOrCreateInlineType to allow users to select an existing
+ * customer user or create a new one directly from the form. It includes autocomplete functionality
+ * with a custom component, a custom CSS class for styling, and a placeholder for improved UX.
+ */
 class CustomerUserSelectType extends AbstractType
 {
     public const NAME = 'oro_customer_customer_user_select';

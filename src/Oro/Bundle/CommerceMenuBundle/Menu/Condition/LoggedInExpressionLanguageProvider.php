@@ -6,6 +6,12 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
+/**
+ * Provides the is_logged_in() function for menu condition expression language.
+ *
+ * This expression language provider registers a function that allows menu conditions to check
+ * whether the current user is authenticated, enabling dynamic menu visibility based on login status.
+ */
 class LoggedInExpressionLanguageProvider implements ExpressionFunctionProviderInterface
 {
     /** @var TokenAccessorInterface */

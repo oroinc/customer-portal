@@ -6,6 +6,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\WebsiteSearchBundle\Placeholder\AbstractPlaceholder;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+/**
+ * Provides the CUSTOMER_ID placeholder for website search queries.
+ *
+ * This placeholder resolves to the ID of the customer associated with the currently
+ * authenticated customer user. It returns null if the user is not authenticated or
+ * if the customer user is not associated with a customer.
+ */
 class CustomerIdPlaceholder extends AbstractPlaceholder
 {
     public const NAME = 'CUSTOMER_ID';

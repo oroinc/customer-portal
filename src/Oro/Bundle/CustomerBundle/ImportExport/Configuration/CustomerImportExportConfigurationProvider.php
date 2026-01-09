@@ -7,6 +7,13 @@ use Oro\Bundle\ImportExportBundle\Configuration\ImportExportConfiguration;
 use Oro\Bundle\ImportExportBundle\Configuration\ImportExportConfigurationInterface;
 use Oro\Bundle\ImportExportBundle\Configuration\ImportExportConfigurationProviderInterface;
 
+/**
+ * Provides import/export configuration for customer entities.
+ *
+ * This provider configures the import and export processors for customer entities,
+ * specifying the entity class and the processor aliases used for handling customer
+ * data during import, export, and template generation operations.
+ */
 class CustomerImportExportConfigurationProvider implements ImportExportConfigurationProviderInterface
 {
     #[\Override]

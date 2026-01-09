@@ -7,6 +7,13 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Provides a textarea form type for editing rules with syntax highlighting and validation.
+ *
+ * This form type extends the standard textarea to provide rule editor functionality with
+ * configurable options for syntax highlighting, validation, and editor behavior. It uses
+ * the RuleEditorOptionsConfigurator to apply consistent rule editor settings across the form.
+ */
 class RuleEditorTextareaType extends AbstractType
 {
     public const NAME = 'oro_frontend_rule_editor';

@@ -10,6 +10,14 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 
+/**
+ * Renders ACL access level as a text field with role permission translation prefix.
+ *
+ * This form type extends the standard TextType to display ACL access levels in a read-only
+ * format with additional metadata about the privilege identity and translated access level name.
+ * It is primarily used in role permission management interfaces to show the current access level
+ * for a specific privilege.
+ */
 class CustomerAclAccessLevelTextType extends AbstractType
 {
     public const NAME = 'oro_customer_acl_access_level_text';

@@ -4,6 +4,12 @@ namespace Oro\Bundle\CustomerBundle\Datagrid\Extension;
 
 use Oro\Bundle\DataGridBundle\Extension\GridViews\GridViewsExtension as BaseGridViewsExtension;
 
+/**
+ * Frontend-specific grid views extension that applies customer-specific permissions.
+ *
+ * This extension extends the base grid views functionality to enforce frontend-specific
+ * permissions for viewing, creating, editing, deleting, and sharing grid views in the customer portal.
+ */
 class GridViewsExtension extends BaseGridViewsExtension
 {
     #[\Override]

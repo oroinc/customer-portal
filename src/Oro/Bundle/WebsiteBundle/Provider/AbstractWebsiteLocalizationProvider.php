@@ -10,6 +10,14 @@ use Oro\Bundle\LocaleBundle\Manager\LocalizationManager;
 use Oro\Bundle\WebsiteBundle\Entity\Repository\WebsiteRepository;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
+/**
+ * Provides common functionality for retrieving website-specific localizations.
+ *
+ * This base class implements the core logic for fetching localizations associated with websites,
+ * including fallback to default website and integration with system configuration.
+ * Subclasses must implement the getLocalizations method to define specific localization retrieval strategies
+ * based on different business rules or contexts.
+ */
 abstract class AbstractWebsiteLocalizationProvider
 {
     /** @var ConfigManager */

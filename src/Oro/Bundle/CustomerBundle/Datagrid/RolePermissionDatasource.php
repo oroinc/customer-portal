@@ -10,6 +10,12 @@ use Oro\Bundle\UserBundle\Form\Handler\AclRoleHandler;
 use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Datasource for customer user role permissions that uses context-aware translation prefixes.
+ *
+ * This datasource extends the base role permission datasource to use the appropriate translation
+ * prefix for role access level labels based on whether the current user is a backend or frontend user.
+ */
 class RolePermissionDatasource extends BaseRolePermissionDatasource
 {
     /** @var RoleTranslationPrefixResolver */

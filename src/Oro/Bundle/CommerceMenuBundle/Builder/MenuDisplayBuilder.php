@@ -6,6 +6,13 @@ use Knp\Menu\ItemInterface;
 use Oro\Bundle\CommerceMenuBundle\Menu\ConditionEvaluator\ConditionEvaluatorInterface;
 use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
 
+/**
+ * Builds menu items with condition evaluation for display visibility.
+ *
+ * This menu builder applies condition evaluation to menu items recursively, determining
+ * whether each item should be displayed based on configured conditions. It respects existing
+ * display settings and only evaluates conditions for items that are not explicitly hidden.
+ */
 class MenuDisplayBuilder implements BuilderInterface
 {
     /**

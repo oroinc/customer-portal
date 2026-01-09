@@ -8,6 +8,13 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Builds a form for creating and editing customer groups.
+ *
+ * This form type provides fields for managing customer group properties including the group name
+ * and the ability to append or remove customers from the group. It uses EntityIdentifierType for
+ * handling customer associations and is configured with a specific data class for the customer group entity.
+ */
 class CustomerGroupType extends AbstractType
 {
     public const NAME = 'oro_customer_group_type';

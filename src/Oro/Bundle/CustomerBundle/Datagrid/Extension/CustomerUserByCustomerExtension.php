@@ -8,6 +8,13 @@ use Oro\Bundle\DataGridBundle\Datasource\Orm\OrmDatasource;
 use Oro\Bundle\DataGridBundle\Extension\AbstractExtension;
 use Symfony\Component\HttpFoundation\RequestStack;
 
+/**
+ * Datagrid extension that filters customer users by a specific customer.
+ *
+ * This extension applies a filter to the customer user selection grid to show only users
+ * belonging to a specific customer, identified by the customer_id request parameter.
+ * It ensures that the filter is applied only once per request.
+ */
 class CustomerUserByCustomerExtension extends AbstractExtension
 {
     public const SUPPORTED_GRID = 'customer-customer-user-select-grid';

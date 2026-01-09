@@ -8,6 +8,13 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Provides a form type for selecting customer user roles with predefined/customizable distinction.
+ *
+ * This form type extends EntityType to allow selection of multiple customer user roles with
+ * expanded checkboxes. It displays role labels with a type indicator (predefined or customizable)
+ * to help users distinguish between system-defined and custom roles.
+ */
 class CustomerUserRoleSelectType extends AbstractType
 {
     public const NAME = 'oro_customer_customer_user_role_select';

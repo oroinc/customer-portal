@@ -7,6 +7,13 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\MappingException;
 use Oro\Bundle\FrontendBundle\CacheWarmer\ClassMigration;
 
+/**
+ * Handles Doctrine ORM class metadata loading events and applies entity class migrations.
+ *
+ * This listener intercepts the LoadClassMetadata event to validate and update association mappings
+ * when entity classes have been migrated. It uses the ClassMigration service to replace old
+ * entity class names with their new equivalents in the ORM mapping configuration.
+ */
 class LoadClassMetadataEventListener
 {
     /**

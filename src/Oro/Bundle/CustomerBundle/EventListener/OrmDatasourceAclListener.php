@@ -11,6 +11,12 @@ use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\UserBundle\Entity\User;
 
+/**
+ * Listener that optimizes ACL checks for ORM datagrids in the frontend.
+ *
+ * This listener analyzes ORM queries before execution and skips ACL checks when the query
+ * only references entities without ownership metadata, improving performance for frontend datagrids.
+ */
 class OrmDatasourceAclListener
 {
     /** @var TokenAccessorInterface */

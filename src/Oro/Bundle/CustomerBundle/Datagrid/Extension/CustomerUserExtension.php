@@ -7,6 +7,12 @@ use Oro\Bundle\DataGridBundle\Datagrid\Common\DatagridConfiguration;
 use Oro\Bundle\DataGridBundle\Extension\AbstractExtension;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
+/**
+ * Datagrid extension that configures frontend datagrid routing for customer users.
+ *
+ * This extension applies frontend-specific configuration to datagrids when accessed by
+ * customer users or anonymous users, setting the appropriate route for datagrid operations.
+ */
 class CustomerUserExtension extends AbstractExtension
 {
     public const ROUTE = 'oro_frontend_datagrid_index';
