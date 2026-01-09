@@ -46,6 +46,7 @@ security:
             pattern:                        ^/
             provider:                       commerce_customer_user
             context:                        customer_identity
+            entry_point:                    organization_form_login
             organization-form-login:
                 enable_csrf:                true
                 check_path:                 oro_customer_customer_user_security_check
