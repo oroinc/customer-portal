@@ -35,7 +35,8 @@ class OroEntitySelectOrCreateInlineExtension extends AbstractTypeExtension
     public function buildView(FormView $view, FormInterface $form, array $options): void
     {
         // Search queries must be routed to frontend instead of backend when called from frontend
-        if ($this->frontendHelper->isFrontendRequest()
+        if (
+            $this->frontendHelper->isFrontendRequest()
             && isset($view->vars['configs']['route_name'])
             && $view->vars['configs']['route_name'] === 'oro_form_autocomplete_search'
         ) {

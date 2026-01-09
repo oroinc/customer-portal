@@ -16,7 +16,7 @@ class RouteCollectionListener
 
     private array $excludingOptions = ['frontend'];
 
-    public function __construct(string  $prefix)
+    public function __construct(string $prefix)
     {
         $this->prefix = trim(trim($prefix), '/');
     }

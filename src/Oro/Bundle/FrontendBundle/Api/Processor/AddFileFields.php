@@ -70,7 +70,8 @@ class AddFileFields implements ProcessorInterface
             return;
         }
 
-        if ($skipNotConfiguredCustomFields
+        if (
+            $skipNotConfiguredCustomFields
             && !$definition->hasField($fieldName)
             && $this->entityFieldFilteringHelper->isCustomField($entityClass, $fieldName)
         ) {

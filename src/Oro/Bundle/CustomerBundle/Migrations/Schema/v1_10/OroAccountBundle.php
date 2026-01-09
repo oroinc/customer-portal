@@ -304,7 +304,8 @@ class OroAccountBundle implements
     private function renameCustomerUserRole(Schema $schema, QueryBag $queries)
     {
         $configManager = $this->container->get('oro_entity_config.config_manager');
-        if ($schema->hasTable('oro_rel_c3990ba69df6f4d830531c')
+        if (
+            $schema->hasTable('oro_rel_c3990ba69df6f4d830531c')
             && !$schema->getTable('oro_note')->hasColumn('account_user_role_604160ea_id')
         ) {
             $this->migrateConfig(
@@ -392,7 +393,8 @@ class OroAccountBundle implements
                 }
             }
         }
-        if ($schema->hasTable('oro_rel_6f8f552a9df6f4d81e2432') && $schema->getTable('oro_rel_6f8f552a9df6f4d81e2432')
+        if (
+            $schema->hasTable('oro_rel_6f8f552a9df6f4d81e2432') && $schema->getTable('oro_rel_6f8f552a9df6f4d81e2432')
                 ->hasColumn('accountuserrole_id')
         ) {
             $table = $schema->getTable('oro_rel_6f8f552a9df6f4d81e2432');
@@ -865,7 +867,8 @@ class OroAccountBundle implements
             );
         }
 
-        if ($schema->hasTable('oro_rel_46a29d19a6adb604aeb863') && $schema->getTable('oro_rel_46a29d19a6adb604aeb863')
+        if (
+            $schema->hasTable('oro_rel_46a29d19a6adb604aeb863') && $schema->getTable('oro_rel_46a29d19a6adb604aeb863')
                 ->hasColumn('accountuser_id')
         ) {
             $table = $schema->getTable('oro_rel_46a29d19a6adb604aeb863');
@@ -873,7 +876,8 @@ class OroAccountBundle implements
             $table->removeForeignKey($fk);
             $extension->renameColumn($schema, $queries, $table, 'accountuser_id', 'customeruser_id');
         }
-        if ($schema->hasTable('oro_rel_c3990ba6a6adb604193652') && $schema->getTable('oro_rel_c3990ba6a6adb604193652')
+        if (
+            $schema->hasTable('oro_rel_c3990ba6a6adb604193652') && $schema->getTable('oro_rel_c3990ba6a6adb604193652')
             ->hasColumn('accountuser_id')
         ) {
             $table = $schema->getTable('oro_rel_c3990ba6a6adb604193652');

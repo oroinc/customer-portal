@@ -205,7 +205,8 @@ class CustomerUserDoctrineAclCacheListener
             $changeSet = $uow->getEntityChangeSet($entity);
             foreach ($fields as $fieldName) {
                 if (\array_key_exists($fieldName, $changeSet)) {
-                    if ($supportedClasses[$entityClass][$fieldName] === true
+                    if (
+                        $supportedClasses[$entityClass][$fieldName] === true
                         && (bool)$changeSet[$fieldName][0] === (bool)$changeSet[$fieldName][1]
                     ) {
                         continue;

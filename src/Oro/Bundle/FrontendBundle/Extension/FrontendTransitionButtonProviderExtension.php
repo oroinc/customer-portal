@@ -36,7 +36,8 @@ class FrontendTransitionButtonProviderExtension extends TransitionButtonProvider
      */
     protected function findByRelatedEntity(Workflow $workflow, ButtonSearchContext $searchContext)
     {
-        if ($workflow->getDefinition()->getRelatedEntity() === $searchContext->getEntityClass() &&
+        if (
+            $workflow->getDefinition()->getRelatedEntity() === $searchContext->getEntityClass() &&
             !$searchContext->getDatagrid()
         ) {
             return $workflow->getTransitionManager()->getTransitions()->toArray();

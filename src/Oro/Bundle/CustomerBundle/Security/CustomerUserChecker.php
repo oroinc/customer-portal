@@ -23,7 +23,8 @@ class CustomerUserChecker implements UserCheckerInterface
     #[\Override]
     public function checkPreAuth(UserInterface $user): void
     {
-        if ($user instanceof CustomerUser
+        if (
+            $user instanceof CustomerUser
             && $user->getAuthStatus()
             && $user->getAuthStatus()->getInternalId() !== CustomerUserManager::STATUS_ACTIVE
         ) {

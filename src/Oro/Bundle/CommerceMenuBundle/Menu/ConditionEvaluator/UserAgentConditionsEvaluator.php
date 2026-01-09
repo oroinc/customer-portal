@@ -69,11 +69,11 @@ class UserAgentConditionsEvaluator implements ConditionEvaluatorInterface
             case MenuUserAgentCondition::OPERATION_DOES_NOT_CONTAIN:
                 return (!str_contains($userAgent, $value));
             case MenuUserAgentCondition::OPERATION_MATCHES:
-                return (preg_match('#'.str_replace('#', '\#', $value).'#', $userAgent) !== 0);
+                return (preg_match('#' . str_replace('#', '\#', $value) . '#', $userAgent) !== 0);
             case MenuUserAgentCondition::OPERATION_DOES_NOT_MATCHES:
-                return !preg_match('#'.str_replace('#', '\#', $value).'#', $userAgent);
+                return !preg_match('#' . str_replace('#', '\#', $value) . '#', $userAgent);
             default:
-                throw new \Exception('Unknown operation '. $operation);
+                throw new \Exception('Unknown operation ' . $operation);
         }
     }
 }

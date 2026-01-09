@@ -62,8 +62,10 @@ class CircularCustomerReferenceValidator extends ConstraintValidator
         }
 
         foreach ($children as $child) {
-            if ($child->getId() === $parentCustomer->getId()
-                || ($value->getId() && $this->isAncestor($child, $value))) {
+            if (
+                $child->getId() === $parentCustomer->getId()
+                || ($value->getId() && $this->isAncestor($child, $value))
+            ) {
                 $this->context->buildViolation($constraint->messageCircularChild)
                     ->atPath('children')
                     ->setParameter('{{ childName }}', $child->getName())

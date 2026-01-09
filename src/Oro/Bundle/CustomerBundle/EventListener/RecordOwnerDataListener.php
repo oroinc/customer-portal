@@ -65,7 +65,8 @@ class RecordOwnerDataListener
             if ($customerFieldName && null === $this->propertyAccessor->getValue($entity, $customerFieldName)) {
                 $this->propertyAccessor->setValue($entity, $customerFieldName, $user->getCustomer());
             }
-        } elseif (self::OWNER_TYPE_CUSTOMER === $ownerType
+        } elseif (
+            self::OWNER_TYPE_CUSTOMER === $ownerType
             && null === $this->propertyAccessor->getValue($entity, $ownerFieldName)
         ) {
             $this->propertyAccessor->setValue($entity, $ownerFieldName, $user->getCustomer());

@@ -34,7 +34,8 @@ class FrontendLoginListenerDecorator
 
     public function onLogin(InteractiveLoginEvent $event)
     {
-        if ($this->frontendHelper->isFrontendUrl($event->getRequest()->getPathInfo())
+        if (
+            $this->frontendHelper->isFrontendUrl($event->getRequest()->getPathInfo())
             && $this->kernel->getEnvironment() === 'prod'
         ) {
             return;

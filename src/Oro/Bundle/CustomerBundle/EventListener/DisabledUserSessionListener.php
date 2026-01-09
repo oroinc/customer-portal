@@ -25,7 +25,8 @@ class DisabledUserSessionListener
 
     public function onKernelException(ExceptionEvent $event): void
     {
-        if ($event->getThrowable() instanceof LockedException
+        if (
+            $event->getThrowable() instanceof LockedException
             && $this->frontendHelper->isFrontendUrl($event->getRequest()->getPathInfo())
         ) {
             $event->setResponse(new RedirectResponse($this->logoutUrlGenerator->getLogoutUrl()));

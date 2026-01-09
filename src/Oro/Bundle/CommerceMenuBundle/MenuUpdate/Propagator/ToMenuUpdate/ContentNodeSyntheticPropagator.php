@@ -38,8 +38,10 @@ class ContentNodeSyntheticPropagator implements MenuItemToMenuUpdatePropagatorIn
             return;
         }
 
-        if ($menuItem->getExtra(MenuUpdateInterface::IS_SYNTHETIC) === true
-            || $menuItem->getExtra(ContentNodeTreeBuilder::IS_TREE_ITEM) === true) {
+        if (
+            $menuItem->getExtra(MenuUpdateInterface::IS_SYNTHETIC) === true
+            || $menuItem->getExtra(ContentNodeTreeBuilder::IS_TREE_ITEM) === true
+        ) {
             /** @var ContentNode $contentNode */
             $contentNode = $menuItem->getExtra(MenuUpdate::TARGET_CONTENT_NODE);
             if ($contentNode instanceof ContentNode) {

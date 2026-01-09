@@ -127,7 +127,8 @@ class SendChangedAddressTypeToMessageQueueListener implements OptionalListenerIn
 
         /** @var PersistentCollection $collection */
         foreach ($uow->getScheduledCollectionUpdates() as $collection) {
-            if ($collection->getOwner() instanceof $this->addressClass
+            if (
+                $collection->getOwner() instanceof $this->addressClass
                 && self::ADDRESS_TYPE_FIELD === $collection->getMapping()['fieldName']
             ) {
                 /** @var AddressType $entity */

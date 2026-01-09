@@ -35,7 +35,8 @@ class MenuListFrontendItemNavigationListener
         }
 
         $menuListFrontendItem = MenuUpdateUtils::findMenuItem($event->getMenu(), 'menu_list_frontend');
-        if (null !== $menuListFrontendItem
+        if (
+            null !== $menuListFrontendItem
             && (
                 !$this->authorizationChecker->isGranted('oro_config_system')
                 || !$this->authorizationChecker->isGranted('oro_navigation_manage_menus')

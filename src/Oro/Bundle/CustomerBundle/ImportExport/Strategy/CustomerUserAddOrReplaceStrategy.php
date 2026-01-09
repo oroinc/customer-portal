@@ -250,7 +250,8 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
      */
     private function handleCaseInsensitiveEmail(string $entityClass, $identityValues): ?array
     {
-        if (is_a($entityClass, CustomerUser::class, true) &&
+        if (
+            is_a($entityClass, CustomerUser::class, true) &&
             $this->isCaseInsensitiveEmailEnabled() &&
             isset($identityValues['email'])
         ) {
@@ -288,7 +289,8 @@ class CustomerUserAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 
         // Rise an error, if the email already processed for existing entity.
         // Do not rise an error if same email in batch used by several new records
-        if (array_key_exists($email, $processedEntities)
+        if (
+            array_key_exists($email, $processedEntities)
             && ($entity->getId() || $processedEntities[$email])
             && $processedEntities[$email] !== $entity->getId()
         ) {

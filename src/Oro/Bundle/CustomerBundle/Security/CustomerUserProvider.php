@@ -146,7 +146,8 @@ class CustomerUserProvider
             return false;
         }
 
-        if ($this->isGrantedViewLocal($class) ||
+        if (
+            $this->isGrantedViewLocal($class) ||
             $this->isGrantedViewDeep($class) ||
             $this->isGrantedViewSystem($class)
         ) {

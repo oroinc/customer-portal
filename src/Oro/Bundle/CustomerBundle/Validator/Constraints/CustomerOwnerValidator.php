@@ -54,7 +54,8 @@ class CustomerOwnerValidator extends ConstraintValidator
             return;
         }
 
-        if ($customerUserCustomer !== $customer
+        if (
+            $customerUserCustomer !== $customer
             && $this->authorizationChecker->isGranted(BasicPermission::VIEW, $customer)
             && $this->authorizationChecker->isGranted(BasicPermission::VIEW, $customerUser)
         ) {

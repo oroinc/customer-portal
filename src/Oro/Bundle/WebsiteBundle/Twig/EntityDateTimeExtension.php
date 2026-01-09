@@ -120,7 +120,8 @@ class EntityDateTimeExtension extends AbstractExtension implements ServiceSubscr
     private function getEntityTimezone($entity)
     {
         $organization = null;
-        if (($entity instanceof WebsiteAwareInterface || $this->getWebsiteAwareEntityHelper()->isWebsiteAware($entity))
+        if (
+            ($entity instanceof WebsiteAwareInterface || $this->getWebsiteAwareEntityHelper()->isWebsiteAware($entity))
             && $entity->getWebsite()
         ) {
             $organization = $entity->getWebsite()->getOrganization();

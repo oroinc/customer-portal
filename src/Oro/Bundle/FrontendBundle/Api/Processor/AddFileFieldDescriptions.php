@@ -80,7 +80,8 @@ class AddFileFieldDescriptions implements ProcessorInterface
                     $fieldDocumentationTemplate,
                     $definition->findFieldByPath($fieldName, true)?->getDescription()
                 );
-                if (false === $fieldDefinition->getFormOption('mapped')
+                if (
+                    false === $fieldDefinition->getFormOption('mapped')
                     && (ApiAction::CREATE === $targetAction || ApiAction::UPDATE === $targetAction)
                 ) {
                     $fieldDocumentation = FieldDescriptionUtil::addReadOnlyFieldNote($fieldDocumentation);

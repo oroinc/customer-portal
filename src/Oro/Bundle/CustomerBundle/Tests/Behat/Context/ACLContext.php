@@ -21,7 +21,7 @@ class ACLContext extends BaseACLContext
     private function isUserRoleEditPage()
     {
         return (bool) preg_match(
-            '/\\'.$this->getAppContainer()->getParameter('web_backend_prefix').'\/user\/role\/update\//',
+            '/\\' . $this->getAppContainer()->getParameter('web_backend_prefix') . '\/user\/role\/update\//',
             $this->getSession()->getCurrentUrl()
         );
     }
@@ -32,7 +32,7 @@ class ACLContext extends BaseACLContext
     private function isUserRoleCreatePage()
     {
         return (bool) preg_match(
-            '/\\'.$this->getAppContainer()->getParameter('web_backend_prefix').'\/user\/role\/create/',
+            '/\\' . $this->getAppContainer()->getParameter('web_backend_prefix') . '\/user\/role\/create/',
             $this->getSession()->getCurrentUrl()
         );
     }

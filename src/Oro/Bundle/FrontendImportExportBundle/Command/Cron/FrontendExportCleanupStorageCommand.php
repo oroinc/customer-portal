@@ -46,7 +46,7 @@ class FrontendExportCleanupStorageCommand extends CleanupStorageCommandAbstract
                 'interval',
                 'i',
                 InputOption::VALUE_OPTIONAL,
-                'Time interval (days) to keep the storefront import and export files.'.
+                'Time interval (days) to keep the storefront import and export files.' .
                 ' Will be removed files older than today-interval.',
                 static::DEFAULT_PERIOD
             )

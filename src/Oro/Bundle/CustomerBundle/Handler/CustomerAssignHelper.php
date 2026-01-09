@@ -88,7 +88,8 @@ class CustomerAssignHelper
         $result = $this->priorityRelations;
         $allShortMetadata = $this->doctrineHelper->getAllShortMetadata($em);
         foreach ($allShortMetadata as $shortMetadata) {
-            if (!$shortMetadata->isMappedSuperclass
+            if (
+                !$shortMetadata->isMappedSuperclass
                 && $shortMetadata->hasAssociations
                 && !\in_array($shortMetadata->name, $this->priorityRelations, true)
             ) {
@@ -105,7 +106,8 @@ class CustomerAssignHelper
     private function isAssociationShouldBeSkipped(string $className, array $association): bool
     {
         // skip association if it is in list of ignored relations
-        if (isset($this->ignoredRelations[$className])
+        if (
+            isset($this->ignoredRelations[$className])
             && \in_array($association['fieldName'], $this->ignoredRelations[$className], true)
         ) {
             return true;

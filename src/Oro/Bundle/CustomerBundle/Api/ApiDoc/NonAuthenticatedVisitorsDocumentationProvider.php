@@ -54,7 +54,8 @@ class NonAuthenticatedVisitorsDocumentationProvider implements DocumentationProv
                 $entityClass,
                 $requestType
             );
-            if ($entityType
+            if (
+                $entityType
                 && $this->resourcesProvider->isResourceEnabled(
                     $entityClass,
                     ApiAction::OPTIONS,

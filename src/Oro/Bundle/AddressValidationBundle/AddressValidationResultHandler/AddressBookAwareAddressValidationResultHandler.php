@@ -113,8 +113,10 @@ class AddressBookAwareAddressValidationResultHandler implements AddressValidatio
                 $this->addressCopier->copyToAddress($selectedAddress, $addressBookAddress);
 
                 $doFlush = true;
-            } elseif ($selectedAddress === $originalAddress &&
-                $this->authorizationChecker->isGranted(BasicPermission::EDIT, $addressBookAddress)) {
+            } elseif (
+                $selectedAddress === $originalAddress &&
+                $this->authorizationChecker->isGranted(BasicPermission::EDIT, $addressBookAddress)
+            ) {
                 $addressBookAddress->setValidatedAt(clone $selectedAddress->getValidatedAt());
 
                 $doFlush = true;

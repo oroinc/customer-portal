@@ -35,7 +35,8 @@ class SetDefaultWebsite implements ProcessorInterface
         /** @var CustomizeFormDataContext $context */
 
         $websiteFormField = $context->findFormField($this->websiteFieldName);
-        if (null === $websiteFormField
+        if (
+            null === $websiteFormField
             || !$websiteFormField->isSubmitted()
             || !$websiteFormField->getConfig()->getMapped()
         ) {

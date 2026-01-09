@@ -31,7 +31,8 @@ class CustomerDatagridListener
     {
         $config = $event->getConfig();
 
-        if ($config->isDatasourceSkipAclApply()
+        if (
+            $config->isDatasourceSkipAclApply()
             || !$config->isOrmDatasource()
             || !$this->getUser() instanceof CustomerUser
         ) {

@@ -32,7 +32,8 @@ class ChainResourceTypeResolver implements ResourceTypeResolverInterface
     public function resolveType(string $routeName, array $routeParameters, RequestType $requestType): ?string
     {
         foreach ($this->resolvers as [$resolverServiceId, $resolverRouteName, $resolverRequestTypeExpr]) {
-            if ((!$resolverRouteName || $resolverRouteName === $routeName)
+            if (
+                (!$resolverRouteName || $resolverRouteName === $routeName)
                 && (!$resolverRequestTypeExpr || $this->matcher->matchValue($resolverRequestTypeExpr, $requestType))
             ) {
                 /** @var ResourceTypeResolverInterface $resolver */

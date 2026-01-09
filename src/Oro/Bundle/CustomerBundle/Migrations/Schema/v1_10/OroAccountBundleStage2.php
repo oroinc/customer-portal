@@ -84,7 +84,8 @@ class OroAccountBundleStage2 implements
             ['onDelete' => 'CASCADE', 'onUpdate' => null]
         );
 
-        if ($schema->hasTable("oro_rel_6f8f552a9df6f4d81e2432") &&
+        if (
+            $schema->hasTable("oro_rel_6f8f552a9df6f4d81e2432") &&
             !$this->fkExists($schema->getTable("oro_rel_6f8f552a9df6f4d81e2432"), 'customeruserrole_id')
         ) {
             $table = $schema->getTable("oro_rel_6f8f552a9df6f4d81e2432");
@@ -352,7 +353,8 @@ class OroAccountBundleStage2 implements
             ['onDelete' => 'SET NULL', 'onUpdate' => null]
         );
 
-        if ($schema->hasTable('oro_rel_46a29d19a6adb604aeb863') &&
+        if (
+            $schema->hasTable('oro_rel_46a29d19a6adb604aeb863') &&
             !$this->fkExists($schema->getTable("oro_rel_46a29d19a6adb604aeb863"), 'customeruser_id')
         ) {
             $schema->getTable('oro_rel_46a29d19a6adb604aeb863')
@@ -364,7 +366,8 @@ class OroAccountBundleStage2 implements
                 );
         }
 
-        if ($schema->hasTable('oro_rel_c3990ba6a6adb604193652') &&
+        if (
+            $schema->hasTable('oro_rel_c3990ba6a6adb604193652') &&
             !$this->fkExists($schema->getTable("oro_rel_c3990ba6a6adb604193652"), 'customeruser_id')
         ) {
             $schema->getTable('oro_rel_c3990ba6a6adb604193652')

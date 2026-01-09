@@ -63,7 +63,8 @@ class GuestAccessRequestListener
 
         $requestPathInfo = $event->getRequest()->getPathInfo();
         $decision = $this->guestAccessDecisionMaker->decide($requestPathInfo);
-        if ($decision === GuestAccessDecisionMakerInterface::URL_DISALLOW
+        if (
+            $decision === GuestAccessDecisionMakerInterface::URL_DISALLOW
             && $event->getRequest()->getMethod() !== Request::METHOD_OPTIONS
         ) {
             if ($this->apiRequestHelper->isApiRequest($requestPathInfo)) {

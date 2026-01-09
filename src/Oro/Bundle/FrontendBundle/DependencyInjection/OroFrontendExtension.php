@@ -110,7 +110,8 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
         foreach ($configs as $configKey => $config) {
             if (isset($config['firewalls']) && \is_array($config['firewalls'])) {
                 foreach ($config['firewalls'] as $key => $firewall) {
-                    if (!empty($firewall['pattern'])
+                    if (
+                        !empty($firewall['pattern'])
                         && $firewall['pattern'] === $restApiPatternPlaceholder
                         && !str_starts_with($key, 'frontend_')
                     ) {
@@ -198,8 +199,10 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
             if (isset($config['access_control'])) {
                 $accessControls = $config['access_control'];
                 foreach ($accessControls as &$accessControl) {
-                    if (!isset($accessControl['options']['frontend'])
-                        || false === $accessControl['options']['frontend']) {
+                    if (
+                        !isset($accessControl['options']['frontend'])
+                        || false === $accessControl['options']['frontend']
+                    ) {
                         $pathToModify[] = $accessControl['path'];
                     }
                     if (in_array($accessControl['path'], $pathToModify, true)) {
@@ -310,7 +313,8 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     {
         $backendDefaultView = null;
         foreach ($views as $name => $view) {
-            if (\array_key_exists('default', $view)
+            if (
+                \array_key_exists('default', $view)
                 && $view['default']
                 && !\in_array($name, $frontendViewNames, true)
             ) {
@@ -331,7 +335,8 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
     {
         $frontendDefaultView = null;
         foreach ($views as $name => $view) {
-            if (\array_key_exists('default', $view)
+            if (
+                \array_key_exists('default', $view)
                 && $view['default']
                 && \in_array($name, $frontendViewNames, true)
             ) {
@@ -361,7 +366,8 @@ class OroFrontendExtension extends Extension implements PrependExtensionInterfac
                     $name
                 ));
             }
-            if (empty($apiDocViews[$name]['html_formatter'])
+            if (
+                empty($apiDocViews[$name]['html_formatter'])
                 || 'oro_api.api_doc.formatter.html_formatter' === $apiDocViews[$name]['html_formatter']
             ) {
                 $config['api_doc_views'][$name]['html_formatter'] = 'oro_frontend.api_doc.formatter.html_formatter';

@@ -145,10 +145,12 @@ class FrontendOwnershipMetadataProvider extends AbstractOwnershipMetadataProvide
             return;
         }
 
-        if (!isset(
-            $this->owningEntityNames['business_unit'],
-            $this->owningEntityNames['user']
-        )) {
+        if (
+            !isset(
+                $this->owningEntityNames['business_unit'],
+                $this->owningEntityNames['user']
+            )
+        ) {
             throw new \InvalidArgumentException(
                 'The $owningEntityNames must contains "business_unit" and "user" keys.'
             );

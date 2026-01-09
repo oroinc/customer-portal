@@ -113,7 +113,8 @@ class CustomerAddOrReplaceStrategy extends ConfigurableAddOrReplaceStrategy
 
             if ($parent === null) {
                 // Add validation error on the final attempt.
-                if ($this->context->hasOption('attempts') && $this->context->hasOption('max_attempts')
+                if (
+                    $this->context->hasOption('attempts') && $this->context->hasOption('max_attempts')
                     && $this->context->getOption('attempts') === $this->context->getOption('max_attempts')
                 ) {
                     $this->context->incrementErrorEntriesCount();

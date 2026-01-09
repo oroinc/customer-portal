@@ -55,7 +55,8 @@ class CustomerOwnershipConditionDataBuilder implements AclConditionDataBuilderIn
         $constraint = $this->ownerConditionBuilder->getAclConditionData($entityClassName, $permissions, $context);
 
         $metadata = $this->metadataProvider->getMetadata($entityClassName);
-        if ($metadata instanceof FrontendOwnershipMetadata
+        if (
+            $metadata instanceof FrontendOwnershipMetadata
             && $metadata->getCustomerFieldName()
             && !$this->isAccessAlreadyDenied($constraint)
         ) {

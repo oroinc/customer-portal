@@ -80,7 +80,8 @@ class OroAccountBundle implements Migration, RenameExtensionAwareInterface
     protected function removeAccountAddressSerializedDataColumn(Schema $schema)
     {
         $table = $schema->getTable('orob2b_account_address');
-        if ($table->hasColumn('serialized_data') &&
+        if (
+            $table->hasColumn('serialized_data') &&
             !class_exists('Oro\Bundle\EntitySerializedFieldsBundle\OroEntitySerializedFieldsBundle')
         ) {
             $table->dropColumn('serialized_data');

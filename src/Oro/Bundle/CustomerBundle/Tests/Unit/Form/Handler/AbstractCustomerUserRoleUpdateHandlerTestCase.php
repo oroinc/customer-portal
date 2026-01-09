@@ -39,7 +39,7 @@ abstract class AbstractCustomerUserRoleUpdateHandlerTestCase extends TestCase
     protected AclCacheInterface&MockObject $aclCache;
     protected AclPrivilegeConfigurableFilter&MockObject $configurableFilter;
     protected CustomerVisitorAclCache&MockObject $visitorAclCache;
-    protected DoctrineAclCacheProvider&MockObject  $queryCacheProvider;
+    protected DoctrineAclCacheProvider&MockObject $queryCacheProvider;
 
     protected array $privilegeConfig = [
         'entity' => ['types' => ['entity'], 'fix_values' => false, 'show_default' => true],

@@ -88,7 +88,8 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
     protected function postFixtureLoad()
     {
         parent::postFixtureLoad();
-        if ($this->isVisitorEnabled
+        if (
+            $this->isVisitorEnabled
             && !$this->isAnonymousVisitorEnabled
             && (
                 !$this->hasReference('customer_user')

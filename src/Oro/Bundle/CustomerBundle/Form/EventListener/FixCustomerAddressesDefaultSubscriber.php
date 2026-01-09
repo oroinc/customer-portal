@@ -59,7 +59,8 @@ class FixCustomerAddressesDefaultSubscriber implements EventSubscriberInterface
             $otherAddressDefaults = $otherAddress->getDefaults();
             foreach ($addressDefaults as $addressDefaultType) {
                 foreach ($otherAddressDefaults as $otherAddressDefault) {
-                    if ($otherAddressDefault->getName() === $addressDefaultType->getName()
+                    if (
+                        $otherAddressDefault->getName() === $addressDefaultType->getName()
                         && $otherAddressDefaults->contains($otherAddressDefault)
                     ) {
                         $otherAddressDefaults->removeElement($otherAddressDefault);

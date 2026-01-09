@@ -117,12 +117,16 @@ abstract class AbstractCustomerUserRoleHandler extends AclRoleHandler
         $roleRepository = $this->doctrineHelper->getEntityRepository($role);
 
         // Role moved to another customer OR customer added
-        if ($role->getId() && (
-            ($this->originalCustomer !== $role->getCustomer() &&
-                    $this->originalCustomer !== null && $role->getCustomer() !== null) ||
-                ($this->originalCustomer === null && $role->getCustomer() !== null)
-        )
-        ) {
+        $originalCustomerChanged =
+            $this->originalCustomer !== $role->getCustomer()
+            && $this->originalCustomer !== null
+            && $role->getCustomer() !== null;
+
+        $customerAssignedForFirstTime =
+            $this->originalCustomer === null
+            && $role->getCustomer() !== null;
+
+        if ($role->getId() && ($originalCustomerChanged || $customerAssignedForFirstTime)) {
             // Remove assigned users
             $assignedUsers = $roleRepository->getAssignedUsers($role);
 

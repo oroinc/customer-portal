@@ -38,8 +38,10 @@ class CategorySyntheticPropagator implements MenuItemToMenuUpdatePropagatorInter
             return;
         }
 
-        if ($menuItem->getExtra(MenuUpdateInterface::IS_SYNTHETIC) === true
-            || $menuItem->getExtra(CategoryTreeBuilder::IS_TREE_ITEM) === true) {
+        if (
+            $menuItem->getExtra(MenuUpdateInterface::IS_SYNTHETIC) === true
+            || $menuItem->getExtra(CategoryTreeBuilder::IS_TREE_ITEM) === true
+        ) {
             /** @var Category $category */
             $category = $menuItem->getExtra(MenuUpdate::TARGET_CATEGORY);
             if ($category instanceof Category) {

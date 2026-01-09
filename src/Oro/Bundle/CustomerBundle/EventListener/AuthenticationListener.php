@@ -26,7 +26,8 @@ class AuthenticationListener
 
     public function authenticateOnRegistrationCompleted(FilterCustomerUserResponseEvent $event): void
     {
-        if ($event->getRequest()?->get(self::AUTO_LOGIN_PARAM)
+        if (
+            $event->getRequest()?->get(self::AUTO_LOGIN_PARAM)
             || (
                 $this->configManager->get('oro_customer.auto_login_after_registration')
                 && !$this->configManager->get('oro_customer.confirmation_required')
@@ -38,7 +39,8 @@ class AuthenticationListener
 
     public function authenticateOnRegistrationConfirmed(FilterCustomerUserResponseEvent $event): void
     {
-        if ($this->configManager->get('oro_customer.auto_login_after_registration')
+        if (
+            $this->configManager->get('oro_customer.auto_login_after_registration')
             || $event->getRequest()?->get(self::AUTO_LOGIN_PARAM)
         ) {
             $this->loginManager->logInUser($this->firewallName, $event->getCustomerUser(), $event->getResponse());

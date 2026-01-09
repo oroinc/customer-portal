@@ -56,7 +56,8 @@ class CustomerRelatedEntitiesValidator extends ConstraintValidator
         $originalCustomerUser = $em->getUnitOfWork()
             ->getOriginalEntityData($customerUser);
 
-        if (!isset($originalCustomerUser['customer'])
+        if (
+            !isset($originalCustomerUser['customer'])
             || $originalCustomerUser['customer'] === $customerUser->getCustomer()
         ) {
             return;

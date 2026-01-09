@@ -7,9 +7,6 @@ use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\Mapping\MappingException;
 use Oro\Bundle\FrontendBundle\CacheWarmer\ClassMigration;
 
-/**
- * TODO: remove this listener after stable release
- */
 class LoadClassMetadataEventListener
 {
     /**

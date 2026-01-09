@@ -120,8 +120,7 @@ class CustomerMenuController extends AbstractFrontendMenuController
         if (!$this->isGranted(
             'oro_customer_customer_update',
             $context[ScopeCustomerCriteriaProvider::CUSTOMER]
-        )
-        ) {
+        )) {
             throw $this->createAccessDeniedException();
         }
         parent::checkAcl($context);

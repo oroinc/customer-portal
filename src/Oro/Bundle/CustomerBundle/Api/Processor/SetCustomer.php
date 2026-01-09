@@ -36,7 +36,8 @@ class SetCustomer implements ProcessorInterface
         /** @var CustomizeFormDataContext $context */
 
         $customerFormField = $context->findFormField($this->customerFieldName);
-        if (null === $customerFormField
+        if (
+            null === $customerFormField
             || !$customerFormField->isSubmitted()
             || !$customerFormField->getConfig()->getMapped()
         ) {

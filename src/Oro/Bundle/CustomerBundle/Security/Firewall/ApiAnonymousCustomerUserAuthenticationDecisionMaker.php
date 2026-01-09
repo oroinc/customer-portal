@@ -57,7 +57,8 @@ class ApiAnonymousCustomerUserAuthenticationDecisionMaker
         $context->setSoftErrorsHandling(true);
         $processor->process($context);
 
-        if ($context->hasErrors()
+        if (
+            $context->hasErrors()
             && $this->getStatusCode($context->getErrors(), $context->getRequestType()) === Response::HTTP_NOT_FOUND
         ) {
             /**

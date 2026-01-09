@@ -127,7 +127,8 @@ class CustomerType extends AbstractType
 
         /** @var Customer $customer */
         $customer = $event->getForm()->getData();
-        if ($customer instanceof Customer
+        if (
+            $customer instanceof Customer
             && $this->isCustomerGroupChanged($customer, (int)$event->getData()[self::GROUP_FIELD])
         ) {
             $this->modelChangeSet[] = self::GROUP_FIELD;
@@ -148,7 +149,8 @@ class CustomerType extends AbstractType
     {
         /** @var Customer $customer */
         $customer = $event->getForm()->getData();
-        if ($customer instanceof Customer
+        if (
+            $customer instanceof Customer
             && in_array(self::GROUP_FIELD, $this->modelChangeSet, true)
             && $event->getForm()->isValid()
         ) {

@@ -19,9 +19,11 @@ class AddWebsiteToEmailTemplate implements Migration, ExtendExtensionAwareInterf
     #[\Override]
     public function up(Schema $schema, QueryBag $queries): void
     {
-        if (!$schema->hasTable('oro_website') ||
+        if (
+            !$schema->hasTable('oro_website') ||
             !$schema->hasTable('oro_email_template') ||
-            $schema->getTable('oro_email_template')->hasColumn('website_id')) {
+            $schema->getTable('oro_email_template')->hasColumn('website_id')
+        ) {
             return;
         }
 

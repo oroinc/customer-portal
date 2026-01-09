@@ -17,9 +17,11 @@ class SetCascadeDeleteForContentNode implements Migration
         $table = $schema->getTable('oro_commerce_menu_upd');
         if ($table->hasColumn('content_node_id')) {
             foreach ($table->getForeignKeys() as $foreignKeyConstraint) {
-                if ($foreignKeyConstraint->getForeignTableName() === 'oro_web_catalog_content_node'
+                if (
+                    $foreignKeyConstraint->getForeignTableName() === 'oro_web_catalog_content_node'
                     && $foreignKeyConstraint->getLocalColumns() === ['content_node_id']
-                    && $foreignKeyConstraint->getForeignColumns() === ['id']) {
+                    && $foreignKeyConstraint->getForeignColumns() === ['id']
+                ) {
                     $table->removeForeignKey($foreignKeyConstraint->getName());
                     $table->addForeignKeyConstraint(
                         $schema->getTable('oro_web_catalog_content_node'),

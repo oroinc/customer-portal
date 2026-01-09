@@ -154,7 +154,8 @@ class ThemeAwareRawConfigurationProvider implements RawConfigurationProviderInte
         $resourcesPerBundle = [];
         $themeIds = array_map(fn (Theme $theme) => $theme->getName(), $this->themeManager->getAllThemes());
         foreach ($resources as $resource) {
-            if (!$resource->folderPlaceholder
+            if (
+                !$resource->folderPlaceholder
                 || !isset($resource->data[RawConfigurationProviderInterface::ROOT_SECTION])
             ) {
                 continue;

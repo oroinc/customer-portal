@@ -26,8 +26,10 @@ class NavigationListener
         $addressBookItem = MenuUpdateUtils::findMenuItem($event->getMenu(), self::MENU_ITEM_ID);
         if ($addressBookItem !== null) {
             $isDisplay = false;
-            if ($this->authorizationChecker->isGranted('oro_customer_frontend_customer_address_view') ||
-                $this->authorizationChecker->isGranted('oro_customer_frontend_customer_user_address_view')) {
+            if (
+                $this->authorizationChecker->isGranted('oro_customer_frontend_customer_address_view') ||
+                $this->authorizationChecker->isGranted('oro_customer_frontend_customer_user_address_view')
+            ) {
                 $isDisplay = true;
             }
             $addressBookItem->setDisplay($isDisplay);

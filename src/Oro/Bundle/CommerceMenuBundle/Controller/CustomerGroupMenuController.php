@@ -122,8 +122,7 @@ class CustomerGroupMenuController extends AbstractFrontendMenuController
         if (!$this->isGranted(
             'oro_customer_customer_group_update',
             $context[ScopeCustomerGroupCriteriaProvider::CUSTOMER_GROUP]
-        )
-        ) {
+        )) {
             throw $this->createAccessDeniedException();
         }
         parent::checkAcl($context);

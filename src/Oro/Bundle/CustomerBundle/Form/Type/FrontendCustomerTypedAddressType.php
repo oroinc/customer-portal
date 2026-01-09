@@ -55,7 +55,8 @@ class FrontendCustomerTypedAddressType extends CustomerTypedAddressType
             'targetObject' => $address,
         ]);
 
-        if (is_a($address, AbstractDefaultTypedAddress::class)
+        if (
+            is_a($address, AbstractDefaultTypedAddress::class)
             && $form->has('primary')
             && $address->getFrontendOwner()
             && $this->isHidePrimaryAddress($address)

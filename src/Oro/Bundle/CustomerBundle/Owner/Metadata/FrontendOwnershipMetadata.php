@@ -113,7 +113,8 @@ class FrontendOwnershipMetadata extends OwnershipMetadata
     protected function resolveOwnerType(string $ownerType): int
     {
         $resolvedOwnerType = parent::resolveOwnerType($ownerType);
-        if (self::OWNER_TYPE_NONE !== $resolvedOwnerType
+        if (
+            self::OWNER_TYPE_NONE !== $resolvedOwnerType
             && self::OWNER_TYPE_FRONTEND_CUSTOMER !== $resolvedOwnerType
             && self::OWNER_TYPE_FRONTEND_USER !== $resolvedOwnerType
         ) {

@@ -33,7 +33,8 @@ class CustomerUserAddressController extends AbstractController
     #[Layout(vars: ['entity_class', 'customer_address_count', 'customer_user_address_count'])]
     public function indexAction(): array
     {
-        if (!$this->isGranted('oro_customer_frontend_customer_address_view')
+        if (
+            !$this->isGranted('oro_customer_frontend_customer_address_view')
             && !$this->isGranted('oro_customer_frontend_customer_user_address_view')
         ) {
             throw new AccessDeniedException();

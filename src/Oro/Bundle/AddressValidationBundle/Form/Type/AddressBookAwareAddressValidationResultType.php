@@ -91,8 +91,10 @@ class AddressBookAwareAddressValidationResultType extends AbstractType
                     return false;
                 }
 
-                if ($options['address_book_new_address_class'] &&
-                    $this->isCreateGranted($options['address_book_new_address_class'])) {
+                if (
+                    $options['address_book_new_address_class'] &&
+                    $this->isCreateGranted($options['address_book_new_address_class'])
+                ) {
                     return true;
                 }
 

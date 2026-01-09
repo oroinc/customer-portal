@@ -60,7 +60,8 @@ class EntityOwnershipDecisionMaker extends AbstractEntityOwnershipDecisionMaker
             $metadata = $this->getObjectMetadata($domainObject);
 
             /** @var CustomerUser $user */
-            if ($metadata instanceof FrontendOwnershipMetadata &&
+            if (
+                $metadata instanceof FrontendOwnershipMetadata &&
                 $metadata->isUserOwned() &&
                 $metadata->getCustomerFieldName() &&
                 $user->getCustomer()

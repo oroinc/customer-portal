@@ -24,8 +24,7 @@ class CustomerGroupAjaxMenuController extends AbstractAjaxMenuController
         if (!$this->isGranted(
             'oro_customer_account_group_update',
             $context[ScopeCustomerGroupCriteriaProvider::CUSTOMER_GROUP]
-        )
-        ) {
+        )) {
             throw $this->createAccessDeniedException();
         }
         parent::checkAcl($context);

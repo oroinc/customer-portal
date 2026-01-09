@@ -44,13 +44,15 @@ class FileFieldProvider implements ResetInterface
         }
 
         $fileFields = [];
-        if ($this->doctrineHelper->isManageableEntityClass($entityClass)
+        if (
+            $this->doctrineHelper->isManageableEntityClass($entityClass)
             && $this->configManager->hasConfig($entityClass)
         ) {
             $fieldConfigs = $this->configManager->getConfigs('extend', $entityClass);
             foreach ($fieldConfigs as $fieldConfig) {
                 $fieldConfigId = $fieldConfig->getId();
-                if ((FieldConfigHelper::isFileField($fieldConfigId) || FieldConfigHelper::isImageField($fieldConfigId))
+                if (
+                    (FieldConfigHelper::isFileField($fieldConfigId) || FieldConfigHelper::isImageField($fieldConfigId))
                     && ExtendHelper::isFieldAccessible($fieldConfig)
                 ) {
                     $fileFields[$fieldConfigId->getFieldName()] = $fieldConfigId->getFieldType();

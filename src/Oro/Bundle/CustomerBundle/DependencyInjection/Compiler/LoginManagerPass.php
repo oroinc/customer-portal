@@ -18,8 +18,8 @@ class LoginManagerPass implements CompilerPassInterface
         $loginManager = $container->getDefinition('oro_customer.security.login_manager');
 
         // inject user checker
-        if ($container->has('security.user_checker.'.$firewallName)) {
-            $loginManager->replaceArgument(1, new Reference('security.user_checker.'.$firewallName));
+        if ($container->has('security.user_checker.' . $firewallName)) {
+            $loginManager->replaceArgument(1, new Reference('security.user_checker.' . $firewallName));
         }
     }
 }
