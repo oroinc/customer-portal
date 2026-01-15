@@ -1482,3 +1482,10 @@ services:
             - '@oro_website.manager'
         tags:
             - { name: kernel.event_listener, event: 'oro_customer.customer_user_email_send_event', method: onCustomerUserEmailSend }
+
+    oro_customer.datagrid.extension.abstract:
+        class: Oro\Bundle\CustomerBundle\Datagrid\Extension\AbstractCustomerVisitorExtension
+        abstract: true
+        arguments:
+            - '@oro_security.token_accessor'
+            - '@oro_frontend.request.frontend_helper'
