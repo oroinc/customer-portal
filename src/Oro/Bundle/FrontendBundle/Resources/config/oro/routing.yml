@@ -19,6 +19,12 @@ oro_frontend_currency_and_localization_ajax:
     options:
         frontend: true
 
+oro_frontend_grid_mass_action_ajax:
+    resource: "@OroFrontendBundle/Controller/Frontend/AjaxGridMassActionController.php"
+    type: attribute
+    options:
+        frontend: true
+
 oro_frontend_dictionary_search:
     path: /dictionary/{dictionary}/search
     defaults: { _controller: Oro\Bundle\EntityBundle\Controller\DictionaryController::searchAction }

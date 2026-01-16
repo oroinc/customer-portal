@@ -16,7 +16,8 @@ Feature: Fallback Localization Logic
     Then I should see "Configuration saved" flash message
 
   Scenario: Go to Customer User Configuration and check Cookies Banner Fallback Localization
-    Given I follow "Commerce/Customer/Customer Users" on configuration sidebar
+    Given I go to System/Configuration
+    And I follow "Commerce/Customer/Customer Users" on configuration sidebar
     And uncheck "Use default" for "Cookies Banner Text" field
     When I click on "Cookies Banner Text Fallbacks"
     And I should see an "Cookies Banner Default Value" element

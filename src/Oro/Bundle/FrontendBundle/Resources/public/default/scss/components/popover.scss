@@ -18,6 +18,10 @@
             display: none;
         }
     }
+
+    .modal-is-opened & {
+        z-index: z('popup') + 2;
+    }
 }
 
 .popover-header:empty {

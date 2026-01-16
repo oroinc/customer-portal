@@ -89,6 +89,13 @@
             gap: $ui-dialog-footer-gap;
         }
 
+        .ui-dialog-footer-text {
+            display: $ui-dialog-buttonpane-form-actions-display;
+            justify-content: $ui-dialog-buttonpane-form-actions-justify;
+            color: $ui-dialog-buttonpane-form-actions-text-color;
+            margin-top: $ui-dialog-buttonpane-form-actions-text-top-offset;
+        }
+
         .widget-actions-section {
             display: $ui-dialog-buttonpane-form-actions-pull-container-display;
             justify-content: $ui-dialog-buttonpane-form-actions-pull-container-justify;

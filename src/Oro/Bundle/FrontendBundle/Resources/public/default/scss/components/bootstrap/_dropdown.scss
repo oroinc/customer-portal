@@ -153,8 +153,8 @@
     font-weight: $dropdown-header-font-weight;
 }
 
-.dropdown-group {
-    &:first-child:not(:empty) {
+[data-multiple-visible] {
+    .dropdown-group:first-child:not(:empty) {
         &::after {
             @include nav-divider($dropdown-divider-bg, $dropdown-divider-margin-y);
 
@@ -168,6 +168,12 @@
                 display: none;
             }
         }
+    }
+}
+
+.dropdown-group {
+    &:has(.hidden:only-child) {
+        display: none;
     }
 }
 

@@ -92,4 +92,8 @@
             list-style-type: none;
         }
     }
+
+    &__text--normal {
+        font-weight: $notification-flash-text-normal-font-weight;
+    }
 }

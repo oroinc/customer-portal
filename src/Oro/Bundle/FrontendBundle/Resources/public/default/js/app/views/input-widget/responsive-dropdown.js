@@ -142,8 +142,12 @@ const ResponsiveDropdownWidgetView = AbstractInputWidgetView.extend({
         this.firstListenTo(mediator, 'layout:content-relocated', this.onContentRelocated);
 
         $(document).on(`visibility-change${this.eventNamespace()}`, event => {
-            if (this.$dropdown && this.$dropdown.is('.show') && this.$dropdown[0].contains(event.target)) {
-                this.$dropdown.find('[data-toggle="dropdown"]').dropdown('update');
+            if (this.$dropdown && this.$dropdown[0].contains(event.target)) {
+                this.checkVisibility();
+
+                if (this.$dropdown.is('.show')) {
+                    this.$dropdown.find('[data-toggle="dropdown"]').dropdown('update');
+                }
             }
         });
     },
@@ -204,6 +208,34 @@ const ResponsiveDropdownWidgetView = AbstractInputWidgetView.extend({
         }
     },
 
+    /**
+     * Check dropdown visibility based on its items visibility
+     */
+    checkVisibility() {
+        if (this.$dropdown && Array.isArray(this.actions ?? [])) {
+            const $menu = this.$dropdown.find('.dropdown-menu');
+            const $actions = $menu.find('.responsive-dropdown-actions');
+
+            this.$dropdown.removeClass('hidden');
+            this.$dropdown.attr('data-visible-children', null);
+            this.$dropdown.addClass('hidden-offscreen');
+
+            $menu.addClass('show');
+
+            const actionsHidden = this.actions.every(action => $(action).is(':hidden'));
+
+            if (actionsHidden) {
+                this.$dropdown.addClass('hidden');
+            }
+
+            $menu.attr('data-visible-children', $actions.children(':visible').length);
+            $menu.attr('data-multiple-visible', $actions.children(':visible').length > 1 ? '' : null);
+
+            $menu.removeClass('show');
+            this.$dropdown.removeClass('hidden-offscreen');
+        }
+    },
+
     createDropdown() {
         if (document.contains(this.el) === false) {
             // Dropdown is already created
@@ -218,26 +250,14 @@ const ResponsiveDropdownWidgetView = AbstractInputWidgetView.extend({
             .insertBefore(this.$el);
         this.$el.detach();
 
-        const actions = this.makeDropdownItems();
+        this.actions = this.makeDropdownItems();
         const $actionsContainer = this.getActionsContainer();
 
         $actionsContainer.trigger('content:remove');
-        $actionsContainer.html(actions);
+        $actionsContainer.html(this.actions);
 
         // Hide a dropdown if all it's items are hidden
-        if (Array.isArray(actions)) {
-            $dropdown.addClass('hidden-offscreen');
-            $dropdown.find('.dropdown-menu').addClass('show');
-
-            const actionsHidden = actions.every(action => $(action).is(':hidden'));
-
-            if (actionsHidden) {
-                $dropdown.addClass('hidden');
-            }
-
-            $dropdown.find('.dropdown-menu').removeClass('show');
-            $dropdown.removeClass('hidden-offscreen');
-        }
+        this.checkVisibility();
 
         $actionsContainer.trigger('content:changed');
     },
