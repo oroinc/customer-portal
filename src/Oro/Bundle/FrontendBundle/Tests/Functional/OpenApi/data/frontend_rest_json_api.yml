@@ -38,6 +38,8 @@ paths:
         -
           $ref: '#/components/parameters/fieldsAddresstypes'
         -
+          $ref: '#/components/parameters/meta'
+        -
           $ref: '#/components/parameters/pageNumber'
         -
           $ref: '#/components/parameters/pageSize'
@@ -177,6 +179,8 @@ paths:
           $ref: '#/components/parameters/fieldsRegions'
         -
           $ref: '#/components/parameters/include'
+        -
+          $ref: '#/components/parameters/meta'
         -
           $ref: '#/components/parameters/pageNumber'
         -
@@ -320,6 +324,8 @@ paths:
         -
           $ref: '#/components/parameters/include'
         -
+          $ref: '#/components/parameters/meta'
+        -
           $ref: '#/components/parameters/pageNumber'
         -
           $ref: '#/components/parameters/pageSize'
@@ -461,6 +467,8 @@ paths:
           $ref: '#/components/parameters/fieldsRegions'
         -
           $ref: '#/components/parameters/include'
+        -
+          $ref: '#/components/parameters/meta'
         -
           $ref: '#/components/parameters/pageNumber'
         -
@@ -1366,6 +1374,12 @@ components:
       name: 'fields[addresstypes]'
       in: query
       description: "A list of fields of 'addresstypes' entity that will be returned in the response."
+      schema:
+        type: string
+    meta:
+      name: meta
+      in: query
+      description: 'A list of meta properties to be returned. Comma-separated names.'
       schema:
         type: string
     pageNumber:
