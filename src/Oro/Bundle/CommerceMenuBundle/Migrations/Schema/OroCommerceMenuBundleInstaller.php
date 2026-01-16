@@ -163,7 +163,8 @@ class OroCommerceMenuBundleInstaller implements
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_scope'),
             ['scope_id'],
-            ['id']
+            ['id'],
+            ['onUpdate' => null, 'onDelete' => 'CASCADE']
         );
         $table->addForeignKeyConstraint(
             $schema->getTable('oro_web_catalog_content_node'),
