@@ -7,6 +7,13 @@ use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 use Symfony\Component\Validator\Exception\UnexpectedTypeException;
 
+/**
+ * Validator for the UniqueAddressDefaultTypes constraint.
+ *
+ * This validator checks that within a collection of addresses, each address type
+ * is marked as default in at most one address. It validates that the value is a
+ * traversable array-like collection of AbstractDefaultTypedAddress instances.
+ */
 class UniqueAddressDefaultTypesValidator extends ConstraintValidator
 {
     /**

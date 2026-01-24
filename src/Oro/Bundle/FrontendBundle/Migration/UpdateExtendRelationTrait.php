@@ -5,6 +5,14 @@ namespace Oro\Bundle\FrontendBundle\Migration;
 use Oro\Bundle\EntityConfigBundle\Config\ConfigManager;
 use Oro\Bundle\EntityConfigBundle\Config\Id\FieldConfigId;
 
+/**
+ * Provides functionality for migrating entity configuration relations during schema updates.
+ *
+ * This trait is used in migration classes to safely rename and update extended entity relations
+ * in the entity configuration system. It handles updating relation mappings, field IDs, and
+ * schema definitions when an entity relation is renamed or moved between entities, ensuring
+ * data integrity and consistency across the configuration cache.
+ */
 trait UpdateExtendRelationTrait
 {
     /**

@@ -12,6 +12,14 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Builds a form for selecting default address types from a collection of addresses.
+ *
+ * This form type dynamically loads address entities from the database and creates a choice field
+ * allowing users to mark specific address types as default. It uses a data transformer to convert
+ * between the form representation and the entity model, supporting multiple default selections
+ * for different address types.
+ */
 class CustomerTypedAddressWithDefaultType extends AbstractType
 {
     const NAME = 'oro_customer_typed_address_with_default';

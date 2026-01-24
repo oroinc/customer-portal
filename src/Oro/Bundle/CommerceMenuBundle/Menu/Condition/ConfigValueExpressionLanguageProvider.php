@@ -6,6 +6,12 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Symfony\Component\ExpressionLanguage\ExpressionFunction;
 use Symfony\Component\ExpressionLanguage\ExpressionFunctionProviderInterface;
 
+/**
+ * Provides the config_value() function for menu condition expression language.
+ *
+ * This expression language provider registers a function that allows menu conditions to access
+ * system configuration values, enabling dynamic menu visibility based on configuration settings.
+ */
 class ConfigValueExpressionLanguageProvider implements ExpressionFunctionProviderInterface
 {
     /** @var ConfigManager */

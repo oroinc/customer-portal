@@ -10,6 +10,13 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Provides a form type for managing collections of user agent conditions grouped by type.
+ *
+ * This form type extends OroCollectionType to handle nested collections of user agent conditions,
+ * allowing users to define multiple groups of conditions for menu visibility based on user agent strings.
+ * It uses a data transformer to convert between grouped and flat condition representations.
+ */
 class MenuUserAgentConditionsCollectionType extends AbstractType
 {
     const NAME = 'oro_commerce_menu_user_agent_conditions_collection';

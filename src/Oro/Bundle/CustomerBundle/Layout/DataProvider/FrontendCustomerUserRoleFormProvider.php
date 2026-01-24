@@ -10,6 +10,13 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
+/**
+ * Layout data provider for customer user role forms in the storefront.
+ *
+ * Provides form instances and form views for creating and updating customer user roles.
+ * It uses {@see CustomerUserRoleUpdateFrontendHandler} to handle form creation, processing, and submission,
+ * including ACL privilege management.
+ */
 class FrontendCustomerUserRoleFormProvider extends AbstractFormProvider
 {
     const CUSTOMER_USER_ROLE_CREATE_ROUTE_NAME = 'oro_customer_frontend_customer_user_role_create';

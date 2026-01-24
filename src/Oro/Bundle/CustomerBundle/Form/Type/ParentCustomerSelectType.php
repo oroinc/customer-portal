@@ -9,6 +9,13 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormView;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Provides a form type for selecting a parent customer with autocomplete functionality.
+ *
+ * This form type extends OroJquerySelect2HiddenType to allow selection of a parent customer
+ * with autocomplete support. It automatically excludes the current customer from the parent
+ * selection options to prevent circular parent-child relationships.
+ */
 class ParentCustomerSelectType extends AbstractType
 {
     const NAME = 'oro_customer_parent_select';

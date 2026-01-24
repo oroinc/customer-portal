@@ -4,6 +4,12 @@ namespace Oro\Bundle\CustomerBundle\Datagrid;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 
+/**
+ * Checks and configures available actions for customer addresses in the frontend.
+ *
+ * This checker determines whether the map display action should be available for customer
+ * addresses based on the system configuration for maps functionality.
+ */
 class FrontendCustomerAddressActionChecker
 {
     /** @var ConfigManager */

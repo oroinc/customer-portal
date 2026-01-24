@@ -5,6 +5,12 @@ namespace Oro\Bundle\CommerceMenuBundle\Layout\DataProvider;
 use Knp\Menu\ItemInterface;
 use Knp\Menu\Provider\MenuProviderInterface;
 
+/**
+ * Provides menu items for layout rendering.
+ *
+ * This data provider wraps the Knp menu provider to retrieve menu items for use in layout templates,
+ * with support for access control checks and custom options.
+ */
 class MenuProvider
 {
     /** @var MenuProviderInterface */

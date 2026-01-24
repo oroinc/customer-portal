@@ -5,6 +5,14 @@ namespace Oro\Bundle\CustomerBundle\JsTree;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Component\Tree\Handler\AbstractTreeHandler;
 
+/**
+ * Handles tree structure operations for customer hierarchies.
+ *
+ * This handler manages the tree representation of customers with parent-child relationships,
+ * providing functionality to retrieve and format customer nodes for tree visualization.
+ * It prevents customer moving operations as the customer hierarchy is managed through
+ * parent-child relationships rather than tree node repositioning.
+ */
 class CustomerTreeHandler extends AbstractTreeHandler
 {
     /**

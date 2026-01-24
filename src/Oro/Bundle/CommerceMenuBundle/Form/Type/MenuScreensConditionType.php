@@ -7,6 +7,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Provides a form type for selecting responsive screen conditions for menu items.
+ *
+ * This form type extends ChoiceType to allow selection of multiple screens from the screens provider,
+ * enabling menu items to be configured for visibility on specific device sizes and screen types.
+ */
 class MenuScreensConditionType extends AbstractType
 {
     const NAME = 'oro_commerce_menu_screens_condition';

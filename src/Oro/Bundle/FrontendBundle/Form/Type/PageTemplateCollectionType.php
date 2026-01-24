@@ -6,6 +6,13 @@ use Oro\Component\Layout\Extension\Theme\Manager\PageTemplatesManager;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * Provides a form type for managing a collection of page templates across different routes.
+ *
+ * This form type dynamically builds form fields for each route's page template configuration
+ * by leveraging the PageTemplatesManager. It allows administrators to configure which page
+ * template should be used for each route in the storefront layout system.
+ */
 class PageTemplateCollectionType extends AbstractType
 {
     const NAME = 'oro_frontend_page_template_collection';

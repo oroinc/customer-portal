@@ -7,6 +7,13 @@ use Oro\Bundle\DataGridBundle\Datasource\ResultRecordInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
+/**
+ * Provides action permissions for customer user records in datagrids.
+ *
+ * This provider determines which actions (enable, disable, view, update, delete) are available
+ * for customer user records based on the current user's identity and the record's enabled status.
+ * It also provides permissions for customer user role operations.
+ */
 class ActionPermissionProvider
 {
     /** @var AuthorizationCheckerInterface */

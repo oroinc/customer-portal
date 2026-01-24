@@ -10,6 +10,12 @@ use Oro\Bundle\UserBundle\Provider\RolePrivilegeCategoryProvider;
 use Oro\Bundle\WorkflowBundle\Datagrid\WorkflowPermissionDatasource as BaseDatasource;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+/**
+ * Datasource for customer user workflow permissions that uses context-aware translation prefixes.
+ *
+ * This datasource extends the base workflow permission datasource to use the appropriate translation
+ * prefix for role access level labels based on whether the current user is a backend or frontend user.
+ */
 class WorkflowPermissionDatasource extends BaseDatasource
 {
     /** @var RoleTranslationPrefixResolver */

@@ -6,6 +6,13 @@ use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserMultiSelectType as BaseCusto
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Provides a frontend form type for selecting multiple customer users with autocomplete.
+ *
+ * This form type extends the backend CustomerUserMultiSelectType and customizes it for
+ * frontend use with a frontend-specific autocomplete route and customer user type configuration.
+ * It maintains the multi-select functionality with autocomplete component for storefront interfaces.
+ */
 class CustomerUserMultiSelectType extends BaseCustomerUserMultiSelectType
 {
     const NAME = 'oro_customer_frontend_customer_user_multiselect';

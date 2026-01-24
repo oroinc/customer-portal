@@ -11,6 +11,14 @@ use Oro\Bundle\SecurityBundle\Owner\EntityOwnerAccessor;
 use Oro\Bundle\SecurityBundle\Owner\Metadata\OwnershipMetadataProviderInterface;
 use Oro\Bundle\SecurityBundle\Owner\OwnerTreeProviderInterface;
 
+/**
+ * Makes ownership decisions for anonymous customer user entities.
+ *
+ * This decision maker handles ACL ownership checks for entities accessed by anonymous
+ * customer users (guest visitors). It verifies that domain objects are associated with
+ * the current visitor by checking the CustomerVisitorOwnerAwareInterface implementation
+ * and comparing visitor instances.
+ */
 class AnonymousOwnershipDecisionMaker extends AbstractEntityOwnershipDecisionMaker
 {
     /** @var TokenAccessorInterface */

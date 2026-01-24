@@ -6,6 +6,13 @@ use Oro\Bundle\FormBundle\Form\Type\OroEntitySelectOrCreateInlineType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Provides a form type for selecting a customer group with inline creation capability.
+ *
+ * This form type extends OroEntitySelectOrCreateInlineType to allow users to select an existing
+ * customer group or create a new one directly from the form. It is configured with autocomplete
+ * functionality and a placeholder for better user experience.
+ */
 class CustomerGroupSelectType extends AbstractType
 {
     const NAME = 'oro_customer_customer_group_select';

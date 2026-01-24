@@ -6,6 +6,13 @@ use Oro\Bundle\CustomerBundle\Security\Token\AnonymousCustomerUserToken;
 use Oro\Bundle\FeatureToggleBundle\Checker\Voter\VoterInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
+/**
+ * Voter for feature toggle decisions based on anonymous customer user authentication.
+ *
+ * This voter delegates feature toggle decisions to a configuration voter when the current
+ * user is authenticated as an anonymous customer user (guest visitor). For other authentication
+ * contexts, it abstains from voting, allowing other voters to make the decision.
+ */
 class AnonymousCustomerUserVoter implements VoterInterface
 {
     /**

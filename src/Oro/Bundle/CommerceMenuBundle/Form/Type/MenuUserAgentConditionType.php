@@ -9,6 +9,13 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Provides a form type for defining individual user agent conditions.
+ *
+ * This form type builds a form for creating user agent conditions with a value field and an operation
+ * field (contains, does not contain, matches, or does not match). It is used within collections to
+ * define multiple conditions for menu visibility based on user agent strings.
+ */
 class MenuUserAgentConditionType extends AbstractType
 {
     const NAME = 'oro_commerce_menu_user_agent_condition';

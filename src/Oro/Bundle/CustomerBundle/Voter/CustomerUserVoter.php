@@ -6,6 +6,13 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\FeatureToggleBundle\Checker\Voter\VoterInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 
+/**
+ * Voter for feature toggle decisions based on customer user authentication.
+ *
+ * This voter enables a specific feature when the current user is authenticated as a
+ * customer user. For non-customer users, it abstains from voting, allowing other voters
+ * to make the feature toggle decision.
+ */
 class CustomerUserVoter implements VoterInterface
 {
     /**

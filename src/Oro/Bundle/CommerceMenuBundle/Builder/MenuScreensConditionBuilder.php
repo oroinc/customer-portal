@@ -6,6 +6,13 @@ use Knp\Menu\ItemInterface;
 use Oro\Bundle\FrontendBundle\Provider\ScreensProviderInterface;
 use Oro\Bundle\NavigationBundle\Menu\BuilderInterface;
 
+/**
+ * Builds menu items with responsive screen visibility classes.
+ *
+ * This menu builder applies CSS classes to menu items based on configured screen conditions,
+ * enabling responsive menu visibility across different device sizes. It recursively processes
+ * menu items and adds hiding CSS classes from the screens provider to control display on specific screens.
+ */
 class MenuScreensConditionBuilder implements BuilderInterface
 {
     /**

@@ -6,6 +6,13 @@ use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * Provides a form type for selecting multiple customer users with autocomplete functionality.
+ *
+ * This form type extends UserMultiSelectType to allow selection of multiple customer users
+ * with a custom autocomplete component and placeholder. It is configured specifically for
+ * customer user entities and includes CSS styling for consistent UI presentation.
+ */
 class CustomerUserMultiSelectType extends AbstractType
 {
     const NAME = 'oro_customer_customer_user_multiselect';

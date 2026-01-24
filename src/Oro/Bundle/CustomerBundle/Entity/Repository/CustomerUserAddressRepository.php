@@ -5,6 +5,9 @@ namespace Oro\Bundle\CustomerBundle\Entity\Repository;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 
+/**
+ * Repository for customer user addresses with support for typed addresses and ACL filtering.
+ */
 class CustomerUserAddressRepository extends AbstractDefaultTypedAddressRepository
 {
     /**

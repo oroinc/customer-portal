@@ -2,6 +2,12 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity;
 
+/**
+ * Defines the contract for entities that are owned by a customer or customer user.
+ *
+ * Implementing classes represent entities that have ownership relationships with both
+ * customers and customer users, allowing the system to track and manage entity ownership.
+ */
 interface CustomerOwnerAwareInterface
 {
     /**

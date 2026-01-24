@@ -9,6 +9,13 @@ use Oro\Bundle\DataGridBundle\Extension\GridViews\ViewInterface;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 
+/**
+ * Composite grid view manager that delegates to backend or frontend managers based on the current user type.
+ *
+ * This manager routes grid view operations to the appropriate manager (backend or frontend) depending on
+ * whether the current authenticated user is a backend user or a customer user, ensuring context-appropriate
+ * grid view management.
+ */
 class GridViewManagerComposite extends BaseGridViewManager
 {
     /** @var GridViewManager */

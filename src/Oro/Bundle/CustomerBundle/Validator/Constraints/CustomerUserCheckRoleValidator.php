@@ -7,6 +7,13 @@ use Symfony\Component\Form\Exception\UnexpectedTypeException;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
 
+/**
+ * Validator for the CustomerUserCheckRole constraint.
+ *
+ * This validator checks that enabled customer users have at least one role assigned.
+ * It skips validation for disabled users and throws an exception if the value is not
+ * a CustomerUser instance.
+ */
 class CustomerUserCheckRoleValidator extends ConstraintValidator
 {
     /**

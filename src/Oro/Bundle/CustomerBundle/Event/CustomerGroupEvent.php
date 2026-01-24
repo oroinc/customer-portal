@@ -6,6 +6,12 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\FormBundle\Event\FormHandler\AfterFormProcessEvent;
 use Symfony\Component\Form\FormInterface;
 
+/**
+ * Event dispatched during customer group form processing and lifecycle.
+ *
+ * This event is triggered before customer group removal and before flushing changes to the database,
+ * allowing listeners to perform validation, cleanup, or related operations on customer groups.
+ */
 class CustomerGroupEvent extends AfterFormProcessEvent
 {
     const PRE_REMOVE = 'oro_customer.customer_group.pre_remove';
