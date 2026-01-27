@@ -16,6 +16,7 @@ use Oro\Bundle\CustomerBundle\Form\Type\FrontendOwnerSelectType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntitySelectTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
@@ -23,6 +24,7 @@ use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
@@ -32,15 +34,10 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class FrontendCustomerUserTypeTest extends FormIntegrationTestCase
 {
-    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $authorizationChecker;
-
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
-    /** @var WebsiteManager|\PHPUnit\Framework\MockObject\MockObject */
-    private $websiteManager;
-
+    private AuthorizationCheckerInterface&MockObject $authorizationChecker;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private WebsiteManager&MockObject $websiteManager;
+    private FeatureChecker&MockObject $featureChecker;
     private Customer $customer1;
     private Customer $customer2;
     private CustomerUserAddress $customerUserAddress1;
@@ -52,6 +49,7 @@ class FrontendCustomerUserTypeTest extends FormIntegrationTestCase
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);
+        $this->featureChecker = $this->createMock(FeatureChecker::class);
 
         $this->formType = new FrontendCustomerUserType(
             $this->authorizationChecker,
@@ -60,8 +58,8 @@ class FrontendCustomerUserTypeTest extends FormIntegrationTestCase
         );
         $this->formType->setCustomerUserClass(CustomerUser::class);
 
-        $this->customer1 = $this->getCustomer(1, 'first');
-        $this->customer2 = $this->getCustomer(2, 'second');
+        $this->customer1 = self::getCustomer(1, 'first');
+        $this->customer2 = self::getCustomer(2, 'second');
         $this->customerUserAddress1 = $this->getCustomerUserAddress(1);
         $this->customerUserAddress2 = $this->getCustomerUserAddress(2);
 
@@ -79,7 +77,11 @@ class FrontendCustomerUserTypeTest extends FormIntegrationTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $customerUserType = new CustomerUserType($this->authorizationChecker, $this->tokenAccessor);
+        $customerUserType = new CustomerUserType(
+            $this->authorizationChecker,
+            $this->tokenAccessor
+        );
+        $customerUserType->setFeatureChecker($this->featureChecker);
         $customerUserType->setDataClass(CustomerUser::class);
         $customerUserType->setAddressClass(CustomerUserAddress::class);
 

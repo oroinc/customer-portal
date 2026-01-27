@@ -99,3 +99,19 @@ features:
             - oro_customer_login_attempts
         navigation_items:
             - application_menu.customers_tab.customer_users_login_attempts
+
+    customer_user_login_password:
+        label: oro.customer.system_configuration.fields.customer_user_login_password.label
+        description: oro.customer.system_configuration.fields.customer_user_login_password.tooltip
+        toggle: oro_customer.customer_user_login_password
+        allow_if_all_abstain: true
+        dependencies:
+            - manage_customer_users
+        routes:
+            - oro_customer_frontend_customer_user_reset_request
+            - oro_customer_frontend_customer_user_reset_check_email
+            - oro_customer_frontend_customer_user_password_reset
+        operations:
+            - oro_customer_user_reset_password
+            - oro_customer_customeruser_reset_password
+            - oro_customer_user_frontend_reset_password

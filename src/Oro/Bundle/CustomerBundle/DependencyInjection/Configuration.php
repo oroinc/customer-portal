@@ -62,6 +62,7 @@ class Configuration implements ConfigurationInterface
                 'api_key_generation_enabled' => ['type' => 'boolean', 'value' => true],
                 'case_insensitive_email_addresses_enabled' => ['type' => 'boolean', 'value' => false],
                 'email_enumeration_protection_enabled' => ['type' => 'boolean', 'value' => false],
+                'customer_user_login_password' => ['type' => 'boolean', 'value' => true]
             ]
         );
 

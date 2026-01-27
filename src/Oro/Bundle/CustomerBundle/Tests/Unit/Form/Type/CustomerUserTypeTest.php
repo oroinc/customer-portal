@@ -13,6 +13,7 @@ use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntitySelectTypeStub;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
@@ -20,6 +21,7 @@ use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
+use PHPUnit\Framework\MockObject\MockObject;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
@@ -29,12 +31,9 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CustomerUserTypeTest extends FormIntegrationTestCase
 {
-    /** @var AuthorizationCheckerInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $authorizationChecker;
-
-    /** @var TokenAccessorInterface|\PHPUnit\Framework\MockObject\MockObject */
-    private $tokenAccessor;
-
+    private AuthorizationCheckerInterface&MockObject $authorizationChecker;
+    private TokenAccessorInterface&MockObject $tokenAccessor;
+    private FeatureChecker&MockObject $featureChecker;
     private Customer $customer1;
     private Customer $customer2;
     private CustomerUserAddress $customerUserAddress1;
@@ -45,13 +44,18 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     {
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+        $this->featureChecker = $this->createMock(FeatureChecker::class);
 
-        $this->formType = new CustomerUserType($this->authorizationChecker, $this->tokenAccessor);
+        $this->formType = new CustomerUserType(
+            $this->authorizationChecker,
+            $this->tokenAccessor
+        );
+        $this->formType->setFeatureChecker($this->featureChecker);
         $this->formType->setDataClass(CustomerUser::class);
         $this->formType->setAddressClass(CustomerUserAddress::class);
 
-        $this->customer1 = $this->getCustomer(1, 'first');
-        $this->customer2 = $this->getCustomer(2, 'second');
+        $this->customer1 = self::getCustomer(1, 'first');
+        $this->customer2 = self::getCustomer(2, 'second');
         $this->customerUserAddress1 = $this->getCustomerUserAddress(1);
         $this->customerUserAddress2 = $this->getCustomerUserAddress(2);
 

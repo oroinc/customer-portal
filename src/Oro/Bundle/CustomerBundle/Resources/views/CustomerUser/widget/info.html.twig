@@ -52,7 +52,9 @@
                 {{ UI.badge(entity.authStatus.name, 'disabled', 'fa-unlock-alt') }}
             {% endif %}
             {% endset %}
+            {% if feature_enabled('customer_user_login_password') %}
             {{ UI.renderHtmlProperty('oro.customer.customeruser.auth_status.label'|trans, authStatus) }}
+            {% endif %}
 
             {{ entityConfig.renderDynamicFields(entity) }}
         </div>

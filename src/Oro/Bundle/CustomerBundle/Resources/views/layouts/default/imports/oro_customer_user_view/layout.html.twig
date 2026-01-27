@@ -129,6 +129,7 @@
                 </div>
             </div>
 
+            {% if feature_enabled('customer_user_login_password') %}
             <div class="info-list__item">
                 <div class="info-list__name">
                     {{- 'oro.customer.customeruser.auth_status.label'|trans -}}
@@ -147,6 +148,7 @@
                     {% endif %}
                 </div>
             </div>
+            {% endif %}
 
             {% if customerUser.salesRepresentatives | length %}
                 <div class="info-list__item">

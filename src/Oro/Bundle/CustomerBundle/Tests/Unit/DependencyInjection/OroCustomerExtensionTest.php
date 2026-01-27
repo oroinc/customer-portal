@@ -47,6 +47,7 @@ class OroCustomerExtensionTest extends \PHPUnit\Framework\TestCase
                         'api_key_generation_enabled' => ['value' => true, 'scope' => 'app'],
                         'case_insensitive_email_addresses_enabled' => ['value' => false, 'scope' => 'app'],
                         'email_enumeration_protection_enabled' => ['value' => false, 'scope' => 'app'],
+                        'customer_user_login_password' => ['value' => true, 'scope' => 'app'],
                     ]
                 ]
             ],

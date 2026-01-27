@@ -789,6 +789,14 @@ oro.customer:
             anonymous_customer_group_access:
                 title: 'Anonymous Customer Group Access'
                 description: 'Changing the default value will trigger re-indexation of all products, which is a resource-intensive process. The changes will not take effect immediately and may require some time due to the need to complete the full re-indexation.'
+            customer_user_login_options:
+                label: Customer User Login
+            customer_user_login_form:
+                title: Customer User Login Form
+                description: |
+                    Turning off "Enable Username/Password Login" will disable password-based login for all users.
+                    Make sure at least one external authentication method is properly configured.
+                no_available_types.message: No login options are currently available. Please contact your administrator.
         fields:
             default_customer_owner:
                 label: 'Default Customer Owner'
@@ -853,6 +861,9 @@ oro.customer:
             email_enumeration_protection_enabled:
                 label: 'Customer User Email Enumeration Protection'
                 tooltip: 'Enable the option to hide the email address uniqueness validation error and trigger a registration attempt email to be sent to the existing user email address.'
+            customer_user_login_password:
+                label: Enable Username/Password Login
+                tooltip: Turning off this option disables password-based login. Only external authentication providers can be used.
     security:
         permissions: 'Action Permissions'
         permission:

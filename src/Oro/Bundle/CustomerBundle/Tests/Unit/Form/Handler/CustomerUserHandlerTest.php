@@ -5,9 +5,11 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Component\Testing\ReflectionUtil;
+use PHPUnit\Framework\MockObject\MockObject;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Form\Form;
 use Symfony\Component\Form\FormInterface;
@@ -30,6 +32,8 @@ class CustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
     /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $passwordGenerateForm;
 
+    private FeatureChecker&MockObject $featureChecker;
+
     /** @var FormInterface|\PHPUnit\Framework\MockObject\MockObject */
     private $sendEmailForm;
 
@@ -46,14 +50,20 @@ class CustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
         $this->form = $this->createMock(Form::class);
         $this->passwordGenerateForm = $this->createMock(FormInterface::class);
         $this->sendEmailForm = $this->createMock(FormInterface::class);
+        $this->featureChecker = $this->createMock(FeatureChecker::class);
         $this->entity = new CustomerUser();
 
         $this->handler = new CustomerUserHandler(
             $this->userManager,
             $this->tokenAccessor,
             $this->createMock(TranslatorInterface::class),
-            $this->createMock(LoggerInterface::class)
+            $this->createMock(LoggerInterface::class),
         );
+        $this->handler->setFeatureChecker($this->featureChecker);
+
+        $this->featureChecker->expects(self::any())
+            ->method('isFeatureEnabled')
+            ->willReturn(true);
     }
 
     private function getCustomerUser(int $id): CustomerUser
@@ -100,6 +110,10 @@ class CustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
         $this->userManager->expects(self::once())
             ->method('updateWebsiteSettings')
             ->with($this->entity);
+        $this->form->expects(self::once())
+            ->method('has')
+            ->with('passwordGenerate')
+            ->willReturn(true);
         $this->form->expects(self::exactly(2))
             ->method('get')
             ->willReturnMap([
@@ -159,6 +173,10 @@ class CustomerUserHandlerTest extends \PHPUnit\Framework\TestCase
         $this->form->expects(self::once())
             ->method('submit')
             ->with(self::FORM_DATA);
+        $this->form->expects(self::once())
+            ->method('has')
+            ->with('passwordGenerate')
+            ->willReturn(true);
         $this->form->expects(self::exactly(2))
             ->method('get')
             ->willReturnMap([

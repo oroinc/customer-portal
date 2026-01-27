@@ -24,6 +24,13 @@ system_configuration:
             title: oro.customer.system_configuration.groups.anonymous_customer_group_access.title
             description: oro.customer.system_configuration.groups.anonymous_customer_group_access.description
             description_style: warning
+        customer_user_login_options:
+            title: oro.customer.system_configuration.groups.customer_user_login_options.label
+            icon: fa-key
+        customer_user_login_form:
+            title: oro.customer.system_configuration.groups.customer_user_login_form.title
+            description: oro.customer.system_configuration.groups.customer_user_login_form.description
+            description_style: warning
     fields:
         oro_customer.default_customer_owner:
             ui_only: true
@@ -212,6 +219,16 @@ system_configuration:
                     class: control-subgroup
                 label: oro.customer.system_configuration.fields.anonymous_customer_group.label
                 tooltip: oro.customer.system_configuration.fields.anonymous_customer_group.tooltip
+        oro_customer.customer_user_login_password:
+            data_type: boolean
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
+            options:
+                label: oro.customer.system_configuration.fields.customer_user_login_password.label
+                tooltip: oro.customer.system_configuration.fields.customer_user_login_password.tooltip
+                required: false
+                attr:
+                    'data-page-component-module': 'orouser/js/components/config-single-unit-component'
+                    'data-dependency-id': 'customer_user_login_password'
 
     tree:
         system_configuration:
@@ -245,7 +262,13 @@ system_configuration:
                                         priority: 50
                                         children:
                                             - oro_customer.api_key_generation_enabled
-
+                            customer_user_login_options:
+                                priority: 100
+                                children:
+                                    customer_user_login_form:
+                                        priority: 200
+                                        children:
+                                            - oro_customer.customer_user_login_password
                     design:
                         children:
                             theme:
