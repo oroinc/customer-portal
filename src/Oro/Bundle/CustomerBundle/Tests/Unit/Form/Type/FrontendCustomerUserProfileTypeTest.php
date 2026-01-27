@@ -8,6 +8,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserProfileType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendOwnerSelectType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\UserBundle\Form\Type\ChangePasswordType;
 use Oro\Bundle\UserBundle\Tests\Unit\Stub\ChangePasswordTypeStub;
 use Oro\Component\Testing\ReflectionUtil;
@@ -29,8 +30,9 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
             ->method('get')
             ->with('oro_customer.company_name_field_enabled')
             ->willReturn(true);
+        $featureChecker = $this->createMock(FeatureChecker::class);
 
-        $this->formType = new FrontendCustomerUserProfileType($configManager);
+        $this->formType = new FrontendCustomerUserProfileType($configManager, $featureChecker);
         $this->formType->setDataClass(CustomerUser::class);
 
         $this->customer = new Customer();

@@ -18,6 +18,11 @@ layout:
             optionName: text
             optionValue: oro.customer.customeruser.profile.login
 
+        - '@setOption':
+              id: login_form_submit
+              optionName: visible
+              optionValue: '=data["feature"].isFeatureEnabled("customer_user_login_password")'
+
         - '@add':
             id: login_link_forgot
             parentId: login_form_extra
@@ -26,6 +31,7 @@ layout:
             options:
                 route_name: oro_customer_frontend_customer_user_reset_request
                 text: oro.customer.customeruser.profile.forgot_password
+                visible: '=data["feature"].isFeatureEnabled("customer_user_login_password")'
 
         - '@add':
             id: login_form_remember
@@ -37,11 +43,14 @@ layout:
                 name: _remember_me
                 value: on
                 label: oro.customer.customeruser.profile.remember_me
+                visible: '=data["feature"].isFeatureEnabled("customer_user_login_password")'
 
         - '@add':
             id: login_wrapper_register
             parentId: login_links
             blockType: container
+            options:
+                visible: '=data["feature"].isFeatureEnabled("customer_user_login_password")'
 
         - '@add':
             id: login_label_register
@@ -67,6 +76,13 @@ layout:
             id: registration_instructions_text
             parentId: login_page
             prepend: false
+
+        - '@add':
+            id: no_available_login_types
+            parentId: login_form_additional
+            blockType: block
+            options:
+                visible: '=!data["feature"].isFeatureEnabled("customer_user_login_password")'
 
         - '@addTree':
             items:

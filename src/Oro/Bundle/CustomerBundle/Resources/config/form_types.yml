@@ -68,6 +68,7 @@ services:
         arguments:
             - '@security.authorization_checker'
             - '@oro_security.token_accessor'
+            - '@oro_featuretoggle.checker.feature_checker'
         calls:
             - [setDataClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUser']]
             - [setAddressClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress']]
@@ -106,6 +107,7 @@ services:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserProfileType'
         arguments:
             - '@oro_config.manager'
+            - '@oro_featuretoggle.checker.feature_checker'
         calls:
             - [setDataClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUser']]
         tags:

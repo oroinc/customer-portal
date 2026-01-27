@@ -56,7 +56,9 @@
                     {{ 'N/A'|trans }}
                 {% endif %}
             {% endset %}
+            {% if feature_enabled('customer_user_login_password') %}
             {{ UI.renderHtmlProperty('oro.customer.customeruser.auth_status.label'|trans, auth_status) }}
+            {% endif %}
 
             {{ entityConfig.renderDynamicFields(entity) }}
         </div>

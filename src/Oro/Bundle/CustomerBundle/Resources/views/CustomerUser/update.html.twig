@@ -91,12 +91,16 @@
         form_row(form.lastName),
         form_row(form.nameSuffix),
         form_row(form.email),
-        form_row(form.birthday),
-        form_widget(form.plainPassword, { 'attr': {'class': 'password control-group-container'} }),
+        form_row(form.birthday)
+    ] %}
+    {% if feature_enabled('customer_user_login_password') %}
+        {% set formRows = formRows|merge([form_widget(form.plainPassword, { 'attr': {'class': 'password control-group-container'} })]) %}
+    {% endif %}
+    {% set formRows = formRows|merge([
         customerForm,
         form_row(form.salesRepresentatives),
         form_row(form.isGuest),
-    ] %}
+    ]) %}
 
     {% if form.passwordGenerate is defined %}
         {% set formRows = formRows|merge([

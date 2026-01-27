@@ -6,6 +6,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Oro\Bundle\SecurityBundle\Attribute\Acl;
@@ -96,6 +97,7 @@ class CustomerUserController extends AbstractController
             $this->container->get(TranslatorInterface::class),
             $this->container->get(LoggerInterface::class)
         );
+        $handler->setFeatureChecker($this->container->get(FeatureChecker::class));
 
         $result = $this->container->get(UpdateHandlerFacade::class)->update(
             $customerUser,
@@ -128,7 +130,8 @@ class CustomerUserController extends AbstractController
                 CustomerUserManager::class,
                 TokenAccessorInterface::class,
                 FrontendCustomerUserFormProvider::class,
-                UpdateHandlerFacade::class
+                UpdateHandlerFacade::class,
+                FeatureChecker::class
             ]
         );
     }

@@ -409,6 +409,13 @@ services:
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.pre.customer-customer-users-grid-update-basic, method: onBuildBefore }
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.pre.frontend-customer-customer-users-grid-update, method: onBuildBefore }
 
+    oro_customer.event_listener.customer_user_password_grid_listener:
+        class: Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerUserPasswordGridListener
+        arguments:
+            - '@oro_featuretoggle.checker.feature_checker'
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.after.customer-customer-user-grid, method: onBuildAfter }
+
     oro_customer.twig.security_extension:
         class: 'Oro\Bundle\CustomerBundle\Twig\CustomerExtension'
         arguments:

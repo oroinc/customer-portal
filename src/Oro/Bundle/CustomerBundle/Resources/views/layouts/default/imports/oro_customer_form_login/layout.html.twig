@@ -8,6 +8,7 @@
 {%- endblock %}
 
 {% block __oro_customer_form_login__login_form_start_widget %}
+    {% if feature_enabled('customer_user_login_password') %}
     {% set attr = layout_attr_defaults(attr, {
         'id': 'form-login',
         'action': path('oro_customer_customer_user_security_check'),
@@ -22,29 +23,36 @@
     }) %}
     <form {{ block('block_attributes') }}>
         {{ block_widget(block) }}
+    {% endif %}
  {% endblock %}
 
 {% block __oro_customer_form_login__login_form_fields_widget %}
+    {% if feature_enabled('customer_user_login_password') %}
     {% set attr = layout_attr_defaults(attr, {
         'class': 'grid'
     }) %}
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
+    {% endif %}
 {% endblock %}
 
 {% block __oro_customer_form_login__login_form_extra_widget %}
+    {% if feature_enabled('customer_user_login_password') %}
     {% set attr = layout_attr_defaults(attr, {
         'class': 'grid-col-12 form-extra-fields'
     }) %}
     <div {{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
+    {% endif %}
 {% endblock %}
 
 {% block __oro_customer_form_login__login_form_end_widget %}
+    {% if feature_enabled('customer_user_login_password') %}
         {{ block_widget(block) }}
     </form>
+    {% endif %}
 {% endblock %}
 
 {% block __oro_customer_form_login__login_form_notifications_widget %}
@@ -104,4 +112,8 @@
     <div class="check-remember-me">
         {{ block_row(block) }}
     </div>
+{% endblock %}
+
+{% block _no_available_login_types_widget %}
+    <div class="form-link__wrapper">{{ 'oro.customer.system_configuration.groups.customer_user_login_form.no_available_types.message'|trans }}</div>
 {% endblock %}
