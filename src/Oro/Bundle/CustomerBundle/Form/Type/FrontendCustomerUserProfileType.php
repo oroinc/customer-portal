@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\FormBundle\Form\Type\OroBirthdayType;
 use Oro\Bundle\UserBundle\Form\Type\ChangePasswordType;
 use Symfony\Component\Form\AbstractType;
@@ -21,18 +22,14 @@ class FrontendCustomerUserProfileType extends AbstractType
     public const NAME = 'oro_customer_frontend_customer_user_profile';
 
     /**
-     * @var ConfigManager
-     */
-    private $configManager;
-
-    /**
      * @var string
      */
     protected $dataClass;
 
-    public function __construct(ConfigManager $configManager)
-    {
-        $this->configManager = $configManager;
+    public function __construct(
+        private readonly ConfigManager $configManager,
+        private readonly FeatureChecker $featureChecker
+    ) {
     }
 
     /**
@@ -102,8 +99,10 @@ class FrontendCustomerUserProfileType extends AbstractType
                     'required' => true,
                     'label' => 'oro.customer.customeruser.email.label_short'
                 ]
-            )
-            ->add(
+            );
+
+        if ($this->featureChecker->isFeatureEnabled('customer_user_login_password')) {
+            $builder->add(
                 'changePassword',
                 ChangePasswordType::class,
                 [
@@ -113,6 +112,8 @@ class FrontendCustomerUserProfileType extends AbstractType
                     'second_options_label' => 'oro.customer.customeruser.password_confirmation.label'
                 ]
             );
+        }
+
         $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'preSetData']);
     }
 

@@ -57,6 +57,7 @@ final class OroCustomerExtensionTest extends TestCase
                             'scope' => 'app'
                         ],
                         Configuration::DO_NOT_LEAVE_CHECKOUT => ['value' => true, 'scope' => 'app'],
+                        'customer_user_login_password' => ['value' => true, 'scope' => 'app'],
                     ]
                 ]
             ],

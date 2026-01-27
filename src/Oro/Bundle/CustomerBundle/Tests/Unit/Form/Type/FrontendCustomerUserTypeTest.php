@@ -16,6 +16,7 @@ use Oro\Bundle\CustomerBundle\Form\Type\FrontendOwnerSelectType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntitySelectTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
@@ -36,6 +37,7 @@ class FrontendCustomerUserTypeTest extends FormIntegrationTestCase
     private AuthorizationCheckerInterface&MockObject $authorizationChecker;
     private TokenAccessorInterface&MockObject $tokenAccessor;
     private WebsiteManager&MockObject $websiteManager;
+    private FeatureChecker&MockObject $featureChecker;
     private Customer $customer1;
     private Customer $customer2;
     private CustomerUserAddress $customerUserAddress1;
@@ -48,6 +50,7 @@ class FrontendCustomerUserTypeTest extends FormIntegrationTestCase
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);
+        $this->featureChecker = $this->createMock(FeatureChecker::class);
 
         $this->formType = new FrontendCustomerUserType(
             $this->authorizationChecker,
@@ -73,7 +76,11 @@ class FrontendCustomerUserTypeTest extends FormIntegrationTestCase
             ->method('getUser')
             ->willReturn($user);
 
-        $customerUserType = new CustomerUserType($this->authorizationChecker, $this->tokenAccessor);
+        $customerUserType = new CustomerUserType(
+            $this->authorizationChecker,
+            $this->tokenAccessor,
+            $this->featureChecker
+        );
         $customerUserType->setDataClass(CustomerUser::class);
         $customerUserType->setAddressClass(CustomerUserAddress::class);
 

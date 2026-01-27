@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Form\Type;
 use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\FormBundle\Form\Type\OroBirthdayType;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
@@ -34,18 +35,11 @@ class CustomerUserType extends AbstractType
     /** @var string */
     protected $addressClass;
 
-    /** @var AuthorizationCheckerInterface */
-    protected $authorizationChecker;
-
-    /** @var TokenAccessorInterface */
-    protected $tokenAccessor;
-
     public function __construct(
-        AuthorizationCheckerInterface $authorizationChecker,
-        TokenAccessorInterface $tokenAccessor
+        private readonly AuthorizationCheckerInterface $authorizationChecker,
+        private readonly TokenAccessorInterface $tokenAccessor,
+        private readonly FeatureChecker $featureChecker
     ) {
-        $this->authorizationChecker = $authorizationChecker;
-        $this->tokenAccessor = $tokenAccessor;
     }
 
     /**
@@ -92,7 +86,9 @@ class CustomerUserType extends AbstractType
             $passwordOptions = array_merge($passwordOptions, ['required' => true, 'validation_groups' => ['create']]);
         }
 
-        $builder->add('plainPassword', RepeatedType::class, $passwordOptions);
+        if ($this->featureChecker->isFeatureEnabled('customer_user_login_password')) {
+            $builder->add('plainPassword', RepeatedType::class, $passwordOptions);
+        }
     }
 
     /**
@@ -224,25 +220,28 @@ class CustomerUserType extends AbstractType
 
     protected function addNewUserFields(FormBuilderInterface $builder)
     {
-        $builder
-            ->add(
-                'passwordGenerate',
-                CheckboxType::class,
-                [
-                    'required' => false,
-                    'label' => 'oro.customer.customeruser.password_generate.label',
-                    'mapped' => false
-                ]
-            )
-            ->add(
-                'sendEmail',
-                CheckboxType::class,
-                [
-                    'required' => false,
-                    'label' => 'oro.customer.customeruser.send_email.label',
-                    'mapped' => false
-                ]
-            );
+        if ($this->featureChecker->isFeatureEnabled('customer_user_login_password')) {
+            $builder
+                ->add(
+                    'passwordGenerate',
+                    CheckboxType::class,
+                    [
+                        'required' => false,
+                        'label' => 'oro.customer.customeruser.password_generate.label',
+                        'mapped' => false,
+                    ]
+                );
+        }
+
+        $builder->add(
+            'sendEmail',
+            CheckboxType::class,
+            [
+                'required' => false,
+                'label' => 'oro.customer.customeruser.send_email.label',
+                'mapped' => false,
+            ]
+        );
     }
 
     public function preSetData(FormEvent $event)

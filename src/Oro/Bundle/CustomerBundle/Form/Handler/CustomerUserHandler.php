@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\FormBundle\Form\Handler\FormHandlerInterface;
 use Oro\Bundle\FormBundle\Form\Handler\RequestHandlerTrait;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
@@ -23,17 +24,20 @@ class CustomerUserHandler implements FormHandlerInterface
     protected TokenAccessorInterface $tokenAccessor;
     protected TranslatorInterface $translator;
     protected LoggerInterface $logger;
+    private FeatureChecker $featureChecker;
 
     public function __construct(
         CustomerUserManager $userManager,
         TokenAccessorInterface $tokenAccessor,
         TranslatorInterface $translator,
-        LoggerInterface $logger
+        LoggerInterface $logger,
+        FeatureChecker $featureChecker
     ) {
         $this->userManager = $userManager;
         $this->tokenAccessor = $tokenAccessor;
         $this->translator = $translator;
         $this->logger = $logger;
+        $this->featureChecker = $featureChecker;
     }
 
     /**
@@ -49,7 +53,7 @@ class CustomerUserHandler implements FormHandlerInterface
             if ($form->isValid()) {
                 if (!$customerUser->getId()) {
                     $this->userManager->updateWebsiteSettings($customerUser);
-                    if ($form->get('passwordGenerate')->getData()) {
+                    if ($this->isPasswordShouldBeGenerated($form)) {
                         $generatedPassword = $this->userManager->generatePassword(10);
                         $customerUser->setPlainPassword($generatedPassword);
                     }
@@ -89,5 +93,11 @@ class CustomerUserHandler implements FormHandlerInterface
         }
 
         return $isUpdated;
+    }
+
+    private function isPasswordShouldBeGenerated(FormInterface $form): bool
+    {
+        return !$this->featureChecker->isFeatureEnabled('customer_user_login_password')
+            || ($form->has('passwordGenerate') && $form->get('passwordGenerate')->getData());
     }
 }

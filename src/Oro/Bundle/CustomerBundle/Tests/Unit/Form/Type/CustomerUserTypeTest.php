@@ -13,6 +13,7 @@ use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\AddressCollectionTypeStub;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntitySelectTypeStub;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UserBundle\Entity\User;
@@ -32,6 +33,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
 {
     private AuthorizationCheckerInterface&MockObject $authorizationChecker;
     private TokenAccessorInterface&MockObject $tokenAccessor;
+    private FeatureChecker&MockObject $featureChecker;
     private Customer $customer1;
     private Customer $customer2;
     private CustomerUserAddress $customerUserAddress1;
@@ -43,8 +45,13 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
     {
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
+        $this->featureChecker = $this->createMock(FeatureChecker::class);
 
-        $this->formType = new CustomerUserType($this->authorizationChecker, $this->tokenAccessor);
+        $this->formType = new CustomerUserType(
+            $this->authorizationChecker,
+            $this->tokenAccessor,
+            $this->featureChecker
+        );
         $this->formType->setDataClass(CustomerUser::class);
         $this->formType->setAddressClass(CustomerUserAddress::class);
 

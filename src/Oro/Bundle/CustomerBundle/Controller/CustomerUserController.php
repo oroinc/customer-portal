@@ -8,6 +8,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\FormBundle\Provider\FormTemplateDataProviderInterface;
 use Oro\Bundle\FormBundle\Provider\SaveAndReturnActionFormTemplateDataProvider;
@@ -175,7 +176,8 @@ class CustomerUserController extends AbstractController
             $this->container->get(CustomerUserManager::class),
             $this->container->get(TokenAccessorInterface::class),
             $this->container->get(TranslatorInterface::class),
-            $this->container->get(LoggerInterface::class)
+            $this->container->get(LoggerInterface::class),
+            $this->container->get(FeatureChecker::class)
         );
 
         return $this->container->get(UpdateHandlerFacade::class)->update(
@@ -203,6 +205,7 @@ class CustomerUserController extends AbstractController
                 RequestStack::class,
                 UpdateHandlerFacade::class,
                 SaveAndReturnActionFormTemplateDataProvider::class,
+                FeatureChecker::class
             ]
         );
     }
