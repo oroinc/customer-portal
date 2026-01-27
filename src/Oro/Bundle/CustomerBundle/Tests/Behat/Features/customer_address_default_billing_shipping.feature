@@ -12,7 +12,7 @@ Feature: Customer address default billing shipping
     And I click "Create Customer"
     And I fill form with:
       | Name            | Test customer     |
-      | Country         | Aland Islands     |
+      | Country         | Åland Islands     |
       | Street          | Test street       |
       | City            | Test city         |
       | Zip/Postal Code | 111111            |
@@ -39,7 +39,7 @@ Feature: Customer address default billing shipping
     Given I click "New Address"
     When I fill form with:
       | Name            | Test customer     |
-      | Country         | Aland Islands     |
+      | Country         | Åland Islands     |
       | Street          | Test street 2     |
       | City            | Test city 2       |
       | Zip/Postal Code | 222222            |

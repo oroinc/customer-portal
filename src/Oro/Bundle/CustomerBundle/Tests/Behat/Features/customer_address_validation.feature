@@ -19,7 +19,7 @@ Feature: Customer address validation
     And I click "Create Customer"
     When I fill form with:
       | Name            | Test customer |
-      | Country         | Aland Islands |
+      | Country         | Åland Islands |
       | Street          | Test street   |
       | City            | Test city     |
       | Zip/Postal Code | 111111        |

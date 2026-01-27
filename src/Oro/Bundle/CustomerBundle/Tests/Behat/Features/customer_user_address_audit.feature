@@ -31,7 +31,7 @@ Feature: Customer user address audit
       | Customer          | Company A           |
       | Generate Password | true                |
       | Enabled           | false               |
-      | Country           | Aland Islands       |
+      | Country           | Åland Islands       |
       | Street            | Test street         |
       | City              | Test city           |
       | Zip/Postal Code   | 111111              |

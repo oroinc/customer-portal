@@ -47,7 +47,7 @@ Feature: Customer address audit
     And I click "Create Customer"
     And I fill form with:
       | Name            | Test customer     |
-      | Country         | Aland Islands     |
+      | Country         | Åland Islands     |
       | Street          | Test street       |
       | City            | Test city         |
       | Zip/Postal Code | 111111            |
@@ -65,7 +65,7 @@ Feature: Customer address audit
       | Customer          | Test customer       |
       | Generate Password | true                |
       | Enabled           | false               |
-      | Country           | Aland Islands       |
+      | Country           | Åland Islands       |
       | Street            | Test street         |
       | City              | Test city           |
       | Zip/Postal Code   | 111111              |
