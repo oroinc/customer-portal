@@ -2,6 +2,7 @@ import $ from 'jquery';
 import {pick} from 'underscore';
 import __ from 'orotranslation/js/translator';
 import mediator from 'oroui/js/mediator';
+import tools from 'oroui/js/tools';
 import filterSettings from 'oro/filter-settings';
 import FullScreenPopupView from 'orofrontend/default/js/app/views/fullscreen-popup-view';
 import OverlayPopupView from 'orofrontend/default/js/app/views/overlay-popup-view';
@@ -291,8 +292,22 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
             return;
         }
 
+        // Filter out empty values - they should not override the state built by _createState()
+        // which correctly handles default filter values
+        const nonEmptyFilters = {};
+        for (const [filterName, filterValue] of Object.entries(changedFilters)) {
+            const filter = this.filterManager.filters[filterName];
+            if (filter && !tools.isEqualsLoosely(filterValue, filter.emptyValue)) {
+                nonEmptyFilters[filterName] = filterValue;
+            }
+        }
+
+        if (Object.keys(nonEmptyFilters).length === 0) {
+            return;
+        }
+
         collection.updateState({
-            filters: Object.assign({}, collection.state.filters, changedFilters)
+            filters: Object.assign({}, collection.state.filters, nonEmptyFilters)
         });
     },
 
