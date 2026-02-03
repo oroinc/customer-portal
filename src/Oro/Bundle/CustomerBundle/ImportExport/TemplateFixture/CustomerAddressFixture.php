@@ -83,9 +83,7 @@ class CustomerAddressFixture extends AbstractTemplateRepository implements Templ
         $reflectionUser = new \ReflectionClass($entity);
 
         $property = $reflectionUser->getProperty($name);
-        $property->setAccessible(true);
         $property->setValue($entity, $value);
-        $property->setAccessible(false);
 
         return $entity;
     }

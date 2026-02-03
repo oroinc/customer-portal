@@ -71,9 +71,7 @@ class CustomerUserFixture extends AbstractTemplateRepository implements Template
         $website = new Website();
         $reflectionObject = new \ReflectionObject($website);
         $property = $reflectionObject->getProperty('id');
-        $property->setAccessible(true);
         $property->setValue($website, 1);
-        $property->setAccessible(false);
 
         return $website;
     }

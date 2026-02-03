@@ -104,7 +104,6 @@ class UpdateExtendRelationQuery extends ParametrizedMigrationQuery
                     /** @var FieldConfigId $fieldId */
                     $fieldId = $data['extend']['relation'][$fullRelationTo]['field_id'];
                     $reflectionProperty = new \ReflectionProperty(get_class($fieldId), 'fieldName');
-                    $reflectionProperty->setAccessible(true);
                     $reflectionProperty->setValue($fieldId, $this->relationTo);
                     $data['extend']['relation'][$fullRelationTo]['field_id'] = $fieldId;
                 }

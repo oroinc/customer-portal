@@ -64,7 +64,6 @@ class CustomerFixture extends AbstractTemplateRepository implements TemplateFixt
 
         $reflectionClass = new \ReflectionClass(Customer::class);
         $method = $reflectionClass->getProperty('id');
-        $method->setAccessible(true);
         $method->setValue($customer, 1);
 
         return $customer;
@@ -79,9 +78,7 @@ class CustomerFixture extends AbstractTemplateRepository implements TemplateFixt
         $reflectionUser = new \ReflectionClass($user);
 
         $userId = $reflectionUser->getProperty('id');
-        $userId->setAccessible(true);
         $userId->setValue($user, 1);
-        $userId->setAccessible(false);
 
         return $user;
     }
