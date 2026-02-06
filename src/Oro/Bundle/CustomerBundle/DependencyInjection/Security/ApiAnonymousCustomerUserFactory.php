@@ -9,6 +9,7 @@ use Symfony\Component\Config\Definition\Builder\NodeDefinition;
 use Symfony\Component\DependencyInjection\ChildDefinition;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
  * Configures definitions for anonymous customer user that is not stored in the database.
@@ -53,11 +54,8 @@ class ApiAnonymousCustomerUserFactory implements AuthenticatorFactoryInterface, 
     public function createListeners(ContainerBuilder $container, string $firewallName, array $config): array
     {
         $onNoTokenListenerId = 'oro_customer.authentication.listener.notoken.' . $firewallName;
-        $container
-            ->register($onNoTokenListenerId, OnNoTokenAccessListener::class)
-            ->setArguments([
-                new Reference('security.token_storage'),
-            ]);
+        $container->register($onNoTokenListenerId, OnNoTokenAccessListener::class)
+            ->addArgument(new Reference(TokenStorageInterface::class));
 
         return [$onNoTokenListenerId];
     }

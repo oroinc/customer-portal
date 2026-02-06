@@ -15,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
@@ -123,7 +124,7 @@ class ResetController extends AbstractController
         if ($handler->process($form, $request)) {
             // force user logout
             $session->invalidate();
-            $this->container->get('security.token_storage')->setToken(null);
+            $this->container->get(TokenStorageInterface::class)->setToken(null);
 
             $session->getFlashBag()->add(
                 'success',
@@ -162,6 +163,7 @@ class ResetController extends AbstractController
             parent::getSubscribedServices(),
             [
                 TranslatorInterface::class,
+                TokenStorageInterface::class,
                 CustomerUserPasswordRequestHandler::class,
                 FrontendCustomerUserFormProvider::class,
                 CustomerUserPasswordResetHandler::class,
