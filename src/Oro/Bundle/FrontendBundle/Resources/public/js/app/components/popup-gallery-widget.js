@@ -217,6 +217,14 @@ const PopupGalleryWidget = AbstractWidget.extend({
         const $gallery = modal.$('[data-gallery-images]');
         const $thumbnails = modal.$('[data-gallery-thumbnails]');
 
+        modal.$('[data-gallery-image]').one('load', () => {
+            if (modal.disposed) {
+                return;
+            }
+
+            modal.$el.addClass('main-image-loaded');
+        });
+
         if ($gallery.length === 0) {
             throw new Error('The template should contain an element with "data-gallery-images" attribute');
         }

@@ -121,9 +121,9 @@
         }
     }
 
-    &.opened,
-    &.opened &__images.slick-initialized,
-    &.opened &__thumbnails.slick-initialized {
+    &.main-image-loaded,
+    &.main-image-loaded &__images.slick-initialized,
+    &.main-image-loaded &__thumbnails.slick-initialized {
         opacity: 1;
         visibility: visible;
     }
