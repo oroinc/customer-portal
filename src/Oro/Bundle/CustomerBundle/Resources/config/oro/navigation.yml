@@ -454,3 +454,5 @@ navigation:
         oro_customer_frontend_customer_user_address_index: 'oro.customer.frontend.customer_user.address.label'
 
         oro_customer_login_attempts: 'oro.customer.customeruserloginattempt.entity_plural_label'
+
+        oro_customer_frontend_customer_user_dashboard_index: 'oro.customer.menu.customer_user_dashboard.label'
