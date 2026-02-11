@@ -157,7 +157,7 @@ class RolePermissionDatasourceTest extends TestCase
     protected function getDatagrid(Role $role): DatagridInterface
     {
         $datagrid = $this->createMock(DatagridInterface::class);
-        $datagrid->expects($this->once())
+        $datagrid->expects($this->exactly(2))
             ->method('getParameters')
             ->willReturn(new ParameterBag(['role' => $role]));
         $datagrid->expects($this->once())
