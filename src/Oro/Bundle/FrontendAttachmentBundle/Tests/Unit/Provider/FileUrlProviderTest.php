@@ -3,6 +3,7 @@
 namespace Oro\Bundle\FrontendAttachmentBundle\Tests\Unit\Provider;
 
 use Oro\Bundle\ActionBundle\Provider\CurrentApplicationProviderInterface;
+use Oro\Bundle\ApiBundle\Provider\ApiUrlResolver;
 use Oro\Bundle\AttachmentBundle\Acl\FileAccessControlChecker;
 use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\AttachmentBundle\Provider\FileApplicationsProvider;
@@ -12,12 +13,13 @@ use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FrontendAttachmentBundle\Provider\FileUrlProvider;
 use Oro\Bundle\FrontendBundle\Provider\FrontendCurrentApplicationProvider;
 use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
+class FileUrlProviderTest extends TestCase
 {
     private const FILENAME = 'sample-filename';
     private const FILE_ID = 1;
@@ -29,19 +31,21 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
     private const WIDTH = 10;
     private const HEIGHT = 20;
 
-    private FileUrlProviderInterface|MockObject $innerFileUrlProvider;
+    private FileUrlProviderInterface&MockObject $innerFileUrlProvider;
 
-    private UrlGeneratorInterface|MockObject $urlGenerator;
+    private UrlGeneratorInterface&MockObject $urlGenerator;
 
-    private FileApplicationsProvider|MockObject $fileApplicationsProvider;
+    private FileApplicationsProvider&MockObject $fileApplicationsProvider;
 
-    private CurrentApplicationProviderInterface|MockObject $currentApplicationProvider;
+    private CurrentApplicationProviderInterface&MockObject $currentApplicationProvider;
 
-    private FileAccessControlChecker|MockObject $fileAccessControlChecker;
+    private FileAccessControlChecker&MockObject $fileAccessControlChecker;
 
-    private ConfigManager|MockObject $configManager;
+    private ConfigManager&MockObject $configManager;
 
-    private FileNameProviderInterface|MockObject $filenameProvider;
+    private FileNameProviderInterface&MockObject $filenameProvider;
+
+    private ApiUrlResolver&MockObject $apiUrlResolver;
 
     private FileUrlProvider $provider;
 
@@ -55,6 +59,7 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
         $this->fileAccessControlChecker = $this->createMock(FileAccessControlChecker::class);
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->filenameProvider = $this->createMock(FileNameProviderInterface::class);
+        $this->apiUrlResolver = $this->createMock(ApiUrlResolver::class);
 
         $this->provider = new FileUrlProvider(
             $this->innerFileUrlProvider,
@@ -375,5 +380,190 @@ class FileUrlProviderTest extends \PHPUnit\Framework\TestCase
                 self::REFERENCE_TYPE
             )
             ->willReturn(self::URL);
+    }
+
+    public function testGetResizedImageUrlWhenFrontendWithApiUrlResolver(): void
+    {
+        $this->mockGuestAccessMode(true);
+        $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), true);
+        $this->mockApplications(
+            [
+                FrontendCurrentApplicationProvider::DEFAULT_APPLICATION,
+                FrontendCurrentApplicationProvider::COMMERCE_APPLICATION,
+            ],
+            FrontendCurrentApplicationProvider::COMMERCE_APPLICATION
+        );
+
+        $this->provider->setApiUrlResolver($this->apiUrlResolver);
+
+        $this->apiUrlResolver->expects(self::once())
+            ->method('getEffectiveReferenceType')
+            ->with(UrlGeneratorInterface::ABSOLUTE_PATH)
+            ->willReturn(UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $this->filenameProvider->expects(self::once())
+            ->method('getResizedImageName')
+            ->with($file, self::WIDTH, self::HEIGHT, self::FORMAT)
+            ->willReturn(self::FILENAME);
+
+        $this->urlGenerator
+            ->method('generate')
+            ->with(
+                'oro_frontend_attachment_resize_image',
+                [
+                    'id' => self::FILE_ID,
+                    'filename' => self::FILENAME,
+                    'width' => self::WIDTH,
+                    'height' => self::HEIGHT,
+                ],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            )
+            ->willReturn(self::URL);
+
+        self::assertEquals(
+            self::URL,
+            $this->provider->getResizedImageUrl($file, self::WIDTH, self::HEIGHT, self::FORMAT)
+        );
+    }
+
+    public function testGetResizedImageUrlWhenFrontendWithExplicitNonDefaultReferenceType(): void
+    {
+        $this->mockGuestAccessMode(true);
+        $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), true);
+        $this->mockApplications(
+            [
+                FrontendCurrentApplicationProvider::DEFAULT_APPLICATION,
+                FrontendCurrentApplicationProvider::COMMERCE_APPLICATION,
+            ],
+            FrontendCurrentApplicationProvider::COMMERCE_APPLICATION
+        );
+
+        $this->provider->setApiUrlResolver($this->apiUrlResolver);
+
+        // When explicit non-default reference type (not ABSOLUTE_PATH) is passed, it should be used directly
+        $this->apiUrlResolver->expects(self::never())
+            ->method('getEffectiveReferenceType');
+
+        $this->filenameProvider->expects(self::once())
+            ->method('getResizedImageName')
+            ->with($file, self::WIDTH, self::HEIGHT, self::FORMAT)
+            ->willReturn(self::FILENAME);
+
+        $this->urlGenerator
+            ->method('generate')
+            ->with(
+                'oro_frontend_attachment_resize_image',
+                [
+                    'id' => self::FILE_ID,
+                    'filename' => self::FILENAME,
+                    'width' => self::WIDTH,
+                    'height' => self::HEIGHT,
+                ],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            )
+            ->willReturn(self::URL);
+
+        self::assertEquals(
+            self::URL,
+            $this->provider->getResizedImageUrl(
+                $file,
+                self::WIDTH,
+                self::HEIGHT,
+                self::FORMAT,
+                UrlGeneratorInterface::ABSOLUTE_URL
+            )
+        );
+    }
+
+    public function testGetFilteredImageUrlWhenFrontendWithApiUrlResolver(): void
+    {
+        $this->mockGuestAccessMode(true);
+        $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), true);
+        $this->mockApplications(
+            [
+                FrontendCurrentApplicationProvider::DEFAULT_APPLICATION,
+                FrontendCurrentApplicationProvider::COMMERCE_APPLICATION,
+            ],
+            FrontendCurrentApplicationProvider::COMMERCE_APPLICATION
+        );
+
+        $this->provider->setApiUrlResolver($this->apiUrlResolver);
+
+        $this->apiUrlResolver->expects(self::once())
+            ->method('getEffectiveReferenceType')
+            ->with(UrlGeneratorInterface::ABSOLUTE_PATH)
+            ->willReturn(UrlGeneratorInterface::ABSOLUTE_URL);
+
+        $this->filenameProvider->expects(self::once())
+            ->method('getFilteredImageName')
+            ->with($file, self::FILTER, self::FORMAT)
+            ->willReturn(self::FILENAME);
+
+        $this->urlGenerator
+            ->method('generate')
+            ->with(
+                'oro_frontend_attachment_filter_image',
+                [
+                    'id' => self::FILE_ID,
+                    'filename' => self::FILENAME,
+                    'filter' => self::FILTER,
+                    'format' => self::FORMAT,
+                ],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            )
+            ->willReturn(self::URL);
+
+        self::assertEquals(
+            self::URL,
+            $this->provider->getFilteredImageUrl($file, self::FILTER, self::FORMAT)
+        );
+    }
+
+    public function testGetFilteredImageUrlWhenFrontendWithExplicitNonDefaultReferenceType(): void
+    {
+        $this->mockGuestAccessMode(true);
+        $this->mockCoveredByAcl($file = $this->getFile(self::FILE_ID, self::FILENAME), true);
+        $this->mockApplications(
+            [
+                FrontendCurrentApplicationProvider::DEFAULT_APPLICATION,
+                FrontendCurrentApplicationProvider::COMMERCE_APPLICATION,
+            ],
+            FrontendCurrentApplicationProvider::COMMERCE_APPLICATION
+        );
+
+        $this->provider->setApiUrlResolver($this->apiUrlResolver);
+
+        // When explicit non-default reference type (not ABSOLUTE_PATH) is passed, it should be used directly
+        $this->apiUrlResolver->expects(self::never())
+            ->method('getEffectiveReferenceType');
+
+        $this->filenameProvider->expects(self::once())
+            ->method('getFilteredImageName')
+            ->with($file, self::FILTER, self::FORMAT)
+            ->willReturn(self::FILENAME);
+
+        $this->urlGenerator
+            ->method('generate')
+            ->with(
+                'oro_frontend_attachment_filter_image',
+                [
+                    'id' => self::FILE_ID,
+                    'filename' => self::FILENAME,
+                    'filter' => self::FILTER,
+                    'format' => self::FORMAT,
+                ],
+                UrlGeneratorInterface::ABSOLUTE_URL
+            )
+            ->willReturn(self::URL);
+
+        self::assertEquals(
+            self::URL,
+            $this->provider->getFilteredImageUrl(
+                $file,
+                self::FILTER,
+                self::FORMAT,
+                UrlGeneratorInterface::ABSOLUTE_URL
+            )
+        );
     }
 }
