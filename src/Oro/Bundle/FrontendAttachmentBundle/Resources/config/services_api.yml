@@ -1,0 +1,21 @@
+parameters:
+#    Disable absolute URLs for attachment images and CMS assets in API responses by setting this parameter to false
+    oro_frontend.frontend_api.use_absolute_urls_for_api: true
+
+services:
+    oro_frontend_attachment.api.processor.initialize_absolute_url_flag:
+        class: Oro\Bundle\ApiBundle\Processor\Shared\InitializeAbsoluteUrlFlag
+        arguments:
+            - '@request_stack'
+            - '%oro_frontend.frontend_api.use_absolute_urls_for_api%'
+        tags:
+            - { name: oro.api.processor, action: get, group: initialize, requestType: frontend, priority: 250 }
+            - { name: oro.api.processor, action: get_list, group: initialize, requestType: frontend, priority: 250 }
+
+    oro_frontend_attachment.api.processor.convert_product_search_image_urls_to_absolute:
+        class: Oro\Bundle\FrontendAttachmentBundle\Api\Processor\ConvertProductSearchImageUrlsToAbsolute
+        arguments:
+            - '@oro_ui.tools.url_helper'
+            - '@oro_api.api_url_resolver'
+        tags:
+            - { name: oro.api.processor, action: customize_loaded_data, requestType: frontend, class: Oro\Bundle\ProductBundle\Api\Model\ProductSearch, priority: 10 }

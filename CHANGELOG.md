@@ -6,8 +6,15 @@ The current file describes significant changes in the code that may affect the u
 
 ### Added
 
+#### FrontendAttachmentBundle
+* Added parameter `oro_frontend.frontend_api.use_absolute_urls_for_api`, default true, to enable absolute URLs for attachment images and CMS assets in API responses.
+* Added processor `\Oro\Bundle\FrontendAttachmentBundle\Api\Processor\ConvertProductSearchImageUrlsToAbsolute` to handle URL conversion for ProductSearch entities in API responses.
+
 #### FrontendBundle
 * Added a new `preload_fonts` layout block type that uses Symfony WebLink component and pushes fonts to clients before they even know that they need them.
+
+### Changed
+* Updated `\Oro\Bundle\FrontendAttachmentBundle\Provider\FileUrlProvider` to support an API URL resolver for dynamic reference type handling.
 
 ## Changes in the Customer Portal package versions
 

@@ -3,6 +3,7 @@
 namespace Oro\Bundle\FrontendAttachmentBundle\Provider;
 
 use Oro\Bundle\ActionBundle\Provider\CurrentApplicationProviderInterface;
+use Oro\Bundle\ApiBundle\Provider\ApiUrlResolver;
 use Oro\Bundle\AttachmentBundle\Acl\FileAccessControlChecker;
 use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\AttachmentBundle\Provider\FileApplicationsProvider;
@@ -31,6 +32,8 @@ class FileUrlProvider implements FileUrlProviderInterface
 
     private FileNameProviderInterface $filenameProvider;
 
+    private ApiUrlResolver $apiUrlResolver;
+
     public function __construct(
         FileUrlProviderInterface $innerFileUrlProvider,
         UrlGeneratorInterface $urlGenerator,
@@ -38,7 +41,8 @@ class FileUrlProvider implements FileUrlProviderInterface
         CurrentApplicationProviderInterface $currentApplicationProvider,
         FileAccessControlChecker $fileAccessControlChecker,
         ConfigManager $configManager,
-        FilenameProviderInterface $filenameProvider
+        FilenameProviderInterface $filenameProvider,
+        ApiUrlResolver $apiUrlResolver
     ) {
         $this->innerFileUrlProvider = $innerFileUrlProvider;
         $this->urlGenerator = $urlGenerator;
@@ -47,6 +51,7 @@ class FileUrlProvider implements FileUrlProviderInterface
         $this->fileAccessControlChecker = $fileAccessControlChecker;
         $this->configManager = $configManager;
         $this->filenameProvider = $filenameProvider;
+        $this->apiUrlResolver = $apiUrlResolver;
     }
 
     #[\Override]
@@ -78,6 +83,9 @@ class FileUrlProvider implements FileUrlProviderInterface
         string $format = '',
         int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
     ): string {
+        $effectiveReferenceType = $referenceType !== UrlGeneratorInterface::ABSOLUTE_PATH
+            ? $referenceType
+            : $this->apiUrlResolver->getEffectiveReferenceType($referenceType);
         if ($this->isPublicOrFrontend($file)) {
             return $this->urlGenerator->generate(
                 'oro_frontend_attachment_resize_image',
@@ -87,7 +95,7 @@ class FileUrlProvider implements FileUrlProviderInterface
                     'width' => $width,
                     'height' => $height,
                 ],
-                $referenceType
+                $effectiveReferenceType
             );
         }
 
@@ -101,6 +109,9 @@ class FileUrlProvider implements FileUrlProviderInterface
         string $format = '',
         int $referenceType = UrlGeneratorInterface::ABSOLUTE_PATH
     ): string {
+        $effectiveReferenceType = $referenceType !== UrlGeneratorInterface::ABSOLUTE_PATH
+            ? $referenceType
+            : $this->apiUrlResolver->getEffectiveReferenceType($referenceType);
         if ($this->isPublicOrFrontend($file)) {
             return $this->urlGenerator->generate(
                 'oro_frontend_attachment_filter_image',
@@ -110,7 +121,7 @@ class FileUrlProvider implements FileUrlProviderInterface
                     'filter' => $filterName,
                     'format' => $format,
                 ],
-                $referenceType
+                $effectiveReferenceType
             );
         }
 
