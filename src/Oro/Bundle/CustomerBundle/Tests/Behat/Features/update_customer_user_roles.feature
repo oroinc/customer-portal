@@ -16,7 +16,7 @@ Feature: Update customer user roles
     And I fill form with:
       | Buyer (Predefined) | true |
     And I click "Save"
-    Then I should see "Customer User has been saved"
+    Then I should see "Customer User has been saved" flash message
 
   Scenario: Check customer user info
     Given I proceed as the Admin
