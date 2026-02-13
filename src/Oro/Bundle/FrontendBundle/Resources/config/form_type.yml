@@ -1,6 +1,7 @@
 services:
     oro_frontend.form.type.theme_select:
         class: 'Oro\Bundle\FrontendBundle\Form\Type\ThemeSelectType'
+        decorates: 'oro_theme.form.type.theme_select'
         arguments:
             - '@oro_layout.theme_manager'
         tags:
