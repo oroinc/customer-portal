@@ -1,10 +1,8 @@
 services:
-    oro_frontend.form.type.theme_select:
-        class: 'Oro\Bundle\FrontendBundle\Form\Type\ThemeSelectType'
-        arguments:
-            - '@oro_layout.theme_manager'
+    oro_frontend.form.extension.theme_select_type:
+        class: 'Oro\Bundle\FrontendBundle\Form\Extension\ThemeSelectTypeExtension'
         tags:
-            - { name: form.type, alias: 'oro_frontend_theme_select' }
+            - { name: form.type_extension, extended_type: Oro\Bundle\ThemeBundle\Form\Type\ThemeSelectType }
 
     oro_frontend.form.type.country:
         class: 'Oro\Bundle\FrontendBundle\Form\Type\CountryType'
@@ -64,12 +62,6 @@ services:
         tags:
             - { name: form.type_extension }
 
-    oro_frontend.form.extension.theme_configuration_type:
-        class: Oro\Bundle\FrontendBundle\Form\Extension\ThemeConfigurationTypeExtension
-        arguments:
-            - '@oro_theme.provider.theme_configuration_type'
-        tags:
-            - { name: form.type_extension }
 
     Oro\Bundle\FrontendBundle\Form\Type\QuickAccessButtonConfigType:
         arguments:
