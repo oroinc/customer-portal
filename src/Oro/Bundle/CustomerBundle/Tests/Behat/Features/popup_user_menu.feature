@@ -42,7 +42,7 @@ Feature: Popup user menu
     And select following permissions:
       | Customer User Role | View:Department | Create:None | Edit:None |
     And I save form
-    Then I should see "Customer User Role has been saved"
+    Then I should see "Customer User Role has been saved" flash message
 
   Scenario: "Popup user menu" is present on front store
     Given I proceed as the User
@@ -58,7 +58,7 @@ Feature: Popup user menu
     And select following permissions:
       | Customer User Role | View:None | Create:None | Edit:None |
     And I save form
-    Then I should see "Customer User Role has been saved"
+    Then I should see "Customer User Role has been saved" flash message
 
   Scenario: Check that "Popup user menu" is present on front store and Roles link is not visible
     Given I proceed as the User
