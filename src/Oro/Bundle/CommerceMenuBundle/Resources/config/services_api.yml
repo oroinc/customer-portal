@@ -1,0 +1,23 @@
+services:
+    oro_commerce_menu.api.load_menu:
+        class: Oro\Bundle\CommerceMenuBundle\Api\Processor\Menu\LoadMenuProcessor
+        arguments:
+            - '@oro_commerce_menu.data_provider.menu'
+            - '@translator'
+            - '@oro_attachment.manager'
+        tags:
+            - { name: oro.api.processor, action: get_list, group: load_data, requestType: frontend, class: Oro\Bundle\CommerceMenuBundle\Api\Model\CommerceMenuItem }
+
+    oro_commerce_menu.api.route_info_provider:
+        class: Oro\Bundle\CommerceMenuBundle\Api\RouteInfoProvider
+        arguments:
+            - '@oro_redirect.api.route_repository'
+            - '@oro_frontend.api.resource_type_resolver'
+            - '@oro_frontend.api.resource_api_url_resolver'
+
+    oro_commerce_menu.api.compute_menu_item_resource:
+        class: Oro\Bundle\CommerceMenuBundle\Api\Processor\ComputeMenuItemResourceProcessor
+        arguments:
+            - '@oro_commerce_menu.api.route_info_provider'
+        tags:
+            - { name: oro.api.processor, action: customize_loaded_data, requestType: frontend, collection: true, class: Oro\Bundle\CommerceMenuBundle\Api\Model\CommerceMenuItem }
