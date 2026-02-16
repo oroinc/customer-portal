@@ -30,7 +30,7 @@ Feature: Moving customer user to different customer
       | Request For Quote | Edit:None |
       | Checkout          | Edit:None |
     And I save and close form
-    Then I should see "Role saved"
+    Then I should see "Role saved" flash message
     Then I go to Customers/Customer Users
     And I click Edit "AmandaRCole@example.org" in grid
     And I fill form with:
@@ -48,7 +48,7 @@ Feature: Moving customer user to different customer
       | Request For Quote | Edit:Global |
       | Checkout          | Edit:Global |
     And I save and close form
-    Then I should see "Role saved"
+    Then I should see "Role saved" flash message
     Then I go to Customers/Customer Users
     And I click Edit "AmandaRCole@example.org" in grid
     And I fill form with:
@@ -63,7 +63,7 @@ Feature: Moving customer user to different customer
       | Order    | Edit:Global |
       | Quote    | Edit:Global |
     And I save and close form
-    Then I should see "Role saved"
+    Then I should see "Role saved" flash message
 
   Scenario: Moving customer user to another customer resets customer user in associated entities
     Then I go to Customers/Customer Users

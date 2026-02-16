@@ -47,7 +47,7 @@ Feature: Customer User Update User Profile capability
     And I fill form with:
       | First Name | Kate |
     And I save form
-    Then I should see "You do not have permission to perform this action"
+    Then I should see "You do not have permission to perform this action" flash message
     And I scroll to top
     When I follow "Account"
     Then I should see an "My Profile Menu Item" element
@@ -95,7 +95,7 @@ Feature: Customer User Update User Profile capability
     And I fill form with:
       | First Name | Kate |
     And I save form
-    Then I should see "You do not have permission to perform this action"
+    Then I should see "You do not have permission to perform this action" flash message
     And I scroll to top
     When I follow "Account"
     Then I should see an "My Profile Menu Item" element

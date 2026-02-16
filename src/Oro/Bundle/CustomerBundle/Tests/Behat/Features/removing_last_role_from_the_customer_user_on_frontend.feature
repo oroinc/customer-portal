@@ -21,12 +21,12 @@ Feature: Removing last role from the customer user on frontend
     And I click Edit AmandaRCole@example.org in grid
     And I click on "Enable Customer User checkbox"
     And I click "Save"
-    Then I should see "Customer User has been saved"
+    Then I should see "Customer User has been saved" flash message
     And I click "Roles"
     And I click Edit New Buyer Role in grid
     And I uncheck AmandaRCole@example.org record in grid
     And I click "Save"
-    Then I should see "Customer User Role has been saved"
+    Then I should see "Customer User Role has been saved" flash message
 
   Scenario: Enable user without roles
     Given I click "Users"
