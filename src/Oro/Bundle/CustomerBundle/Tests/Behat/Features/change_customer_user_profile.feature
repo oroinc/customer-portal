@@ -63,7 +63,7 @@ Feature: Change customer user profile
       | Birthday | 1/2/1954 |
     And I click on empty space
     And I click "Save"
-    Then I should see "Customer User profile updated"
+    Then I should see "Customer User profile updated" flash message
     And I should not see "Prefix Suffix"
     And I should see "Birthday 1/2/1954"
 

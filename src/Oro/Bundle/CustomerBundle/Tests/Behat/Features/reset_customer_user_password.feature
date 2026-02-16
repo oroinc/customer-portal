@@ -57,7 +57,7 @@ Feature: Reset customer user password
       | Password         | NancyJSallee@example.org1 |
       | Confirm Password | NancyJSallee@example.org1 |
     And click "Save Changes"
-    Then I should see "Password successfully changed"
+    Then I should see "Password successfully changed" flash message
 
   Scenario: Login with new password
     Given I fill "Customer Login Form" with:
@@ -106,7 +106,7 @@ Feature: Reset customer user password
       | Password         | NancyJSallee@example.org2 |
       | Confirm Password | NancyJSallee@example.org2 |
     And click "Save Changes"
-    Then I should see "Password successfully changed"
+    Then I should see "Password successfully changed" flash message
 
   Scenario: Login with new password
     Given I proceed as the Unauthorized
@@ -135,7 +135,7 @@ Feature: Reset customer user password
       | Password                             | NancyJSallee1  |
       | Confirm Password                     | NancyJSallee1  |
     And save and close form
-    Then I should see "Customer User has been saved"
+    Then I should see "Customer User has been saved" flash message
     Then I should see Customer User with:
       | Password | Active |
 
