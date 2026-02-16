@@ -1,0 +1,93 @@
+api:
+    entity_aliases:
+        Oro\Bundle\CommerceMenuBundle\Api\Model\CommerceMenuItem:
+            alias: menu
+            plural_alias: menus
+
+    entities:
+        Oro\Bundle\CommerceMenuBundle\Api\Model\CommerceMenuItem:
+            documentation_resource: '@OroCommerceMenuBundle/Resources/doc/api_frontend/menu.md'
+            identifier_field_names: [name]
+            disable_meta_properties: true
+            fields:
+                name:
+                    data_type: string
+                label:
+                    data_type: string
+                uri:
+                    data_type: string
+                description:
+                    data_type: string
+                extras:
+                    data_type: object
+                    exclusion_policy: all
+                    fields:
+                        icon:
+                            data_type: string
+                        position:
+                            data_type: integer
+                        image:
+                            data_type: string
+                        screens:
+                            data_type: array
+                        max_traverse_level:
+                            data_type: integer
+                        menu_template:
+                            data_type: string
+                link_attributes:
+                    data_type: object
+                contentNode:
+                    target_class: Oro\Bundle\WebCatalogBundle\Entity\ContentNode
+                    target_type: to-one
+                    exclusion_policy: all
+                    fields:
+                        id:
+                            data_type: integer
+                parent:
+                    target_class: Oro\Bundle\CommerceMenuBundle\Api\Model\CommerceMenuItem
+                    target_type: to-one
+                    property_path: parentName
+                resource:
+                    data_type: object
+                    fields:
+                        isSlug:
+                            data_type: boolean
+                        redirectUrl:
+                            data_type: string
+                        redirectStatusCode:
+                            data_type: integer
+                        resourceType:
+                            data_type: string
+                        apiUrl:
+                            data_type: string
+            actions:
+                get: false
+                get_list:
+                    description: Get menu items as a flat list with parent relationships
+                    disable_paging: true
+                    disable_sorting: true
+                create: false
+                update: false
+                delete: false
+                delete_list: false
+                get_subresource: false
+                get_relationship: false
+                delete_relationship: false
+                add_relationship: false
+                update_relationship: false
+            subresources:
+                contentNode:
+                    actions: false
+                parent:
+                    actions: false
+            filters:
+                fields:
+                    menu:
+                        data_type: string
+                        operators: ['=']
+                        description: Filter menu items by menu name (defaults to frontend_menu)
+                    depth:
+                        data_type: integer
+                        operators: ['=']
+                        description: Limit the depth of menu tree. If not provided menu will be unlimited.
+
