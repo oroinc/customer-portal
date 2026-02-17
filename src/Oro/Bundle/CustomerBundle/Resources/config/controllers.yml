@@ -14,14 +14,14 @@ services:
             - ['setContainer', ['@Psr\Container\ContainerInterface']]
         tags:
             - { name: container.service_subscriber }
-            - { name: container.service_subscriber, id: 'fragment.handler' }
+            - { name: container.service_subscriber, id: fragment.handler, key: Symfony\Component\HttpKernel\Fragment\FragmentHandler }
 
     Oro\Bundle\CustomerBundle\Controller\CustomerUserAddressController:
         calls:
             - ['setContainer', ['@Psr\Container\ContainerInterface']]
         tags:
             - { name: container.service_subscriber }
-            - { name: container.service_subscriber, id: 'fragment.handler' }
+            - { name: container.service_subscriber, id: fragment.handler, key: Symfony\Component\HttpKernel\Fragment\FragmentHandler }
 
     Oro\Bundle\CustomerBundle\Controller\CustomerUserController:
         calls:

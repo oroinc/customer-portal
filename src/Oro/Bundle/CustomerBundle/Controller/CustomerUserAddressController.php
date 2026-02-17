@@ -94,12 +94,12 @@ class CustomerUserAddressController extends AbstractController
 
         $form = $this->createForm(CustomerUserTypedAddressType::class, $address);
 
-        $manager = $this->container->get('doctrine')->getManagerForClass(CustomerUserAddress::class);
-
-        $handler = new AddressHandler($manager);
+        $handler = new AddressHandler(
+            $this->container->get(ManagerRegistry::class)->getManagerForClass(CustomerUserAddress::class)
+        );
 
         if ($handler->process($address, $form, $request)) {
-            $this->container->get('doctrine')->getManager()->flush();
+            $this->container->get(ManagerRegistry::class)->getManager()->flush();
             $responseData['entity'] = $address;
             $responseData['saved'] = true;
         }
@@ -122,7 +122,7 @@ class CustomerUserAddressController extends AbstractController
             'entityId' => $entity->getId()
         ]);
 
-        $currentAddresses = $this->container->get('fragment.handler')->render($addressListUrl);
+        $currentAddresses = $this->container->get(FragmentHandler::class)->render($addressListUrl);
 
         return [
             'wid'                    => $request->get('_wid'),
@@ -148,12 +148,9 @@ class CustomerUserAddressController extends AbstractController
     #[\Override]
     public static function getSubscribedServices(): array
     {
-        return array_merge(
-            parent::getSubscribedServices(),
-            [
-                'fragment.handler' => FragmentHandler::class,
-                'doctrine' => ManagerRegistry::class,
-            ]
-        );
+        return array_merge(parent::getSubscribedServices(), [
+            FragmentHandler::class,
+            ManagerRegistry::class
+        ]);
     }
 }
