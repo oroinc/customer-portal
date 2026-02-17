@@ -51,7 +51,7 @@ class CustomerGroupVoterTest extends TestCase
             ->willReturn(self::DEFAULT_GROUP_ID, false, false, $organization);
 
         $container = TestContainerBuilder::create()
-            ->add('oro_config.manager', $configManager)
+            ->add(ConfigManager::class, $configManager)
             ->getContainer($this);
 
         $this->voter = new CustomerGroupVoter($doctrineHelper, $container);

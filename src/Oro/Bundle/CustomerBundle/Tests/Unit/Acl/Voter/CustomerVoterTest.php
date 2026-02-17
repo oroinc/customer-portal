@@ -18,7 +18,6 @@ use Oro\Component\Testing\Unit\TestContainerBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Security\Acl\Domain\ObjectIdentity;
-use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
@@ -30,7 +29,6 @@ class CustomerVoterTest extends TestCase
 {
     private DoctrineHelper&MockObject $doctrineHelper;
     private AuthorizationCheckerInterface&MockObject $authorizationChecker;
-    private AuthenticationTrustResolverInterface&MockObject $trustResolver;
     private CustomerUserProvider&MockObject $securityProvider;
     private CustomerUserRelationsProvider&MockObject $relationsProvider;
     private CustomerVoter $voter;
@@ -40,19 +38,17 @@ class CustomerVoterTest extends TestCase
     {
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
         $this->authorizationChecker = $this->createMock(AuthorizationCheckerInterface::class);
-        $this->trustResolver = $this->createMock(AuthenticationTrustResolverInterface::class);
         $this->securityProvider = $this->createMock(CustomerUserProvider::class);
         $this->relationsProvider = $this->createMock(CustomerUserRelationsProvider::class);
 
         $container = TestContainerBuilder::create()
-            ->add('oro_customer.security.customer_user_provider', $this->securityProvider)
-            ->add('oro_customer.provider.customer_user_relations_provider', $this->relationsProvider)
+            ->add(CustomerUserProvider::class, $this->securityProvider)
+            ->add(CustomerUserRelationsProvider::class, $this->relationsProvider)
             ->getContainer($this);
 
         $this->voter = new CustomerVoter(
             $this->doctrineHelper,
             $this->authorizationChecker,
-            $this->trustResolver,
             $container
         );
     }

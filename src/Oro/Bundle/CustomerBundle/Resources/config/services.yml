@@ -17,12 +17,11 @@ services:
         arguments:
             - '@oro_entity.doctrine_helper'
             - '@security.authorization_checker'
-            - '@security.authentication.trust_resolver'
             - '@Psr\Container\ContainerInterface'
         tags:
             - { name: security.voter }
-            - { name: container.service_subscriber, id: oro_customer.security.customer_user_provider }
-            - { name: container.service_subscriber, id: oro_customer.provider.customer_user_relations_provider }
+            - { name: container.service_subscriber, id: oro_customer.security.customer_user_provider, key: Oro\Bundle\CustomerBundle\Security\CustomerUserProvider }
+            - { name: container.service_subscriber, id: oro_customer.provider.customer_user_relations_provider, key: Oro\Bundle\CustomerBundle\Provider\CustomerUserRelationsProvider }
 
     oro_customer.acl.voter.customer_group:
         class: 'Oro\Bundle\CustomerBundle\Acl\Voter\CustomerGroupVoter'
@@ -33,7 +32,7 @@ services:
             - [setClassName, ['Oro\Bundle\CustomerBundle\Entity\CustomerGroup']]
         tags:
             - { name: security.voter }
-            - { name: container.service_subscriber, id: oro_config.manager }
+            - { name: container.service_subscriber }
 
     oro_customer.event_listener.datagrid.customer:
         class: 'Oro\Bundle\CustomerBundle\EventListener\Datagrid\CustomerDatagridListener'

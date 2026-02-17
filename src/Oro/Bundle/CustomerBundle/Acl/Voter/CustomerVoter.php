@@ -12,7 +12,6 @@ use Oro\Bundle\SecurityBundle\Acl\BasicPermission;
 use Oro\Bundle\SecurityBundle\Acl\Voter\AbstractEntityVoter;
 use Oro\Bundle\SecurityBundle\Authentication\Token\AnonymousToken;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolverInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
@@ -27,9 +26,6 @@ class CustomerVoter extends AbstractEntityVoter implements ServiceSubscriberInte
 
     protected $supportedAttributes = [self::ATTRIBUTE_VIEW, self::ATTRIBUTE_EDIT];
 
-    private AuthorizationCheckerInterface $authorizationChecker;
-    private AuthenticationTrustResolverInterface $authenticationTrustResolver;
-    private ContainerInterface $container;
     private ?CustomerUserProvider $customerUserProvider = null;
 
     private mixed $object;
@@ -37,22 +33,18 @@ class CustomerVoter extends AbstractEntityVoter implements ServiceSubscriberInte
 
     public function __construct(
         DoctrineHelper $doctrineHelper,
-        AuthorizationCheckerInterface $authorizationChecker,
-        AuthenticationTrustResolverInterface $authenticationTrustResolver,
-        ContainerInterface $container
+        private readonly AuthorizationCheckerInterface $authorizationChecker,
+        private readonly ContainerInterface $container
     ) {
         parent::__construct($doctrineHelper);
-        $this->authorizationChecker = $authorizationChecker;
-        $this->authenticationTrustResolver = $authenticationTrustResolver;
-        $this->container = $container;
     }
 
     #[\Override]
     public static function getSubscribedServices(): array
     {
         return [
-            'oro_customer.security.customer_user_provider' => CustomerUserProvider::class,
-            'oro_customer.provider.customer_user_relations_provider' => CustomerUserRelationsProvider::class
+            CustomerUserProvider::class,
+            CustomerUserRelationsProvider::class
         ];
     }
 
@@ -192,7 +184,7 @@ class CustomerVoter extends AbstractEntityVoter implements ServiceSubscriberInte
     private function getCustomerUserProvider(): CustomerUserProvider
     {
         if (null === $this->customerUserProvider) {
-            $this->customerUserProvider = $this->container->get('oro_customer.security.customer_user_provider');
+            $this->customerUserProvider = $this->container->get(CustomerUserProvider::class);
         }
 
         return $this->customerUserProvider;
@@ -200,6 +192,6 @@ class CustomerVoter extends AbstractEntityVoter implements ServiceSubscriberInte
 
     private function getCustomerUserRelationsProvider(): CustomerUserRelationsProvider
     {
-        return $this->container->get('oro_customer.provider.customer_user_relations_provider');
+        return $this->container->get(CustomerUserRelationsProvider::class);
     }
 }
