@@ -79,7 +79,7 @@ class FrontendExposedRoutesExtractorTest extends TestCase
             [
                 'route' => new Route('route_6', [], [], ['frontend' => true, 'expose' => false]),
                 'name' => 'route_6',
-                'should_be_exposed' => true
+                'should_be_exposed' => false
             ]
         ];
     }

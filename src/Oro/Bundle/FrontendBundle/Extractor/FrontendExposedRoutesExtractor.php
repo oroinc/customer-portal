@@ -29,12 +29,10 @@ class FrontendExposedRoutesExtractor extends ExposedRoutesExtractor
     #[\Override]
     public function getRoutes(): RouteCollection
     {
-        $this->removeNegativeExposeParameterInRoutes(...$this->router->getRouteCollection());
-
         $routes = parent::getRoutes();
         $storefrontRoutes = new RouteCollection();
         foreach ($routes->all() as $name => $route) {
-            if ($route->hasOption('frontend') && $route->getOption('frontend')) {
+            if ($route->getOption('frontend')) {
                 $storefrontRoutes->add($name, $route);
             }
         }
@@ -44,11 +42,7 @@ class FrontendExposedRoutesExtractor extends ExposedRoutesExtractor
     #[\Override]
     public function isRouteExposed(Route $route, $name): bool
     {
-        $this->removeNegativeExposeParameterInRoutes($route);
-
-        return parent::isRouteExposed($route, $name) &&
-            $route->hasOption('frontend') &&
-            $route->getOption('frontend');
+        return parent::isRouteExposed($route, $name) && $route->getOption('frontend');
     }
 
     #[\Override]
@@ -59,14 +53,5 @@ class FrontendExposedRoutesExtractor extends ExposedRoutesExtractor
         $fileName = 'frontend_' . $fileName;
 
         return dirname($path) . DIRECTORY_SEPARATOR . $fileName;
-    }
-
-    private function removeNegativeExposeParameterInRoutes(Route ...$routes)
-    {
-        foreach ($routes as $route) {
-            if ($route->hasOption('expose') && $route->getOption('expose') === false) {
-                $route->setOption('expose', null);
-            }
-        }
     }
 }
