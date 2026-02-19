@@ -11,7 +11,7 @@ class ACLContext extends BaseACLContext
      */
     protected function getRoleEditFormElement()
     {
-        $elementName = $this->isUserRoleEditPage() || $this->isUserRoleCreatePage() ?
+        $elementName = $this->isUserRoleEditPage() || $this->isUserRoleCreatePage() || $this->isUserRoleClonePage() ?
             'UserRoleForm' : 'CustomerUserRoleForm';
 
         return $this->elementFactory->createElement($elementName);
@@ -35,6 +35,17 @@ class ACLContext extends BaseACLContext
     {
         return (bool) preg_match(
             '/\\'.$this->getAppContainer()->getParameter('web_backend_prefix').'\/user\/role\/create/',
+            $this->getSession()->getCurrentUrl()
+        );
+    }
+
+    /**
+     * @return bool
+     */
+    private function isUserRoleClonePage()
+    {
+        return (bool) preg_match(
+            '/\\' . $this->getAppContainer()->getParameter('web_backend_prefix') . '\/actionwidget\/form\/clone_role/',
             $this->getSession()->getCurrentUrl()
         );
     }
