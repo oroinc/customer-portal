@@ -3,7 +3,6 @@
 namespace Oro\Bundle\CustomerBundle\Owner;
 
 use Doctrine\DBAL\Connection;
-use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
@@ -219,8 +218,16 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
 
     private function getTopLevelCustomerId(): ?int
     {
-        if ($this->currentCustomer) {
-            return $this->getRootCustomer($this->currentCustomer);
+        $repository = $this->doctrine->getRepository(Customer::class);
+        $isRootCustomer = $this->currentCustomer?->getParent() === null;
+        $currentCustomerId = $this->currentCustomer?->getId();
+
+        if ($currentCustomerId && $isRootCustomer) {
+            return $currentCustomerId;
+        }
+
+        if ($currentCustomerId) {
+            return $repository->getRootCustomerId($currentCustomerId);
         }
 
         $customerUser = $this->getCustomerUser();
@@ -229,42 +236,11 @@ class FrontendOwnerTreeProvider extends AbstractOwnerTreeProvider implements Cus
         }
 
         $cacheKey = $this->getCustomerUserCacheKey($customerUser);
-        return $this->cache->get($cacheKey, function () use ($customerUser) {
+
+        return $this->cache->get($cacheKey, function () use ($customerUser, $repository) {
             $customer = $customerUser->getCustomer();
-            return $customer ? $this->getRootCustomer($customer) : null;
+            return $customer ? $repository->getRootCustomerId($customer->getId()) : null;
         });
-    }
-
-    private function getRootCustomer(Customer $customer): int
-    {
-        $originalId = $customerId = $customer->getId();
-
-        while ($parentId = $this->getCustomerParentId($customerId)) {
-            $customerId = $parentId;
-
-            // Prevent infinite loop in case of a cycle
-            if ($customerId === $originalId) {
-                break;
-            }
-        }
-
-        return $customerId;
-    }
-
-    private function getCustomerParentId(int $customerId): ?int
-    {
-        $customerClass = $this->ownershipMetadataProvider->getBusinessUnitClass();
-
-        $queryBuilder = $this
-            ->getRepository($customerClass)
-            ->createQueryBuilder('c');
-
-        return $queryBuilder
-            ->select('IDENTITY(c.parent)')
-            ->where($queryBuilder->expr()->eq('c.id', ':id'))
-            ->getQuery()
-            ->setParameter('id', $customerId)
-            ->getOneOrNullResult(AbstractQuery::HYDRATE_SINGLE_SCALAR);
     }
 
     private function getCustomerUserCacheKey(CustomerUser $customerUser): string
