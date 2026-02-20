@@ -110,6 +110,15 @@ services:
             - { name: oro.api.processor, action: customize_form_data, event: pre_validate, class: Oro\Bundle\CustomerBundle\Entity\CustomerAddress }
             - { name: oro.api.processor, action: customize_form_data, event: pre_validate, class: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress }
 
+    oro_customer.api.config.add_customer_owner_validator:
+        class: Oro\Bundle\CustomerBundle\Api\Processor\AddCustomerOwnerValidator
+        arguments:
+            - '@oro_api.doctrine_helper'
+            - '@oro_api.validation_helper'
+            - '@oro_customer.owner.frontend_ownership_metadata_provider'
+        tags:
+            - { name: oro.api.processor, action: get_config, extra: '!identifier_fields_only&!descriptions', targetAction: update|create|update_relationship|update_subresource|add_subresource|delete_subresource, priority: -50 }
+
     oro_customer.api.frontend.login.handle:
         class: Oro\Bundle\CustomerBundle\Api\Processor\HandleLogin
         arguments:
