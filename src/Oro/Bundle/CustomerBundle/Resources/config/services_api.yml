@@ -126,6 +126,8 @@ services:
         arguments:
             - '@oro_api.doctrine_helper'
             - '@oro_api.validation_helper'
+        calls:
+            - [ setFrontendOwnershipMetadataProvider, [ '@oro_customer.owner.frontend_ownership_metadata_provider' ] ]
         tags:
             - { name: oro.api.processor, action: get_config, extra: '!identifier_fields_only&!descriptions', targetAction: update|create|update_relationship|update_subresource|add_subresource|delete_subresource, priority: -50 }
 
