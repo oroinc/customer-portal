@@ -11,6 +11,7 @@ oro:
             user_customer_exists: 'This email is already used.'
             scope_with_customer_and_group: 'Should be chosen only one field. Customer Group or Customer.'
             no_permission_for_customer_related_entities: "Can't change customer because you don't have permissions for updating the following related entities: {{ entityNames }}"
+            owner: 'The customer user does not belong to the customer.'
             system_configuration:
                 case_insensitive:
                     duplicated_emails:
