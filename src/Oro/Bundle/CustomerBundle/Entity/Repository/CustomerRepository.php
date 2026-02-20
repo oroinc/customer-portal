@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity\Repository;
 
+use Doctrine\DBAL\ParameterType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityRepository;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
@@ -113,5 +114,33 @@ class CustomerRepository extends EntityRepository implements BatchIteratorInterf
         );
 
         return array_column($query->getArrayResult(), 'id');
+    }
+
+    /**
+     * Returns the root customer ID for a given customer by traversing the parent hierarchy.
+     * Uses a recursive CTE with cycle protection.
+     */
+    public function getRootCustomerId(int $customerId): int
+    {
+        $connection = $this->getEntityManager()->getConnection();
+
+        $result = $connection->executeQuery(
+            'WITH RECURSIVE q AS (
+                SELECT id, parent_id
+                FROM oro_customer c
+                WHERE c.id = :customerId
+                UNION
+                SELECT sub.id, sub.parent_id
+                FROM q
+                JOIN oro_customer sub ON sub.id = q.parent_id
+            )
+            SELECT id FROM q WHERE parent_id IS NULL',
+            ['customerId' => $customerId],
+            ['customerId' => ParameterType::INTEGER]
+        );
+
+        $rootId = $result->fetchOne();
+
+        return $rootId ? (int) $rootId : $customerId;
     }
 }
