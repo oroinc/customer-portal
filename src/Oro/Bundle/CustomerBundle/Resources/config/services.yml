@@ -886,6 +886,8 @@ services:
         class: Oro\Bundle\CustomerBundle\Validator\Constraints\CustomerOwnerValidator
         arguments:
             - '@security.authorization_checker'
+            - '@oro_customer.owner.frontend_ownership_metadata_provider'
+            - '@property_accessor'
         tags:
             - { name: validator.constraint_validator }
 
