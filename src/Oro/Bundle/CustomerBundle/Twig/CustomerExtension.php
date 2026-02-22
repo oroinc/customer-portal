@@ -18,37 +18,23 @@ use Twig\TwigFunction;
  */
 class CustomerExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
-    /** @var ContainerInterface */
-    protected $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
-     * @return CustomerUserProvider
-     */
-    protected function getCustomerUserProvider()
-    {
-        return $this->container->get('oro_customer.security.customer_user_provider');
-    }
-
-    /**
-     * @return LoggerInterface
-     */
-    protected function getLogger()
-    {
-        return $this->container->get(LoggerInterface::class);
+    public function __construct(
+        private readonly ContainerInterface $container
+    ) {
     }
 
     #[\Override]
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('is_granted_view_customer_user', [$this, 'isGrantedViewCustomerUser']),
             new TwigFunction('oro_customer_parent_parts', [$this, 'getCustomerParentParts']),
         ];
+    }
+
+    public function isGrantedViewCustomerUser(mixed $object): bool
+    {
+        return $this->getCustomerUserProvider()->isGrantedViewCustomerUser($object);
     }
 
     public function getCustomerParentParts(Customer $customer): array
@@ -72,22 +58,22 @@ class CustomerExtension extends AbstractExtension implements ServiceSubscriberIn
         return array_reverse($parts);
     }
 
-    /**
-     * @param string $object
-     *
-     * @return bool
-     */
-    public function isGrantedViewCustomerUser($object)
-    {
-        return $this->getCustomerUserProvider()->isGrantedViewCustomerUser($object);
-    }
-
     #[\Override]
     public static function getSubscribedServices(): array
     {
         return [
-            'oro_customer.security.customer_user_provider' => CustomerUserProvider::class,
-            LoggerInterface::class,
+            CustomerUserProvider::class,
+            LoggerInterface::class
         ];
+    }
+
+    private function getCustomerUserProvider(): CustomerUserProvider
+    {
+        return $this->container->get(CustomerUserProvider::class);
+    }
+
+    private function getLogger(): LoggerInterface
+    {
+        return $this->container->get(LoggerInterface::class);
     }
 }

@@ -6,7 +6,6 @@ use Knp\Menu\ItemInterface;
 use Knp\Menu\Matcher\MatcherInterface;
 use Oro\Bundle\CommerceMenuBundle\Layout\MenuItemRenderer;
 use Psr\Container\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Contracts\Service\ServiceSubscriberInterface;
 use Twig\Extension\AbstractExtension;
@@ -21,13 +20,9 @@ use Twig\TwigFunction;
  */
 class MenuExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
-    private ContainerInterface $container;
-    private ?MatcherInterface $matcher = null;
-    private ?RequestStack $requestStack = null;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
+    public function __construct(
+        private readonly ContainerInterface $container
+    ) {
     }
 
     #[\Override]
@@ -63,7 +58,7 @@ class MenuExtension extends AbstractExtension implements ServiceSubscriberInterf
             return $url;
         }
 
-        $request = $this->getRequest();
+        $request = $this->getRequestStack()->getCurrentRequest();
         if (null === $request) {
             return $url;
         }
@@ -85,34 +80,31 @@ class MenuExtension extends AbstractExtension implements ServiceSubscriberInterf
 
     public function renderMenuItem(ItemInterface $menuItem): string
     {
-        return $this->container->get('oro_commerce_menu.layout.menu_item_renderer')->render($menuItem);
+        return $this->getMenuItemRenderer()->render($menuItem);
     }
 
     #[\Override]
     public static function getSubscribedServices(): array
     {
         return [
-            'knp_menu.matcher' => MatcherInterface::class,
-            RequestStack::class,
-            'oro_commerce_menu.layout.menu_item_renderer' => MenuItemRenderer::class,
+            MatcherInterface::class,
+            MenuItemRenderer::class,
+            RequestStack::class
         ];
     }
 
     private function getMatcher(): MatcherInterface
     {
-        if (null === $this->matcher) {
-            $this->matcher = $this->container->get('knp_menu.matcher');
-        }
-
-        return $this->matcher;
+        return $this->container->get(MatcherInterface::class);
     }
 
-    private function getRequest(): ?Request
+    private function getMenuItemRenderer(): MenuItemRenderer
     {
-        if (null === $this->requestStack) {
-            $this->requestStack = $this->container->get(RequestStack::class);
-        }
+        return $this->container->get(MenuItemRenderer::class);
+    }
 
-        return $this->requestStack->getCurrentRequest();
+    private function getRequestStack(): RequestStack
+    {
+        return $this->container->get(RequestStack::class);
     }
 }

@@ -18,21 +18,21 @@ class MenuExtensionTest extends TestCase
     use TwigExtensionTestCaseTrait;
 
     private MatcherInterface&MockObject $matcher;
-    private RequestStack&MockObject $requestStack;
     private MenuItemRenderer&MockObject $menuItemRenderer;
+    private RequestStack&MockObject $requestStack;
     private MenuExtension $extension;
 
     #[\Override]
     protected function setUp(): void
     {
         $this->matcher = $this->createMock(MatcherInterface::class);
-        $this->requestStack = $this->createMock(RequestStack::class);
         $this->menuItemRenderer = $this->createMock(MenuItemRenderer::class);
+        $this->requestStack = $this->createMock(RequestStack::class);
 
         $container = self::getContainerBuilder()
-            ->add('knp_menu.matcher', $this->matcher)
+            ->add(MatcherInterface::class, $this->matcher)
+            ->add(MenuItemRenderer::class, $this->menuItemRenderer)
             ->add(RequestStack::class, $this->requestStack)
-            ->add('oro_commerce_menu.layout.menu_item_renderer', $this->menuItemRenderer)
             ->getContainer($this);
 
         $this->extension = new MenuExtension($container);

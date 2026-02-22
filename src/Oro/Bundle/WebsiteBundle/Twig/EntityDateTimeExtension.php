@@ -23,11 +23,9 @@ use Twig\TwigFilter;
  */
 class EntityDateTimeExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
-    private ContainerInterface $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
+    public function __construct(
+        private readonly ContainerInterface $container
+    ) {
     }
 
     #[\Override]
@@ -146,13 +144,9 @@ class EntityDateTimeExtension extends AbstractExtension implements ServiceSubscr
     {
         return [
             'oro_config.global' => ConfigManager::class,
-            'oro_config.manager' => ConfigManager::class,
+            WebsiteAwareEntityHelper::class,
+            ConfigManager::class
         ];
-    }
-
-    private function getConfigManager(): ConfigManager
-    {
-        return $this->container->get('oro_config.manager');
     }
 
     private function getSystemConfigManager(): ConfigManager
@@ -162,7 +156,12 @@ class EntityDateTimeExtension extends AbstractExtension implements ServiceSubscr
 
     private function getWebsiteAwareEntityHelper(): WebsiteAwareEntityHelper
     {
-        return $this->container->get('oro_website.website_aware_entity_helper');
+        return $this->container->get(WebsiteAwareEntityHelper::class);
+    }
+
+    private function getConfigManager(): ConfigManager
+    {
+        return $this->container->get(ConfigManager::class);
     }
 
     private function getDateTimeExtension(Environment $env): DateTimeExtension

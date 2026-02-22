@@ -164,12 +164,12 @@ services:
             - { name: oro_commerce_menu.condition.expression_language_provider }
 
     oro_commerce_menu.twig.menu_extension:
-        class: 'Oro\Bundle\CommerceMenuBundle\Twig\MenuExtension'
-        public: false
+        class: Oro\Bundle\CommerceMenuBundle\Twig\MenuExtension
         arguments:
             - '@oro_platform.twig.service_locator'
         tags:
             - { name: twig.extension }
+            - { name: container.service_subscriber, id: oro_commerce_menu.layout.menu_item_renderer, key: Oro\Bundle\CommerceMenuBundle\Layout\MenuItemRenderer }
 
     oro_commerce_menu.data_provider.menu:
         class: 'Oro\Bundle\CommerceMenuBundle\Layout\DataProvider\MenuProvider'

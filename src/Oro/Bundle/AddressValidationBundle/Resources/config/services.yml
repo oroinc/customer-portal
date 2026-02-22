@@ -52,6 +52,9 @@ services:
             - '%oro_address_validation.address_validation_fields%'
         tags:
             - { name: twig.extension }
+            - { name: container.service_subscriber, id: oro_locale.formatter.address, key: Oro\Bundle\LocaleBundle\Formatter\AddressFormatter }
+            - { name: container.service_subscriber, id: oro_locale.twig.formatted_address_renderer, key: Oro\Bundle\LocaleBundle\Twig\FormattedAddressRenderer }
+            - { name: container.service_subscriber, id: oro_address_validation.formatter.resolved_address, key: Oro\Bundle\AddressValidationBundle\Formatter\ResolvedAddressFormatter }
 
     oro_address_validation.formatter.resolved_address:
         class: Oro\Bundle\AddressValidationBundle\Formatter\ResolvedAddressFormatter

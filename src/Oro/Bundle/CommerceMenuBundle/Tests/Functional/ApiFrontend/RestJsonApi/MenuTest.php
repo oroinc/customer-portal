@@ -16,21 +16,34 @@ final class MenuTest extends FrontendRestJsonApiTestCase
 {
     use ConfigManagerAwareTestTrait;
 
+    private ?int $initialWebCatalogId;
+
     #[\Override]
     protected function setUp(): void
     {
         parent::setUp();
-        self::loadFixtures([
+        $this->loadFixtures([
             MenuUpdateWithBrokenItemsData::class,
-            LoadFrontendMenuContentNodeData::class,
+            LoadFrontendMenuContentNodeData::class
         ]);
 
         $configManager = self::getConfigManager();
-        $webCatalogId = $this->getReference(LoadWebCatalogData::CATALOG_1)->getId();
-        $configManager->set('oro_web_catalog.web_catalog', $webCatalogId);
+        $this->initialWebCatalogId = $configManager->get('oro_web_catalog.web_catalog');
+        $configManager->set(
+            'oro_web_catalog.web_catalog',
+            $this->getReference(LoadWebCatalogData::CATALOG_1)->getId()
+        );
         $configManager->flush();
 
         $this->initializeVisitor();
+    }
+
+    #[\Override]
+    protected function tearDown(): void
+    {
+        $configManager = self::getConfigManager();
+        $configManager->set('oro_web_catalog.web_catalog', $this->initialWebCatalogId);
+        $configManager->flush();
     }
 
     public function testGetMenu(): void
@@ -42,7 +55,7 @@ final class MenuTest extends FrontendRestJsonApiTestCase
 
         self::assertResponseStatusCodeEquals($response, Response::HTTP_OK);
 
-        $content = json_decode($response->getContent(), true);
+        $content = self::jsonToArray($response->getContent());
         self::assertArrayHasKey('data', $content);
         self::assertIsArray($content['data']);
         self::assertNotEmpty($content['data'], 'frontend_menu should have items from MenuUpdate fixtures');
@@ -76,7 +89,7 @@ final class MenuTest extends FrontendRestJsonApiTestCase
 
         self::assertResponseStatusCodeEquals($response, Response::HTTP_OK);
 
-        $content = json_decode($response->getContent(), true);
+        $content = self::jsonToArray($response->getContent());
         self::assertArrayHasKey('data', $content);
         self::assertIsArray($content['data']);
 
@@ -103,7 +116,7 @@ final class MenuTest extends FrontendRestJsonApiTestCase
         );
 
         self::assertResponseStatusCodeEquals($response, Response::HTTP_OK);
-        $content = json_decode($response->getContent(), true);
+        $content = self::jsonToArray($response->getContent());
         self::assertArrayHasKey('data', $content);
         self::assertIsArray($content['data']);
         self::assertEmpty($content['data'], 'Non-existent menu should return empty array');

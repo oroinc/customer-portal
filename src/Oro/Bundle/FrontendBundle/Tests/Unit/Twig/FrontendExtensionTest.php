@@ -24,10 +24,10 @@ class FrontendExtensionTest extends TestCase
     use TwigExtensionTestCaseTrait;
 
     private Environment&MockObject $environment;
-    private FrontendHelper&MockObject $frontendHelper;
-    private RouterInterface&MockObject $router;
     private ContentProviderManager&MockObject $contentProviderManager;
     private ContentProviderManager&MockObject $frontendContentProviderManager;
+    private RouterInterface&MockObject $router;
+    private FrontendHelper&MockObject $frontendHelper;
     private StorefrontEntityUrlProvider&MockObject $storefrontEntityUrlProvider;
     private DoctrineHelper&MockObject $doctrineHelper;
     private FrontendExtension $extension;
@@ -36,18 +36,18 @@ class FrontendExtensionTest extends TestCase
     protected function setUp(): void
     {
         $this->environment = $this->createMock(Environment::class);
-        $this->frontendHelper = $this->createMock(FrontendHelper::class);
-        $this->router = $this->createMock(RouterInterface::class);
         $this->contentProviderManager = $this->createMock(ContentProviderManager::class);
         $this->frontendContentProviderManager = $this->createMock(ContentProviderManager::class);
+        $this->router = $this->createMock(RouterInterface::class);
+        $this->frontendHelper = $this->createMock(FrontendHelper::class);
         $this->storefrontEntityUrlProvider = $this->createMock(StorefrontEntityUrlProvider::class);
         $this->doctrineHelper = $this->createMock(DoctrineHelper::class);
 
         $container = self::getContainerBuilder()
-            ->add(FrontendHelper::class, $this->frontendHelper)
-            ->add(RouterInterface::class, $this->router)
             ->add('oro_ui.content_provider.manager', $this->contentProviderManager)
             ->add('oro_frontend.content_provider.manager', $this->frontendContentProviderManager)
+            ->add(RouterInterface::class, $this->router)
+            ->add(FrontendHelper::class, $this->frontendHelper)
             ->add(StorefrontEntityUrlProvider::class, $this->storefrontEntityUrlProvider)
             ->add(DoctrineHelper::class, $this->doctrineHelper)
             ->getContainer($this);
@@ -77,12 +77,12 @@ class FrontendExtensionTest extends TestCase
         return [
             [
                 'isFrontendRequest' => false,
-                'routeName' => 'oro_default',
+                'routeName' => 'oro_default'
             ],
             [
                 'isFrontendRequest' => true,
-                'routeName' => 'oro_frontend_root',
-            ],
+                'routeName' => 'oro_frontend_root'
+            ]
         ];
     }
 
@@ -147,14 +147,14 @@ class FrontendExtensionTest extends TestCase
                 'content' => ['b' => 'c'],
                 'additionalContent' => ['a' => 'b'],
                 'keys' => ['a', 'b', 'c'],
-                'expected' => ['a' => 'b', 'b' => 'c'],
+                'expected' => ['a' => 'b', 'b' => 'c']
             ],
             'without additional content and keys' => [
                 'content' => ['b' => 'c'],
                 'additionalContent' => null,
                 'keys' => null,
-                'expected' => ['b' => 'c'],
-            ],
+                'expected' => ['b' => 'c']
+            ]
         ];
     }
 

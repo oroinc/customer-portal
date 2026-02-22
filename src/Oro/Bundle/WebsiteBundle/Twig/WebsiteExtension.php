@@ -20,11 +20,9 @@ use Twig\TwigFunction;
  */
 class WebsiteExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
-    private ContainerInterface $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
+    public function __construct(
+        private readonly ContainerInterface $container
+    ) {
     }
 
     #[\Override]
@@ -42,26 +40,12 @@ class WebsiteExtension extends AbstractExtension implements ServiceSubscriberInt
         return $this->getWebsiteManager()->getCurrentWebsite();
     }
 
-    /**
-     * @param string       $route
-     * @param array        $routeParams
-     * @param Website|null $website
-     *
-     * @return string
-     */
-    public function getWebsitePath($route, array $routeParams = [], ?Website $website = null)
+    public function getWebsitePath(string $route, array $routeParams = [], ?Website $website = null): string
     {
         return $this->getWebsiteUrlResolver()->getWebsitePath($route, $routeParams, $website);
     }
 
-    /**
-     * @param string       $route
-     * @param array        $routeParams
-     * @param Website|null $website
-     *
-     * @return string
-     */
-    public function getWebsiteSecurePath($route, array $routeParams = [], ?Website $website = null)
+    public function getWebsiteSecurePath(string $route, array $routeParams = [], ?Website $website = null): string
     {
         return $this->getWebsiteUrlResolver()->getWebsiteSecurePath($route, $routeParams, $website);
     }
@@ -70,18 +54,18 @@ class WebsiteExtension extends AbstractExtension implements ServiceSubscriberInt
     public static function getSubscribedServices(): array
     {
         return [
-            'oro_website.manager' => WebsiteManager::class,
-            'oro_website.resolver.website_url_resolver' => WebsiteUrlResolver::class,
+            WebsiteUrlResolver::class,
+            WebsiteManager::class
         ];
-    }
-
-    private function getWebsiteManager(): WebsiteManager
-    {
-        return $this->container->get('oro_website.manager');
     }
 
     private function getWebsiteUrlResolver(): WebsiteUrlResolver
     {
-        return $this->container->get('oro_website.resolver.website_url_resolver');
+        return $this->container->get(WebsiteUrlResolver::class);
+    }
+
+    private function getWebsiteManager(): WebsiteManager
+    {
+        return $this->container->get(WebsiteManager::class);
     }
 }

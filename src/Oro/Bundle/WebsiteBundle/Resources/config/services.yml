@@ -15,11 +15,11 @@ services:
 
     oro_website.twig.entity_date_time_extension:
         class: Oro\Bundle\WebsiteBundle\Twig\EntityDateTimeExtension
-        public: false
         arguments:
             - '@oro_platform.twig.service_locator'
         tags:
             - { name: twig.extension }
+            - { name: container.service_subscriber, id: oro_website.website_aware_entity_helper, key: Oro\Bundle\WebsiteBundle\Helper\WebsiteAwareEntityHelper }
 
     oro_website.website.manager.api:
         class: 'Oro\Bundle\SoapBundle\Entity\Manager\ApiEntityManager'
@@ -103,7 +103,6 @@ services:
 
     oro_website.twig.website_extension:
         class: Oro\Bundle\WebsiteBundle\Twig\WebsiteExtension
-        public: false
         arguments:
             - '@oro_platform.twig.service_locator'
         tags:

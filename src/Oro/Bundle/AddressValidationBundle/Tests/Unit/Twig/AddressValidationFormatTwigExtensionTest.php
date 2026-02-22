@@ -33,9 +33,9 @@ class AddressValidationFormatTwigExtensionTest extends TestCase
         $propertyAccessor = new PropertyAccessor();
 
         $container = self::getContainerBuilder()
-            ->add('oro_locale.formatter.address', $this->addressFormatter)
-            ->add('oro_locale.twig.formatted_address_renderer', $this->formattedAddressRenderer)
-            ->add('oro_address_validation.formatter.resolved_address', $this->resolvedAddressFormatter)
+            ->add(AddressFormatter::class, $this->addressFormatter)
+            ->add(FormattedAddressRenderer::class, $this->formattedAddressRenderer)
+            ->add(ResolvedAddressFormatter::class, $this->resolvedAddressFormatter)
             ->add(PropertyAccessorInterface::class, $propertyAccessor)
             ->getContainer($this);
 

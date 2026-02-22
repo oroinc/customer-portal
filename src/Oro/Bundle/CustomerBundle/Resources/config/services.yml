@@ -416,11 +416,12 @@ services:
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.after.customer-customer-user-grid, method: onBuildAfter }
 
     oro_customer.twig.security_extension:
-        class: 'Oro\Bundle\CustomerBundle\Twig\CustomerExtension'
+        class: Oro\Bundle\CustomerBundle\Twig\CustomerExtension
         arguments:
-            - "@oro_platform.twig.service_locator"
+            - '@oro_platform.twig.service_locator'
         tags:
             - { name: twig.extension }
+            - { name: container.service_subscriber, id: oro_customer.security.customer_user_provider, key: Oro\Bundle\CustomerBundle\Security\CustomerUserProvider }
 
     oro_customer.event_listener.system_config.default_customer_owner:
         class: Oro\Bundle\ConfigBundle\EventListener\EntitySystemConfigListener

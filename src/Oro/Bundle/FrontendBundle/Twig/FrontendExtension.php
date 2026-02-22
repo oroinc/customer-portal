@@ -23,15 +23,13 @@ use Twig\TwigFunction;
  */
 class FrontendExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
-    private ContainerInterface $container;
-
-    public function __construct(ContainerInterface $container)
-    {
-        $this->container = $container;
+    public function __construct(
+        private readonly ContainerInterface $container
+    ) {
     }
 
     #[\Override]
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             // Overrides `oro_default_page` declared in {@see \Oro\Bundle\UIBundle\Twig\UiExtension}.
@@ -80,7 +78,7 @@ class FrontendExtension extends AbstractExtension implements ServiceSubscriberIn
         object|string $entity,
         string $routeType = EntityUrlProviderInterface::ROUTE_INDEX
     ): ?string {
-        return $this->container->get(StorefrontEntityUrlProvider::class)->getRoute($entity, $routeType);
+        return $this->getFrontendEntityUrlProvider()->getRoute($entity, $routeType);
     }
 
     public function getStorefrontEntityViewLink(
@@ -94,31 +92,35 @@ class FrontendExtension extends AbstractExtension implements ServiceSubscriberIn
             );
         }
         $entityId = \is_object($entity)
-            ? $this->container->get(DoctrineHelper::class)->getSingleEntityIdentifier($entity)
+            ? $this->getDoctrineHelper()->getSingleEntityIdentifier($entity)
             : $id;
 
-        return $this->container->get(StorefrontEntityUrlProvider::class)
-            ->getViewUrl($entity, $entityId, $extraRouteParams);
+        return $this->getFrontendEntityUrlProvider()->getViewUrl($entity, $entityId, $extraRouteParams);
     }
 
-    public function getStorefrontEntityIndexLink(
-        object|string $entity,
-        array $extraRouteParams = []
-    ): ?string {
-        return $this->container->get(StorefrontEntityUrlProvider::class)->getIndexUrl($entity, $extraRouteParams);
+    public function getStorefrontEntityIndexLink(object|string $entity, array $extraRouteParams = []): ?string
+    {
+        return $this->getFrontendEntityUrlProvider()->getIndexUrl($entity, $extraRouteParams);
     }
 
     #[\Override]
     public static function getSubscribedServices(): array
     {
         return [
+            'oro_ui.content_provider.manager' => ContentProviderManager::class,
+            'oro_frontend.content_provider.manager' => ContentProviderManager::class,
             RouterInterface::class,
             FrontendHelper::class,
-            'oro_ui.content_provider.manager',
-            'oro_frontend.content_provider.manager',
             StorefrontEntityUrlProvider::class,
-            DoctrineHelper::class,
+            DoctrineHelper::class
         ];
+    }
+
+    private function getContentProviderManager(): ContentProviderManager
+    {
+        return $this->getFrontendHelper()->isFrontendRequest()
+            ? $this->container->get('oro_frontend.content_provider.manager')
+            : $this->container->get('oro_ui.content_provider.manager');
     }
 
     private function getRouter(): RouterInterface
@@ -131,12 +133,13 @@ class FrontendExtension extends AbstractExtension implements ServiceSubscriberIn
         return $this->container->get(FrontendHelper::class);
     }
 
-    private function getContentProviderManager(): ContentProviderManager
+    private function getFrontendEntityUrlProvider(): StorefrontEntityUrlProvider
     {
-        if ($this->getFrontendHelper()->isFrontendRequest()) {
-            return $this->container->get('oro_frontend.content_provider.manager');
-        }
+        return $this->container->get(StorefrontEntityUrlProvider::class);
+    }
 
-        return $this->container->get('oro_ui.content_provider.manager');
+    private function getDoctrineHelper(): DoctrineHelper
+    {
+        return $this->container->get(DoctrineHelper::class);
     }
 }

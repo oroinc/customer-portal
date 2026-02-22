@@ -38,7 +38,7 @@ class EntityDateTimeExtensionTest extends TestCase
             ->willReturn($this->dateTimeExtension);
 
         $container = self::getContainerBuilder()
-            ->add('oro_config.manager', $this->configManager)
+            ->add(ConfigManager::class, $this->configManager)
             ->add('oro_config.global', $this->globalConfigManager)
             ->getContainer($this);
 

@@ -22,23 +22,10 @@ use Twig\TwigFilter;
  */
 class AddressValidationFormatTwigExtension extends AbstractExtension implements ServiceSubscriberInterface
 {
-    /**
-     * @param ContainerInterface $container
-     * @param array<string> $addressValidationFields
-     */
-    public function __construct(private ContainerInterface $container, private array $addressValidationFields)
-    {
-    }
-
-    #[\Override]
-    public static function getSubscribedServices(): array
-    {
-        return [
-            'oro_locale.formatter.address' => AddressFormatter::class,
-            'oro_locale.twig.formatted_address_renderer' => FormattedAddressRenderer::class,
-            'oro_address_validation.formatter.resolved_address' => ResolvedAddressFormatter::class,
-            PropertyAccessorInterface::class,
-        ];
+    public function __construct(
+        private readonly ContainerInterface $container,
+        private readonly array $addressValidationFields
+    ) {
     }
 
     #[\Override]
@@ -77,11 +64,6 @@ class AddressValidationFormatTwigExtension extends AbstractExtension implements 
             ->formatResolvedAddress($resolvedAddress, $country, $newLineSeparator);
     }
 
-    private function getResolvedAddressFormatter(): ResolvedAddressFormatter
-    {
-        return $this->container->get('oro_address_validation.formatter.resolved_address');
-    }
-
     public function formatResolvedAddressHtml(
         ?ResolvedAddress $resolvedAddress,
         ?string $country = null,
@@ -112,7 +94,7 @@ class AddressValidationFormatTwigExtension extends AbstractExtension implements 
         }
 
         $propertyAccessor = $this->getPropertyAccessor();
-        $preparedAddress = new (ClassUtils::getClass($originalAddress));
+        $preparedAddress = new (ClassUtils::getClass($originalAddress))();
         foreach ($this->addressValidationFields as $fieldName) {
             $propertyAccessor->setValue(
                 $preparedAddress,
@@ -129,18 +111,34 @@ class AddressValidationFormatTwigExtension extends AbstractExtension implements 
         return $this->getFormattedAddressRenderer()->renderAddress($addressParts, $addressFormat, $newLineSeparator);
     }
 
-    private function getPropertyAccessor(): PropertyAccessorInterface
+    #[\Override]
+    public static function getSubscribedServices(): array
     {
-        return $this->container->get(PropertyAccessorInterface::class);
+        return [
+            AddressFormatter::class,
+            FormattedAddressRenderer::class,
+            ResolvedAddressFormatter::class,
+            PropertyAccessorInterface::class
+        ];
     }
 
     private function getAddressFormatter(): AddressFormatter
     {
-        return $this->container->get('oro_locale.formatter.address');
+        return $this->container->get(AddressFormatter::class);
     }
 
     private function getFormattedAddressRenderer(): FormattedAddressRenderer
     {
-        return $this->container->get('oro_locale.twig.formatted_address_renderer');
+        return $this->container->get(FormattedAddressRenderer::class);
+    }
+
+    private function getResolvedAddressFormatter(): ResolvedAddressFormatter
+    {
+        return $this->container->get(ResolvedAddressFormatter::class);
+    }
+
+    private function getPropertyAccessor(): PropertyAccessorInterface
+    {
+        return $this->container->get(PropertyAccessorInterface::class);
     }
 }

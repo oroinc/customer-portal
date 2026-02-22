@@ -14,19 +14,19 @@ class WebsiteExtensionTest extends TestCase
 {
     use TwigExtensionTestCaseTrait;
 
-    private WebsiteManager&MockObject $websiteManager;
     private WebsiteUrlResolver&MockObject $websiteUrlResolver;
+    private WebsiteManager&MockObject $websiteManager;
     private WebsiteExtension $extension;
 
     #[\Override]
     protected function setUp(): void
     {
-        $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->websiteUrlResolver = $this->createMock(WebsiteUrlResolver::class);
+        $this->websiteManager = $this->createMock(WebsiteManager::class);
 
         $container = self::getContainerBuilder()
-            ->add('oro_website.manager', $this->websiteManager)
-            ->add('oro_website.resolver.website_url_resolver', $this->websiteUrlResolver)
+            ->add(WebsiteUrlResolver::class, $this->websiteUrlResolver)
+            ->add(WebsiteManager::class, $this->websiteManager)
             ->getContainer($this);
 
         $this->extension = new WebsiteExtension($container);
