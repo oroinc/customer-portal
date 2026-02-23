@@ -5,21 +5,19 @@ namespace Oro\Bundle\CommerceMenuBundle\Api\Model;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 
 /**
- * Represents a menu item data structure.
- * Contains properties from ItemInterface.
+ * Represents a storefront menu item.
  */
-final readonly class CommerceMenuItem
+final class CommerceMenuItem
 {
     public function __construct(
-        private string $name,
-        private string $label,
-        private ?string $uri = null,
-        private ?string $description = null,
-        private array $extras = [],
-        private array $link_attributes = [],
-        private ?string $parentName = null,
-        private ?ContentNode $contentNode = null,
-        private ?array $resource = null,
+        private readonly string $name,
+        private readonly string $label,
+        private readonly ?string $uri = null,
+        private readonly ?string $description = null,
+        private readonly array $extras = [],
+        private readonly array $linkAttributes = [],
+        private readonly ?string $parentName = null,
+        private readonly ?ContentNode $contentNode = null
     ) {
     }
 
@@ -48,6 +46,11 @@ final readonly class CommerceMenuItem
         return $this->extras;
     }
 
+    public function getLinkAttributes(): array
+    {
+        return $this->linkAttributes;
+    }
+
     public function getParentName(): ?string
     {
         return $this->parentName;
@@ -56,15 +59,5 @@ final readonly class CommerceMenuItem
     public function getContentNode(): ?ContentNode
     {
         return $this->contentNode;
-    }
-
-    public function getResource(): ?array
-    {
-        return $this->resource;
-    }
-
-    public function getLinkAttributes(): array
-    {
-        return $this->link_attributes;
     }
 }

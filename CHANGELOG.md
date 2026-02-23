@@ -6,9 +6,6 @@ The current file describes significant changes in the code that may affect the u
 
 ### Added
 
-#### CommerceMenuBundle
-* Added `\Oro\Bundle\CommerceMenuBundle\Api\Processor\Menu\LoadMenuProcessor` processor to load menu data as a flat list with parent relationships.
-
 #### FrontendAttachmentBundle
 * Added parameter `oro_frontend.frontend_api.use_absolute_urls_for_api`, default true, to enable absolute URLs for attachment images and CMS assets in API responses.
 * Added processor `\Oro\Bundle\FrontendAttachmentBundle\Api\Processor\ConvertProductSearchImageUrlsToAbsolute` to handle URL conversion for ProductSearch entities in API responses.

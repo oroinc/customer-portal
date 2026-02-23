@@ -4,9 +4,7 @@
 
 ### get_list
 
-Retrieve a collection of menu items as a flat list with parent relationships.
-
-{@inheritdoc}
+Retrieve a collection of menu items as a flat list.
 
 ## FIELDS
 
@@ -24,21 +22,21 @@ The URI or URL of the menu item.
 
 ### description
 
-The localized description of the menu item. Null if not set.
+The localized description of the menu item.
 
 When the description comes from the menu item form (MenuUpdate), it is already localized for the current locale. When it comes from navigation config (e.g. a translation key), it is translated for the current locale.
 
 ### link_attributes
 
-An object that contains HTML attributes for the menu item link (e.g. ``target`` for opening in a new window).
+An object that contains HTML attributes for the menu item link.
 
-When the menu item is configured to open in a new window, the object contains ``target`` with value ``_blank``. Otherwise the object is empty.
+For example, when the menu item is configured to open in a new window, the object contains ``target`` property with value ``_blank``.
 
 ### extras
 
-An object that contains additional properties of the menu item.
+Additional properties of the menu item.
 
-Each element of the object can have the following properties:
+It is an object with the following properties:
 
 **icon** is a string that contains the icon identifier for the menu item.
 
@@ -62,9 +60,9 @@ The parent menu item in the menu hierarchy.
 
 ### resource
 
-An object that contains resource information for the menu item.
+Resource information for the menu item.
 
-Each element of the object can have the following properties:
+It is an object with the following properties:
 
 **isSlug** is a boolean that indicates whether the URI is a slug.
 

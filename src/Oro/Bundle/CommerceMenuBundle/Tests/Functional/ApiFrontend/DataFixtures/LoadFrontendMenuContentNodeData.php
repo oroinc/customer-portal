@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\CommerceMenuBundle\Tests\Functional\DataFixtures;
+namespace Oro\Bundle\CommerceMenuBundle\Tests\Functional\ApiFrontend\DataFixtures;
 
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -10,7 +10,6 @@ use Oro\Bundle\NavigationBundle\Tests\Functional\DataFixtures\MenuUpdateTrait;
 use Oro\Bundle\RedirectBundle\Entity\Slug;
 use Oro\Bundle\ScopeBundle\Entity\Scope;
 use Oro\Bundle\ScopeBundle\Tests\Functional\DataFixtures\LoadScopeData;
-use Oro\Bundle\ScopeBundle\Tests\Functional\DataFixtures\LoadWebContentScopeData;
 use Oro\Bundle\WebCatalogBundle\ContentVariantType\SystemPageContentVariantType;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 use Oro\Bundle\WebCatalogBundle\Entity\ContentVariant;
@@ -31,7 +30,7 @@ class LoadFrontendMenuContentNodeData extends AbstractFixture implements Depende
         return [
             LoadContentNodesData::class,
             LoadWebContentScopeData::class,
-            LoadScopeData::class,
+            LoadScopeData::class
         ];
     }
 
@@ -43,7 +42,6 @@ class LoadFrontendMenuContentNodeData extends AbstractFixture implements Depende
 
         /** @var ContentNode $contentNode */
         $contentNode = $this->getReference(LoadContentNodesData::CATALOG_1_ROOT);
-
         $contentNode->addScope($scope);
 
         $slug = new Slug();
@@ -76,14 +74,13 @@ class LoadFrontendMenuContentNodeData extends AbstractFixture implements Depende
                 'active' => true,
                 'priority' => 10,
                 'divider' => false,
-                'custom' => true,
+                'custom' => true
             ],
             MenuUpdate::class
         );
 
         $this->setReference(self::FRONTEND_MENU_CONTENT_NODE_ITEM, $menuUpdate);
         $manager->persist($menuUpdate);
-
         $manager->flush();
     }
 }

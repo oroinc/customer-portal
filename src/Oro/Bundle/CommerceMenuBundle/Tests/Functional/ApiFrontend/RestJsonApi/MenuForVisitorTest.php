@@ -6,7 +6,7 @@ use Oro\Bundle\ApiBundle\Tests\Functional\JsonApiDocContainsConstraint;
 use Oro\Bundle\CommerceMenuBundle\Tests\Functional\ApiFrontend\DataFixtures\LoadFrontendMenuContentNodeData;
 use Oro\Bundle\CommerceMenuBundle\Tests\Functional\DataFixtures\MenuUpdateWithBrokenItemsData;
 use Oro\Bundle\ConfigBundle\Tests\Functional\Traits\ConfigManagerAwareTestTrait;
-use Oro\Bundle\CustomerBundle\Tests\Functional\ApiFrontend\DataFixtures\LoadAdminCustomerUserData;
+use Oro\Bundle\CustomerBundle\Tests\Functional\ApiFrontend\DataFixtures\LoadCustomerData;
 use Oro\Bundle\FrontendBundle\Tests\Functional\ApiFrontend\FrontendRestJsonApiTestCase;
 use Oro\Bundle\WebCatalogBundle\Tests\Functional\DataFixtures\LoadWebCatalogData;
 use Symfony\Component\HttpFoundation\Response;
@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
-class MenuTest extends FrontendRestJsonApiTestCase
+class MenuForVisitorTest extends FrontendRestJsonApiTestCase
 {
     use ConfigManagerAwareTestTrait;
 
@@ -24,9 +24,9 @@ class MenuTest extends FrontendRestJsonApiTestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->initializeVisitor();
         $this->loadFixtures([
-            LoadAdminCustomerUserData::class,
-            LoadWebCatalogData::class,
+            LoadCustomerData::class,
             MenuUpdateWithBrokenItemsData::class,
             LoadFrontendMenuContentNodeData::class
         ]);
@@ -86,10 +86,7 @@ class MenuTest extends FrontendRestJsonApiTestCase
      */
     public function testGetList(): void
     {
-        $response = $this->cget(
-            ['entity' => 'menus'],
-            ['filter' => ['menu' => 'frontend_menu'], 'include' => 'contentNode.webCatalog']
-        );
+        $response = $this->cget(['entity' => 'menus']);
 
         $this->assertMenuResponseContains(
             [
@@ -205,198 +202,6 @@ class MenuTest extends FrontendRestJsonApiTestCase
                             'parent' => ['data' => null]
                         ]
                     ]
-                ],
-                'included' => [
-                    [
-                        'type' => 'webcatalogs',
-                        'id' => '<toString(@web_catalog.1->id)>',
-                        'attributes' => [
-                            'name' => 'web_catalog.1',
-                            'description' => 'web_catalog.1 description'
-                        ]
-                    ],
-                    [
-                        'type' => 'webcatalogtree',
-                        'id' => '<toString(@web_catalog.node.1.root->id)>',
-                        'attributes' => [
-                            'order' => 1,
-                            'level' => 0
-                        ],
-                        'relationships' => [
-                            'parent' => ['data' => null],
-                            'webCatalog' => [
-                                'data' => [
-                                    'type' => 'webcatalogs',
-                                    'id' => '<toString(@web_catalog.1->id)>'
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ],
-            $response
-        );
-    }
-
-    public function testGetListWithoutMenuFilter(): void
-    {
-        $responseWithoutMenuFilter = $this->cget(['entity' => 'menus']);
-        $responseWithDefaultMenuFilter = $this->cget(['entity' => 'menus'], ['filter' => ['menu' => 'frontend_menu']]);
-
-        $contentWithoutMenuFilter = self::jsonToArray($responseWithoutMenuFilter->getContent());
-        $contentWithDefaultMenuFilter = self::jsonToArray($responseWithDefaultMenuFilter->getContent());
-        self::assertCount(\count($contentWithDefaultMenuFilter['data']), $contentWithoutMenuFilter['data']);
-    }
-
-    public function testGetListWhenResourceFieldWasNotRequested(): void
-    {
-        $response = $this->cget(
-            ['entity' => 'menus'],
-            ['filter' => ['menu' => 'frontend_menu'], 'fields[menus]' => 'label,uri']
-        );
-
-        $this->assertMenuResponseContains(
-            ['frontend_menu_content_node_item'],
-            [
-                'data' => [
-                    [
-                        'type' => 'menus',
-                        'id' => 'frontend_menu_content_node_item',
-                        'attributes' => [
-                            'label' => 'Content Node Menu Item',
-                            'uri' => '/web_catalog.node.1.root'
-                        ]
-                    ]
-                ]
-            ],
-            $response
-        );
-        $content = self::jsonToArray($response->getContent());
-        self::assertCount(2, $content['data'][0]['attributes']);
-    }
-
-    public function testGetListWhenOnlyResourceFieldWasRequested(): void
-    {
-        $response = $this->cget(
-            ['entity' => 'menus'],
-            ['filter' => ['menu' => 'frontend_menu'], 'fields[menus]' => 'resource']
-        );
-
-        $this->assertMenuResponseContains(
-            ['frontend_menu_content_node_item'],
-            [
-                'data' => [
-                    [
-                        'type' => 'menus',
-                        'id' => 'frontend_menu_content_node_item',
-                        'attributes' => [
-                            'resource' => [
-                                'isSlug' => true,
-                                'redirectUrl' => null,
-                                'redirectStatusCode' => null,
-                                'resourceType' => 'system_page',
-                                'apiUrl' => $this->getUrl($this->getItemRouteName(), [
-                                    'entity' => 'systempages',
-                                    'id' => 'oro_frontend_root'
-                                ])
-                            ]
-                        ]
-                    ]
-                ]
-            ],
-            $response
-        );
-        $content = self::jsonToArray($response->getContent());
-        self::assertCount(1, $content['data'][0]['attributes']);
-    }
-
-    public function testGetListWithDepthFilter(): void
-    {
-        $response = $this->cget(
-            ['entity' => 'menus'],
-            ['filter' => ['menu' => 'frontend_menu', 'depth' => '1']]
-        );
-
-        $this->assertMenuResponseContains(
-            [
-                'oro_customer_menu_customer_user_index',
-                'oro_customer_frontend_customer_user_dashboard',
-                'frontend_menu_content_node_item'
-            ],
-            [
-                'data' => [
-                    [
-                        'type' => 'menus',
-                        'id' => 'oro_customer_menu_customer_user_index',
-                        'attributes' => [
-                            'label' => 'My Account'
-                        ],
-                        'relationships' => [
-                            'parent' => ['data' => null]
-                        ]
-                    ],
-                    [
-                        'type' => 'menus',
-                        'id' => 'frontend_menu_content_node_item',
-                        'attributes' => [
-                            'label' => 'Content Node Menu Item'
-                        ],
-                        'relationships' => [
-                            'parent' => ['data' => null]
-                        ]
-                    ]
-                ]
-            ],
-            $response
-        );
-    }
-
-    public function testGetListForNonExistentItem(): void
-    {
-        $response = $this->cget(
-            ['entity' => 'menus'],
-            ['filter' => ['menu' => 'non_existent_menu']]
-        );
-        self::assertResponseCount(0, $response);
-    }
-
-    public function testTryToGetListWithSorting(): void
-    {
-        $response = $this->cget(
-            ['entity' => 'menus'],
-            ['filter' => ['menu' => 'frontend_menu'], 'sort' => 'id'],
-            [],
-            false
-        );
-        $this->assertResponseValidationError(
-            [
-                'title' => 'filter constraint',
-                'detail' => 'The filter is not supported.',
-                'source' => ['parameter' => 'sort']
-            ],
-            $response
-        );
-    }
-
-    public function testTryToGetListWithPagination(): void
-    {
-        $response = $this->cget(
-            ['entity' => 'menus'],
-            ['filter' => ['menu' => 'frontend_menu'], 'page' => ['number' => 2, 'size' => 3]],
-            [],
-            false
-        );
-        $this->assertResponseValidationErrors(
-            [
-                [
-                    'title' => 'filter constraint',
-                    'detail' => 'The filter is not supported.',
-                    'source' => ['parameter' => 'page[number]']
-                ],
-                [
-                    'title' => 'filter constraint',
-                    'detail' => 'The filter is not supported.',
-                    'source' => ['parameter' => 'page[size]']
                 ]
             ],
             $response
