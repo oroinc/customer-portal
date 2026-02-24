@@ -7,6 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerRepository;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomer;
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerWithCycleRelation;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadDuplicatedCustomer;
 use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
@@ -225,5 +226,57 @@ class CustomerRepositoryTest extends WebTestCase
                 Customer::class
             )
         );
+    }
+
+    /**
+     * @dataProvider getRootCustomerIdDataProvider
+     */
+    public function testGetRootCustomerId(string $customerReference, string $expectedRootReference): void
+    {
+        $this->loadFixtures([LoadCustomerWithCycleRelation::class]);
+
+        /** @var Customer $customer */
+        $customer = $this->getReference($customerReference);
+        /** @var Customer $expectedRoot */
+        $expectedRoot = $this->getReference($expectedRootReference);
+
+        $this->assertEquals(
+            $expectedRoot->getId(),
+            $this->getRepository()->getRootCustomerId($customer->getId())
+        );
+    }
+
+    public function getRootCustomerIdDataProvider(): array
+    {
+        return [
+            'root customer returns itself' => [
+                'customerReference' => LoadCustomerWithCycleRelation::CUSTOMER_LEVEL_1,
+                'expectedRootReference' => LoadCustomerWithCycleRelation::CUSTOMER_LEVEL_1,
+            ],
+            'orphan customer returns itself' => [
+                'customerReference' => LoadCustomerWithCycleRelation::DEFAULT_ACCOUNT_NAME,
+                'expectedRootReference' => LoadCustomerWithCycleRelation::DEFAULT_ACCOUNT_NAME,
+            ],
+            'level 2 customer returns root' => [
+                'customerReference' => LoadCustomerWithCycleRelation::CUSTOMER_LEVEL_1_DOT_1,
+                'expectedRootReference' => LoadCustomerWithCycleRelation::CUSTOMER_LEVEL_1,
+            ],
+            'level 3 customer returns root' => [
+                'customerReference' => LoadCustomerWithCycleRelation::CUSTOMER_LEVEL_1_DOT_1_DOT_2,
+                'expectedRootReference' => LoadCustomerWithCycleRelation::CUSTOMER_LEVEL_1,
+            ],
+            'level 4 customer returns root' => [
+                'customerReference' => LoadCustomerWithCycleRelation::CUSTOMER_LEVEL_1_DOT_2_DOT_1_DOT_1,
+                'expectedRootReference' => LoadCustomerWithCycleRelation::CUSTOMER_LEVEL_1,
+            ],
+            'level 4.1 with cycle related parents' => [
+                'customerReference' => LoadCustomerWithCycleRelation::CUSTOMER_LEVEL_1_DOT_4_DOT_1_DOT_1_DOT_2,
+                'expectedRootReference' => LoadCustomerWithCycleRelation::CUSTOMER_LEVEL_1_DOT_4_DOT_1_DOT_1_DOT_2,
+            ],
+            'level 4.1 with cycle relation parent to self' => [
+                'customerReference' => LoadCustomerWithCycleRelation::CUSTOMER_LEVEL_1_DOT_4_DOT_1_DOT_1_DOT_3,
+                'expectedRootReference' => LoadCustomerWithCycleRelation::CUSTOMER_LEVEL_1_DOT_4_DOT_1_DOT_1_DOT_3,
+            ],
+        ];
     }
 }

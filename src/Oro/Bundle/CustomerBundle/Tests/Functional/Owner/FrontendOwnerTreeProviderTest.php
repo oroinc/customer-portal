@@ -692,7 +692,7 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
         );
 
         // Only queries for getting customer user and customer data are executed
-        $this->assertGetTreeQueries(3);
+        $this->assertGetTreeQueries(2);
     }
 
     public function testGetTreeCacheWhenDifferentTopCustomerUser(): void
@@ -729,9 +729,9 @@ class FrontendOwnerTreeProviderTest extends WebTestCase
 
         $customer = $this->getReference(LoadCustomers::CUSTOMER_LEVEL_1);
 
-        $this->assertGetTreeByCustomerQueries($customer, 8);
+        $this->assertGetTreeByCustomerQueries($customer, 7);
 
-        $this->assertGetTreeByCustomerQueries($customer, 1);
+        $this->assertGetTreeByCustomerQueries($customer, 0);
     }
 
     private function assertGetTreeQueries(int $queriesNumber): void
