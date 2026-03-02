@@ -4,9 +4,9 @@ namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
-use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
 use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
+use Oro\Bundle\FormBundle\Form\Handler\FormHandlerInterface;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Oro\Bundle\SecurityBundle\Attribute\Acl;
@@ -91,13 +91,7 @@ class CustomerUserController extends AbstractController
     {
         $form = $this->container->get(FrontendCustomerUserFormProvider::class)
             ->getCustomerUserForm($customerUser);
-        $handler = new CustomerUserHandler(
-            $this->container->get(CustomerUserManager::class),
-            $this->container->get(TokenAccessorInterface::class),
-            $this->container->get(TranslatorInterface::class),
-            $this->container->get(LoggerInterface::class)
-        );
-        $handler->setFeatureChecker($this->container->get(FeatureChecker::class));
+        $handler = $this->container->get(FormHandlerInterface::class);
 
         $result = $this->container->get(UpdateHandlerFacade::class)->update(
             $customerUser,
@@ -131,7 +125,8 @@ class CustomerUserController extends AbstractController
                 TokenAccessorInterface::class,
                 FrontendCustomerUserFormProvider::class,
                 UpdateHandlerFacade::class,
-                FeatureChecker::class
+                FeatureChecker::class,
+                FormHandlerInterface::class
             ]
         );
     }

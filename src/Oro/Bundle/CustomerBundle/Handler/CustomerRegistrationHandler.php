@@ -2,9 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Handler;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
-use Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserRegistrationFormProvider;
+use Oro\Bundle\FormBundle\Form\Handler\FormHandlerInterface;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -17,47 +16,17 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class CustomerRegistrationHandler implements CustomerRegistrationHandlerInterface
 {
     /**
-     * @var FrontendCustomerUserRegistrationFormProvider
-     */
-    private $formProvider;
-
-    /**
-     * @var CustomerUserManager
-     */
-    private $customerUserManager;
-
-    /**
-     * @var FrontendCustomerUserHandler
-     */
-    private $customerUserHandler;
-
-    /**
-     * @var UpdateHandlerFacade
-     */
-    private $updateHandler;
-
-    /**
-     * @var TranslatorInterface
-     */
-    private $translator;
-
-    /**
      * @var FormInterface
      */
     private $form;
 
     public function __construct(
-        FrontendCustomerUserRegistrationFormProvider $formProvider,
-        CustomerUserManager $customerUserManager,
-        FrontendCustomerUserHandler $customerUserHandler,
-        UpdateHandlerFacade $updateHandler,
-        TranslatorInterface $translator
+        private FrontendCustomerUserRegistrationFormProvider $formProvider,
+        private FormHandlerInterface $customerUserHandler,
+        private UpdateHandlerFacade $updateHandler,
+        private TranslatorInterface $translator,
+        private RegistrationSuccessMessageProviderInterface $registrationSuccessMessageProvider
     ) {
-        $this->formProvider = $formProvider;
-        $this->customerUserManager = $customerUserManager;
-        $this->customerUserHandler = $customerUserHandler;
-        $this->updateHandler = $updateHandler;
-        $this->translator = $translator;
     }
 
     #[\Override]
@@ -65,10 +34,7 @@ class CustomerRegistrationHandler implements CustomerRegistrationHandlerInterfac
     {
         $form = $this->getForm();
 
-        $registrationMessage = 'oro.customer.controller.customeruser.registered.message';
-        if ($this->customerUserManager->isConfirmationRequired()) {
-            $registrationMessage = 'oro.customer.controller.customeruser.registered_with_confirmation.message';
-        }
+        $registrationMessage = $this->registrationSuccessMessageProvider->getRegistrationSuccessMessage();
 
         return $this->updateHandler->update(
             $form->getData(),

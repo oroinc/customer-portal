@@ -29,6 +29,7 @@ services:
         tags:
             - { name: container.service_subscriber }
             - { name: container.service_subscriber, id: oro_customer_user.manager, key: Oro\Bundle\CustomerBundle\Entity\CustomerUserManager }
+            - { name: container.service_subscriber, id: oro_customer.customer_user.handler, key: Oro\Bundle\FormBundle\Form\Handler\FormHandlerInterface }
 
     Oro\Bundle\CustomerBundle\Controller\CustomerController:
         calls:
@@ -81,6 +82,7 @@ services:
             - { name: container.service_subscriber }
             - { name: container.service_subscriber, id: oro_customer_user.manager, key: Oro\Bundle\CustomerBundle\Entity\CustomerUserManager }
             - { name: container.service_subscriber, id: oro_customer.provider.frontend_customer_user_form, key: Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider }
+            - { name: container.service_subscriber, id: oro_customer.customer_user.handler, key: Oro\Bundle\FormBundle\Form\Handler\FormHandlerInterface }
 
     Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerUserAddressController:
         calls:

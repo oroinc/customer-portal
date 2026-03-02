@@ -7,6 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmail;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\FormBundle\Event\FormHandler\AfterFormProcessEvent;
 use Oro\Bundle\FormBundle\Event\FormHandler\Events;
 use Oro\Bundle\FormBundle\Form\Handler\FormHandler;
@@ -33,7 +34,8 @@ class FrontendCustomerUserHandler extends FormHandler
         DoctrineHelper $doctrineHelper,
         RequestWebsiteProvider $requestWebsiteProvider,
         CustomerUserManager $userManager,
-        ConfigManager $configManager
+        ConfigManager $configManager,
+        private FeatureChecker $featureChecker
     ) {
         parent::__construct($eventDispatcher, $doctrineHelper);
 
@@ -60,6 +62,10 @@ class FrontendCustomerUserHandler extends FormHandler
                     is_object($customerUser) ? get_class($customerUser) : gettype($customerUser)
                 )
             );
+        }
+
+        if (!$customerUser->getId() && !$this->featureChecker->isFeatureEnabled('customer_user_login_password')) {
+            $customerUser->setPlainPassword($this->userManager->generatePassword(10));
         }
 
         $isUpdated = parent::process($customerUser, $form, $request);

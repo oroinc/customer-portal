@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Form\Type;
 use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\UserBundle\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -24,19 +25,14 @@ class FrontendCustomerUserRegistrationType extends AbstractType
 {
     const NAME = 'oro_customer_frontend_customer_user_register';
 
-    /** @var ConfigManager */
-    private $configManager;
-
-    /** @var ManagerRegistry */
-    private $doctrine;
-
     /** @var string */
     private $dataClass;
 
-    public function __construct(ConfigManager $configManager, ManagerRegistry $doctrine)
-    {
-        $this->configManager = $configManager;
-        $this->doctrine = $doctrine;
+    public function __construct(
+        private ConfigManager $configManager,
+        private ManagerRegistry $doctrine,
+        private FeatureChecker $featureChecker
+    ) {
     }
 
     #[\Override]
@@ -88,27 +84,29 @@ class FrontendCustomerUserRegistrationType extends AbstractType
                 ]
             );
 
-        $builder->add(
-            'plainPassword',
-            RepeatedType::class,
-            [
-                'type' => PasswordType::class,
-                'first_options' => [
-                    'label' => 'oro.customer.customeruser.password.label',
-                    'attr' => [
-                        'placeholder' => 'oro.customer.customeruser.placeholder.password',
-                        'autocomplete' => 'new-password',
+        if ($this->featureChecker->isFeatureEnabled('customer_user_login_password')) {
+            $builder->add(
+                'plainPassword',
+                RepeatedType::class,
+                [
+                    'type' => PasswordType::class,
+                    'first_options' => [
+                        'label' => 'oro.customer.customeruser.password.label',
+                        'attr' => [
+                            'placeholder' => 'oro.customer.customeruser.placeholder.password',
+                            'autocomplete' => 'new-password',
+                        ],
                     ],
-                ],
-                'second_options' => [
-                    'label' => 'oro.customer.customeruser.password_confirmation.label',
-                    'attr' => ['placeholder' => 'oro.customer.customeruser.placeholder.password_confirmation']
-                ],
-                'invalid_message' => 'oro.customer.message.password_mismatch',
-                'required' => true,
-                'validation_groups' => ['create']
-            ]
-        );
+                    'second_options' => [
+                        'label' => 'oro.customer.customeruser.password_confirmation.label',
+                        'attr' => ['placeholder' => 'oro.customer.customeruser.placeholder.password_confirmation']
+                    ],
+                    'invalid_message' => 'oro.customer.message.password_mismatch',
+                    'required' => true,
+                    'validation_groups' => ['create']
+                ]
+            );
+        }
 
         $this->addBuilderListeners($builder);
     }
