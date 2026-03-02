@@ -10,6 +10,7 @@ use Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler;
 use Oro\Bundle\CustomerBundle\Tests\Unit\Entity\Stub\CustomerUserStub;
 use Oro\Bundle\CustomerBundle\Validator\Constraints\UniqueCustomerUserNameAndEmail;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\FormBundle\Event\FormHandler\AfterFormProcessEvent;
 use Oro\Bundle\FormBundle\Event\FormHandler\Events;
 use Oro\Bundle\FormBundle\Event\FormHandler\FormProcessEvent;
@@ -26,6 +27,9 @@ use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\ConstraintViolation;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
+ */
 class FrontendCustomerUserHandlerTest extends TestCase
 {
     private CustomerUserManager&MockObject $userManager;
@@ -35,6 +39,7 @@ class FrontendCustomerUserHandlerTest extends TestCase
     private Request $request;
     private FormInterface&MockObject $form;
     private ConfigManager|MockObject $configManager;
+    private FeatureChecker&MockObject $featureChecker;
     private FrontendCustomerUserHandler $handler;
 
     #[\Override]
@@ -45,6 +50,8 @@ class FrontendCustomerUserHandlerTest extends TestCase
         $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
         $this->requestWebsiteProvider = $this->createMock(RequestWebsiteProvider::class);
         $this->configManager = $this->createMock(ConfigManager::class);
+        $this->featureChecker = $this->createMock(FeatureChecker::class);
+        $this->featureChecker->method('isFeatureEnabled')->willReturn(true);
         $this->request = new Request();
 
         $this->form = $this->createMock(FormInterface::class);
@@ -53,7 +60,8 @@ class FrontendCustomerUserHandlerTest extends TestCase
             $this->doctrineHelper,
             $this->requestWebsiteProvider,
             $this->userManager,
-            $this->configManager
+            $this->configManager,
+            $this->featureChecker
         );
         $this->handler->setIgnoreNotUniqueEmailValidationError(false);
     }
@@ -521,6 +529,136 @@ class FrontendCustomerUserHandlerTest extends TestCase
         $this->handler->setIgnoreNotUniqueEmailValidationError(true);
 
         self::assertFalse($this->handler->process($entity, $this->form, $this->request));
+    }
+
+    public function testProcessNewCustomerUserSetsGeneratedPlainPasswordWhenFeatureDisabled(): void
+    {
+        $entity = $this->getMockBuilder(CustomerUserStub::class)
+            ->onlyMethods(['setPlainPassword'])
+            ->getMock();
+        $entity->setEmail('test@test.com');
+
+        $featureChecker = $this->createMock(FeatureChecker::class);
+        $featureChecker->expects(self::once())
+            ->method('isFeatureEnabled')
+            ->with('customer_user_login_password')
+            ->willReturn(false);
+        $handler = new FrontendCustomerUserHandler(
+            $this->eventDispatcher,
+            $this->doctrineHelper,
+            $this->requestWebsiteProvider,
+            $this->userManager,
+            $this->configManager,
+            $featureChecker
+        );
+        $handler->setIgnoreNotUniqueEmailValidationError(false);
+
+        $this->userManager->expects(self::once())
+            ->method('generatePassword')
+            ->with(10)
+            ->willReturn('generated-password');
+        $entity->expects(self::once())
+            ->method('setPlainPassword')
+            ->with('generated-password');
+
+        $this->form->expects(self::once())
+            ->method('setData')
+            ->with($entity);
+        $this->form->expects(self::once())
+            ->method('submit')
+            ->with([], true);
+        $this->form->expects(self::once())
+            ->method('isValid')
+            ->willReturn(true);
+
+        $this->request->setMethod('POST');
+
+        $em = $this->createMock(EntityManagerInterface::class);
+        $this->doctrineHelper->expects(self::once())
+            ->method('getEntityManager')
+            ->with($entity)
+            ->willReturn($em);
+        $em->expects(self::once())
+            ->method('beginTransaction');
+        $em->expects(self::once())
+            ->method('commit');
+
+        $this->requestWebsiteProvider->expects(self::once())
+            ->method('getWebsite')
+            ->willReturn(null);
+
+        $this->userManager->expects(self::once())
+            ->method('register')
+            ->with($entity);
+        $this->userManager->expects(self::once())
+            ->method('updateUser')
+            ->with($entity);
+
+        $this->assertProcessAfterEventsTriggered($this->form, $entity);
+
+        self::assertTrue($handler->process($entity, $this->form, $this->request));
+    }
+
+    public function testProcessNewCustomerUserDoesNotSetGeneratedPlainPasswordWhenFeatureEnabled(): void
+    {
+        $entity = new CustomerUserStub();
+        $entity->setEmail('test@test.com');
+
+        $featureChecker = $this->createMock(FeatureChecker::class);
+        $featureChecker->expects(self::once())
+            ->method('isFeatureEnabled')
+            ->with('customer_user_login_password')
+            ->willReturn(true);
+        $handler = new FrontendCustomerUserHandler(
+            $this->eventDispatcher,
+            $this->doctrineHelper,
+            $this->requestWebsiteProvider,
+            $this->userManager,
+            $this->configManager,
+            $featureChecker
+        );
+        $handler->setIgnoreNotUniqueEmailValidationError(false);
+
+        $this->userManager->expects(self::never())
+            ->method('generatePassword');
+
+        $this->form->expects(self::once())
+            ->method('setData')
+            ->with($entity);
+        $this->form->expects(self::once())
+            ->method('submit')
+            ->with([], true);
+        $this->form->expects(self::once())
+            ->method('isValid')
+            ->willReturn(true);
+
+        $this->request->setMethod('POST');
+
+        $em = $this->createMock(EntityManagerInterface::class);
+        $this->doctrineHelper->expects(self::once())
+            ->method('getEntityManager')
+            ->with($entity)
+            ->willReturn($em);
+        $em->expects(self::once())
+            ->method('beginTransaction');
+        $em->expects(self::once())
+            ->method('commit');
+
+        $this->requestWebsiteProvider->expects(self::once())
+            ->method('getWebsite')
+            ->willReturn(null);
+
+        $this->userManager->expects(self::once())
+            ->method('register')
+            ->with($entity);
+        $this->userManager->expects(self::once())
+            ->method('updateUser')
+            ->with($entity);
+
+        $this->assertProcessAfterEventsTriggered($this->form, $entity);
+
+        self::assertTrue($handler->process($entity, $this->form, $this->request));
+        self::assertNull($entity->getPlainPassword());
     }
 
     private function assertProcessAfterEventsTriggered(FormInterface $form, CustomerUser $entity): void

@@ -29,10 +29,6 @@ security:
             methods: [OPTIONS]
             security: false
             stateless: true
-        frontend_api_login:
-            pattern: '^%oro_api.rest.prefix%login'
-            security: false
-            stateless: true
         frontend_api_secured:
             pattern:   '%oro_api.rest.pattern%'
             provider:  commerce_customer_user

@@ -7,6 +7,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserRegistrationType;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -18,6 +19,7 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
 {
     private ConfigManager&MockObject $configManager;
     private ManagerRegistry&MockObject $doctrine;
+    private FeatureChecker&MockObject $featureChecker;
     private FrontendCustomerUserRegistrationType $formType;
 
     #[\Override]
@@ -25,8 +27,13 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
     {
         $this->configManager = $this->createMock(ConfigManager::class);
         $this->doctrine = $this->createMock(ManagerRegistry::class);
+        $this->featureChecker = $this->createMock(FeatureChecker::class);
 
-        $this->formType = new FrontendCustomerUserRegistrationType($this->configManager, $this->doctrine);
+        $this->formType = new FrontendCustomerUserRegistrationType(
+            $this->configManager,
+            $this->doctrine,
+            $this->featureChecker
+        );
         $this->formType->setDataClass(CustomerUser::class);
 
         parent::setUp();
@@ -57,6 +64,10 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
             ->method('get')
             ->withConsecutive(['oro_customer.company_name_field_enabled'], ['oro_customer.default_customer_owner'])
             ->willReturnOnConsecutiveCalls($companyNameEnabled, 42);
+        $this->featureChecker->expects($this->any())
+            ->method('isFeatureEnabled')
+            ->with('customer_user_login_password')
+            ->willReturn(true);
 
         $em = $this->createMock(EntityManagerInterface::class);
         $this->doctrine->expects($this->any())
@@ -75,6 +86,100 @@ class FrontendCustomerUserRegistrationTypeTest extends FormIntegrationTestCase
         $this->assertEquals($isValid, $form->isValid());
         $this->assertTrue($form->isSynchronized());
         $this->assertEquals($expectedData, $form->getData());
+    }
+
+    public function testFormDoesNotHavePlainPasswordFieldWhenFeatureDisabled(): void
+    {
+        $this->featureChecker->expects(self::once())
+            ->method('isFeatureEnabled')
+            ->with('customer_user_login_password')
+            ->willReturn(false);
+
+        $form = $this->factory->create(FrontendCustomerUserRegistrationType::class, new CustomerUser());
+
+        self::assertFalse($form->has('plainPassword'));
+    }
+
+    public function testSubmitWithoutPlainPasswordFieldWhenFeatureDisabled(): void
+    {
+        $owner = new User();
+        $this->configManager->expects($this->exactly(2))
+            ->method('get')
+            ->withConsecutive(['oro_customer.company_name_field_enabled'], ['oro_customer.default_customer_owner'])
+            ->willReturnOnConsecutiveCalls(false, 42);
+        $this->featureChecker->expects(self::once())
+            ->method('isFeatureEnabled')
+            ->with('customer_user_login_password')
+            ->willReturn(false);
+
+        $em = $this->createMock(EntityManagerInterface::class);
+        $this->doctrine->expects(self::once())
+            ->method('getManagerForClass')
+            ->with(User::class)
+            ->willReturn($em);
+        $em->expects(self::once())
+            ->method('find')
+            ->with(User::class, 42)
+            ->willReturn($owner);
+
+        $form = $this->factory->create(FrontendCustomerUserRegistrationType::class, new CustomerUser());
+        $form->submit(
+            [
+                'firstName' => 'John',
+                'lastName' => 'Doe',
+                'email' => 'johndoe@example.com'
+            ]
+        );
+
+        self::assertTrue($form->isSynchronized());
+        self::assertFalse($form->has('plainPassword'));
+    }
+
+    public function testFormDoesNotHavePlainPasswordFieldWhenFeatureEnabled(): void
+    {
+        $this->featureChecker->expects(self::once())
+            ->method('isFeatureEnabled')
+            ->with('customer_user_login_password')
+            ->willReturn(true);
+
+        $form = $this->factory->create(FrontendCustomerUserRegistrationType::class, new CustomerUser());
+
+        self::assertTrue($form->has('plainPassword'));
+    }
+
+    public function testSubmitWithoutPlainPasswordFieldWhenFeatureEnabled(): void
+    {
+        $owner = new User();
+        $this->configManager->expects($this->exactly(2))
+            ->method('get')
+            ->withConsecutive(['oro_customer.company_name_field_enabled'], ['oro_customer.default_customer_owner'])
+            ->willReturnOnConsecutiveCalls(false, 42);
+        $this->featureChecker->expects(self::once())
+            ->method('isFeatureEnabled')
+            ->with('customer_user_login_password')
+            ->willReturn(true);
+
+        $em = $this->createMock(EntityManagerInterface::class);
+        $this->doctrine->expects(self::once())
+            ->method('getManagerForClass')
+            ->with(User::class)
+            ->willReturn($em);
+        $em->expects(self::once())
+            ->method('find')
+            ->with(User::class, 42)
+            ->willReturn($owner);
+
+        $form = $this->factory->create(FrontendCustomerUserRegistrationType::class, new CustomerUser());
+        $form->submit(
+            [
+                'firstName' => 'John',
+                'lastName' => 'Doe',
+                'email' => 'johndoe@example.com'
+            ]
+        );
+
+        self::assertTrue($form->isSynchronized());
+        self::assertTrue($form->has('plainPassword'));
     }
 
     public function submitProvider(): array

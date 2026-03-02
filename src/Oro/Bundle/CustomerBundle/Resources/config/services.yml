@@ -1143,6 +1143,7 @@ services:
             - '@oro_website.request_website_provider'
             - '@oro_customer_user.manager'
             - '@oro_config.manager'
+            - '@oro_featuretoggle.checker.feature_checker'
 
     oro_customer.handler.frontend_customer_user_with_unique_email_handler:
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler'
@@ -1173,20 +1174,25 @@ services:
             - '@.inner'
             - '@oro_security.acl.group_provider.chain'
 
+    oro_customer.handler.customer_registration_message_provider:
+        class: Oro\Bundle\CustomerBundle\Handler\RegistrationSuccessMessageProvider
+        arguments:
+            - '@oro_customer_user.manager'
+
     oro_customer.handler.customer_registration_handler:
         class: Oro\Bundle\CustomerBundle\Handler\CustomerRegistrationHandler
         arguments:
             - '@oro_customer.provider.frontend_customer_user_registration_form'
-            - '@oro_customer_user.manager'
             - '@oro_customer.handler.frontend_customer_user_handler'
             - '@oro_form.update_handler'
             - '@translator'
+            - '@oro_customer.handler.customer_registration_message_provider'
 
     oro_customer.handler.customer_checkout_registration_handler:
         class: Oro\Bundle\CustomerBundle\Handler\CustomerRegistrationHandler
         parent: oro_customer.handler.customer_registration_handler
         arguments:
-            index_2: '@oro_customer.handler.frontend_customer_user_with_unique_email_handler'
+            index_1: '@oro_customer.handler.frontend_customer_user_with_unique_email_handler'
 
     oro_customer.handler.customer_registration_checkout_request_handler:
         class: Oro\Bundle\CustomerBundle\Handler\CustomerRegistrationCheckoutHandler
@@ -1582,3 +1588,12 @@ services:
         arguments:
             - '@oro_security.token_accessor'
             - '@oro_frontend.request.frontend_helper'
+
+    oro_customer.customer_user.handler:
+        class: Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler
+        arguments:
+            - '@oro_customer_user.manager'
+            - '@oro_security.token_accessor'
+            - '@translator'
+            - '@logger'
+            - '@oro_featuretoggle.checker.feature_checker'
