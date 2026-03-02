@@ -63,7 +63,6 @@ oro_customer:
         non_authenticated_visitors_api_resources:
             - Oro\Bundle\AddressBundle\Entity\Country
             - Oro\Bundle\AddressBundle\Entity\Region
-            - Oro\Bundle\CommerceMenuBundle\Api\Model\CommerceMenuItem
 
 oro_navigation:
     js_routing_filename_prefix: '%web_backend_prefix%'
