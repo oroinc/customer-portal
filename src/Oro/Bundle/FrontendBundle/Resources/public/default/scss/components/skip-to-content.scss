@@ -25,7 +25,11 @@
     }
 
     &__btn {
-        &:not(:focus) {
+        margin-inline: auto;
+    }
+
+    &__elements {
+        &:not(:focus-within) {
             position: absolute;
 
             width: 1px;
@@ -38,7 +42,11 @@
             clip: rect(0, 0, 0, 0);
         }
 
-        &:focus {
+        &:has(:focus-within) {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            text-align: center;
             margin-top: $skip-to-content-offset;
 
             + .skip-to-content__decorator {
