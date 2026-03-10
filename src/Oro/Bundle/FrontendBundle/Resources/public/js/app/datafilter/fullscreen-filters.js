@@ -114,14 +114,14 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
                     entityHint: this.datagrid.entityHint
                 }),
                 container: this.datagrid.$el.closest('.ui-dialog'),
-                dialogClass: 'fullscreen-popup--inside-dialog fullscreen-popup--transition',
+                dialogClass: 'fullscreen-popup--inside-dialog',
                 popupIcon: 'arrow-left',
                 disableBodyTouchScroll: false
             });
         } else if (this.datagrid.themeOptions.overlayFilters) {
             Object.assign(popupViewSettings, {
                 disableBodyTouchScroll: false,
-                dialogClass: 'filters-overlay-popup fullscreen-popup--transition fullscreen-popup--align-left'
+                dialogClass: 'filters-overlay-popup fullscreen-popup--align-left'
             });
         }
 
@@ -148,7 +148,6 @@ const FullscreenFilters = FilterOptionsStateExtensions.extend({
                 dialogClass: [
                     'datagrid-manager--inside-overlay',
                     'datagrid-manager--overlay',
-                    'fullscreen-popup--transition',
                     'fullscreen-popup--align-left',
                     'datagrid-manager-always-show'
                 ].join(' ')

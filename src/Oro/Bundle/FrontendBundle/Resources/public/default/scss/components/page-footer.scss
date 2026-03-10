@@ -7,7 +7,7 @@
 
 @include breakpoint('tablet') {
     .page-footer {
-        padding: $page-footer-inner-offset-table;
+        padding: $page-footer-inner-offset-tablet;
 
         .collapse-view {
             &__trigger {

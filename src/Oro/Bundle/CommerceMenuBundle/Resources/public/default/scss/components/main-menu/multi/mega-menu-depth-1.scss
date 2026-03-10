@@ -21,7 +21,7 @@
     }
 
     &__title {
-        text-decoration: underline;
+        text-decoration: $mega-menu-depth-1-title-text-decoration;
 
         &-inner {
             color: $mega-menu-depth-1-title-inner-color;

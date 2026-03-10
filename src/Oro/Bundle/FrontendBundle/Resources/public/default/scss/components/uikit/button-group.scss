@@ -10,6 +10,10 @@
         display: flex;
     }
 
+    &--vertical-middle {
+        vertical-align: middle;
+    }
+
     > .btn {
         position: relative;
 

@@ -17,13 +17,13 @@ $dashboard-menu-link-text-decoration: none !default;
 $dashboard-menu-link-background: get-color('primary', 'main') !default;
 $dashboard-menu-link-background-hover: get-color('primary', 'hover') !default;
 $dashboard-menu-link-background-focus: get-color('primary', 'active') !default;
+$dashboard-menu-link-color: get-color('neutral', 'white-100') !default;
 
 $dashboard-menu-icon-display: flex !default;
 $dashboard-menu-icon-color: get-color('neutral', 'white-50') !default;
 
 $dashboard-menu-text-font-size: 18px !default;
 $dashboard-menu-text-font-weight: font-weight('semi-bold') !default;
-$dashboard-menu-text-color: get-color('neutral', 'white-100') !default;
 
 // Responsive
 $dashboard-menu-item-count-desktop-big: 8 !default;

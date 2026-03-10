@@ -21,6 +21,7 @@
         padding: $dashboard-menu-link-padding;
         text-decoration: $dashboard-menu-link-text-decoration;
         background: $dashboard-menu-link-background;
+        color: $dashboard-menu-link-color;
 
         &:hover {
             background: $dashboard-menu-link-background-hover;
@@ -41,7 +42,6 @@
 
         font-size: $dashboard-menu-text-font-size;
         font-weight: $dashboard-menu-text-font-weight;
-        color: $dashboard-menu-text-color;
     }
 }
 

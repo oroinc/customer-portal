@@ -84,7 +84,7 @@
         color: $toggler-color-active;
         background-color: $toggler-background-color-active;
         box-shadow: $toggler-switcher-box-shadow;
-        border-radius: 3px;
+        border-radius: $toggler-border-radius;
 
         + .toggle-link:after,
         &:after {
@@ -124,7 +124,7 @@
             color: $toggler-color-active;
             background-color: $toggler-background-color-active;
             box-shadow: $toggler-switcher-box-shadow;
-            border-radius: 3px;
+            border-radius: $toggler-border-radius;
 
             /* stylelint-disable selector-max-compound-selectors */
             &:after,

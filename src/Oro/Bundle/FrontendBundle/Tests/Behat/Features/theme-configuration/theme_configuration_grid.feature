@@ -31,28 +31,34 @@ Feature: Theme Configuration Grid
 
   Scenario: Sort by Name
     Given I should see following grid:
-      | Name            |
-      | Golden Carbon   |
-      | Refreshing Teal |
+      | Name             |
+      | Intelligent Blue |
+      | Refreshing Teal  |
+      | Golden Carbon    |
+      | Default          |
+      | Custom           |
     When I sort grid by "Name"
     Then I should see following grid:
-      | Name            |
-      | Custom          |
-      | Default         |
-      | Golden Carbon   |
-      | Refreshing Teal |
+      | Name             |
+      | Custom           |
+      | Default          |
+      | Golden Carbon    |
+      | Intelligent Blue |
+      | Refreshing Teal  |
     When I sort grid by "Name" again
     Then I should see following grid:
-      | Name            |
-      | Refreshing Teal |
-      | Golden Carbon   |
-      | Default         |
-      | Custom          |
+      | Name             |
+      | Refreshing Teal  |
+      | Intelligent Blue |
+      | Golden Carbon    |
+      | Default          |
+      | Custom           |
     And I reset "Theme Configurations Grid" grid
 
   Scenario: Sort by Description
     Given I should see following grid:
       | Description         |
+      |                     |
       |                     |
       |                     |
       | Default Description |
@@ -67,29 +73,33 @@ Feature: Theme Configuration Grid
       | Description         |
       |                     |
       |                     |
+      |                     |
       | Default Description |
       | Custom              |
     And I reset "Theme Configurations Grid" grid
 
   Scenario: Sort by Theme
     Given I should see following grid:
-      | Theme         |
-      | golden_carbon |
-      | default       |
-      | default       |
-      | custom        |
+      | Theme            |
+      | intelligent_blue |
+      | default          |
+      | golden_carbon    |
+      | default          |
+      | custom           |
     When I sort grid by "Theme"
     Then I should see following grid:
-      | Theme         |
-      | custom        |
-      | default       |
-      | default       |
-      | golden_carbon |
+      | Theme            |
+      | custom           |
+      | default          |
+      | default          |
+      | golden_carbon    |
+      | intelligent_blue |
     When I sort grid by "Theme" again
     Then I should see following grid:
-      | Theme         |
-      | golden_carbon |
-      | default       |
-      | default       |
-      | custom        |
+      | Theme            |
+      | intelligent_blue |
+      | golden_carbon    |
+      | default          |
+      | default          |
+      | custom           |
     And I reset "Theme Configurations Grid" grid

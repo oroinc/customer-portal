@@ -9,7 +9,7 @@
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% set button = 'button-'|uniqid %}
     <button type="button" class="btn">Primary</button>
-    <div class="btn-group">
+    <div class="btn-group btn-group--vertical-middle">
         <button type="button" class="btn">Split dropdown</button>
         <button type="button" id="{{ button }}" data-toggle="dropdown" class="btn dropdown-toggle"
                 aria-haspopup="true" aria-expanded="false" aria-label="More actions">{% apply spaceless %}
