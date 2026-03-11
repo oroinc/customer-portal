@@ -34,7 +34,7 @@ define(function(require, exports, module) {
 
             const extraClass = config?.extraClass[launcher.launcherMode];
 
-            if (extraClass) {
+            if (!this.isDropdownActions && extraClass) {
                 launcher.$el.addClass(extraClass);
             }
 
