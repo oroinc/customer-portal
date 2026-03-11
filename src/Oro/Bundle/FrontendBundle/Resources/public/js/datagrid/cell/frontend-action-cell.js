@@ -32,7 +32,7 @@ const FrontendActionCell = ActionCell.extend({
 
         const extraClass = config?.extraClass[launcher.launcherMode];
 
-        if (extraClass) {
+        if (!this.isDropdownActions && extraClass) {
             launcher.$el.addClass(extraClass);
         }
 
