@@ -103,8 +103,8 @@ class MenuTest extends FrontendRestJsonApiTestCase
                         'type' => 'menus',
                         'id' => 'oro_customer_menu_customer_user_index',
                         'attributes' => [
-                            'label' => 'My Account',
-                            'uri' => $this->getUrl('oro_customer_frontend_customer_user_profile'),
+                            'label' => 'Home',
+                            'uri' => $this->getUrl('oro_frontend_root'),
                             'description' => null,
                             'extras' => [
                                 'position' => null,
@@ -119,10 +119,10 @@ class MenuTest extends FrontendRestJsonApiTestCase
                                 'isSlug' => false,
                                 'redirectUrl' => null,
                                 'redirectStatusCode' => null,
-                                'resourceType' => 'customer_user',
+                                'resourceType' => 'system_page',
                                 'apiUrl' => $this->getUrl($this->getItemRouteName(), [
-                                    'entity' => 'customerusers',
-                                    'id' => 'mine'
+                                    'entity' => 'systempages',
+                                    'id' => 'oro_frontend_root'
                                 ])
                             ]
                         ],
@@ -163,7 +163,7 @@ class MenuTest extends FrontendRestJsonApiTestCase
                             'parent' => [
                                 'data' => [
                                     'type' => 'menus',
-                                    'id' => 'oro_customer_menu_customer_user_index'
+                                    'id' => 'oro_customer_frontend_customer_user_account'
                                 ]
                             ]
                         ]
@@ -329,7 +329,7 @@ class MenuTest extends FrontendRestJsonApiTestCase
                         'type' => 'menus',
                         'id' => 'oro_customer_menu_customer_user_index',
                         'attributes' => [
-                            'label' => 'My Account'
+                            'label' => 'Home'
                         ],
                         'relationships' => [
                             'parent' => ['data' => null]

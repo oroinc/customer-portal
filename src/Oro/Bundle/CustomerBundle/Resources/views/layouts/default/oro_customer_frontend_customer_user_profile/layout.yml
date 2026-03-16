@@ -5,4 +5,34 @@ layout:
         -
             id: oro_customer_user_view
             root: page_content
-    actions: []
+
+    actions:
+        - '@setBlockTheme':
+              themes: '@OroCustomer/layouts/default/oro_customer_frontend_customer_user_profile/layout.html.twig'
+
+        - '@addTree':
+            items:
+                customer_user_sign_data_view_section:
+                    blockType: container
+                    prepend: false
+                customer_user_sign_data_view_information_title_wrapper:
+                    blockType: container
+                customer_user_sign_data_view_information_title:
+                    blockType: page_subtitle
+                    options:
+                        text: 'oro.customer.frontend.sections.customer_user.sign_in_security'
+                        icon: 'lock'
+                        badge: 'light'
+                customer_user_sign_data_view_information_container:
+                    blockType: container
+                customer_user_sign_data_view_information_content:
+                    blockType: customer_user_awere_block
+                    options:
+                        customerUser: '=data["entity"]'
+            tree:
+                customer_user_view_information:
+                    customer_user_sign_data_view_section:
+                        customer_user_sign_data_view_information_title_wrapper:
+                            customer_user_sign_data_view_information_title: ~
+                        customer_user_sign_data_view_information_container:
+                            customer_user_sign_data_view_information_content: ~

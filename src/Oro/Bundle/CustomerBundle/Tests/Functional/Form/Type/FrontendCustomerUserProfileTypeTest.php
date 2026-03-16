@@ -20,12 +20,16 @@ class FrontendCustomerUserProfileTypeTest extends WebTestCase
 
     public function testUserChangeEmailToAnotherUserEmail()
     {
-        $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_profile_update'));
+        $crawler = $this->client->request(
+            'GET',
+            $this->getUrl('oro_customer_frontend_customer_user_profile_update_email')
+        );
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
         $form = $crawler->selectButton('Save')->form();
-        $form['oro_customer_frontend_customer_user_profile[email]'] = LoadCustomerUserData::EMAIL;
+        $form['frontend_customer_user_profile_email[email]'] = LoadCustomerUserData::EMAIL;
+        $form['frontend_customer_user_profile_email[currentPassword]'] = LoadCustomerUserData::GROUP2_PASSWORD;
 
         $this->client->followRedirects(true);
         $crawler = $this->client->submit($form);
@@ -33,7 +37,7 @@ class FrontendCustomerUserProfileTypeTest extends WebTestCase
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
         self::assertStringContainsString('This email is already used', $crawler->html());
-        self::assertStringNotContainsString('Customer User profile updated', $crawler->html());
+        self::assertStringNotContainsString('Email updated', $crawler->html());
 
         /** @var CustomerUser $expectedUser */
         $expectedUser = $this->getReference(LoadCustomerUserData::GROUP2_EMAIL);

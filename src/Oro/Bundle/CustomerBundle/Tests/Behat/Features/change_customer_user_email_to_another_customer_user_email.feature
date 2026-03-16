@@ -5,9 +5,11 @@ Feature: Change customer user email to another customer user email
     Given I signed in as NancyJSallee@example.org on the store frontend
     And I click "Account Dropdown"
     And I click "My Profile"
-    And I click "Edit"
+    And I wait for action
+    And I click "Customer User Profile Edit Email"
     And I fill form with:
-      | Email | AmandaRCole@example.org |
+      | Password | NancyJSallee@example.org |
+      | Email    | AmandaRCole@example.org  |
     And I click "Save"
     Then I should see "This email is already used."
     And I click "Cancel"

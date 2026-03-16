@@ -42,7 +42,8 @@ Feature: Updated frontend menu from global frontend menus
     And page has "Frontend Item Update" header
 
   Scenario: Check update not custom menu item
-    When I click "My Account"
+    When I click "Home"
+    And I click "My Account"
     And I should see "Menus"
     And I save form
     Then I should see "Menu item saved successfully." flash message

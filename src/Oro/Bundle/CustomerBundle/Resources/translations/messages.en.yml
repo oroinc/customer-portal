@@ -274,6 +274,7 @@ oro.customer:
         password_changed_at:
             label:                   'Password Changed At'
             description:             The latest date and time when the customer user changed their password.
+            profile_page.label:      Last changed
         password_requested_at:
             label:                   'Password Requested At'
             description:             The latest date and time when the customer user requested a password reset via the '**Forgot Your Password?**' link.
@@ -346,6 +347,8 @@ oro.customer:
             password_reset.message: 'Password successfully changed'
             request_password.label: 'Reset Password'
             request_password.subtitle: 'Enter the email address you used to log in, and we’ll send you a reset link.'
+            change_password.title: 'Change Password'
+            change_email.title: 'Change Email'
             check_email:
                 title: 'Change Password'
                 message: 'Please check  <strong>%email%</strong> for a reset link and follow it to set a new password.'
@@ -581,6 +584,12 @@ oro.customer:
                 label: 'Edit'
                 title: 'Edit Account Info'
                 aria_label: 'Action Edit Account Information'
+            edit_email:
+                title: 'Edit Email'
+                aria_label: 'Action Edit Email'
+            edit_password:
+                title: 'Edit Password'
+                aria_label: 'Action Edit Password'
             delete: 'Delete'
 
         customer_user_role:
@@ -753,6 +762,7 @@ oro.customer:
         customer_user_profiles_and_addresses.label: Profiles & Addresses
         customer_user_saved.label: Saved
 
+        home.label: Home
         customer_user.label: My Account
         customer_user_profile.label: My Profile
         customer_user_login.label: Login
@@ -779,6 +789,8 @@ oro.customer:
             disabled.message:  'Customer User has been disabled'
             not_found.message: 'Customer User not found'
             profile_updated.message: 'Customer User profile updated'
+            profile_password_updated.message: 'Password updated'
+            profile_email_updated.message: 'Email updated'
             token_not_found.message: 'The user with "confirmation token" does not exist for value "%token%"'
             confirmation_sent.message: 'Confirmation email has been sent'
             welcome_failed.message: 'Welcome email sending failed'
@@ -980,6 +992,7 @@ oro.customer:
                 users.label: Users
             customer_user.user_profile: 'User profile'
             customer_user.account_info: 'Account Info'
+            customer_user.sign_in_security: 'Sign In & Security'
             customer_user.address_book: 'Address Book'
             customer_user.default_addresses: 'Default Addresses'
 

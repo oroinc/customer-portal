@@ -69,13 +69,13 @@ Feature: Customer user reset password link expire
     When I proceed as the User
     And I click "Account Dropdown"
     And I click "My Profile"
-    And I click "Edit"
-    And I fill "Customer User Profile Form" with:
+    And I click "Customer User Profile Edit Password"
+    And I fill form with:
       | Password         | NeWpAsW0Rd    |
       | New Password     | NeWpAsW0RdDDD |
       | Confirm Password | NeWpAsW0RdDDD |
     And I click "Save"
-    Then I should see "Customer User profile updated" flash message
+    Then I should see "Password updated" flash message
 
     When I proceed as the Unauthorized
     And I follow "[^\n]+\/customer\/user\/reset[^\<]+" link from the email
@@ -95,11 +95,12 @@ Feature: Customer user reset password link expire
 
     When I proceed as the User
     And I click "Account Dropdown"
-    And I click "Edit Profile Button"
-    And I fill "Customer User Profile Form" with:
-      | Email | new-amanda-email@example.com |
+    And I click "Customer User Profile Edit Email"
+    And I fill form with:
+      | Password | NeWpAsW0RdDDD                |
+      | Email    | new-amanda-email@example.com |
     And I click "Save"
-    Then I should see "Customer User profile updated" flash message
+    Then I should see "Email updated" flash message
 
     When I proceed as the Unauthorized
     And I follow "[^\n]+\/customer\/user\/reset[^\<]+" link from the email

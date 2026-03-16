@@ -113,6 +113,16 @@ services:
         tags:
             - { name: form.type, alias: oro_customer_frontend_customer_user_profile }
 
+    oro_customer.form.type.frontend.customer_user_profile_password:
+        class: Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserProfilePasswordType
+        tags:
+            - { name: form.type, alias: oro_customer_frontend_customer_user_profile_password }
+
+    oro_customer.form.type.frontend.customer_user_profile_email:
+        class: Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserProfileEmailType
+        tags:
+            - { name: form.type, alias: oro_customer_frontend_customer_user_profile_email }
+
     oro_customer.form.type.frontend.customer_user:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserType'
         arguments:

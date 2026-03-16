@@ -52,7 +52,7 @@ layout:
                             labelClass: 'sr-only-on-mobile-big'
                             currentAddresses: '=data["customer_user_default_address_provider"].getComponentOptions(data["entity"])["currentAddresses"]'
                         attr:
-                            class: 'btn btn--flat btn--size-small'
+                            class: 'btn btn--outlined'
                             data-responsive-styler: ''
                             data-input-widget-options:
                                 responsive:
@@ -71,7 +71,7 @@ layout:
                         vars:
                             labelClass: 'sr-only-on-mobile-big'
                         attr:
-                            class: 'btn'
+                            class: 'btn btn--outlined'
                             data-responsive-styler: ''
                             data-input-widget-options:
                                 responsive:

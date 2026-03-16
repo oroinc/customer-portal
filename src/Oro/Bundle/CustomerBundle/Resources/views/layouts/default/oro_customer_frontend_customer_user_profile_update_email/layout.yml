@@ -1,0 +1,24 @@
+layout:
+    imports:
+        -
+            id: oro_customer_page
+        -
+            id: oro_customer_user_email_form
+            root: page_content
+
+    actions:
+        - '@setOption':
+            id: page_title
+            optionName: defaultValue
+            optionValue:
+                label: 'oro.customer.customeruser.profile.change_email.title'
+
+        - '@add':
+            id: customer_user_update_input_action
+            parentId: customer_user_form_actions
+            blockType: input
+            options:
+                type: hidden
+                name: input_action
+                value:
+                    route: oro_customer_frontend_customer_user_profile

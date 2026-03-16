@@ -33,15 +33,6 @@ layout:
             optionName: text
             optionValue: 'oro.customer.frontend.sections.customer_user.account_info'
 
-        - '@add':
-            id: __customer_user_view_information_content
-            parentId: __customer_user_view_information
-            blockType: customer_user_awere_block
-            prepend: false
-            options:
-                customerUser: '=data["entity"]'
-                vars:
-                    companyNameEnabled: '=data["system_config_provider"].getValue("oro_customer.company_name_field_enabled")'
         - '@addTree':
             items:
                 __customer_user_view_page:
@@ -56,6 +47,16 @@ layout:
                         visible: '=data["entity"]!=null'
                         buttons: '=data["buttons"].getAll(data["entity"])'
                 __customer_user_view_information:
+                    blockType: container
+                __customer_user_view_information_content:
+                    blockType: customer_user_awere_block
+                    options:
+                        customerUser: '=data["entity"]'
+                        vars:
+                            companyNameEnabled: '=data["system_config_provider"].getValue("oro_customer.company_name_field_enabled")'
+                __customer_user_view_section:
+                    blockType: container
+                __customer_user_view_information_container:
                     blockType: container
                 __customer_user_view_information_title_wrapper:
                     blockType: container
@@ -72,7 +73,10 @@ layout:
                     __customer_user_view_page:
                         __customer_user_profile_controls_wrapper: ~
                         __customer_user_view_information:
-                            __customer_user_view_information_title_wrapper:
-                                __customer_user_view_information_title: ~
-                                __customer_user_profile_controls: ~
+                            __customer_user_view_section:
+                                __customer_user_view_information_title_wrapper:
+                                    __customer_user_view_information_title: ~
+                                    __customer_user_profile_controls: ~
+                                __customer_user_view_information_container:
+                                    __customer_user_view_information_content: ~
                         __customer_user_address_book: ~

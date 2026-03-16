@@ -11,17 +11,17 @@ layout:
             id: page_title
             optionName: defaultValue
             optionValue:
-                label: 'oro.customer.customeruser.profile.edit'
+                label: 'oro.customer.customeruser.profile.change_password.title'
 
         - '@setOption':
             id: customer_user_form
             optionName: form
-            optionValue: '=data["oro_customer_frontend_customer_user_form"].getProfileFormView(data["entity"])'
+            optionValue: '=data["oro_customer_frontend_customer_user_form"].getChangePasswordProfileFormView(data["entity"])'
 
         - '@setOption':
             id: customer_user_form_errors
             optionName: form
-            optionValue: '=data["oro_customer_frontend_customer_user_form"].getProfileFormView(data["entity"])'
+            optionValue: '=data["oro_customer_frontend_customer_user_form"].getChangePasswordProfileFormView(data["entity"])'
 
         - '@add':
             id: customer_user_update_input_action
@@ -52,4 +52,7 @@ layout:
             optionValue: '=data["backToUrl"]'
 
         - '@remove':
-              id: 'customer_user_form_fields_password'
+            id: customer_user_form_fields_information
+
+        - '@remove':
+              id: customer_user_form_fields_roles

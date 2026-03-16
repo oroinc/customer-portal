@@ -23,9 +23,11 @@
                     {{ form_row(form.customer)}}
                 </div>
             {% endif %}
+            {% if form.email is defined %}
             <div class="grid-col-6 grid-col-mobile-landscape-12">
                 {{ form_row(form.email, {'attr': {'placeholder': 'oro.customer.form.placeholder.email'|trans}}) }}
             </div>
+            {% endif %}
             <div class="grid-col-6 grid-col-mobile-landscape-12">
                 {{ form_row(form.namePrefix, {'attr': {'placeholder': 'oro.customer.form.placeholder.name_prefix'|trans}}) }}
             </div>
@@ -84,6 +86,10 @@
             {% endif %}
 
             {% if feature_enabled('customer_user_login_password') %}
+
+            {% if form.plainPassword.first.vars.tooltip is defined %}
+            <div class="grid-col-6 grid-col-mobile-landscape-12 grid-start-1">{{ form.plainPassword.first.vars.tooltip }}</div>
+            {% endif %}
             <div class="grid-col-6 grid-col-mobile-landscape-12 grid-start-1">
                 {{ form_row(form.plainPassword.first, {
                     'attr': {

@@ -1,0 +1,163 @@
+{% block _customer_user_sign_data_view_section_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'class': ' customer-profile__section'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _customer_user_sign_data_view_information_title_wrapper_widget %}
+    {% if block.children is not empty %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': " customer-profile__title-wrapper"
+        }) %}
+
+        <div{{ block('block_attributes') }}>
+            {{ block_widget(block) }}
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block _customer_user_sign_data_view_information_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'class': 'customer-profile__container'
+    }) %}
+
+    <div{{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _customer_user_view_information_content_widget %}
+    {% import '@OroUI/macros.html.twig' as UI %}
+    {% import '@OroEmail/actions.html.twig' as EmailActions %}
+    {% import '@OroEmail/macros.html.twig' as Email %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+
+    {% set attr = layout_attr_defaults(attr, {
+        'class': ' customer-profile__data'
+    }) %}
+
+    <div {{ block('block_attributes') }}>
+        <div class="info-list">
+            <div class="info-list__item">
+                <div class="info-list__name">
+                    {{- 'oro.customer.frontend.customer_user.full_name.label'|trans -}}
+                </div>
+                <div class="info-list__desc">
+                    {{- 'oro.customer.customeruser.full_name'|trans({
+                        '%name_prefix%': customerUser.namePrefix,
+                        '%first_name%': customerUser.firstName,
+                        '%middle_name%': customerUser.middleName,
+                        '%last_name%': customerUser.lastName,
+                        '%name_suffix%': customerUser.nameSuffix
+                    })|e
+                    -}}
+                </div>
+            </div>
+
+            {% if customerUser.birthday is not empty %}
+                <div class="info-list__item">
+                    <div class="info-list__name">
+                        {{- 'oro.customer.customeruser.birthday.label'|trans -}}
+                    </div>
+                    <div class="info-list__desc">
+                        {{- UI.render_birthday(customerUser.birthday) -}}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if is_granted('oro_customer_frontend_customer_user_role_view') %}
+                <div class="info-list__item">
+                    <div class="info-list__name">
+                        {%- if customerUser.userRoles|length == 1 -%}
+                            {{- 'oro.customer.customeruser.role.label'|trans -}}
+                        {%- else -%}
+                            {{- 'oro.customer.customeruser.roles.label'|trans -}}
+                        {%- endif -%}
+                    </div>
+                    <div class="info-list__desc info-list__desc--roles">
+                        {% for customerUserRole in customerUser.userRoles %}
+                            {{- UI.link({
+                                'path': path('oro_customer_frontend_customer_user_role_view', {id: customerUserRole.id}),
+                                'label': customerUserRole.label,
+                                'class': 'info-list__link'
+                            }) -}}
+                            <br>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if customerUser.customer and companyNameEnabled %}
+                <div class="info-list__item">
+                    <div class="info-list__name">
+                        {{- 'oro.customer.customeruser.profile.company'|trans -}}
+                    </div>
+                    <div class="info-list__desc">
+                        {{- customerUser.customer.name -}}
+                    </div>
+                </div>
+            {% endif %}
+
+            {% if customerUser.salesRepresentatives | length %}
+                <div class="info-list__item">
+                    <div class="info-list__name">
+                        {{- 'oro.customer.customeruser.sales_representatives.label'|trans -}}
+                    </div>
+                    <div class="info-list__desc">
+                        {{- UI.entityViewLinks(customerUser.salesRepresentatives, 'fullName') -}}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block _customer_user_sign_data_view_information_content_widget %}
+    {% import '@OroUI/macros.html.twig' as UI %}
+    {% import '@OroEmail/actions.html.twig' as EmailActions %}
+    {% import '@OroEmail/macros.html.twig' as Email %}
+    {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+
+    {% set attr = layout_attr_defaults(attr, {
+        'class': ' customer-profile__data'
+    }) %}
+    <div {{ block('block_attributes') }}>
+        <div class="info-list">
+            <div class="info-list__item">
+                <div class="info-list__name">
+                    {{- 'oro.customer.customeruser.username.label'|trans -}}
+                </div>
+                <div class="info-list__desc">
+                    {{- Email.email_address_simple(customerUser.email) -}}
+                </div>
+                {% if feature_enabled('customer_user_login_password') %}
+                <div class="info-list__control">
+                    <a href="{{ path('oro_customer_frontend_customer_user_profile_update_email') }}" class="btn btn--neutral" id="profile-edit-email" title="{{ 'oro.customer.action.customer_user.edit_email.title'|trans }}" aria-label="{{ 'oro.customer.action.customer_user.edit_email.aria_label'|trans }}">
+                        {{ renderIcon.icon({name: 'pencil'}) }}
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+            <div class="info-list__item">
+                <div class="info-list__name">
+                    {{- 'oro.customer.customeruser.password.label'|trans -}}
+                </div>
+                <div class="info-list__desc">
+                    <bdo dir="ltr">
+                        {{- 'oro.customer.customeruser.password_changed_at.profile_page.label'|trans -}}:
+                        {{ customerUser.passwordChangedAt ? customerUser.passwordChangedAt|oro_format_datetime : 'N/A' -}}
+                    </bdo>
+                </div>
+                <div class="info-list__control">
+                    <a href="{{ path('oro_customer_frontend_customer_user_profile_update_password') }}" class="btn btn--neutral" id="profile-edit-password" title="{{ 'oro.customer.action.customer_user.edit_password.title'|trans }}" aria-label="{{ 'oro.customer.action.customer_user.edit_password.aria_label'|trans }}">
+                        {{ renderIcon.icon({name: 'pencil'}) }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

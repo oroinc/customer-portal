@@ -593,6 +593,13 @@ oro_behat_extension:
           Validate Shipping Addresses In My Account Use Default: 'address_validation[oro_customer___validate_shipping_addresses__my_account][use_parent_scope_value]'
           Validate Billing Addresses In My Account: 'address_validation[oro_customer___validate_billing_addresses__my_account][value]'
           Validate Billing Addresses In My Account Use Default: 'address_validation[oro_customer___validate_billing_addresses__my_account][use_parent_scope_value]'
+
+    Customer User Profile Edit Password:
+      selector: '[id^="profile-edit-password"]'
+
+    Customer User Profile Edit Email:
+      selector: '[id^="profile-edit-email"]'
+
   pages:
     Customer User Role View:
       class: Oro\Bundle\CustomerBundle\Tests\Behat\Page\CustomerUserRoleView

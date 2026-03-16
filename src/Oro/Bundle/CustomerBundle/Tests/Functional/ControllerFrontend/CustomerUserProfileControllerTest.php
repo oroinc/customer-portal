@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Functional\ControllerFrontend;
 
+use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData as LoadAdditionalCustomerUserData;
 use Oro\Bundle\FrontendTestFrameworkBundle\Migrations\Data\ORM\LoadCustomerUserData;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
@@ -29,9 +30,10 @@ class CustomerUserProfileControllerTest extends WebTestCase
             [],
             $this->generateBasicAuthHeader(LoadCustomerUserData::AUTH_USER, LoadCustomerUserData::AUTH_PW)
         );
+        $this->loadFixtures([LoadAdditionalCustomerUserData::class]);
     }
 
-    public function testViewProfile()
+    public function testViewProfile(): void
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_profile'));
         $result = $this->client->getResponse();
@@ -68,7 +70,7 @@ class CustomerUserProfileControllerTest extends WebTestCase
         self::assertNotEquals($referer, $backToUrl);
     }
 
-    public function testEditProfile()
+    public function testEditProfile(): void
     {
         $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_profile_update'));
         $result = $this->client->getResponse();
@@ -86,15 +88,18 @@ class CustomerUserProfileControllerTest extends WebTestCase
         self::assertStringContainsString('CustomerUserUpdated', $crawler->filter('.customer-profile')->html());
     }
 
-    public function testEditProfilePasswordMismatch()
+    public function testEditProfilePasswordMismatch(): void
     {
-        $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_profile_update'));
+        $crawler = $this->client->request(
+            'GET',
+            $this->getUrl('oro_customer_frontend_customer_user_profile_update_password')
+        );
         $result = $this->client->getResponse();
         $this->assertHtmlResponseStatusCodeEquals($result, 200);
 
         $form = $crawler->selectButton('Save')->form();
         $form->offsetSet(
-            'oro_customer_frontend_customer_user_profile[changePassword]',
+            'frontend_customer_user_profile_password[changePassword]',
             [
                 'currentPassword' => LoadCustomerUserData::AUTH_PW,
                 'plainPassword' => [
@@ -116,15 +121,18 @@ class CustomerUserProfileControllerTest extends WebTestCase
         );
     }
 
-    public function testEditProfileWithoutCurrentPassword()
+    public function testEditProfileWithoutCurrentPassword(): void
     {
-        $crawler = $this->client->request('GET', $this->getUrl('oro_customer_frontend_customer_user_profile_update'));
+        $crawler = $this->client->request(
+            'GET',
+            $this->getUrl('oro_customer_frontend_customer_user_profile_update_password')
+        );
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
 
         $form = $crawler->selectButton('Save')->form();
         $form->offsetSet(
-            'oro_customer_frontend_customer_user_profile[changePassword]',
+            'frontend_customer_user_profile_password[changePassword]',
             [
                 'currentPassword' => '123456',
                 'plainPassword' => [
@@ -137,7 +145,59 @@ class CustomerUserProfileControllerTest extends WebTestCase
         $crawler = $this->client->submit($form);
 
         $result = $this->client->getResponse();
-        $this->assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+
+        self::assertStringContainsString(
+            'This value should be the user\'s current password.',
+            $crawler->filter('.current_password span span:last-child')->html()
+        );
+    }
+
+    public function testEditEmailAlreadyUsed(): void
+    {
+        $crawler = $this->client->request(
+            'GET',
+            $this->getUrl('oro_customer_frontend_customer_user_profile_update_email')
+        );
+        $result = $this->client->getResponse();
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+
+        $form = $crawler->selectButton('Save')->form();
+        $form->offsetSet(
+            'frontend_customer_user_profile_email[email]',
+            LoadAdditionalCustomerUserData::EMAIL
+        );
+        $form->offsetSet(
+            'frontend_customer_user_profile_email[currentPassword]',
+            LoadCustomerUserData::AUTH_PW
+        );
+
+        $this->client->followRedirects(true);
+        $crawler = $this->client->submit($form);
+
+        $result = $this->client->getResponse();
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+        self::assertStringContainsString('This email is already used', $crawler->html());
+    }
+
+    public function testEditEmailWithoutCurrentPassword(): void
+    {
+        $crawler = $this->client->request(
+            'GET',
+            $this->getUrl('oro_customer_frontend_customer_user_profile_update_email')
+        );
+        $result = $this->client->getResponse();
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
+
+        $form = $crawler->selectButton('Save')->form();
+        $form->offsetSet('frontend_customer_user_profile_email[email]', 'new.email@example.com');
+        $form->offsetSet('frontend_customer_user_profile_email[currentPassword]', '123456');
+
+        $this->client->followRedirects(true);
+        $crawler = $this->client->submit($form);
+
+        $result = $this->client->getResponse();
+        self::assertHtmlResponseStatusCodeEquals($result, 200);
 
         self::assertStringContainsString(
             'This value should be the user\'s current password.',

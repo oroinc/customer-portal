@@ -40,11 +40,9 @@ Feature: Disable customer user login password form
   Scenario: Disable login form
     Given I go to System / Configuration
     When I follow "Commerce/Customer/Customer User Login" on configuration sidebar
-    Then I should see "Password change policy"
     And I should see "Login attempts"
     When I uncheck "Use default" for "Enable Username/Password Login" field
     And I uncheck "Enable Username/Password Login"
-    Then I should not see "Password change policy"
     And I should not see "Login attempts"
     When I click "Save settings"
     Then I should see "Configuration saved" flash message

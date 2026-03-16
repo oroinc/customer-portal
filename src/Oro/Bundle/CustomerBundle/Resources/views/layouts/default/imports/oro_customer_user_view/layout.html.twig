@@ -16,7 +16,10 @@
 
 {% block _customer_user_view_information_title_wrapper_widget %}
     {% if block.children is not empty %}
-        {% set attr = attr|merge({ class: attr.class|default('') ~ " customer-profile__title-wrapper" }) %}
+        {% set attr = layout_attr_defaults(attr, {
+            '~class': " customer-profile__title-wrapper"
+        }) %}
+
         <div{{ block('block_attributes') }}>
             {{ block_widget(block) }}
         </div>
@@ -52,7 +55,30 @@
 {% endblock %}
 
 {% block _customer_user_view_information_widget %}
-    {% set attr = attr|merge({ class: attr.class|default('') ~ " customer-profile__box" }) %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " customer-profile__box"
+    }) %}
+
+    <div{{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _customer_user_view_section_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': " customer-profile__section"
+    }) %}
+
+    <div{{ block('block_attributes') }}>
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
+
+{% block _customer_user_view_information_container_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        'class': 'customer-profile__container'
+    }) %}
+
     <div{{ block('block_attributes') }}>
         {{ block_widget(block) }}
     </div>
@@ -144,7 +170,9 @@
                     {{- 'oro.customer.customeruser.profile.status.label'|trans -}}
                 </div>
                 <div class="info-list__desc">
-                    {{ block('customer_user_view_information_status') }}
+                    <div class="info-list__desc-status">
+                        {{ block('customer_user_view_information_status') }}
+                    </div>
                 </div>
             </div>
 
@@ -154,18 +182,18 @@
                     {{- 'oro.customer.customeruser.auth_status.label'|trans -}}
                 </div>
                 <div class="info-list__desc">
-                    {% if customerUser.auth_status.internalId == 'active' %}
-                        <div class="info-list-status">
-                            {{ renderIcon.icon({name: 'check'}) }}
-                            {{- customerUser.auth_status.id|trans_enum -}}
-                        </div>
-                    {% else %}
-                        {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
-                        <div class="info-list-status info-list-status--disabled">
-                            {{ renderIcon.icon({name: 'ban'})}}
-                            {{- customerUser.auth_status.id|trans_enum -}}
-                        </div>
-                    {% endif %}
+                    <div class="info-list__desc-status">
+                        {% if customerUser.auth_status.internalId == 'active' %}
+                            <div class="status-label status-label--success">
+                                {{- customerUser.auth_status.id|trans_enum -}}
+                            </div>
+                        {% else %}
+                            {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+                            <div class="status-label status-label--destructive">
+                                {{- customerUser.auth_status.id|trans_enum -}}
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
             {% endif %}
@@ -187,25 +215,21 @@
 {% block customer_user_view_information_status %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     {% if customerUser.enabled == true %}
-        <div class="info-list-status">
-            {{ renderIcon.icon({name: 'check'}) }}
+        <div class="status-label status-label--success">
             {{- 'oro.customer.customeruser.profile.statuses.enabled'|trans -}}
         </div>
     {% else %}
-        <div class="info-list-status info-list-status--disabled">
-            {{ renderIcon.icon({name: 'ban'}) }}
+        <div class="status-label status-label--destructive">
             {{- 'oro.customer.customeruser.profile.statuses.disabled'|trans -}}
         </div>
     {% endif %}
 
     {% if customerUser.confirmed == true %}
-        <div class="info-list-status">
-            {{ renderIcon.icon({name: 'check'}) }}
+        <div class="status-label status-label--success">
             {{- 'oro.customer.customeruser.profile.statuses.confirmed'|trans -}}
         </div>
     {% else %}
-        <div class="info-list-status info-list-status--disabled">
-            {{ renderIcon.icon({name: 'ban'}) }}
+        <div class="status-label status-label--destructive">
             {{- 'oro.customer.customeruser.profile.statuses.unconfirmed'|trans -}}
         </div>
     {% endif %}

@@ -1,41 +1,36 @@
 /* @theme: default; */
 
 .info-list {
-    width: $info-list-width;
-
-    margin: $info-list-offset;
-    padding: $info-list-inner-offset;
-
-    border-top: $info-list-border-top;
+    display: $info-list-display;
+    gap: $info-list-gap;
 
     &__item {
-        display: $info-list-item-display;
+        &:has(.info-list__control) {
+            display: $info-list-item-control-display;
+            grid-template-rows: $info-list-item-control-grid-template-rows;
+            grid-template-columns: $info-list-item-control-grid-template-columns;
+            gap: $info-list-item-control-gap;
+            align-items: $info-list-item-control-align-items;
+        }
+    }
 
-        padding: $info-list-item-inner-offset;
+    &__control {
+        grid-column: $info-list-control-grid-column;
+        grid-row: $info-list-control-grid-row;
     }
 
     &__name {
-        width: $info-list-name-width;
-        min-width: $info-list-name-min-width;
-        margin: $info-list-name-offset;
-
-        &::after {
-            content: $info-list-name-after-content;
-
-            margin-left: $info-list-name-after-offset-left;
-            position: $info-list-name-after-position;
-        }
+        color: $info-list-name-color;
     }
-}
 
-@include breakpoint('mobile') {
-    .info-list {
-        margin: $info-list-mobile-offset;
+    &__desc {
+        font-weight: $info-list-desc-font-weight;
+    }
 
-        &__name {
-            width: $info-list-name-mobile-width;
-            max-width: $info-list-name-mobile-width;
-            margin: $info-list-name-mobile-offset;
-        }
+    &__desc-status {
+        display: $info-list-desc-status-display;
+        flex-wrap: $info-list-desc-status-flex-wrap;
+        gap: $info-list-desc-status-gap;
+        padding-block: $info-list-desc-status-padding-block;
     }
 }

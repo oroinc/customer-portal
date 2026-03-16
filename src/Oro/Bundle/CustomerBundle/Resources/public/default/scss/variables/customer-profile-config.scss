@@ -1,9 +1,15 @@
 /* @theme: default; */
 
-$customer-profile-container-display: flex !default;
+$customer-profile-display: grid !default;
+$customer-profile-gap: spacing('lg') !default;
 
-$customer-profile-data-offset-inner: 12px 0 50px 35px !default;
-$customer-profile-data-width: 100% !default;
+$customer-profile-box-display: grid !default;
+$customer-profile-box-grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !default;
+$customer-profile-box-gap: spacing('lg') !default;
+
+$customer-profile-container-display: grid !default;
+$customer-profile-container-gap: spacing('base') !default;
+
 $customer-profile-gap: 24px !default;
 $customer-profile-data-border: 1px solid get-color('neutral', 'grey1') !default;
 
@@ -22,10 +28,6 @@ $customer-profile-mobile-controls-text-align: left !default;
 $customer-profile-offset-inner: 12px 0 0 35px !default;
 $customer-profile-width: 100% !default;
 $customer-profile-border-top: 1px solid get-color('neutral', 'grey1') !default;
-
-$customer-profile-mobile-data-offset-inner: 12px 0 20px 0 !default;
-$customer-profile-container-mobile-big-display: block !default;
-$customer-profile-mobile-big-border-top: 0 !default;
 
 $customer-profile-title-text-font-size: 18px !default;
 $customer-profile-title-text-line-height: 1.5 !default;

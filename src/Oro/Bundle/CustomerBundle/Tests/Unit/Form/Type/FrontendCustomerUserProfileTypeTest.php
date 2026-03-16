@@ -3,14 +3,9 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
-use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserProfileType;
-use Oro\Bundle\CustomerBundle\Form\Type\FrontendOwnerSelectType;
-use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeStub;
 use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
-use Oro\Bundle\UserBundle\Form\Type\ChangePasswordType;
-use Oro\Bundle\UserBundle\Tests\Unit\Stub\ChangePasswordTypeStub;
 use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
@@ -19,7 +14,6 @@ use Symfony\Component\Validator\Validation;
 
 class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
 {
-    private Customer $customer;
     private FrontendCustomerUserProfileType $formType;
 
     #[\Override]
@@ -35,9 +29,6 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
         $this->formType = new FrontendCustomerUserProfileType($configManager, $featureChecker);
         $this->formType->setDataClass(CustomerUser::class);
 
-        $this->customer = new Customer();
-        ReflectionUtil::setId($this->customer, 1);
-
         parent::setUp();
     }
 
@@ -48,10 +39,6 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
             new PreloadedExtension(
                 [
                     $this->formType,
-                    FrontendOwnerSelectType::class => new FrontendOwnerSelectTypeStub([
-                        $this->customer->getId() => $this->customer
-                    ]),
-                    ChangePasswordType::class => new ChangePasswordTypeStub()
                 ],
                 []
             ),
@@ -67,7 +54,6 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
     public function testSubmitForNewUser(): void
     {
         $entity = new CustomerUser();
-        $entity->setCustomer($this->customer);
 
         $form = $this->factory->create(FrontendCustomerUserProfileType::class, $entity);
         $this->assertSame($entity, $form->getData());
@@ -86,12 +72,10 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
         $entity->setLastName('Doe');
         $entity->setEmail('johndoe@example.com');
         $entity->setPassword('123456');
-        $entity->setCustomer($this->customer);
 
         $expectedEntity = clone $entity;
         $expectedEntity->setFirstName('John UP');
         $expectedEntity->setLastName('Doe UP');
-        $expectedEntity->setEmail('johndoe_up@example.com');
 
         $form = $this->factory->create(FrontendCustomerUserProfileType::class, $entity);
         $this->assertSame($entity, $form->getData());
@@ -99,8 +83,6 @@ class FrontendCustomerUserProfileTypeTest extends FormIntegrationTestCase
         $form->submit([
             'firstName' => $expectedEntity->getFirstName(),
             'lastName' => $expectedEntity->getLastName(),
-            'email' => $expectedEntity->getEmail(),
-            'customer' => $this->customer->getId(),
         ]);
         $this->assertTrue($form->isValid());
         $this->assertTrue($form->isSynchronized());

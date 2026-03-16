@@ -131,6 +131,8 @@ features:
             - oro_customer_frontend_customer_user_reset_request
             - oro_customer_frontend_customer_user_reset_check_email
             - oro_customer_frontend_customer_user_password_reset
+            - oro_customer_frontend_customer_user_profile_update_email
+            - oro_customer_frontend_customer_user_profile_update_password
         operations:
             - oro_customer_user_reset_password
             - oro_customer_customeruser_reset_password

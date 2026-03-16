@@ -5,13 +5,9 @@ namespace Oro\Bundle\CustomerBundle\Form\Type;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\FormBundle\Form\Type\OroBirthdayType;
-use Oro\Bundle\UserBundle\Form\Type\ChangePasswordType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 /**
@@ -91,45 +87,7 @@ class FrontendCustomerUserProfileType extends AbstractType
                     'required' => false,
                     'label' => 'oro.customer.customeruser.birthday.label'
                 ]
-            )
-            ->add(
-                'email',
-                EmailType::class,
-                [
-                    'required' => true,
-                    'label' => 'oro.customer.customeruser.email.label_short'
-                ]
             );
-
-        if ($this->featureChecker->isFeatureEnabled('customer_user_login_password')) {
-            $builder->add(
-                'changePassword',
-                ChangePasswordType::class,
-                [
-                    'current_password_label' => 'oro.customer.customeruser.current_password.label',
-                    'plain_password_invalid_message' => 'oro.customer.message.password_mismatch',
-                    'first_options_label' => 'oro.customer.customeruser.new_password.label',
-                    'second_options_label' => 'oro.customer.customeruser.password_confirmation.label'
-                ]
-            );
-        }
-
-        $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'preSetData']);
-    }
-
-    /**
-     * PRE_SET_DATA event handler
-     */
-    public function preSetData(FormEvent $event)
-    {
-        if (!$this->isCompanyNameFieldEnabled()) {
-            return;
-        }
-
-        $event->getForm()->add('customer', FrontendOwnerSelectType::class, [
-            'label' => 'oro.customer.customer.entity_label',
-            'targetObject' => $event->getData()
-        ]);
     }
 
     #[\Override]

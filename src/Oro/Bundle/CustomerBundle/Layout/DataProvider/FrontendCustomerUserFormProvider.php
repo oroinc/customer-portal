@@ -5,6 +5,8 @@ namespace Oro\Bundle\CustomerBundle\Layout\DataProvider;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserPasswordRequestType;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserPasswordResetType;
+use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserProfileEmailType;
+use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserProfilePasswordType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserProfileType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserType;
 use Oro\Bundle\CustomerBundle\Form\Type\FrontendOwnerSelectType;
@@ -117,6 +119,44 @@ class FrontendCustomerUserFormProvider extends AbstractFormProvider
         $options = $this->getProfilerFormOptions($customerUser);
 
         return $this->getForm(FrontendCustomerUserProfileType::class, $customerUser, $options);
+    }
+
+    public function getChangePasswordProfileForm(CustomerUser $customerUser): FormInterface
+    {
+        $options = [
+            'dynamic_fields_disabled' => true,
+            'action' => $this->generateUrl('oro_customer_frontend_customer_user_profile_update_password')
+        ];
+
+        return $this->getForm(FrontendCustomerUserProfilePasswordType::class, $customerUser, $options);
+    }
+
+    public function getChangePasswordProfileFormView(CustomerUser $customerUser): FormView
+    {
+        $options = [
+            'dynamic_fields_disabled' => true,
+            'action' => $this->generateUrl('oro_customer_frontend_customer_user_profile_update_password')
+        ];
+
+        return $this->getFormView(FrontendCustomerUserProfilePasswordType::class, $customerUser, $options);
+    }
+
+    public function getChangeEmailProfileForm(CustomerUser $customerUser): FormInterface
+    {
+        $options = [
+            'action' => $this->generateUrl('oro_customer_frontend_customer_user_profile_update_email')
+        ];
+
+        return $this->getForm(FrontendCustomerUserProfileEmailType::class, $customerUser, $options);
+    }
+
+    public function getChangeEmailProfileFormView(CustomerUser $customerUser): FormView
+    {
+        $options = [
+            'action' => $this->generateUrl('oro_customer_frontend_customer_user_profile_update_email')
+        ];
+
+        return $this->getFormView(FrontendCustomerUserProfileEmailType::class, $customerUser, $options);
     }
 
     /**

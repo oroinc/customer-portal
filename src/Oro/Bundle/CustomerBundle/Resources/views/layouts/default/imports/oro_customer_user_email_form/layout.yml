@@ -1,0 +1,76 @@
+layout:
+    imports:
+        -
+            id: oro_customer_form_top_bar
+            root: page_content
+
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_user_email_form/layout.html.twig'
+        - '@addTree':
+            items:
+                __customer_user_page:
+                    blockType: container
+                    options:
+                        class_prefix: 'customer-profile-edit-page'
+                __customer_user_form_errors:
+                    blockType: form_errors
+                    options:
+                        form: '=data["oro_customer_frontend_customer_user_form"].getChangeEmailProfileFormView(data["entity"])'
+                __customer_user_form:
+                    blockType: form
+                    options:
+                        form: '=data["oro_customer_frontend_customer_user_form"].getChangeEmailProfileFormView(data["entity"])'
+                        render_rest: false
+                __customer_user_form_fields_container:
+                    blockType: container
+                __customer_user_form_fields_customer:
+                    blockType: container
+                __customer_user_form_fields_email:
+                    blockType: container
+                __customer_user_form_actions:
+                    blockType: container
+                __customer_user_form_actions_cancel:
+                    blockType: link
+                    options:
+                        path: '=data["backToUrl"]'
+                        text: oro.customer.form.action.cancel.label
+                        attr:
+                            'class': 'btn btn--outlined '
+                        icon: 'close'
+                __customer_user_form_actions_create:
+                    blockType: button
+                    options:
+                        action: submit
+                        text: oro.customer.form.action.save.label
+                        attr:
+                            'class': 'role-submit'
+                        icon: 'check'
+            tree:
+                __root:
+                    __customer_user_page:
+                        __customer_user_form_errors: ~
+                        __customer_user_form:
+                            __customer_user_form_fields_container:
+                                __customer_user_form_fields_email: ~
+                            __customer_user_form_actions:
+                                __customer_user_form_actions_cancel: ~
+                                __customer_user_form_actions_create: ~
+        - '@move':
+            id: __customer_user_form_fields_container
+            parentId: __customer_user_form_fields
+
+        - '@move':
+            id: __customer_user_form_actions
+            parentId: __customer_user_form
+            siblingId: __customer_user_form_fields
+
+        - '@setOption':
+            id: back_button
+            optionName: path
+            optionValue: '=data["backToUrl"]'
+
+        - '@setOption':
+            id: __customer_user_form_errors
+            optionName: attr.class
+            optionValue: 'customer-user-form-validation'

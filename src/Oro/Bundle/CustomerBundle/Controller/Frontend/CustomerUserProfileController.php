@@ -36,6 +36,72 @@ class CustomerUserProfileController extends AbstractController
         ];
     }
 
+    #[Route(path: '/update/email', name: 'oro_customer_frontend_customer_user_profile_update_email')]
+    #[Layout]
+    #[AclAncestor('oro_customer_frontend_update_own_profile')]
+    public function updateEmailAction(Request $request)
+    {
+        $customerUser = $this->getUser();
+        $form = $this->container->get(FrontendCustomerUserFormProvider::class)
+            ->getChangeEmailProfileForm($customerUser);
+
+        $handler = $this->container->get(FrontendCustomerUserHandler::class);
+        $saveMessage = $this->container->get(TranslatorInterface::class)
+            ->trans('oro.customer.controller.customeruser.profile_email_updated.message');
+
+        $resultHandler = $this->container->get(UpdateHandlerFacade::class)->update(
+            $customerUser,
+            $form,
+            $saveMessage,
+            $request,
+            $handler
+        );
+
+        if ($resultHandler instanceof Response) {
+            return $resultHandler;
+        }
+
+        return [
+            'data' => [
+                'backToUrl' => $this->container->get('router')->generate('oro_customer_frontend_customer_user_profile'),
+                'entity' => $customerUser,
+            ]
+        ];
+    }
+
+    #[Route(path: '/update/password', name: 'oro_customer_frontend_customer_user_profile_update_password')]
+    #[Layout]
+    #[AclAncestor('oro_customer_frontend_update_own_profile')]
+    public function updatePasswordAction(Request $request)
+    {
+        $customerUser = $this->getUser();
+        $form = $this->container->get(FrontendCustomerUserFormProvider::class)
+            ->getChangePasswordProfileForm($customerUser);
+
+        $handler = $this->container->get(FrontendCustomerUserHandler::class);
+        $saveMessage = $this->container->get(TranslatorInterface::class)
+            ->trans('oro.customer.controller.customeruser.profile_password_updated.message');
+
+        $resultHandler = $this->container->get(UpdateHandlerFacade::class)->update(
+            $customerUser,
+            $form,
+            $saveMessage,
+            $request,
+            $handler
+        );
+
+        if ($resultHandler instanceof Response) {
+            return $resultHandler;
+        }
+
+        return [
+            'data' => [
+                'backToUrl' => $this->container->get('router')->generate('oro_customer_frontend_customer_user_profile'),
+                'entity' => $customerUser,
+            ]
+        ];
+    }
+
     /**
      * Edit customer user form
      *
