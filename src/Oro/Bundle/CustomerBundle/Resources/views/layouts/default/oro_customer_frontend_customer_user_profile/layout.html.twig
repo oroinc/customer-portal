@@ -142,6 +142,7 @@
                 </div>
                 {% endif %}
             </div>
+            {% if feature_enabled('customer_user_login_password') %}
             <div class="info-list__item">
                 <div class="info-list__name">
                     {{- 'oro.customer.customeruser.password.label'|trans -}}
@@ -158,6 +159,7 @@
                     </a>
                 </div>
             </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}
