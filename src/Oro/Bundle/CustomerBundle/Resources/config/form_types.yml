@@ -69,6 +69,8 @@ services:
             - '@security.authorization_checker'
             - '@oro_security.token_accessor'
             - '@oro_featuretoggle.checker.feature_checker'
+            - '@oro_security.acl_helper'
+            - '@doctrine'
         calls:
             - [setDataClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUser']]
             - [setAddressClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress']]

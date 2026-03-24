@@ -2,13 +2,10 @@
 
 namespace Oro\Bundle\CustomerBundle\Entity\Repository;
 
-use Doctrine\DBAL\ParameterType;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
-use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 /**
@@ -78,64 +75,21 @@ class CustomerUserRoleRepository extends EntityRepository
         return $findResult;
     }
 
-    /**
-     * @param OrganizationInterface $organization
-     * @param mixed                 $customer
-     * @param bool                  $onlySelfManaged
-     * @return QueryBuilder
-     */
-    public function getAvailableRolesByCustomerUserQueryBuilder(
-        OrganizationInterface $organization,
-        $customer,
-        $onlySelfManaged = false
-    ) {
-        if ($customer instanceof Customer) {
-            $customer = $customer->getId();
-        }
-
+    public function getAvailableRolesByCustomerUserQueryBuilder(?int $customerId): QueryBuilder
+    {
         $qb = $this->createQueryBuilder('CustomerUserRole');
 
         $expr = $qb->expr()->isNull('CustomerUserRole.customer');
-        if ($customer) {
+        if ($customerId) {
             $expr = $qb->expr()->orX(
                 $expr,
                 $qb->expr()->eq('CustomerUserRole.customer', ':customer')
             );
-            $qb->setParameter('customer', (int)$customer);
+            $qb->setParameter('customer', $customerId);
         }
 
-        if ($onlySelfManaged) {
-            $qb->where(
-                $qb->expr()->andX(
-                    $expr,
-                    $qb->expr()->eq('CustomerUserRole.selfManaged', ':selfManaged'),
-                    $qb->expr()->eq('CustomerUserRole.organization', ':organization')
-                )
-            );
-            $qb->setParameter('selfManaged', true, ParameterType::BOOLEAN);
-        } else {
-            $qb->where(
-                $qb->expr()->andX(
-                    $expr,
-                    $qb->expr()->eq('CustomerUserRole.organization', ':organization')
-                )
-            );
-        }
-
-        $qb->setParameter('organization', $organization);
+        $qb->where($expr);
 
         return $qb;
-    }
-
-    /**
-     * @param OrganizationInterface $organization
-     * @param mixed $customer
-     * @return QueryBuilder
-     */
-    public function getAvailableSelfManagedRolesByCustomerUserQueryBuilder(
-        OrganizationInterface $organization,
-        $customer
-    ) {
-        return $this->getAvailableRolesByCustomerUserQueryBuilder($organization, $customer, true);
     }
 }

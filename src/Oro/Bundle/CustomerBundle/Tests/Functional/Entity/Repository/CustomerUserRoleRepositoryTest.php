@@ -89,10 +89,7 @@ class CustomerUserRoleRepositoryTest extends WebTestCase
         $customerUser = $this->getReference($customerUser);
         /** @var CustomerUserRole[] $actual */
         $actual = $this->getRepository()
-            ->getAvailableRolesByCustomerUserQueryBuilder(
-                $customerUser->getOrganization(),
-                $customerUser->getCustomer()
-            )
+            ->getAvailableRolesByCustomerUserQueryBuilder($customerUser->getCustomer()?->getId())
             ->getQuery()
             ->getResult();
         $this->assertCount(count($expectedCustomerUserRoles) +  self::$defaultRolesCount, $actual);
@@ -103,35 +100,6 @@ class CustomerUserRoleRepositoryTest extends WebTestCase
         foreach ($expectedCustomerUserRoles as $roleReference) {
             $this->assertContains($this->getReference($roleReference)->getId(), $roleIds);
         }
-    }
-
-    /**
-     * @dataProvider customerUserRolesDataProvider
-     */
-    public function testGetAvailableSelfManagedRolesByCustomerUserQueryBuilder(
-        string $customerUser
-    ) {
-        /** @var CustomerUser $customerUser */
-        $customerUser = $this->getReference($customerUser);
-        /** @var CustomerUserRole[] $actual */
-        $actual = $this->getRepository()
-            ->getAvailableSelfManagedRolesByCustomerUserQueryBuilder(
-                $customerUser->getOrganization(),
-                $customerUser->getCustomer()
-            )
-            ->getQuery()
-            ->getResult();
-
-        $roleIds = [];
-
-        foreach ($actual as $role) {
-            $roleIds[] = $role->getId();
-        }
-
-        $this->assertNotContains(
-            $this->getReference(LoadCustomerUserRoleData::ROLE_NOT_SELF_MANAGED)->getId(),
-            $roleIds
-        );
     }
 
     public function customerUserRolesDataProvider(): array

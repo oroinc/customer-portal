@@ -19,12 +19,14 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeS
 use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
@@ -38,6 +40,8 @@ class FrontendCustomerUserTypeTest extends FormIntegrationTestCase
     private TokenAccessorInterface&MockObject $tokenAccessor;
     private WebsiteManager&MockObject $websiteManager;
     private FeatureChecker&MockObject $featureChecker;
+    private AclHelper&MockObject $aclHelper;
+    private ManagerRegistry&MockObject $registry;
     private Customer $customer1;
     private Customer $customer2;
     private CustomerUserAddress $customerUserAddress1;
@@ -51,6 +55,8 @@ class FrontendCustomerUserTypeTest extends FormIntegrationTestCase
         $this->tokenAccessor = $this->createMock(TokenAccessorInterface::class);
         $this->websiteManager = $this->createMock(WebsiteManager::class);
         $this->featureChecker = $this->createMock(FeatureChecker::class);
+        $this->aclHelper = $this->createMock(AclHelper::class);
+        $this->registry = $this->createMock(ManagerRegistry::class);
 
         $this->formType = new FrontendCustomerUserType(
             $this->authorizationChecker,
@@ -79,7 +85,9 @@ class FrontendCustomerUserTypeTest extends FormIntegrationTestCase
         $customerUserType = new CustomerUserType(
             $this->authorizationChecker,
             $this->tokenAccessor,
-            $this->featureChecker
+            $this->featureChecker,
+            $this->aclHelper,
+            $this->registry,
         );
         $customerUserType->setDataClass(CustomerUser::class);
         $customerUserType->setAddressClass(CustomerUserAddress::class);
