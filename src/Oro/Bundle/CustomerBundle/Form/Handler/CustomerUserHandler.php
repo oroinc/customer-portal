@@ -77,9 +77,11 @@ class CustomerUserHandler implements FormHandlerInterface
                     }
                 }
 
-                $organization = $this->tokenAccessor->getOrganization();
-                if (null !== $organization) {
-                    $customerUser->setOrganization($organization);
+                if (null === $customerUser->getOrganization()) {
+                    $organization = $this->tokenAccessor->getOrganization();
+                    if (null !== $organization) {
+                        $customerUser->setOrganization($organization);
+                    }
                 }
 
                 $this->userManager->updateUser($customerUser);

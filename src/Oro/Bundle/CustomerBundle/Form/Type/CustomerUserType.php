@@ -3,12 +3,16 @@
 namespace Oro\Bundle\CustomerBundle\Form\Type;
 
 use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
+use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\FormBundle\Form\Type\OroBirthdayType;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -35,6 +39,10 @@ class CustomerUserType extends AbstractType
     /** @var string */
     protected $addressClass;
 
+    private AclHelper $aclHelper;
+
+    private ManagerRegistry $registry;
+
     public function __construct(
         protected AuthorizationCheckerInterface $authorizationChecker,
         protected TokenAccessorInterface $tokenAccessor,
@@ -56,6 +64,16 @@ class CustomerUserType extends AbstractType
     public function setAddressClass($addressClass)
     {
         $this->addressClass = $addressClass;
+    }
+
+    public function setAclHelper(AclHelper $aclHelper): void
+    {
+        $this->aclHelper = $aclHelper;
+    }
+
+    public function setRegistry(ManagerRegistry $registry): void
+    {
+        $this->registry = $registry;
     }
 
     #[\Override]
@@ -250,18 +268,15 @@ class CustomerUserType extends AbstractType
 
         /** @var CustomerUser $data */
         $data = $event->getData();
-        $data->setOrganization($this->tokenAccessor->getOrganization());
+        if (null === $data->getOrganization()) {
+            $data->setOrganization($this->tokenAccessor->getOrganization());
+        }
 
         $form->add(
             'userRoles',
             CustomerUserRoleSelectType::class,
             [
-                'query_builder' => function (CustomerUserRoleRepository $repository) use ($data) {
-                    return $repository->getAvailableRolesByCustomerUserQueryBuilder(
-                        $data->getOrganization(),
-                        $data->getCustomer()
-                    );
-                }
+                'choices' => $this->getAvailableRoles($data->getCustomer()),
             ]
         );
     }
@@ -275,19 +290,19 @@ class CustomerUserType extends AbstractType
             'userRoles',
             CustomerUserRoleSelectType::class,
             [
-                'query_builder' => function (CustomerUserRoleRepository $repository) use ($data) {
-                    $customer = null;
-                    if (array_key_exists('customer', $data)) {
-                        $customer = $data['customer'];
-                    }
-
-                    return $repository->getAvailableRolesByCustomerUserQueryBuilder(
-                        $this->tokenAccessor->getOrganization(),
-                        $customer
-                    );
-                }
+                'choices' => $this->getAvailableRoles($data['customer'] ?? null),
             ]
         );
+    }
+
+    private function getAvailableRoles(Customer|int|string|null $customer): array
+    {
+        /** @var CustomerUserRoleRepository $repository */
+        $repository = $this->registry->getRepository(CustomerUserRole::class);
+        $organization = $this->tokenAccessor->getOrganization();
+        $availableRolesQB = $repository->getAvailableRolesByCustomerUserQueryBuilder($organization, $customer);
+
+        return $this->aclHelper->apply($availableRolesQB)->getResult();
     }
 
     #[\Override]
