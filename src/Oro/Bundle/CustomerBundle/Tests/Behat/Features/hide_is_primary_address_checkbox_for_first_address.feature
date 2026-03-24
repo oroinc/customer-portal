@@ -25,7 +25,7 @@ Feature: Hide Is Primary Address checkbox for first address
       | State           | Alabama       |
       | Zip/Postal Code | 123456        |
     And I save form
-    Then I should see "Customer Address has been saved" flash message
+    Then I should see "Customer Address has been saved" flash message and I close it
     And I click "New Company Address"
     Then I should see "Is Primary Address Checkbox" element inside "Create Address Form" element
     And I click "Cancel"
@@ -40,6 +40,6 @@ Feature: Hide Is Primary Address checkbox for first address
       | State           | Alabama       |
       | Zip/Postal Code | 123456        |
     And I save form
-    Then I should see "Customer User Address has been saved" flash message
+    Then I should see "Customer User Address has been saved" flash message and I close it
     And I click "New Company Address"
     Then I should see "Is Primary Address Checkbox" element inside "Create Address Form" element

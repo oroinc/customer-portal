@@ -7,6 +7,7 @@
     align-items: center;
     padding-block: spacing('sm');
     padding-inline: spacing('md') 0;
+    margin-bottom: spacing('md');
     border-radius: $notification-flash-border-radius;
 
     &::before {
