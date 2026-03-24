@@ -19,12 +19,14 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\FrontendOwnerSelectTypeS
 use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
@@ -84,6 +86,8 @@ class FrontendCustomerUserTypeTest extends FormIntegrationTestCase
         $customerUserType->setFeatureChecker($this->featureChecker);
         $customerUserType->setDataClass(CustomerUser::class);
         $customerUserType->setAddressClass(CustomerUserAddress::class);
+        $customerUserType->setAclHelper($this->createMock(AclHelper::class));
+        $customerUserType->setRegistry($this->createMock(ManagerRegistry::class));
 
         $translator = $this->createMock(TranslatorInterface::class);
         $translator->expects($this->any())

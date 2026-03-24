@@ -7,6 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\CustomerBundle\Entity\Repository\CustomerUserRoleRepository;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserRoleData;
+use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 
 class CustomerUserRoleRepositoryTest extends WebTestCase
@@ -86,13 +87,13 @@ class CustomerUserRoleRepositoryTest extends WebTestCase
     ) {
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getReference($customerUser);
+        $qb = $this->getRepository()->getAvailableRolesByCustomerUserQueryBuilder(
+            $customerUser->getOrganization(),
+            $customerUser->getCustomer()
+        );
         /** @var CustomerUserRole[] $actual */
-        $actual = $this->getRepository()
-            ->getAvailableRolesByCustomerUserQueryBuilder(
-                $customerUser->getOrganization(),
-                $customerUser->getCustomer()
-            )
-            ->getQuery()
+        $actual = self::getContainer()->get(AclHelper::class)
+            ->apply($qb)
             ->getResult();
         $this->assertCount(count($expectedCustomerUserRoles) +  self::$defaultRolesCount, $actual);
         $roleIds = [];
@@ -113,12 +114,11 @@ class CustomerUserRoleRepositoryTest extends WebTestCase
         /** @var CustomerUser $customerUser */
         $customerUser = $this->getReference($customerUser);
         /** @var CustomerUserRole[] $actual */
-        $actual = $this->getRepository()
-            ->getAvailableSelfManagedRolesByCustomerUserQueryBuilder(
+        $actual = self::getContainer()->get(AclHelper::class)
+            ->apply($this->getRepository()->getAvailableSelfManagedRolesByCustomerUserQueryBuilder(
                 $customerUser->getOrganization(),
                 $customerUser->getCustomer()
-            )
-            ->getQuery()
+            ))
             ->getResult();
 
         $roleIds = [];

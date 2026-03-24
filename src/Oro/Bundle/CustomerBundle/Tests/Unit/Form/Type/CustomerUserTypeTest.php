@@ -2,6 +2,8 @@
 
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type;
 
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\QueryBuilder;
 use Oro\Bundle\AddressBundle\Form\Type\AddressCollectionType;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
@@ -16,12 +18,14 @@ use Oro\Bundle\CustomerBundle\Tests\Unit\Form\Type\Stub\EntitySelectTypeStub;
 use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\OrganizationBundle\Entity\Organization;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\SecurityBundle\ORM\Walker\AclHelper;
 use Oro\Bundle\UserBundle\Entity\User;
 use Oro\Bundle\UserBundle\Form\Type\UserMultiSelectType;
 use Oro\Component\Testing\ReflectionUtil;
 use Oro\Component\Testing\Unit\Form\Type\Stub\EntityTypeStub;
 use Oro\Component\Testing\Unit\PreloadedExtension;
 use PHPUnit\Framework\MockObject\MockObject;
+use Symfony\Bridge\Doctrine\ManagerRegistry;
 use Symfony\Component\Form\Extension\Validator\ValidatorExtension;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\Test\FormIntegrationTestCase;
@@ -53,6 +57,25 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         $this->formType->setFeatureChecker($this->featureChecker);
         $this->formType->setDataClass(CustomerUser::class);
         $this->formType->setAddressClass(CustomerUserAddress::class);
+
+        $queryMock = $this->createMock(AbstractQuery::class);
+        $queryMock->method('getResult')
+            ->willReturn([]);
+
+        $aclHelper = $this->createMock(AclHelper::class);
+        $aclHelper->method('apply')
+            ->willReturn($queryMock);
+
+        $roleRepository = $this->createMock(CustomerUserRoleRepository::class);
+        $roleRepository->method('getAvailableRolesByCustomerUserQueryBuilder')
+            ->willReturn($this->createMock(QueryBuilder::class));
+        $registry = $this->createMock(ManagerRegistry::class);
+        $registry->method('getRepository')
+            ->with(CustomerUserRole::class)
+            ->willReturn($roleRepository);
+
+        $this->formType->setAclHelper($aclHelper);
+        $this->formType->setRegistry($registry);
 
         $this->customer1 = self::getCustomer(1, 'first');
         $this->customer2 = self::getCustomer(2, 'second');
@@ -156,21 +179,12 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         return $customerUser;
     }
 
-    private function assertQueryBuilderCallback(FormInterface $form): void
+    private function assertChoicesOption(FormInterface $form): void
     {
         $this->assertTrue($form->has('userRoles'));
 
         $options = $form->get('userRoles')->getConfig()->getOptions();
-        $this->assertArrayHasKey('query_builder', $options);
-
-        $callable = $options['query_builder'];
-        $this->assertIsCallable($callable);
-
-        $repository = $this->createMock(CustomerUserRoleRepository::class);
-        $repository->expects($this->once())
-            ->method('getAvailableRolesByCustomerUserQueryBuilder');
-
-        $callable($repository);
+        $this->assertArrayHasKey('choices', $options);
     }
 
     public function testHasNoAddress(): void
@@ -190,6 +204,24 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         $this->assertFalse($form->has('addresses'));
     }
 
+    public function testPreSetDataSetsOrganizationWhenNotSet(): void
+    {
+        $newCustomerUser = new CustomerUser();
+        $organization = new Organization();
+
+        $this->authorizationChecker->expects($this->atLeastOnce())
+            ->method('isGranted')
+            ->willReturn(true);
+
+        $this->tokenAccessor->expects($this->exactly(2))
+            ->method('getOrganization')
+            ->willReturn($organization);
+
+        $this->factory->create(CustomerUserType::class, $newCustomerUser);
+
+        $this->assertSame($organization, $newCustomerUser->getOrganization());
+    }
+
     public function testSubmitWithoutSubmittedData(): void
     {
         $newCustomerUser = new CustomerUser();
@@ -199,20 +231,19 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
             ->method('isGranted')
             ->willReturn(true);
 
-        $this->tokenAccessor->expects($this->exactly(2))
-            ->method('getOrganization')
+        $this->tokenAccessor->method('getOrganization')
             ->willReturn(new Organization());
 
         $form = $this->factory->create(CustomerUserType::class, $newCustomerUser);
         $this->assertSame($newCustomerUser, $form->getData());
-        $this->assertQueryBuilderCallback($form);
+        $this->assertChoicesOption($form);
 
         $form->submit([]);
         $this->assertTrue($form->isValid());
         $this->assertTrue($form->isSynchronized());
         $this->assertEquals($newCustomerUser, $form->getData());
 
-        $this->assertQueryBuilderCallback($form);
+        $this->assertChoicesOption($form);
     }
 
     public function testSubmitAlteredExistingUser(): void
@@ -227,13 +258,12 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
             ->method('isGranted')
             ->willReturn(true);
 
-        $this->tokenAccessor->expects($this->exactly(2))
-            ->method('getOrganization')
+        $this->tokenAccessor->method('getOrganization')
             ->willReturn(new Organization());
 
         $form = $this->factory->create(CustomerUserType::class, $existingCustomerUser);
         $this->assertSame($existingCustomerUser, $form->getData());
-        $this->assertQueryBuilderCallback($form);
+        $this->assertChoicesOption($form);
 
         $form->submit([
             'firstName' => 'Mary',
@@ -245,7 +275,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         $this->assertTrue($form->isSynchronized());
         $this->assertEquals($alteredExistingCustomerUser, $form->getData());
 
-        $this->assertQueryBuilderCallback($form);
+        $this->assertChoicesOption($form);
     }
 
     public function testSubmitAlteredExistingUserWithRoles(): void
@@ -261,13 +291,12 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
             ->method('isGranted')
             ->willReturn(true);
 
-        $this->tokenAccessor->expects($this->exactly(2))
-            ->method('getOrganization')
+        $this->tokenAccessor->method('getOrganization')
             ->willReturn(new Organization());
 
         $form = $this->factory->create(CustomerUserType::class, $existingCustomerUser);
         $this->assertSame($existingCustomerUser, $form->getData());
-        $this->assertQueryBuilderCallback($form);
+        $this->assertChoicesOption($form);
 
         $form->submit([
             'firstName' => 'Mary',
@@ -280,7 +309,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         $this->assertTrue($form->isSynchronized());
         $this->assertEquals($alteredExistingCustomerUserWithRole, $form->getData());
 
-        $this->assertQueryBuilderCallback($form);
+        $this->assertChoicesOption($form);
     }
 
     public function testSubmitAlteredExistingUserWithAddresses(): void
@@ -297,13 +326,12 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
             ->method('isGranted')
             ->willReturn(true);
 
-        $this->tokenAccessor->expects($this->exactly(2))
-            ->method('getOrganization')
+        $this->tokenAccessor->method('getOrganization')
             ->willReturn(new Organization());
 
         $form = $this->factory->create(CustomerUserType::class, $existingCustomerUser);
         $this->assertSame($existingCustomerUser, $form->getData());
-        $this->assertQueryBuilderCallback($form);
+        $this->assertChoicesOption($form);
 
         $form->submit([
             'firstName' => 'Mary',
@@ -316,7 +344,7 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         $this->assertTrue($form->isSynchronized());
         $this->assertEquals($alteredExistingCustomerUserWithAddresses, $form->getData());
 
-        $this->assertQueryBuilderCallback($form);
+        $this->assertChoicesOption($form);
     }
 
     public function testSubmitAlteredExistingUserWithSalesRepresentatives(): void
@@ -334,13 +362,12 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
             ->method('isGranted')
             ->willReturn(true);
 
-        $this->tokenAccessor->expects($this->exactly(2))
-            ->method('getOrganization')
+        $this->tokenAccessor->method('getOrganization')
             ->willReturn(new Organization());
 
         $form = $this->factory->create(CustomerUserType::class, $existingCustomerUser);
         $this->assertSame($existingCustomerUser, $form->getData());
-        $this->assertQueryBuilderCallback($form);
+        $this->assertChoicesOption($form);
 
         $form->submit([
             'firstName' => 'Mary',
@@ -353,6 +380,6 @@ class CustomerUserTypeTest extends FormIntegrationTestCase
         $this->assertTrue($form->isSynchronized());
         $this->assertEquals($alteredExistingCustomerUserWithSalesRepresentatives, $form->getData());
 
-        $this->assertQueryBuilderCallback($form);
+        $this->assertChoicesOption($form);
     }
 }
