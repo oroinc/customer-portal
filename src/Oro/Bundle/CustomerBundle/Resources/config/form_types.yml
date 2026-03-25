@@ -72,6 +72,8 @@ services:
         calls:
             - [setDataClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUser']]
             - [setAddressClass, ['Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress']]
+            - [setAclHelper, ['@oro_security.acl_helper']]
+            - [setRegistry, ['@doctrine']]
         tags:
             - { name: form.type, alias: oro_customer_customer_user }
 

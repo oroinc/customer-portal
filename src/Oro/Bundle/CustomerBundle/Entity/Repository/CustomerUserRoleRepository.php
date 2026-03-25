@@ -109,20 +109,12 @@ class CustomerUserRoleRepository extends EntityRepository
                 $qb->expr()->andX(
                     $expr,
                     $qb->expr()->eq('CustomerUserRole.selfManaged', ':selfManaged'),
-                    $qb->expr()->eq('CustomerUserRole.organization', ':organization')
                 )
             );
             $qb->setParameter('selfManaged', true, ParameterType::BOOLEAN);
         } else {
-            $qb->where(
-                $qb->expr()->andX(
-                    $expr,
-                    $qb->expr()->eq('CustomerUserRole.organization', ':organization')
-                )
-            );
+            $qb->where($expr);
         }
-
-        $qb->setParameter('organization', $organization);
 
         return $qb;
     }
