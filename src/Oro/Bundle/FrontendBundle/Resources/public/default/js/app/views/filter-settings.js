@@ -1,11 +1,24 @@
 import $ from 'jquery';
 import config from 'orofilter/js/filter/filter-settings';
 import viewportManager from 'oroui/js/viewport-manager';
+import moduleConfig from 'module-config';
 
-export default $.extend(true, {}, config, {
+const defaults = {
     fullScreenViewport: 'tablet',
+    minHeightBreakpoint: null
+};
+
+const settings = $.extend(true, {}, config, defaults, moduleConfig(module.id), {
     isFullScreen() {
-        return viewportManager.isApplicable(this.fullScreenViewport);
+        if (viewportManager.isApplicable(this.fullScreenViewport)) {
+            return true;
+        }
+
+        if (this.minHeightBreakpoint) {
+            return window.innerHeight <= this.minHeightBreakpoint;
+        }
+
+        return false;
     },
     appearance: {
         'dropdown-mode': {
@@ -13,3 +26,5 @@ export default $.extend(true, {}, config, {
         }
     }
 });
+
+export default settings;

@@ -22,6 +22,7 @@ app-modules:
 configs:
     orofrontend/default/js/app/views/frontend-abstract-filter: {}
     orofrontend/default/js/app/views/frontend-select-filter: {}
+    orofrontend/default/js/app/views/filter-settings: {}
     orofrontend/default/js/app/views/scroll-top-view: {}
     orofrontend/js/app/components/frontend-datagrid-component: {}
     orofrontend/js/app/datafilter/actions/fullscreen-filters-action: {}
