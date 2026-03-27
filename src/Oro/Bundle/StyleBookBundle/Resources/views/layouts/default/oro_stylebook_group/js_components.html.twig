@@ -89,57 +89,52 @@
 
 {% block _style_book_grid_element_modal_js_widget %}
     {% set source_code %}
-        define(function(require) {
-            'use strict';
+        import BaseView from 'oroui/js/app/views/base/view';
+        import Modal from 'oroui/js/modal';
 
-            var SomeExampleView;
-            var BaseView = require('oroui/js/app/views/base/view');
-            var Modal = require('oroui/js/modal');
+        const SomeExampleView = BaseView.extend({
+            /**
+             * @property
+             */
+            modal: null,
 
-            SomeExampleView = BaseView.extend({
-                /**
-                 * @property
-                 */
-                modal: null,
+            events: {
+                'click #modal-toggle': 'openModal'
+            },
 
-                events: {
-                    'click #modal-toggle': 'openModal'
-                },
+            initialize: function() {
+                SomeExampleView.__super__.initialize.apply(this);
 
-                initialize: function() {
-                    SomeExampleView.__super__.initialize.apply(this);
+                this.modal = new Modal({
+                    title: 'Some Title',
+                    okText: 'OK',
+                    cancelText: 'Cancel',
+                    content: 'Some content in modal'
+                });
+            },
 
-                    this.modal = new Modal({
-                        title: 'Some Title',
-                        okText: 'OK',
-                        cancelText: 'Cancel',
-                        content: 'Some content in modal'
-                    });
-                },
+            openModal: function() {
+                this.modal.on('ok', this._onOKModal.bind(this));
+                this.modal.on('cancel', this._onCancelModal.bind(this));
+                this.modal.on('close', this._onCloseModal.bind(this));
 
-                openModal: function() {
-                    this.modal.on('ok', this._onOKModal.bind(this));
-                    this.modal.on('cancel', this._onCancelModal.bind(this));
-                    this.modal.on('close', this._onCloseModal.bind(this));
+                this.modal.open();
+            },
 
-                    this.modal.open();
-                },
+            _onOKModal: function() {
+                // Make some actions when user press 'OK' button
+            },
 
-                _onOKModal: function() {
-                    // Make some actions when user press 'OK' button
-                },
+            _onCancelModal: function() {
+                // Make some actions when user press 'Cancel' button
+            },
 
-                _onCancelModal: function() {
-                    // Make some actions when user press 'Cancel' button
-                },
-
-                _onCloseModal: function() {
-                    // Make some actions when user close modal window
-                }
-            });
-
-            return SomeExampleView;
+            _onCloseModal: function() {
+                // Make some actions when user close modal window
+            }
         });
+
+        export default SomeExampleView;
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -692,40 +687,35 @@
 
 {% block _style_book_grid_element_loading_mask_js_widget %}
     {% set source_code %}
-    define(function(require) {
-        'use strict';
+    import BaseView from 'oroui/js/app/views/base/view';
+    import LoadingMaskView from 'oroui/js/app/views/loading-mask-view';
 
-        var SomeExampleView;
-        var BaseView = require('oroui/js/app/views/base/view');
-        var LoadingMaskView = require('oroui/js/app/views/loading-mask-view');
+    const SomeExampleView = BaseView.extend({
+        events: {
+            'click [show-loading]': 'showLoading',
+            'click [hide-loading]': 'hideLoading'
+        },
 
-        SomeExampleView = BaseView.extend({
-            events: {
-                'click [show-loading]': 'showLoading',
-                'click [hide-loading]': 'hideLoading'
-            },
+        initialize: function() {
+            SomeExampleView.__super__.initialize.apply(this);
 
-            initialize: function() {
-                SomeExampleView.__super__.initialize.apply(this);
+            this.subview('loadingMask', new LoadingMaskView({
+                container: this.$('selector')
+            }));
+        },
 
-                this.subview('loadingMask', new LoadingMaskView({
-                    container: this.$('selector')
-                }));
-            },
+        showLoading: function() {
+            // Show loading mask on container after some action
+            this.subview('loadingMask').show();
+        },
 
-            showLoading: function() {
-                // Show loading mask on container after some action
-                this.subview('loadingMask').show();
-            },
-
-            hideLoading: function() {
-                // Hide loading mask on container after some action
-                this.subview('loadingMask').hide();
-            }
-        });
-
-        return SomeExampleView;
+        hideLoading: function() {
+            // Hide loading mask on container after some action
+            this.subview('loadingMask').hide();
+        }
     });
+
+    export default SomeExampleView;
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -741,32 +731,27 @@
 
 {% block _style_book_grid_element_loading_mask_mediator_widget %}
     {% set source_code %}
-        define(function(require) {
-            'use strict';
+        import BaseView from 'oroui/js/app/views/base/view';
+        import mediator from 'oroui/js/mediator';
 
-            var SomeExampleView;
-            var BaseView = require('oroui/js/app/views/base/view');
-            var mediator = require('oroui/js/mediator');
+        const SomeExampleView = BaseView.extend({
+            events: {
+                'click [show-loading]': 'showLoading',
+                'click [hide-loading]': 'hideLoading'
+            },
 
-            SomeExampleView = BaseView.extend({
-                events: {
-                    'click [show-loading]': 'showLoading',
-                    'click [hide-loading]': 'hideLoading'
-                },
+            showLoading: function() {
+                // Show loading mask on container after some action
+                mediator.execute('showLoading');
+            },
 
-                showLoading: function() {
-                    // Show loading mask on container after some action
-                    mediator.execute('showLoading');
-                },
-
-                hideLoading: function() {
-                    // Hide loading mask on container after some action
-                    mediator.execute('hideLoading');
-                }
-            });
-
-            return SomeExampleView;
+            hideLoading: function() {
+                // Hide loading mask on container after some action
+                mediator.execute('hideLoading');
+            }
         });
+
+        export default SomeExampleView;
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -827,47 +812,42 @@
 
 {% block _style_book_grid_element_dialog_widget_js_widget %}
     {% set source_code %}
-        define(function(require) {
-            'use strict';
+        import BaseView from 'oroui/js/app/views/base/view';
+        import DialogWidget from 'oro/dialog-widget';
 
-            var SomeExampleView;
-            var BaseView = require('oroui/js/app/views/base/view');
-            var _ = require('underscore');
+        const SomeExampleView = BaseView.extend({
+            widget: null,
 
-            SomeExampleView = BaseView.extend({
-                widget: null,
+            events: {
+                'click [toggle-dialog]': 'openDialog'
+            },
 
-                events: {
-                    'click [toggle-dialog]': 'openDialog'
-                },
+            initialize: function() {
+                SomeExampleView.__super__.initialize.apply(this);
 
-                initialize: function() {
-                    SomeExampleView.__super__.initialize.apply(this);
+                this.widget = new DialogWidget({
+                    title: 'Dialog title',
+                    el: this.$el,
+                    stateEnabled: false,
+                    incrementalPosition: false,
+                    dialogOptions: {
+                        close: this.onCancel.bind(this),
+                        width: 800,
+                        modal: true
+                    }
+                });
+            },
 
-                    this.widget = new DialogWidget({
-                        title: 'Dialog title',
-                        el: this.$el,
-                        stateEnabled: false,
-                        incrementalPosition: false,
-                        dialogOptions: {
-                            close: this.onCancel.bind(this),
-                            width: 800,
-                            modal: true
-                        }
-                    });
-                },
+            openDialog: function() {
+                this.widget.render();
+            },
 
-                openDialog: function() {
-                    this.widget.render();
-                },
-
-                onCancel: function() {
-                    // Close handler
-                }
-            });
-
-            return SomeExampleView;
+            onCancel: function() {
+                // Close handler
+            }
         });
+
+        export default SomeExampleView;
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -1674,56 +1654,49 @@
 
 {% block _style_book_grid_element_fullscreen_popup_view_js_widget %}
     {% set source_code %}
-        <script>
-        define(function(require) {
-            'use strict';
+        import BaseView from 'oroui/js/app/views/base/view';
+        import FullscreenPopupView from 'orofrontend/default/js/app/views/fullscreen-popup-view';
 
-            var SomeExampleView;
-            var BaseView = require('oroui/js/app/views/base/view');
-            var FullscreenPopupView = require('orofrontend/default/js/app/views/fullscreen-popup-view');
+        const SomeExampleView = BaseView.extend({
+            events: {
+                'click [show-popup]': 'showPopup',
+                'click [hide-popup]': 'hidePopup'
+            },
 
-            SomeExampleView = BaseView.extend({
-                events: {
-                    'click [show-popup]': 'showPopup',
-                    'click [hide-popup]': 'hidePopup'
-                },
+            initialize: function(options) {
+                SomeExampleView.__super__.initialize.apply(this, arguments);
 
-                initialize: function(options) {
-                    SomeExampleView.__super__.initialize.apply(this, arguments);
+                this.subview('fullscreenPopup', new FullscreenPopupView( {
+                    contentSelector: '.selector', // is required or use 'contentElement', 'contentView'
+                    contentView: SomeViewConstructor, // or
+                    contentElement: $('#get-some-element-on-page'),
+                    contentTemplate: '<div><%- can use some underscore template %></div>',
 
-                    this.subview('fullscreenPopup', new FullscreenPopupView( {
-                        contentSelector: '.selector', // is required or use 'contentElement', 'contentView'
-                        contentView: SomeViewConstructor, // or
-                        contentElement: $('#get-some-element-on-page'),
-                        contentTemplate: '<div><%- can use some underscore template %></div>',
+                    headerSelector: '.header-content', // or
+                    headerView: SomeViewConstructor, // or
+                    headerElement: $('#get-some-element-on-page'), // or
+                    headerTemplate: '<div><%- can use some underscore template %></div>',
 
-                        headerSelector: '.header-content', // or
-                        headerView: SomeViewConstructor, // or
-                        headerElement: $('#get-some-element-on-page'), // or
-                        headerTemplate: '<div><%- can use some underscore template %></div>',
+                    footerSelector: '.header-content', // or
+                    footerView: SomeViewConstructor, // or
+                    footerElement: $('#get-some-element-on-page'), // or
+                    footerTemplate: '<div><%- can use some underscore template %></div>'
+                    // options...
+                } ))
+            },
 
-                        footerSelector: '.header-content', // or
-                        footerView: SomeViewConstructor, // or
-                        footerElement: $('#get-some-element-on-page'), // or
-                        footerTemplate: '<div><%- can use some underscore template %></div>'
-                        // options...
-                    } ))
-                },
+            showPopup: function() {
+                // Show loading mask on container after some action
+                this.subview('fullscreenPopup').show();
+            },
 
-                showPopup: function() {
-                    // Show loading mask on container after some action
-                    this.subview('fullscreenPopup').show();
-                },
-
-                hidePopup: function() {
-                    // Hide loading mask on container after some action
-                    this.subview('fullscreenPopup').close();
-                }
-            });
-
-            return SomeExampleView;
+            hidePopup: function() {
+                // Hide loading mask on container after some action
+                this.subview('fullscreenPopup').close();
+            }
         });
-        </script>
+
+        export default SomeExampleView;
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -1822,27 +1795,20 @@
 
 {% block _style_book_grid_element_scroll_view_js_widget %}
     {% set source_code %}
-        <script>
-            define(function(require) {
-                'use strict';
+        import BaseView from 'oroui/js/app/views/base/view';
+        import ScrollView from 'orofrontend/js/app/views/scroll-view';
 
-                var SomeExampleView;
-                var BaseView = require('oroui/js/app/views/base/view');
-                var ScrollView = require('orofrontend/js/app/views/scroll-view');
+        const SomeExampleView = BaseView.extend({
+            initialize: function() {
+                SomeExampleView.__super__.initialize.apply(this);
 
-                SomeExampleView = BaseView.extend({
-                    initialize: function() {
-                        SomeExampleView.__super__.initialize.apply(this);
+                this.subview('scrollView', new ScrollView({
+                    el: this.el
+                }));
+            }
+        });
 
-                        this.subview('scrollView', new ScrollView({
-                            el: this.el
-                        }));
-                    }
-                });
-
-                return SomeExampleView;
-            });
-        </script>
+        export default SomeExampleView;
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -2023,40 +1989,34 @@
 
 {% block _style_book_grid_element_googlemaps_view_js_widget %}
     {% set source_code %}
-        <script>
-            define(function(require) {
-                'use strict';
+        import BaseView from 'oroui/js/app/views/base/view';
+        import GooglemapsView from 'oroaddress/js/mapservice/googlemaps';
 
-                var SomeExampleView;
-                var BaseView = require('oroui/js/app/views/base/view');
-                var GooglemapsView = require('oroaddress/js/mapservice/googlemaps');
-                var options = {
-                    mapOptions: {
-                        zoom: 17,
-                        mapTypeControl: true,
-                        panControl: false,
-                        zoomControl: true
-                    },
-                    address: {
-                        'address': '67800 Junkins Avenue Albany, 31707, US-GA'
-                    },
-                    apiVersion: '3.exp',
-                    sensor: false,
-                    apiKey: null,
-                    showWeather: true
-                };
+        const options = {
+            mapOptions: {
+                zoom: 17,
+                mapTypeControl: true,
+                panControl: false,
+                zoomControl: true
+            },
+            address: {
+                'address': '67800 Junkins Avenue Albany, 31707, US-GA'
+            },
+            apiVersion: '3.exp',
+            sensor: false,
+            apiKey: null,
+            showWeather: true
+        };
 
-                SomeExampleView = BaseView.extend({
-                    initialize: function(options) {
-                        SomeExampleView.__super__.initialize.apply(this, arguments);
+        const SomeExampleView = BaseView.extend({
+            initialize: function(options) {
+                SomeExampleView.__super__.initialize.apply(this, arguments);
 
-                        this.subview('googleMapView', new GooglemapsView(options));
-                    }
-                });
+                this.subview('googleMapView', new GooglemapsView(options));
+            }
+        });
 
-                return SomeExampleView;
-            });
-        </script>
+        export default SomeExampleView;
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -2208,35 +2168,31 @@
 
 {% block _style_book_grid_element_list_slider_js_widget %}
     {% set source_code %}
-        define(function(require) {
-            'use strict';
+        import BaseView from 'oroui/js/app/views/base/view';
+        import ListSliderComponent from 'orofrontend/js/app/components/list-slider-component';
+        import _ from 'underscore';
 
-            var SomeExampleView;
-            var BaseView = require('oroui/js/app/views/base/view');
-            var ListSliderComponent = require('orofrontend/js/app/components/list-slider-component');
+        const SomeExampleView = BaseView.extend({
+            sliderOptions: {
+                use_slider_on_mobile: true,
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                autoplay: false,
+                autoplaySpeed: 2000,
+                dots: false,
+                infinite: false,
+                additionalClass: 'embedded-list__slider',
+                embeddedArrowsClass: 'embedded-arrows'
+            },
 
-            SomeExampleView = BaseView.extend({
-                sliderOptions: {
-                    use_slider_on_mobile: true,
-                    slidesToShow: 5,
-                    slidesToScroll: 1,
-                    autoplay: false,
-                    autoplaySpeed: 2000,
-                    dots: false,
-                    infinite: false,
-                    additionalClass: 'embedded-list__slider',
-                    embeddedArrowsClass: 'embedded-arrows'
-                },
-
-                render: function() {
-                    new ListSliderComponent(_.extend({}, {
-                        _sourceElement: this.$el
-                    }, this.sliderOptions);
-                }
-            });
-
-            return SomeExampleView;
+            render: function() {
+                new ListSliderComponent(_.extend({}, {
+                    _sourceElement: this.$el
+                }, this.sliderOptions);
+            }
         });
+
+        export default SomeExampleView;
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -2409,7 +2365,6 @@
 
 {% block _style_book_mediator_common_widget %}
     {% set source_code %}
-        <script>
             // Call execute to show loading
             mediator.execute('showLoading');
 
@@ -2629,8 +2584,6 @@
              * @param {widget.alias} widgetAlias
              */
             mediator.execute('widgets:getByAliasAsync', widgetAlias, function(widget) {});
-
-        </script>
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -2646,7 +2599,6 @@
 
 {% block _style_book_mediator_grid_widget %}
     {% set source_code %}
-        <script>
             /**
              * @param {Boolean} ignoreVisibility
              */
@@ -2698,7 +2650,6 @@
             // Frontend mass actions execute
             mediator.trigger('datagrid:mass:frontend:execute:' + datagridName);
             mediator.trigger('get-selected-products-mass-action-run:' + datagridName);
-        </script>
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -2714,7 +2665,6 @@
 
 {% block _style_book_mediator_message_widget %}
     {% set source_code %}
-        <script>
             /**
              * Execute to show info message
              * @type 'error', 'success', 'info'
@@ -2729,8 +2679,6 @@
              * Show certainly error message
              */
             mediator.execute('showErrorMessage', 'Text message');
-
-        </script>
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -2842,52 +2790,47 @@
 
 {% block _style_book_grid_element_popup_gallery_js_widget %}
     {% set source_code %}
-        define(function(require) {
-            'use strict';
+        import BaseView from 'oroui/js/app/views/base/view';
+        import PopupGalleryWidget from 'orofrontend/js/app/components/popup-gallery-widget';
 
-            var SomeExampleView;
-            var BaseView = require('oroui/js/app/views/base/view');
-            var PopupGalleryWidget = require('orofrontend/js/app/components/popup-gallery-widget');
-
-            SomeExampleView = BaseView.extend({
-                popupGallery: {
-                    use_thumb: true,
-                    galleryImages: [
-                        {
-                            thumb: 'url_to_image_thumbnail',
-                            src: 'url_to_image_original',
-                            alt: 'Image alt text'
-                        },
-                        ...
-                    ],
-                    imageOptions: {
-                        slidesToShow: 1,
-                        slidesToScroll: 1,
-                        fade: true,
-                        arrows: true,
-                        asNavFor: '.popup-gallery-widget__thumbnails',
-                        lazyLoad: 'progressive',
-                        infinite: false
+        const SomeExampleView = BaseView.extend({
+            popupGallery: {
+                use_thumb: true,
+                galleryImages: [
+                    {
+                        thumb: 'url_to_image_thumbnail',
+                        src: 'url_to_image_original',
+                        alt: 'Image alt text'
                     },
-                    navOptions: {
-                        slidesToShow: 5,
-                        slidesToScroll: 1,
-                        asNavFor: '.popup-gallery-widget__images',
-                        focusOnSelect: true,
-                        infinite: false,
-                        arrows: true
-                    }
+                    ...
+                ],
+                imageOptions: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1,
+                    fade: true,
+                    arrows: true,
+                    asNavFor: '.popup-gallery-widget__thumbnails',
+                    lazyLoad: 'progressive',
+                    infinite: false
                 },
-
-                initialize: function(options) {
-                    SomeExampleView.__super__.initialize.apply(this, arguments);
-
-                    this.subview('popupGallery', new PopupGalleryWidget(this.popupOptions))
+                navOptions: {
+                    slidesToShow: 5,
+                    slidesToScroll: 1,
+                    asNavFor: '.popup-gallery-widget__images',
+                    focusOnSelect: true,
+                    infinite: false,
+                    arrows: true
                 }
-            });
+            },
 
-            return SomeExampleView;
+            initialize: function(options) {
+                SomeExampleView.__super__.initialize.apply(this, arguments);
+
+                this.subview('popupGallery', new PopupGalleryWidget(this.popupOptions))
+            }
         });
+
+        export default SomeExampleView;
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -2912,7 +2855,6 @@
 
 {% block _style_book_grid_element_viewport_manager_js_widget %}
     {% set source_code %}
-        <script type="module">
         import BaseView from 'oroui/js/app/views/base/view';
         import viewportManager from 'oroui/js/viewport-manager';
 
@@ -2990,7 +2932,6 @@
         });
 
         export default SomeExampleView;
-        </script>
     {% endset %}
 
     <div {{ block('block_attributes') }}>
@@ -3082,28 +3023,23 @@
 
 {% block _style_book_grid_element_input_widget_number_js_widget %}
     {% set source_code %}
-        define(function(require) {
-            'use strict';
+        import NumberInputWidget from 'oroui/js/app/views/input-widget/number';
 
-            var SomeExtensionNumberInputWidget;
-            var NumberInputWidget = require('oroui/js/app/views/input-widget/number');
+        const SomeExtensionNumberInputWidget = NumberInputWidget.extend({
+        // Extend properties
+        allowZero: false,
 
-            SomeExtensionNumberInputWidget = NumberInputWidget.extend({
-            // Extend properties
-            allowZero: false,
+        precision: 2, // Data attribute more priority
 
-            precision: 2, // Data attribute more priority
+        // Extend widget functionality
+        _normalizeNumberFieldValue: function(event) {
+        SomeExtensionNumberInputWidget.__super__._normalizeNumberFieldValue.apply(this, arguments)
 
-            // Extend widget functionality
-            _normalizeNumberFieldValue: function(event) {
-            SomeExtensionNumberInputWidget.__super__._normalizeNumberFieldValue.apply(this, arguments)
-
-            // Make some ...
-            }
-            });
-
-            return SomeExtensionNumberInputWidget;
+        // Make some ...
+        }
         });
+
+        export default SomeExtensionNumberInputWidget;
     {% endset %}
 
     <div {{ block('block_attributes') }}>
