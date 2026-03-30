@@ -22,11 +22,7 @@ Feature: Create order by quick access button on customer view page
     Then "Order Form" must contains values:
       | Customer | Company A |
       | Website  | Default   |
-    When I click "Add Product"
     And fill "Order Form" with:
-      | Product                     | PSKU1                 |
-      | Quantity                    | 10                    |
-      | Price                       | 10                    |
       | Billing Address Label       | Order1 with Company A |
       | Billing Address First name  | Company               |
       | Billing Address Last name   | A                     |
@@ -35,6 +31,11 @@ Feature: Create order by quick access button on customer view page
       | Billing Address City        | Sydney                |
       | Billing Address State       | New South Wales       |
       | Billing Address Postal Code | B1P 4C4               |
+    And fill "Order Edit Add Line Item Form" with:
+      | Product  | PSKU1 |
+      | Quantity | 10    |
+      | Price    | 10    |
+    And click "Add Product"
     When I save and close form
     And I click "Save" in modal window
     Then I should see Order with:
@@ -50,11 +51,7 @@ Feature: Create order by quick access button on customer view page
     Then "Order Form" must contains values:
       | Customer | Company A |
       | Website  | Default   |
-    When I click "Add Product"
     And fill "Order Form" with:
-      | Product                     | PSKU1                 |
-      | Quantity                    | 10                    |
-      | Price                       | 10                    |
       | Billing Address Label       | Order2 with Company A |
       | Billing Address First name  | Company               |
       | Billing Address Last name   | A                     |
@@ -63,6 +60,11 @@ Feature: Create order by quick access button on customer view page
       | Billing Address City        | Sydney                |
       | Billing Address State       | New South Wales       |
       | Billing Address Postal Code | B1P 4C4               |
+    And fill "Order Edit Add Line Item Form" with:
+      | Product  | PSKU1 |
+      | Quantity | 10    |
+      | Price    | 10    |
+    And click "Add Product"
     Then I save and close form
     And I click "Save" in modal window
     And I should see Order with:
@@ -82,11 +84,7 @@ Feature: Create order by quick access button on customer view page
     When I open a new browser tab and set "tab3" alias for it
     Then I should see "Save and Return" action button
     When I switch to the browser tab "tab2"
-    And I click "Add Product"
     And fill "Order Form" with:
-      | Product                     | PSKU1                 |
-      | Quantity                    | 1                     |
-      | Price                       | 9.99                  |
       | Billing Address Label       | Order3 with Company A |
       | Billing Address First name  | Company               |
       | Billing Address Last name   | A                     |
@@ -95,14 +93,19 @@ Feature: Create order by quick access button on customer view page
       | Billing Address City        | Sydney                |
       | Billing Address State       | New South Wales       |
       | Billing Address Postal Code | B1P 4C4               |
+    And fill "Order Edit Add Line Item Form" with:
+      | Product  | PSKU1 |
+      | Quantity | 1     |
+      | Price    | 9.99  |
+    And click "Add Product"
     And I save form and return
     And I click "Save" in modal window
     Then I should see "Customers / Company A"
     And I should see following "Sales Orders Grid" grid:
       | Order Number | Internal Status | Total   |
-      | 3            | Open            | $9.99   |
+      | 6            | Open            | $9.99   |
+      | 4            | Open            | $100.00 |
       | 2            | Open            | $100.00 |
-      | 1            | Open            | $100.00 |
 
   Scenario: Set Customer entity view permissions to 'View:None' for Administrator Role
     When I switch to the browser tab "tab1"
