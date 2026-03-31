@@ -2,22 +2,9 @@ The upgrade instructions are available at [Oro documentation website](https://do
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
-## UNRELEASED
-
-### Added
-
-#### FrontendAttachmentBundle
-* Added parameter `oro_frontend.frontend_api.use_absolute_urls_for_api`, default true, to enable absolute URLs for attachment images and CMS assets in API responses.
-* Added processor `\Oro\Bundle\FrontendAttachmentBundle\Api\Processor\ConvertProductSearchImageUrlsToAbsolute` to handle URL conversion for ProductSearch entities in API responses.
-
-#### FrontendBundle
-* Added a new `preload_fonts` layout block type that uses Symfony WebLink component and pushes fonts to clients before they even know that they need them.
-
-### Changed
-* Updated `\Oro\Bundle\FrontendAttachmentBundle\Provider\FileUrlProvider` to support an API URL resolver for dynamic reference type handling.
-
 ## Changes in the Customer Portal package versions
 
+- [7.0.0](#700-2026-03-31)
 - [6.1.0](#610-2025-03-31)
 - [6.0.0](#600-2024-03-30)
 - [5.1.0](#510-2023-03-31)
@@ -35,6 +22,21 @@ The current file describes significant changes in the code that may affect the u
 - [2.4.0](#240-2017-09-29)
 - [2.3.0](#230-2017-07-28)
 - [2.2.0](#220-2017-05-31)
+
+## 7.0.0 (2026-03-31)
+[Show detailed list of changes](incompatibilities-7-0.md)
+
+### Added
+
+#### FrontendAttachmentBundle
+* Added parameter `oro_frontend.frontend_api.use_absolute_urls_for_api`, default true, to enable absolute URLs for attachment images and CMS assets in API responses.
+* Added processor `\Oro\Bundle\FrontendAttachmentBundle\Api\Processor\ConvertProductSearchImageUrlsToAbsolute` to handle URL conversion for ProductSearch entities in API responses.
+
+#### FrontendBundle
+* Added a new `preload_fonts` layout block type that uses Symfony WebLink component and pushes fonts to clients before they even know that they need them.
+
+### Changed
+* Updated `\Oro\Bundle\FrontendAttachmentBundle\Provider\FileUrlProvider` to support an API URL resolver for dynamic reference type handling.
 
 ## 6.1.0 (2025-03-31)
 [Show detailed list of changes](incompatibilities-6-1.md)
@@ -388,7 +390,6 @@ instead of `'%oro_email.email.entity.class%'` (in service definitions, datagrid 
 (in PHP code).
 
 
-
 ## 4.0.0 (2019-07-31)
 [Show detailed list of changes](incompatibilities-4-0.md)
 
@@ -452,7 +453,6 @@ instead of `'%oro_email.email.entity.class%'` (in service definitions, datagrid 
 ### Changed
 #### CustomerBundle
 * The `CustomerGroup::customers` relation was removed as well as other related logic.
-
 
 
 ## 2.6.0 (2018-01-31)
