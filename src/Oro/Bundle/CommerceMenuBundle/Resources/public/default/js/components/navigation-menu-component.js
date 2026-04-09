@@ -95,7 +95,7 @@ const NavigationMenuComponent = BaseComponent.extend({
 
         this.disposeView();
         delete this.viewOptions;
-        $(document).on(this.eventNamespace());
+        $(document).off(this.eventNamespace());
         NavigationMenuComponent.__super__.dispose.call(this);
     }
 });
