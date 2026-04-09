@@ -564,7 +564,7 @@ class CustomerUser extends AbstractUser implements
 
     public function unserialize(string $data)
     {
-        $this->__unserialize(unserialize($data));
+        $this->__unserialize(unserialize($data, ['allowed_classes' => false]));
     }
 
     public function __serialize(): array
