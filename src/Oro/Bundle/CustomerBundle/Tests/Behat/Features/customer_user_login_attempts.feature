@@ -82,6 +82,19 @@ Feature: Customer User Login Attempts
       | Yes     | Default | AmandaRCole@example.org        | Amanda Cole   |
       | No      | Default | NotExistingAddress@example.com |               |
 
+  Scenario: Check users attempts grid "id" filter
+    # id is UUID, so it always contains "-" and never contains "="
+    When I filter id as Contains "-"
+    Then there are 2 records in grid
+    Then I should see following grid:
+      | Success | Source  | Username                       | Customer User |
+      | Yes     | Default | AmandaRCole@example.org        | Amanda Cole   |
+      | No      | Default | NotExistingAddress@example.com |               |
+    When I reset id filter
+    When I filter id as Contains "="
+    Then there are 0 records in grid
+    When I reset id filter
+
   Scenario: Sort by Attempt at field
     When I sort grid by "Attempt at"
     Then I should see following grid:
