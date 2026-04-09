@@ -244,7 +244,7 @@ class CustomerUser extends AbstractUser implements
     #[\Override]
     public function unserialize(string $data)
     {
-        $this->__unserialize(unserialize($data));
+        $this->__unserialize(unserialize($data, ['allowed_classes' => false]));
     }
 
     #[\Override]
