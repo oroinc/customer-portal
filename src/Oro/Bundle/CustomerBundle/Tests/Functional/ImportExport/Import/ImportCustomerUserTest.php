@@ -50,6 +50,9 @@ class ImportCustomerUserTest extends WebTestCase
         return [
             'customer_users_with_existing_id_and_not_valid_customer' => [
                 'fixtureName' => 'customer_users_with_existing_id_and_not_valid_customer',
+            ],
+            'customer_users_without_existing_id_and_email' => [
+                'fixtureName' => 'customer_users_without_existing_id_and_email',
             ]
         ];
     }
