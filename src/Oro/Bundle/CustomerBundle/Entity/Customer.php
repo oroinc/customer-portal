@@ -159,9 +159,6 @@ class Customer implements DatesAwareInterface, ExtendEntityInterface
     )]
     protected ?\DateTimeInterface $updatedAt = null;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
         $this->children = new ArrayCollection();
@@ -170,9 +167,6 @@ class Customer implements DatesAwareInterface, ExtendEntityInterface
         $this->salesRepresentatives = new ArrayCollection();
     }
 
-    /**
-     * Pre persist event handler
-     */
     #[ORM\PrePersist]
     public function prePersist()
     {
@@ -180,9 +174,6 @@ class Customer implements DatesAwareInterface, ExtendEntityInterface
         $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
     }
 
-    /**
-     * Pre update event handler
-     */
     #[ORM\PreUpdate]
     public function preUpdate()
     {

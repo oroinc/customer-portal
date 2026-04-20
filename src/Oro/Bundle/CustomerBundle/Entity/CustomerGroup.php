@@ -57,9 +57,6 @@ class CustomerGroup implements OrganizationAwareInterface, ExtendEntityInterface
     )]
     protected ?string $name = null;
 
-    /**
-     * Constructor
-     */
     public function __construct()
     {
     }

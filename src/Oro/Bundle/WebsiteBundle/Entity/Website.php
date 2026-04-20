@@ -78,9 +78,6 @@ class Website implements OrganizationAwareInterface, WebsiteInterface, ExtendEnt
     #[ORM\Column(name: 'is_default', type: Types::BOOLEAN)]
     protected ?bool $default = false;
 
-    /**
-     * Website constructor.
-     */
     public function __construct()
     {
         $this->inversedWebsites = new ArrayCollection();
@@ -161,9 +158,6 @@ class Website implements OrganizationAwareInterface, WebsiteInterface, ExtendEnt
         return $this;
     }
 
-    /**
-     * Pre persist event listener
-     */
     #[ORM\PrePersist]
     public function prePersist()
     {
@@ -171,9 +165,6 @@ class Website implements OrganizationAwareInterface, WebsiteInterface, ExtendEnt
         $this->updatedAt = new \DateTime('now', new \DateTimeZone('UTC'));
     }
 
-    /**
-     * Pre update event handler
-     */
     #[ORM\PreUpdate]
     public function preUpdate()
     {

@@ -815,9 +815,6 @@ class CustomerUser extends AbstractUser implements
         return $this;
     }
 
-    /**
-     * Pre persist event listener
-     */
     #[ORM\PrePersist]
     public function prePersist()
     {
@@ -828,9 +825,6 @@ class CustomerUser extends AbstractUser implements
         $this->createCustomer();
     }
 
-    /**
-     * Invoked before the entity is updated.
-     */
     #[ORM\PreUpdate]
     public function preUpdate(PreUpdateEventArgs $event)
     {
