@@ -61,6 +61,7 @@ services:
             - '@oro_message_queue.client.message_producer'
         calls:
             - [setCacheTtl, ['%oro_customer.frontend_owner_tree_provider.cache_ttl%']]
+            - [setLogger, ['@logger']]
         tags:
             - { name: oro_security.ownership.tree_provider, priority: 10 }
 
