@@ -77,6 +77,7 @@ twig:
 oro_security:
     access_control:
         - { path: ^/installer, roles: PUBLIC_ACCESS }
+        - { path: '^%web_backend_prefix%/webhook/consume/*', roles: 'PUBLIC_ACCESS' }
 
 security:
     firewalls:
@@ -103,6 +104,10 @@ security:
         # override pattern
         embedded_form:
             pattern:                        '^%web_backend_prefix%/embedded-form/(submit|success)'
+
+        # override pattern
+        oro_integration_webhook:
+            pattern: '^%web_backend_prefix%/webhook/consume/*'
 
         # override pattern and config
         main:
