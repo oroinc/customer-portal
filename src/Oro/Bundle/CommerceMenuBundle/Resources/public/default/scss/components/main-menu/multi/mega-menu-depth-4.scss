@@ -46,6 +46,12 @@
             color: $mega-menu-depth-4-link-color;
             position: $mega-menu-depth-4-link-position;
 
+            &:focus-visible {
+                outline: $base-ui-element-focus-visible-outline;
+                outline-offset: $base-ui-element-focus-visible-outline-offset;
+                box-shadow: $focus-visible-style;
+            }
+
             &:hover {
                 color: $mega-menu-depth-4-link-hover-color;
             }
@@ -81,7 +87,7 @@
 
         &__actions {
             height: 44px;
-            margin-inline: spacing('base');
+            margin-inline: $main-menu-stack-mode-focus-inset;
 
             &:after {
                 transform: rotate(0deg);
@@ -96,8 +102,12 @@
             &__link {
                 font-weight: font-weight('normal');
                 text-decoration: none;
-                padding-inline: 0;
+                padding-inline: spacing('base');
                 margin-inline-end: spacing('lg');
+            }
+
+            &__button {
+                padding-inline: spacing('base');
             }
         }
     }
