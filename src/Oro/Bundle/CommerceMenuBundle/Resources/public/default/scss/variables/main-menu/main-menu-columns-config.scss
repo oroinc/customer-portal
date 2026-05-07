@@ -20,5 +20,8 @@ $main-menu-columns-display-tablet: block !default;
 $main-menu-columns-inner-offset-tablet: 0 !default;
 
 /* Menu Stack Mode */
+$main-menu-columns-stack-mode-title-gap-inline: $main-menu-stack-mode-focus-inset !default;
+$main-menu-columns-stack-mode-title-link-padding-inline-start: $main-menu-stack-nested-padding-end !default;
+$main-menu-columns-stack-mode-title-link-padding-inline-end: $main-menu-stack-nested-padding-end !default;
 $main-menu-columns-stack-mode-title-link-color: get-color('text', 'primary') !default;
 $main-menu-columns-item-background-hover: get-color('primary', 'light') !default;

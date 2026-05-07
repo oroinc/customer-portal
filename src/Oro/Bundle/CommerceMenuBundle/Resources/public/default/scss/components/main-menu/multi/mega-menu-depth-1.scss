@@ -7,6 +7,8 @@
         background: $mega-menu-depth-1-list-background;
         overflow: $mega-menu-depth-1-list-overflow;
 
+        padding: $main-menu-inner-fullheight-list-padding;
+
         .main-menu-stack-mode & {
             overflow: inherit;
         }
@@ -27,6 +29,12 @@
             color: $mega-menu-depth-1-title-inner-color;
             text-decoration: $mega-menu-depth-1-title-inner-text-decoration;
 
+            &:focus-visible {
+                outline: $base-ui-element-focus-visible-outline;
+                outline-offset: $base-ui-element-focus-visible-outline-offset;
+                box-shadow: $focus-visible-style;
+            }
+
             &:hover {
                 color: $mega-menu-depth-1-title-hover-inner-color;
                 text-decoration: $mega-menu-depth-1-title-hover-inner-text-decoration;
@@ -41,24 +49,32 @@
             @include main-menu-stack-actions-arrow();
 
             &__button {
-                padding: 0 spacing('lg') 0 0;
+                padding-block: 0;
+                padding-inline:
+                    $mega-menu-depth-1-stack-mode-link-padding-inline-start
+                    $mega-menu-depth-1-stack-mode-link-padding-inline-end;
                 margin: 0;
             }
 
             &__actions {
                 height: 44px;
 
-                &:after {
+                &::after {
                     transform: rotate(0deg);
                 }
             }
 
             &__title {
+                padding-inline-start: $mega-menu-depth-1-stack-mode-title-padding-inline-start;
+                padding-inline-end: $mega-menu-depth-1-stack-mode-title-padding-inline-end;
+
                 &-inner {
-                    display: inline-grid;
+                    display: grid;
                     align-items: center;
-                    padding: 0 24px 0 40px;
+                    padding-inline-start: $mega-menu-depth-1-stack-mode-title-inner-padding-inline-start;
+                    padding-inline-end: $mega-menu-depth-1-stack-mode-title-inner-padding-inline-end;
                     height: 44px;
+                    width: 100%;
 
                     @media (hover: hover) {
                         &:hover {
@@ -76,6 +92,8 @@
 
             &__link {
                 font-weight: normal;
+                padding-inline-start: $mega-menu-depth-1-stack-mode-link-padding-inline-start;
+                padding-inline-end: $mega-menu-depth-1-stack-mode-link-padding-inline-end;
             }
         }
     }
@@ -122,26 +140,40 @@
                 min-width: max-content;
             }
 
+            &__inner:has(.mega-menu-depth-2__inner) {
+                .mega-menu-depth-1__title {
+                    width: min(100%, $mega-menu-depth-1-stack-mode-title-nested-width);
+                }
+            }
+
             &__actions {
                 @include safe-area-property-left(
                     margin-inline-start,
-                    spacing('lg') + spacing('base')
+                    $mega-menu-depth-1-stack-mode-actions-margin-inline-start
                 );
 
-                margin-inline-end: spacing('lg');
+                margin-inline-end: $mega-menu-depth-1-stack-mode-actions-margin-inline-end;
             }
 
             &__button {
                 margin: 0;
-                padding: 0 spacing('lg') 0 0;
+                padding-block: 0;
+                padding-inline:
+                    $mega-menu-depth-1-stack-mode-link-padding-inline-start
+                    $mega-menu-depth-1-stack-mode-link-padding-inline-end;
             }
         }
     }
 
     .main-menu-standalone-mode {
         .mega-menu-depth-1 {
-            &__actions:only-child .mega-menu-depth-1__link:not(.focus-via-arrows-keys:focus) {
-                padding-left: 40px;
+            &__link:not(.focus-via-arrows-keys:focus) {
+                margin: $main-menu-multi-button-margin;
+                padding: $main-menu-multi-button-padding;
+            }
+
+            &__button {
+                width: auto;
             }
         }
     }
@@ -188,7 +220,7 @@
         }
 
         &__actions {
-            margin-inline: spacing('base');
+            margin-inline: $main-menu-stack-mode-focus-inset;
         }
 
         &__inner {
@@ -211,6 +243,14 @@
         .main-menu-stack-mode & {
             &__title-inner {
                 padding: 0 spacing('base');
+            }
+
+            &__button {
+                padding-inline: spacing('base');
+            }
+
+            &__link {
+                padding-inline: spacing('base');
             }
 
             &__close {

@@ -16,6 +16,10 @@ $mega-menu-depth-3-inner-margin-bottom: spacing('base') !default;
 $mega-menu-depth-3-inner-padding-inline-start: spacing('base') !default;
 
 // Menu Stack Mode
+$mega-menu-depth-3-stack-mode-actions-margin-inline-start: $main-menu-stack-mode-focus-inset !default;
+$mega-menu-depth-3-stack-mode-actions-margin-inline-end: $main-menu-stack-mode-focus-inset !default;
+$mega-menu-depth-3-stack-mode-link-padding-inline-start: $main-menu-stack-nested-padding-start !default;
+$mega-menu-depth-3-stack-mode-link-padding-inline-end: $main-menu-stack-nested-padding-end !default;
 $mega-menu-depth-3-stack-mode-link-color: get-color('primary', 'hover') !default;
 $mega-menu-depth-3-stack-mode-link-background-color: get-color('primary', 'light') !default;
 

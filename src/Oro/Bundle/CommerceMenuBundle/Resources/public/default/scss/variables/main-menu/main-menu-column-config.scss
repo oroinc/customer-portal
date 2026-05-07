@@ -26,8 +26,11 @@ $main-menu-column-title-desktop-font-weight: null !default;
 $main-menu-column-sale-title-line-height: 1.5 !default;
 $main-menu-column-sale-title-font-weight: font-weight('semi-bold') !default;
 $main-menu-column-sale-title-color: get-color('secondary', 'sale') !default;
-$main-menu-column-sale-title-text-decoration: underline !default;
-$main-menu-column-sale-title-margin-bottom: spacing('base') !default;
+$main-menu-column-sale-title-display: flex !default;
+$main-menu-column-sale-title-align-items: center !default;
+$main-menu-column-sale-title-min-height: 44px !default;
+$main-menu-column-sale-title-margin: 0 0 spacing('base') !default;
+$main-menu-column-sale-title-text-decoration: none !default;
 
 $main-menu-column-splited-min-width: 400px !default;
 $main-menu-column-splited-white-space: nowrap !default;
@@ -52,3 +55,9 @@ $main-menu-column-tablet-splited-inner-left-offset-bottom: 15px !default;
 $main-menu-column-inner-tablet-offset-bottom: 5px !default;
 
 $main-menu-column-title-tablet-offset-bottom: 14px !default;
+
+$main-menu-column-stack-mode-item-padding-inline: $main-menu-stack-mode-focus-inset !default;
+$main-menu-column-stack-mode-link-padding-inline-start: $main-menu-stack-nested-padding-end !default;
+$main-menu-column-stack-mode-link-padding-inline-end: $main-menu-stack-nested-padding-end !default;
+$main-menu-column-stack-mode-sale-title-padding-inline-start: $main-menu-stack-nested-padding-end !default;
+$main-menu-column-stack-mode-sale-title-padding-inline-end: $main-menu-stack-nested-padding-end !default;

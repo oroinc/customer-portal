@@ -34,6 +34,12 @@
             color: $main-menu-multi-container-title-inner-color;
             text-decoration: $main-menu-multi-container-title-inner-text-decoration;
 
+            &:focus-visible {
+                outline: $base-ui-element-focus-visible-outline;
+                outline-offset: $base-ui-element-focus-visible-outline-offset;
+                box-shadow: $focus-visible-style;
+            }
+
             &:hover {
                 color: $main-menu-multi-container-title-inner-hover-color;
                 text-decoration: $main-menu-multi-container-title-inner-hover-text-decoration;
@@ -55,6 +61,8 @@
                 overflow: auto;
 
                 border-inline-end: $main-menu-multi-container-inner-border-inline-end;
+
+                padding: $main-menu-inner-fullheight-container-padding;
             }
         }
     }
@@ -71,10 +79,10 @@
 
                 @include safe-area-property-left(
                     padding-inline-start,
-                    spacing('lg') + spacing('base')
+                    $main-menu-multi-stack-mode-container-title-padding-inline-start
                 );
 
-                padding-inline-end: spacing('lg');
+                padding-inline-end: $main-menu-multi-stack-mode-container-title-padding-inline-end;
 
                 display: flex;
                 height: 44px;
@@ -89,8 +97,14 @@
             }
 
             &__container-title-inner {
+                align-items: center;
                 color: $main-menu-multi-stack-mode-container-title-inner-color;
+                display: flex;
+                min-height: 44px;
+                padding-inline-start: $main-menu-multi-stack-mode-container-title-inner-padding-inline-start;
+                padding-inline-end: $main-menu-multi-stack-mode-container-title-inner-padding-inline-end;
                 text-decoration: $main-menu-multi-stack-mode-container-title-inner-text-decoration;
+                width: 100%;
 
                 &:hover {
                     text-decoration: $main-menu-multi-stack-mode-container-title-inner-text-decoration-hover;
@@ -129,17 +143,19 @@
             display: flex;
             align-items: center;
             height: 44px;
-            margin-inline: spacing('base');
+            margin-inline: $main-menu-stack-mode-focus-inset;
         }
 
         &__container-title-inner {
             color: $main-menu-multi-stack-mode-container-title-inner-color;
             font-weight: font-weight('semi-bold');
             text-decoration: underline;
+            padding-inline: spacing('base');
         }
 
         &__breadcrumbs {
-            margin-inline: spacing('base');
+            margin-inline: $main-menu-stack-mode-focus-inset;
+            padding-inline: spacing('base');
             position: relative;
             z-index: 4;
 

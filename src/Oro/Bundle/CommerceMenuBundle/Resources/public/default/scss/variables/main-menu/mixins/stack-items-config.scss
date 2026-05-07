@@ -7,7 +7,7 @@ $main-menu-multi-item-background-show: get-color('neutral', 'grey1') !default;
 
 $main-menu-multi-actions-height: 44px !default;
 $main-menu-multi-actions-display: grid !default;
-$main-menu-multi-actions-grid-template-columns: auto auto 1fr 32px 20px !default;
+$main-menu-multi-actions-grid-template-columns: auto auto 1fr spacing('xl') 20px spacing('md') !default;
 
 $main-menu-multi-actions-has-sublist-background-color: currentcolor !default;
 $main-menu-multi-actions-has-sublist-icon: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"><path fill="%23000" fill-rule="evenodd" d="M8.293 5.293a1 1 0 0 1 1.414 0l6 6a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414L13.586 12 8.293 6.707a1 1 0 0 1 0-1.414Z"></path></svg>') !default;
@@ -44,7 +44,7 @@ $main-menu-multi-button-white-space: nowrap !default;
 $main-menu-multi-button-border: none !default;
 $main-menu-multi-button-margin: 8px !default;
 $main-menu-multi-button-padding: 0 56px 0 32px !default;
-$main-menu-multi-button-grid-column: #{'1 / 6'} !default;
+$main-menu-multi-button-grid-column: #{'1 / 7'} !default;
 $main-menu-multi-button-grid-row: 1 !default;
 $main-menu-multi-button-position: relative !default;
 $main-menu-multi-button-cursor: pointer !default;
