@@ -116,6 +116,12 @@
                 &:focus {
                     text-decoration: $main-menu-link-text-decoration-focus;
                 }
+
+                &:focus-visible {
+                    outline: $base-ui-element-focus-visible-outline;
+                    outline-offset: $base-ui-element-focus-visible-outline-offset;
+                    box-shadow: $focus-visible-style;
+                }
             }
 
             &__item.show .main-menu__link {
@@ -285,22 +291,49 @@
                 height: $main-menu-stack-mode-actions-height;
 
                 @include safe-area-property-left(
-                    margin-inline-start,
+                    padding-inline-start,
                     $main-menu-stack-mode-actions-margin-inline-start
                 );
 
-                margin-inline-end: $main-menu-stack-mode-actions-margin-inline-end;
+                padding-inline-end: $main-menu-stack-mode-actions-margin-inline-end;
+            }
+
+            > .main-menu__item:not(:first-of-type) > .main-menu__actions {
+                border-top: 0;
+                position: relative;
+
+                &::before {
+                    content: '';
+                    position: absolute;
+                    inset-block-start: 0;
+                    inset-inline-start: $main-menu-stack-mode-divider-inset-inline-start;
+                    inset-inline-end: $main-menu-stack-mode-divider-inset-inline-end;
+                    border-top: $main-menu-multi-item-border-bottom;
+                    pointer-events: none;
+                }
+            }
+
+            &__link {
+                padding-inline-start: $main-menu-stack-mode-link-padding-inline-start;
+                padding-inline-end: $main-menu-stack-mode-link-padding-inline-end;
             }
 
             &__button {
                 font-weight: font-weight('semi-bold');
-                padding: 0 spacing('lg') 0 0;
+                padding-block: 0;
+                padding-inline:
+                    $main-menu-stack-mode-button-padding-inline-start
+                    $main-menu-stack-mode-button-padding-inline-end;
                 margin: 0;
 
                 &::before {
                     // Make click on button item properly
                     inset: $main-menu-stack-mode-button-inset;
                 }
+            }
+
+            &__actions:not(:only-child) .main-menu__link {
+                padding-inline-end: $main-menu-stack-mode-link-submenu-padding-inline-end;
             }
 
             &__inner {
@@ -432,7 +465,7 @@
         .main-menu-stack-mode {
             .main-menu {
                 &__actions {
-                    margin-inline: spacing('base');
+                    margin-inline: $main-menu-stack-mode-focus-inset;
 
                     &:not(:only-child)::after {
                         transform: rotate(0deg);
@@ -457,7 +490,7 @@
 
                     position: absolute;
                     inset-block-start: spacing('base');
-                    inset-inline-end: spacing('base');
+                    inset-inline-end: spacing('sm');
 
                     z-index: 52;
                 }

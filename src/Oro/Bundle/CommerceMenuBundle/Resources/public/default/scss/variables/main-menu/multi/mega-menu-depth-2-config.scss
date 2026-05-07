@@ -35,7 +35,7 @@ $mega-menu-depth-2-list-before-background: get-color('neutral', 'white-100') !de
 $mega-menu-depth-2-list-before-height: $mega-menu-depth-2-list-row-gap !default;
 $mega-menu-depth-2-list-before-display: block !default;
 $mega-menu-depth-2-list-before-margin-bottom: -$mega-menu-depth-2-list-row-gap !default;
-$mega-menu-depth-2-list-before-margin-inline-end: -#{spacing('base')} !default;
+$mega-menu-depth-2-list-before-margin-inline-end: calc(var(--system-scroll-width, #{spacing('base')}) * -1) !default;
 $mega-menu-depth-2-list-before-column-span: all !default;
 $mega-menu-depth-2-list-before-position: relative !default;
 $mega-menu-depth-2-list-before-pointer-events: none !default;
@@ -62,6 +62,11 @@ $mega-menu-depth-2-featured-list-gap: spacing('base') 24px !default;
 $mega-menu-depth-2-featured-list-grid-template-columns: repeat(auto-fit, 220px) !default;
 
 // Menu Stack Mode
+$mega-menu-depth-2-stack-mode-actions-margin-inline-start: $main-menu-stack-mode-focus-inset !default;
+$mega-menu-depth-2-stack-mode-actions-margin-inline-end: $main-menu-stack-mode-focus-inset !default;
+$mega-menu-depth-2-stack-mode-link-padding-inline-start: $main-menu-stack-nested-padding-start !default;
+$mega-menu-depth-2-stack-mode-link-padding-inline-end: $main-menu-stack-nested-padding-end !default;
+$mega-menu-depth-2-stack-mode-list-columns-padding-inline-end: 0 !default;
 $mega-menu-depth-2-stack-mode-link-hover-color: get-color('primary', 'hover') !default;
 $mega-menu-depth-2-stack-mode-link-hover-background-color: get-color('primary', 'light') !default;
 

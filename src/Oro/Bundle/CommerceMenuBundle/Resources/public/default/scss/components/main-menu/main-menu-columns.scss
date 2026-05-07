@@ -18,6 +18,12 @@
         color: $main-menu-columns-title-link-color;
         text-decoration: $main-menu-columns-title-link-text-decoration;
 
+        &:focus-visible {
+            outline: $base-ui-element-focus-visible-outline;
+            outline-offset: $base-ui-element-focus-visible-outline-offset;
+            box-shadow: $focus-visible-style;
+        }
+
         &:hover {
             color: $main-menu-columns-title-link-hover-color;
             text-decoration: $main-menu-columns-title-link-hover-text-decoration;
@@ -42,13 +48,7 @@
 
             &__title {
                 padding-block: 0;
-
-                @include safe-area-property-left(
-                    padding-inline-start,
-                    spacing('lg')
-                );
-
-                padding-inline-end: 0;
+                padding-inline: $main-menu-columns-stack-mode-title-gap-inline;
                 margin-bottom: 0;
 
                 @media (hover: hover) {
@@ -63,6 +63,9 @@
                 display: grid;
                 align-items: center;
                 color: $main-menu-columns-stack-mode-title-link-color;
+                width: 100%;
+                padding-inline-start: $main-menu-columns-stack-mode-title-link-padding-inline-start;
+                padding-inline-end: $main-menu-columns-stack-mode-title-link-padding-inline-end;
             }
 
             &__container {
@@ -84,8 +87,12 @@
     .main-menu-stack-mode {
         .main-menu-columns {
             &__title {
-                padding: 0 spacing('base');
+                padding: 0 $main-menu-stack-mode-focus-inset;
                 margin-bottom: 0;
+            }
+
+            &__title-link {
+                padding-inline: spacing('base');
             }
         }
     }

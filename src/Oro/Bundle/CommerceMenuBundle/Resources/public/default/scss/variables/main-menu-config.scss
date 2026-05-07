@@ -135,6 +135,8 @@ $main-menu-sublist-stack-width: auto !default;
 $main-menu-icon-offset: 0 spacing('sm') 0 0 !default;
 $main-menu-icon-vertical-align: text-bottom !default;
 
+$main-menu-inner-fullheight-list-padding: 2px !default;
+
 // Only Desktop
 $main-menu-outer-container-desktop-display: flex !default;
 $main-menu-outer-container-desktop-justify-content: start !default;
@@ -184,11 +186,26 @@ $main-menu-button-arrow-display: inline-block !default;
 $main-menu-button-arrow-fullscreen-offset: 12px !default;
 $main-menu-button-arrow-fullscreen-text-align: right !default;
 
+// Stack mode — shared base tokens
+$main-menu-stack-mode-focus-inset: spacing('xs') !default;
+$main-menu-stack-nested-padding-start: 36px !default;
+$main-menu-stack-nested-padding-end: 20px !default;
+
 // Stack mode
 $main-menu-stack-mode-actions-height: 60px !default;
 $main-menu-stack-mode-actions-margin-inline: null !default;
-$main-menu-stack-mode-actions-margin-inline-start: spacing('base') !default;
-$main-menu-stack-mode-actions-margin-inline-end: spacing('base') !default;
+$main-menu-stack-mode-actions-margin-inline-start: $main-menu-stack-mode-focus-inset !default;
+$main-menu-stack-mode-actions-margin-inline-end: spacing('xs') !default;
+$main-menu-stack-mode-divider-inset-inline-start: spacing('base') !default;
+$main-menu-stack-mode-divider-inset-inline-end: spacing('base') !default;
+$main-menu-stack-mode-link-padding-inline-start: spacing('md') !default;
+$main-menu-stack-mode-link-padding-inline-end: spacing('md') !default;
+$main-menu-stack-mode-link-submenu-padding-inline-end:
+    calc(
+        #{$main-menu-button-arrow-width} + #{$main-menu-stack-mode-link-padding-inline-end}
+    ) !default;
+$main-menu-stack-mode-button-padding-inline-start: spacing('md') !default;
+$main-menu-stack-mode-button-padding-inline-end: spacing('md') !default;
 $main-menu-stack-mode-button-inset: 0 -#{spacing('base')} !default;
 
 $hamburger-menu-dot-background-color: #ffc21e;

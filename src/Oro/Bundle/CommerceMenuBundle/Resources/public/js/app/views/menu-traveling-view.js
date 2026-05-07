@@ -1,7 +1,10 @@
+import $ from 'jquery';
 import {isRTL} from 'underscore';
 import BaseView from 'oroui/js/app/views/base/view';
 import viewportManager from 'oroui/js/viewport-manager';
 import ScrollShadowView from 'orofrontend/js/app/views/scroll-shadow-view';
+
+const MENU_ITEM_INDEX_ATTR = 'data-relative-index';
 
 const MenuTravelingView = BaseView.extend({
     /**
@@ -136,6 +139,35 @@ const MenuTravelingView = BaseView.extend({
         }
     },
 
+    getVisibleFocusableElements() {
+        return $(this.el).find('a:focusable, button:focusable').toArray();
+    },
+
+    getFocusRestoreTarget(closeTrigger) {
+        let element = closeTrigger;
+        let indexedMenu = null;
+
+        while (element && element !== this.el) {
+            if (element.hasAttribute && element.hasAttribute(MENU_ITEM_INDEX_ATTR)) {
+                indexedMenu = element;
+            }
+
+            element = element.parentElement;
+        }
+
+        if (!indexedMenu) {
+            return null;
+        }
+
+        const index = Number.parseInt(indexedMenu.getAttribute(MENU_ITEM_INDEX_ATTR), 10);
+
+        if (Number.isNaN(index)) {
+            return null;
+        }
+
+        return this.getVisibleFocusableElements()[index] || null;
+    },
+
     closeMenu() {
         const {rootItemSelector, currentClass} = this.options;
 
@@ -144,12 +176,18 @@ const MenuTravelingView = BaseView.extend({
         this.togglePrevTrigger();
     },
 
-    onResetMenu() {
+    onResetMenu(event) {
+        const focusTarget = this.getFocusRestoreTarget(event?.currentTarget || event?.target);
+
         this.el.querySelectorAll(`.${this.options.currentClass}`).forEach(item => this.toggleItem(item, false));
 
         this.currentItem = null;
 
         this.togglePrevTrigger();
+
+        if (focusTarget) {
+            requestAnimationFrame(() => focusTarget.focus());
+        }
     },
 
     onItemShowTooltip(event) {
