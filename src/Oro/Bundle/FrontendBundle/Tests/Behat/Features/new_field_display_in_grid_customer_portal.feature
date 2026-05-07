@@ -1,6 +1,5 @@
 @ticket-BAP-18091
 @fixture-OroFrontendBundle:DisplayInGridEntities.yml
-@regression
 
 Feature: New Field Display in Grid (Customer Portal)
   In order to make sure that main entity grids respect "Display in Grid" setting
