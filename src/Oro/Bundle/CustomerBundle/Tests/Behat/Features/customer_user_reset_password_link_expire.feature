@@ -83,6 +83,8 @@ Feature: Customer user reset password link expire
 
   Scenario: Reset password link must be expire after customer user change his email
     Given I proceed as the Unauthorized
+    And I change configuration options:
+      | oro_customer.email_change_verification_enabled | false |
     When I am on the homepage
     And I click "Log In"
     And I click "Forgot Password?"

@@ -286,6 +286,22 @@ navigation:
                 label: 'oro.customer.customeruser.profile.change_email.title'
                 route: 'oro_customer_frontend_customer_user_profile_update_email'
 
+            oro_customer_frontend_customer_user_confirm_old_email:
+                label: 'oro.customer.customeruser.profile.change_email.title'
+                route: 'oro_customer_frontend_customer_user_confirm_old_email'
+
+            oro_customer_frontend_customer_user_confirmed_old_email:
+                label: 'oro.customer.customeruser.profile.change_email.title'
+                route: 'oro_customer_frontend_customer_user_confirmed_old_email'
+
+            oro_customer_frontend_customer_user_confirm_new_email:
+                label: 'oro.customer.customeruser.profile.change_email.title'
+                route: 'oro_customer_frontend_customer_user_confirm_new_email'
+
+            oro_customer_frontend_customer_user_cancel:
+                label: 'oro.customer.customeruser.profile.change_email.title'
+                route: 'oro_customer_frontend_customer_user_cancel'
+
             oro_customer_frontend_dashboard_customer_user_profile:
                 label: 'oro.customer.menu.customer_user_profile.label'
                 route: 'oro_customer_frontend_customer_user_profile'
@@ -349,6 +365,10 @@ navigation:
                                     oro_customer_frontend_customer_user_profile_update: ~
                                     oro_customer_frontend_customer_user_profile_update_password: ~
                                     oro_customer_frontend_customer_user_profile_update_email: ~
+                                    oro_customer_frontend_customer_user_confirm_old_email: ~
+                                    oro_customer_frontend_customer_user_confirmed_old_email: ~
+                                    oro_customer_frontend_customer_user_confirm_new_email: ~
+                                    oro_customer_frontend_customer_user_cancel: ~
             # Start Requirement for "Default Theme 50/51"
             oro_customer_menu:
                 scope_type: menu_frontend_visibility
@@ -359,6 +379,10 @@ navigation:
                             oro_customer_frontend_customer_user_profile_update: ~
                             oro_customer_frontend_customer_user_profile_update_password: ~
                             oro_customer_frontend_customer_user_profile_update_email: ~
+                            oro_customer_frontend_customer_user_confirm_old_email: ~
+                            oro_customer_frontend_customer_user_confirmed_old_email: ~
+                            oro_customer_frontend_customer_user_confirm_new_email: ~
+                            oro_customer_frontend_customer_user_cancel: ~
                     oro_customer_frontend_customer_user_address_index:
                         children:
                             oro_customer_frontend_customer_personal_address_create: ~
@@ -387,7 +411,10 @@ navigation:
                                 children:
                                     oro_customer_frontend_customer_user_profile_update: ~
                                     oro_customer_frontend_customer_user_profile_update_password: ~
-                                    oro_customer_frontend_customer_user_profile_update_email: ~
+                                    oro_customer_frontend_customer_user_confirm_old_email: ~
+                                    oro_customer_frontend_customer_user_confirmed_old_email: ~
+                                    oro_customer_frontend_customer_user_confirm_new_email: ~
+                                    oro_customer_frontend_customer_user_cancel: ~
                             oro_customer_frontend_customer_user_address_index:
                                 children:
                                     oro_customer_frontend_customer_company_address_index:
@@ -457,6 +484,10 @@ navigation:
         oro_customer_frontend_customer_user_profile_update: 'oro.customer.customeruser.profile.edit'
         oro_customer_frontend_customer_user_profile_update_password: 'oro.customer.customeruser.profile.change_password.title'
         oro_customer_frontend_customer_user_profile_update_email: 'oro.customer.customeruser.profile.change_email.title'
+        oro_customer_frontend_customer_user_confirm_old_email: 'oro.customer.customeruser.profile.change_email.title'
+        oro_customer_frontend_customer_user_confirmed_old_email: 'oro.customer.customeruser.profile.change_email.title'
+        oro_customer_frontend_customer_user_confirm_new_email: 'oro.customer.customeruser.profile.change_email.title'
+        oro_customer_frontend_customer_user_cancel: 'oro.customer.customeruser.profile.change_email.title'
 
         oro_customer_customer_user_security_login: 'oro.customer.customeruser.profile.login'
         oro_customer_frontend_customer_user_register: 'oro.customer.customeruser.profile.register'

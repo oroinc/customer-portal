@@ -90,9 +90,30 @@
         form_row(form.middleName),
         form_row(form.lastName),
         form_row(form.nameSuffix),
-        form_row(form.email),
-        form_row(form.birthday)
     ] %}
+
+    {% set emailData %}
+        {{ form_row(form.email) }}
+        {% if entity.newEmail is not null %}
+            <div class="control-group control-group-text">
+                <div class="controls">
+                    {{ 'oro.customer.customeruser.profile.email_change.admin_message.message'|trans({'%new_email%': entity.newEmail})|raw }}
+                    <a href="#" id="apply_email_change"
+                       data-page-component-module="oroui/js/app/components/view-component"
+                       data-page-component-options="{{ {
+                           view: 'orocustomer/js/app/views/set-email-address',
+                           elementSelector: 'input[name="oro_customer_customer_user[email]"]',
+                           emailAddress: entity.newEmail
+                       }|json_encode|e('html_attr') }}"
+                    >{{ 'oro.customer.customeruser.profile.email_change.admin_message.link'|trans() }}</a>
+                </div>
+            </div>
+        {%  endif %}
+    {% endset %}
+    {% set formRows = formRows|merge([
+        emailData,
+        form_row(form.birthday)
+    ]) %}
     {% if feature_enabled('customer_user_login_password') %}
         {% set formRows = formRows|merge([form_widget(form.plainPassword, { 'attr': {'class': 'password control-group-container'} })]) %}
     {% endif %}

@@ -1,0 +1,25 @@
+{# @name = customer_user_email_change_confirmation #}
+{# @entityName = Oro\Bundle\CustomerBundle\Entity\CustomerUser #}
+{# @subject = Confirmation of email address change #}
+{# @isSystem = 1 #}
+{# @isEditable = 1 #}
+
+{% extends oro_get_email_template('base_storefront') %}
+
+{% block content %}
+    <h1 style="{{ styleH1 }}">Hello, {{ entity|oro_format_name }}!</h1>
+
+    <!--empty space-->
+    <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td height="12" style="{{ styleEmptyRowH12 }}">&nbsp;</td>
+        </tr>
+    </table>
+
+    <p style="{{ styleP }}">We have received your request to change the email address for your account to <strong>{{ entity.newEmail }}</strong>.</p>
+    <p style="{{ styleP }}">To activate this change, please visit the following URL:
+        <a class="link" style="{{ styleLink }}"
+           href="{{ website_path('oro_customer_frontend_customer_user_confirm_new_email', { token: entity.newEmailVerificationCode }) }}">{{ website_path('oro_customer_frontend_customer_user_confirm_new_email', { token: entity.newEmailVerificationCode }) }}</a>
+    </p>
+    <p style="{{ styleP }}">If you have any questions regarding this change, please contact our support team.</p>
+{% endblock %}

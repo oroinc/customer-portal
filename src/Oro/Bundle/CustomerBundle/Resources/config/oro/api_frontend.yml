@@ -52,6 +52,12 @@ api:
                 confirmed:
                     form_options:
                         mapped: false
+                emailVerificationCodeRequestedAt:
+                    exclude: true
+                newEmail:
+                    exclude: true
+                newEmailVerificationCode:
+                    exclude: true
             actions:
                 create:
                     fields:

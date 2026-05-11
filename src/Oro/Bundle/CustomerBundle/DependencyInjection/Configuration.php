@@ -84,7 +84,8 @@ class Configuration implements ConfigurationInterface
                     'value' => ['targetType' => RedirectAfterLoginConfigType::TARGET_NONE]
                 ],
                 self::DO_NOT_LEAVE_CHECKOUT => ['type' => 'boolean', 'value' => true],
-                'customer_user_login_password' => ['type' => 'boolean', 'value' => true]
+                'customer_user_login_password' => ['type' => 'boolean', 'value' => true],
+                'email_change_verification_enabled' => ['type' => 'boolean', 'value' => true]
             ]
         );
 

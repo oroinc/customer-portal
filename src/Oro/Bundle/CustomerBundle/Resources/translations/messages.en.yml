@@ -117,6 +117,7 @@ oro.customer:
             middle_name: 'Enter your middle name'
             last_name: 'Enter your last name'
             email: 'Enter your email'
+            new_email: 'Enter your new email'
             password: 'Enter your password'
             new_password: 'Enter your new password'
             current_password: 'Enter your current password'
@@ -128,6 +129,7 @@ oro.customer:
             create.label: 'Create'
             save.label: 'Save'
             cancel.label: 'Cancel'
+            confirm.label: 'Confirm'
         label:
             required: 'required info'
             all_required: '* all fields are mandatory'
@@ -367,6 +369,27 @@ oro.customer:
                     profile_information.label: 'Profile information'
                     password.label: 'Password'
                     roles.label: 'Roles'
+            email_change:
+                apply_old_email:
+                    confirm: 'Confirm your email change from %old_email% to %new_email%.'
+                    email: 'An additional confirmation email will be sent to your new email address.'
+                message_send:
+                    failed: 'Failed to send the message to the %new_email% email address.'
+                    success: 'Confirmation email has been sent to %new_email%.'
+                approved: 'Your account has been successfully updated with the new email address %email%.'
+                canceled: 'Email change request was cancelled.'
+                status:
+                    confirmed: 'Confirmed'
+                    not_confirmed: 'Pending confirmation'
+                admin_message:
+                    message: 'The customer user has requested an email address change to <strong>%new_email%</strong>.'
+                    link: 'Apply the change.'
+                cancel_change:
+                    tooltip: 'Cancel Email Change Request'
+                    label: 'Cancel request'
+        new_email.label: New email address
+        new_email_verification_code.label: Verification code to change the email
+        email_verification_code_requested_at.label: Verification code requested date
 
         placeholder:
             company_name: ''
@@ -588,6 +611,7 @@ oro.customer:
                 title: 'Edit Email'
                 aria_label: 'Action Edit Email'
             edit_password:
+                label: 'Edit'
                 title: 'Edit Password'
                 aria_label: 'Action Edit Password'
             delete: 'Delete'
@@ -791,6 +815,8 @@ oro.customer:
             profile_updated.message: 'Customer User profile updated'
             profile_password_updated.message: 'Password updated'
             profile_email_updated.message: 'Email updated'
+            profile_email_initialized.message: 'A confirmation email to change your email address was sent to your current email address. Please follow the link in it to complete the email change.'
+            profile_email_change.hint: For your security, a confirmation link will be sent to <strong>%current_email%</strong> address. The change won't take effect until you approve it.
             token_not_found.message: 'The user with "confirmation token" does not exist for value "%token%"'
             confirmation_sent.message: 'Confirmation email has been sent'
             welcome_failed.message: 'Welcome email sending failed'
@@ -803,6 +829,7 @@ oro.customer:
 
     message:
         password_mismatch: "The entered passwords don't match"
+        user_customer_exists: 'This email is already used.'
 
     system_configuration:
         groups:
@@ -829,6 +856,7 @@ oro.customer:
                     Turning off "Enable Username/Password Login" will disable password-based login for all users.
                     Make sure at least one external authentication method is properly configured.
                 no_available_types.message: No login options are currently available. Please contact your administrator.
+            customer_user_email_change.title: Email Change Policy
         fields:
             default_customer_owner:
                 label: 'Default Customer Owner'
@@ -840,7 +868,7 @@ oro.customer:
                 label: 'Registration Allowed'
                 tooltip: 'Select the option to enable registration of new customer users from the OroCommerce storefront. '
             confirmation_required:
-                label: 'Confirmation Required'
+                label: 'Email Confirmation Required'
                 tooltip: 'Select the option to enable the email confirmation step after user registration.'
             auto_login_after_registration:
                 label: 'Auto login'
@@ -897,6 +925,9 @@ oro.customer:
             customer_user_login_password:
                 label: Enable Username/Password Login
                 tooltip: Turning off this option disables password-based login. Only external authentication providers can be used.
+            email_change_verification:
+                label: Enable Verification via Current Email
+                tooltip: Enables verification of change via user’s current email.
     security:
         permissions: 'Action Permissions'
         permission:

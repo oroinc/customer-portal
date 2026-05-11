@@ -18,14 +18,22 @@
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
     <div class="form-group">
         <div class="grid">
+            {% if form.newEmailAddress is defined %}
             <div class="grid-col-6 grid-col-mobile-landscape-12 grid-start-1">
-                {{ form_row(form.email, {'attr': {'placeholder': 'oro.customer.form.placeholder.email'|trans}}) }}
+                {{ form_row(form.newEmailAddress, {'attr': {'placeholder': 'oro.customer.form.placeholder.new_email'|trans}}) }}
             </div>
-            {% if form.currentPassword is defined and feature_enabled('customer_user_login_password') %}
+            <div class="grid-col-6 grid-col-mobile-landscape-12 grid-start-1">
+                {{ 'oro.customer.controller.customeruser.profile_email_change.hint'|trans({'%current_email%': form.vars.value.email})|raw }}
+            </div>
+            {% endif %}
+            {% if form.email is defined %}
                 <div class="grid-col-6 grid-col-mobile-landscape-12 grid-start-1">
-                    {{ form_row(form.currentPassword, {'attr': {'placeholder': 'oro.customer.form.placeholder.current_password'|trans}, 'parentClass': 'current_password'}) }}
+                    {{ form_row(form.email, {'attr': {'placeholder': 'oro.customer.form.placeholder.email'|trans}}) }}
                 </div>
             {% endif %}
+            <div class="grid-col-6 grid-col-mobile-landscape-12 grid-start-1">
+                {{ form_row(form.currentPassword, {'attr': {'placeholder': 'oro.customer.form.placeholder.current_password'|trans}, 'parentClass': 'current_password'}) }}
+            </div>
         </div>
     </div>
 {% endblock %}

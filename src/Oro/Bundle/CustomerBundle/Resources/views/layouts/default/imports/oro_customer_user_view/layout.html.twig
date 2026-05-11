@@ -89,6 +89,7 @@
     {% import '@OroEmail/actions.html.twig' as EmailActions %}
     {% import '@OroEmail/macros.html.twig' as Email %}
     {% import '@OroUI/layouts/renderIcon.html.twig' as renderIcon %}
+    {% import '@OroUI/layouts/renderStatus.html.twig' as renderStatus %}
 
     {% set attr = layout_attr_defaults(attr, {
         'class': ' customer-profile__data'
@@ -127,9 +128,38 @@
                 <div class="info-list__name">
                     {{- 'oro.customer.customeruser.username.label'|trans -}}
                 </div>
-                <div class="info-list__desc">
-                    {{- Email.email_address_simple(customerUser.email) -}}
+                <div class="info-list__desc customer-profile__email">
+                    <span class="customer-profile__email-block">{{- Email.email_address_simple(customerUser.email) -}}</span>
+                    {% if null != customerUser.newEmail %}
+                        {{ renderStatus.status({
+                            label: 'oro.customer.customeruser.profile.email_change.status.confirmed'|trans,
+                            code: 'confirmed',
+                            map: {'confirmed': 'success'}
+                        }) }}
+                    {% endif %}
                 </div>
+                {% if null != customerUser.newEmail %}
+                    <div class="info-list__desc customer-profile__email">
+                        <div>
+                            <span class="customer-profile__email-block">{{- Email.email_address_simple(customerUser.newEmail) -}}</span>
+                            {{ renderStatus.status({
+                                label: 'oro.customer.customeruser.profile.email_change.status.not_confirmed'|trans,
+                                code: 'not_confirmed',
+                                map: {'not_confirmed': 'destructive'}
+                            }) }}
+                            {% if is_granted('VIEW', customerUser) %}
+                                <a href="{{ path('oro_customer_frontend_customer_user_cancel_user_view', {id: customerUser.id}) }}"
+                                   class="btn btn--flat customer-profile__inline-button"
+                                   title="{{ 'oro.customer.customeruser.profile.email_change.cancel_change.tooltip'|trans }}"
+                                   aria-label="{{ 'oro.customer.customeruser.profile.email_change.cancel_change.tooltip'|trans }}"
+                                >
+                                    {{ renderIcon.icon({name: 'close'}) }} {{ 'oro.customer.customeruser.profile.email_change.cancel_change.label'|trans }}
+                                </a>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                {% endif %}
             </div>
 
             {% if is_granted('oro_customer_frontend_customer_user_role_view') %}
@@ -224,11 +254,7 @@
         </div>
     {% endif %}
 
-    {% if customerUser.confirmed == true %}
-        <div class="status-label status-label--success">
-            {{- 'oro.customer.customeruser.profile.statuses.confirmed'|trans -}}
-        </div>
-    {% else %}
+    {% if customerUser.confirmed != true %}
         <div class="status-label status-label--destructive">
             {{- 'oro.customer.customeruser.profile.statuses.unconfirmed'|trans -}}
         </div>

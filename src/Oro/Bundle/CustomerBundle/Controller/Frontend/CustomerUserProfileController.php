@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
 use Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
@@ -46,8 +47,14 @@ class CustomerUserProfileController extends AbstractController
             ->getChangeEmailProfileForm($customerUser);
 
         $handler = $this->container->get(FrontendCustomerUserHandler::class);
+
+        $message = 'oro.customer.controller.customeruser.profile_email_updated.message';
+        $featureChecker = $this->container->get(FeatureChecker::class);
+        if ($featureChecker->isFeatureEnabled('customer_user_email_change_verification_enabled')) {
+            $message = 'oro.customer.controller.customeruser.profile_email_initialized.message';
+        }
         $saveMessage = $this->container->get(TranslatorInterface::class)
-            ->trans('oro.customer.controller.customeruser.profile_email_updated.message');
+            ->trans($message);
 
         $resultHandler = $this->container->get(UpdateHandlerFacade::class)->update(
             $customerUser,
@@ -155,6 +162,7 @@ class CustomerUserProfileController extends AbstractController
                 FrontendCustomerUserFormProvider::class,
                 FrontendCustomerUserHandler::class,
                 SameSiteUrlHelper::class,
+                FeatureChecker::class
             ]
         );
     }

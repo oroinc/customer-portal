@@ -149,6 +149,18 @@ class CustomerUser extends AbstractUser implements
     #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'importexport' => ['order' => 27]])]
     protected ?\DateTimeInterface $birthday = null;
 
+    #[ORM\Column(name: 'new_email', type: Types::STRING, nullable: true)]
+    #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
+    protected ?string $newEmail = null;
+
+    #[ORM\Column(name: 'new_email_verification_code', type: Types::STRING, nullable: true)]
+    #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
+    protected ?string $newEmailVerificationCode = null;
+
+    #[ORM\Column(name: 'email_verification_code_requested_at', nullable: true, type: Types::DATETIME_MUTABLE)]
+    #[ConfigField(defaultValues: ['importexport' => ['excluded' => true]])]
+    protected ?\DateTimeInterface $emailVerificationCodeRequestedAt = null;
+
     /**
      * @var Collection<int, CustomerUserAddress>
      */
@@ -883,5 +895,35 @@ class CustomerUser extends AbstractUser implements
         }
 
         return true;
+    }
+
+    public function getNewEmail(): ?string
+    {
+        return $this->newEmail;
+    }
+
+    public function setNewEmail(?string $newEmail): void
+    {
+        $this->newEmail = $newEmail;
+    }
+
+    public function getNewEmailVerificationCode(): ?string
+    {
+        return $this->newEmailVerificationCode;
+    }
+
+    public function setNewEmailVerificationCode(?string $newEmailVerificationCode): void
+    {
+        $this->newEmailVerificationCode = $newEmailVerificationCode;
+    }
+
+    public function getEmailVerificationCodeRequestedAt(): ?\DateTimeInterface
+    {
+        return $this->emailVerificationCodeRequestedAt;
+    }
+
+    public function setEmailVerificationCodeRequestedAt(?\DateTimeInterface $emailVerificationCodeRequestedAt): void
+    {
+        $this->emailVerificationCodeRequestedAt = $emailVerificationCodeRequestedAt;
     }
 }

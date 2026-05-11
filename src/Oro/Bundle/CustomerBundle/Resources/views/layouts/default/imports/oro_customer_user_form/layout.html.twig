@@ -26,6 +26,19 @@
             {% if form.email is defined %}
             <div class="grid-col-6 grid-col-mobile-landscape-12">
                 {{ form_row(form.email, {'attr': {'placeholder': 'oro.customer.form.placeholder.email'|trans}}) }}
+                {% if form.vars.value.newEmail is not null %}
+                    <div>
+                        {{ 'oro.customer.customeruser.profile.email_change.admin_message.message'|trans({'%new_email%': form.vars.value.newEmail})|raw }}
+                        <a href="#" id="apply_email_change"
+                           data-page-component-module="oroui/js/app/components/view-component"
+                           data-page-component-options="{{ {
+                               view: 'orocustomer/js/app/views/set-email-address',
+                               elementSelector: 'input[name="oro_customer_frontend_customer_user[email]"]',
+                               emailAddress: form.vars.value.newEmail
+                           }|json_encode|e('html_attr') }}"
+                        >{{ 'oro.customer.customeruser.profile.email_change.admin_message.link'|trans() }}</a>
+                    </div>
+                {% endif %}
             </div>
             {% endif %}
             <div class="grid-col-6 grid-col-mobile-landscape-12">

@@ -6,6 +6,7 @@ $customer-profile-gap: spacing('lg') !default;
 $customer-profile-box-display: grid !default;
 $customer-profile-box-grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)) !default;
 $customer-profile-box-gap: spacing('lg') !default;
+$customer-profile-email-gap: 5px !default;
 
 $customer-profile-container-display: grid !default;
 $customer-profile-container-gap: spacing('base') !default;
@@ -35,3 +36,8 @@ $customer-profile-title-text-font-weight: 600 !default;
 
 $customer-profile-page-title-flex-grow: 1 !default;
 $customer-profile-page-title-margin-bottom: 10px !default;
+
+$customer-profile-email-block-margin: 10px;
+
+$customer-profile-inline-button-margin-top: -5px;
+$customer-profile-inline-button-padding-inline: 10px;

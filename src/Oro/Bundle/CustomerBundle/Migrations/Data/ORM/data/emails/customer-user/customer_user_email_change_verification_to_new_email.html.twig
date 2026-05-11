@@ -1,0 +1,26 @@
+{# @name = customer_user_email_change_verification_to_new_email #}
+{# @entityName = Oro\Bundle\CustomerBundle\Entity\CustomerUser #}
+{# @subject = Your email address has been updated #}
+{# @isSystem = 1 #}
+{# @isEditable = 1 #}
+
+{% extends oro_get_email_template('base_storefront') %}
+
+{% block content %}
+    <h1 style="{{ styleH1 }}">Hello, {{ entity|oro_format_name }}!</h1>
+
+    <!--empty space-->
+    <table role="presentation" border="0" cellspacing="0" cellpadding="0">
+        <tr>
+            <td height="12" style="{{ styleEmptyRowH12 }}">&nbsp;</td>
+        </tr>
+    </table>
+
+    <p style="{{ styleP }}">Your account has been successfully updated. From now on, please use <strong>{{ entity.email }}</strong> to log in to your account.</p>
+    <p style="{{ styleP }}">What’s changed?</p>
+    <ul>
+        <li>All future notifications will be sent to this address.</li>
+        <li>Your previous email is no longer associated with this account.</li>
+    </ul>
+    <p style="{{ styleP }}">If you did not make this change, please contact support immediately.</p>
+{% endblock %}
