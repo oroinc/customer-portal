@@ -76,7 +76,6 @@ class FrontendCustomerUserHandler extends FormHandler
             $this->userManager->reloadUser($customerUser);
         }
 
-
         return $this->processValidation($form, $customerUser, $isUpdated);
     }
 

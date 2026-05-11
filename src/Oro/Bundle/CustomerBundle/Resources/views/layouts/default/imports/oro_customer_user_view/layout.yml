@@ -40,6 +40,7 @@ layout:
             options:
                 customerUser: '=data["entity"]'
                 vars:
+                    showCancelEmailButton: true
                     companyNameEnabled: '=data["system_config_provider"].getValue("oro_customer.company_name_field_enabled")'
         - '@addTree':
             items:

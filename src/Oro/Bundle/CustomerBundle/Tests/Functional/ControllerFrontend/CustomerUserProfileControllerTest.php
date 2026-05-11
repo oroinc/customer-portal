@@ -99,7 +99,7 @@ class CustomerUserProfileControllerTest extends WebTestCase
                 'plainPassword' => [
                     'first' => '123456',
                     'second' => '654321',
-                ]
+                ],
             ]
         );
 
@@ -129,7 +129,7 @@ class CustomerUserProfileControllerTest extends WebTestCase
                 'plainPassword' => [
                     'first' => '123456',
                     'second' => '123456',
-                ]
+                ],
             ]
         );
         $this->client->followRedirects(true);

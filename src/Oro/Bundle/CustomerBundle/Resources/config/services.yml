@@ -1551,3 +1551,20 @@ services:
         arguments:
             - '@oro_security.token_accessor'
             - '@oro_frontend.request.frontend_helper'
+
+    oro_customer.customer_user.handler:
+        class: Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserHandler
+        arguments:
+            - '@oro_customer_user.manager'
+            - '@oro_security.token_accessor'
+            - '@translator'
+            - '@logger'
+        calls:
+            - [setFeatureChecker, ['@oro_featuretoggle.checker.feature_checker']]
+
+    oro_customer.customer_user.email_change_handler:
+        class: Oro\Bundle\CustomerBundle\Handler\ChangeCustomerUserEmailHandler
+        arguments:
+            - '@oro_notification.manager.email_notification'
+            - '@oro_customer_user.manager'
+            - '@logger'

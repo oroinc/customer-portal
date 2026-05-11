@@ -48,6 +48,7 @@ class OroCustomerExtensionTest extends \PHPUnit\Framework\TestCase
                         'case_insensitive_email_addresses_enabled' => ['value' => false, 'scope' => 'app'],
                         'email_enumeration_protection_enabled' => ['value' => false, 'scope' => 'app'],
                         'customer_user_login_password' => ['value' => true, 'scope' => 'app'],
+                        'email_change_verification_enabled' => ['value' => false, 'scope' => 'app'],
                     ]
                 ]
             ],

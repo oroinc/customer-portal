@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Controller\Frontend;
 
 use Oro\Bundle\CustomerBundle\Form\Handler\FrontendCustomerUserHandler;
 use Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider;
+use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\FormBundle\Model\UpdateHandlerFacade;
 use Oro\Bundle\LayoutBundle\Attribute\Layout;
 use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
@@ -91,6 +92,7 @@ class CustomerUserProfileController extends AbstractController
                 FrontendCustomerUserFormProvider::class,
                 FrontendCustomerUserHandler::class,
                 SameSiteUrlHelper::class,
+                FeatureChecker::class
             ]
         );
     }
