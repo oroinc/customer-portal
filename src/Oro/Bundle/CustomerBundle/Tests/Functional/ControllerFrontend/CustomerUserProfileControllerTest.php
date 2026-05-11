@@ -105,7 +105,7 @@ class CustomerUserProfileControllerTest extends WebTestCase
                 'plainPassword' => [
                     'first' => '123456',
                     'second' => '654321',
-                ]
+                ],
             ]
         );
 
@@ -138,7 +138,7 @@ class CustomerUserProfileControllerTest extends WebTestCase
                 'plainPassword' => [
                     'first' => '123456',
                     'second' => '123456',
-                ]
+                ],
             ]
         );
         $this->client->followRedirects(true);
@@ -155,6 +155,7 @@ class CustomerUserProfileControllerTest extends WebTestCase
 
     public function testEditEmailAlreadyUsed(): void
     {
+        $this->disableEmailApproveFeature();
         $crawler = $this->client->request(
             'GET',
             $this->getUrl('oro_customer_frontend_customer_user_profile_update_email')
@@ -182,6 +183,7 @@ class CustomerUserProfileControllerTest extends WebTestCase
 
     public function testEditEmailWithoutCurrentPassword(): void
     {
+        $this->disableEmailApproveFeature();
         $crawler = $this->client->request(
             'GET',
             $this->getUrl('oro_customer_frontend_customer_user_profile_update_email')
@@ -203,5 +205,12 @@ class CustomerUserProfileControllerTest extends WebTestCase
             'This value should be the user\'s current password.',
             $crawler->filter('.current_password span span:last-child')->html()
         );
+    }
+
+    private function disableEmailApproveFeature(): void
+    {
+        $configManager = self::getContainer()->get('oro_config.manager');
+        $configManager->set('oro_customer.email_change_verification_enabled', false);
+        $configManager->flush();
     }
 }

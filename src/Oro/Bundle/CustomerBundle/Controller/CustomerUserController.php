@@ -6,6 +6,7 @@ use Oro\Bundle\CustomerBundle\Entity\Customer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType;
+use Oro\Bundle\CustomerBundle\Handler\ChangeCustomerUserEmailHandler;
 use Oro\Bundle\EntityBundle\ORM\DoctrineHelper;
 use Oro\Bundle\FeatureToggleBundle\Checker\FeatureChecker;
 use Oro\Bundle\FormBundle\Form\Handler\FormHandlerInterface;
@@ -15,6 +16,7 @@ use Oro\Bundle\FormBundle\Provider\SaveAndReturnActionFormTemplateDataProvider;
 use Oro\Bundle\SecurityBundle\Attribute\Acl;
 use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
+use Oro\Bundle\UIBundle\Tools\FlashMessageHelper;
 use Psr\Log\LoggerInterface;
 use Symfony\Bridge\Twig\Attribute\Template;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -166,6 +168,29 @@ class CustomerUserController extends AbstractController
         return $this->update($customerUser, $request);
     }
 
+    #[Route(
+        path: '/cancel-email-change/{id}',
+        name: 'oro_customer_customer_user_cancel_email_change',
+        requirements: ['id' => '\d+']
+    )]
+    #[AclAncestor(id: 'oro_customer_customer_user_update')]
+    public function cancelEmailChangeAction(CustomerUser $customerUser): RedirectResponse
+    {
+        if ($customerUser->getNewEmail()) {
+            $emailChangeHandler = $this->container->get('oro_customer.customer_user.email_change_handler');
+            $emailChangeHandler->cancelEmailChange($customerUser);
+
+            $this->container->get(FlashMessageHelper::class)
+                ->addFlashMessage(
+                    'info',
+                    'oro.customer.customeruser.profile.email_change.canceled',
+                    []
+                );
+        }
+
+        return $this->redirectToRoute('oro_customer_customer_user_view', ['id' => $customerUser->getId()]);
+    }
+
     protected function update(
         CustomerUser $customerUser,
         Request $request,
@@ -200,7 +225,9 @@ class CustomerUserController extends AbstractController
                 UpdateHandlerFacade::class,
                 SaveAndReturnActionFormTemplateDataProvider::class,
                 FeatureChecker::class,
-                FormHandlerInterface::class
+                FormHandlerInterface::class,
+                FlashMessageHelper::class,
+                'oro_customer.customer_user.email_change_handler' => ChangeCustomerUserEmailHandler::class,
             ]
         );
     }

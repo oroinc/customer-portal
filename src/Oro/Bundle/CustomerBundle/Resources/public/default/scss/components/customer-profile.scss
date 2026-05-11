@@ -70,6 +70,21 @@
         flex-grow: $customer-profile-page-title-flex-grow;
         margin-bottom: $customer-profile-page-title-margin-bottom;
     }
+
+    &__email {
+        display: flex;
+        gap: $customer-profile-email-gap;
+        padding-bottom: $customer-profile-email-gap;
+    }
+
+    &__email-block {
+        margin-right: $customer-profile-email-block-margin;
+    }
+
+    &__inline-button {
+        margin-top: $customer-profile-inline-button-margin-top;
+        padding-inline: $customer-profile-inline-button-padding-inline;
+    }
 }
 
 @include breakpoint('mobile') {

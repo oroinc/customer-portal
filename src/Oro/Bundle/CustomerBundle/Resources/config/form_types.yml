@@ -269,6 +269,15 @@ services:
         tags:
             - { name: form.type_extension, alias: oro_product_select, extended_type: Oro\Bundle\ProductBundle\Form\Type\ProductSelectType }
 
+    oro_customer.form.extension.customer_user_profile_email:
+        class: Oro\Bundle\CustomerBundle\Form\Extension\FrontendCustomerUserProfileEmailExtension
+        arguments:
+            - '@oro_featuretoggle.checker.feature_checker'
+            - '@oro_customer_user.manager'
+            - '@translator'
+        tags:
+            - { name: form.type_extension, alias: oro_customer_frontend_customer_user_profile_email, extended_type: Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserProfileEmailType }
+
     oro_customer.form.extension.address:
         class: 'Oro\Bundle\CustomerBundle\Form\Extension\AddressExtension'
         arguments:
@@ -328,3 +337,14 @@ services:
             - '@oro_web_catalog.web_catalog_provider'
         tags:
             - { name: form.type }
+
+    oro_customer.form.listener.customer_user_profile_email:
+        class: Oro\Bundle\CustomerBundle\Form\EventListener\CustomerUserProfileEmailChangeListener
+        arguments:
+            - '@oro_featuretoggle.checker.feature_checker'
+            - '@oro_customer.customer_user.email_change_handler'
+            - '@oro_customer_user.manager'
+        tags:
+            - { name: kernel.event_listener, event: oro.form.update_handler.after_entity_flush.frontend_customer_user_profile_email, method: afterFlush }
+            - { name: doctrine.event_listener, event: onFlush }
+            - { name: doctrine.event_listener, event: postFlush }
