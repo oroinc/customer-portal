@@ -23,6 +23,11 @@ layout:
             optionName: form
             optionValue: '=data["oro_customer_frontend_customer_user_form"].getProfileFormView(data["entity"])'
 
+        - '@setOption':
+              id: customer_user_form_fields_information
+              optionName: vars.myProfilePage
+              optionValue: true
+
         - '@add':
             id: customer_user_update_input_action
             parentId: customer_user_form_actions

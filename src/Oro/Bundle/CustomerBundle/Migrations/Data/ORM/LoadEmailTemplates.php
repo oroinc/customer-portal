@@ -22,7 +22,7 @@ class LoadEmailTemplates extends AbstractHashEmailMigration implements Versioned
     #[\Override]
     public function getVersion(): string
     {
-        return '1.6';
+        return '1.7';
     }
 
     #[\Override]
@@ -35,18 +35,21 @@ class LoadEmailTemplates extends AbstractHashEmailMigration implements Versioned
                 '61e82b3d8c7180e362738a98e266f037', // 1.3
                 '54a5dee6405f3d9e1660fe0f3dcb21c1', // 1.5
                 '54a5dee6405f3d9e1660fe0f3dcb21c1', // 1.6
+                '54a5dee6405f3d9e1660fe0f3dcb21c1', // 1.7
             ],
             'customer_user_welcome_email_registered_by_admin' => [
                 'e583b8b7cdea31f8f0ce0a4000b956b9', // 1.1
                 'e2a34aa359ce8d958abc7c3eddd7bc93', // 1.3
                 'a36f8bfd13af225f6fb5a1c79397bb4f', // 1.5
                 'a36f8bfd13af225f6fb5a1c79397bb4f', // 1.6
+                'a36f8bfd13af225f6fb5a1c79397bb4f', // 1.7
             ],
             'customer_user_confirmation_email' => [
                 '47e012b40cec188ad88dfb7e3379446d', // 1.1
                 'e7d7fe65e8b2778b333b5b8f6220ed55', // 1.3
                 'cbe6cc8b395a5aa7d0642220b1cacfd9', // 1.5
                 'cbe6cc8b395a5aa7d0642220b1cacfd9', // 1.6
+                'cbe6cc8b395a5aa7d0642220b1cacfd9', // 1.7
             ],
             'customer_user_reset_password' => [
                 '4c987be76cdffc3ade87c9fca27a60be', // 1.1
@@ -54,13 +57,24 @@ class LoadEmailTemplates extends AbstractHashEmailMigration implements Versioned
                 '2d072b726d9f03c3fb0b85357e6c0fca', // 1.4
                 'a03885915c75cb0ead5b4e8dc21c457e', // 1.5
                 'a03885915c75cb0ead5b4e8dc21c457e', // 1.6
+                'a03885915c75cb0ead5b4e8dc21c457e', // 1.7
             ],
             'customer_user_force_reset_password' => [
                 'beb25a213aa466f95ae48d710478fa13', // 1.3
                 'd9c8afadce0cee68730210c3d50b0d9e', // 1.4
                 '52324c35721f05c73b6c5509633c7908', // 1.5
                 '52324c35721f05c73b6c5509633c7908', // 1.6
+                '52324c35721f05c73b6c5509633c7908', // 1.7
             ],
+            'customer_user_email_change_verification_to_old_email' => [
+                'f477160ba58f2bb45eb30a2114d16dc9', // 1.7
+            ],
+            'customer_user_email_change_confirmation' => [
+                '44d604e21af4dd03913f7860e9a6b441', // 1.7
+            ],
+            'customer_user_email_change_verification_to_new_email' => [
+                '43e8ff40dce339110d8a369238ec5820', // 1.7
+            ]
         ];
     }
 }

@@ -1,0 +1,19 @@
+{% block _message_widget %}
+   <div class="h3 customer-user-form-required-label ">
+      {{ 'oro.customer.customeruser.profile.email_change.apply_old_email.confirm'|trans({'%old_email%': entity.email,  '%new_email%': entity.newEmail}) }}
+   </div>
+   {% if feature_enabled('oro_customer_confirmation_required') %}
+   <div class="customer-user-form-required-label ">
+      {{ 'oro.customer.customeruser.profile.email_change.apply_old_email.email'|trans() }}
+   </div>
+   {% endif %}
+{% endblock %}
+
+{% block _form_actions_widget %}
+   {% set attr = layout_attr_defaults(attr, {
+      '~class': ' form-buttons'
+   }) %}
+   <div{{ block('block_attributes') }}>
+      {{ block_widget(block) }}
+   </div>
+{% endblock %}

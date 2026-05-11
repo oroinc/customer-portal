@@ -5,4 +5,8 @@ layout:
         -
             id: oro_customer_user_view
             root: page_content
-    actions: []
+    actions:
+        - '@setOption':
+            id: customer_user_view_information_content
+            optionName: vars.showCancelEmailButton
+            optionValue: false

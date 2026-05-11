@@ -6,6 +6,7 @@ $customer-profile-data-offset-inner: 12px 0 50px 35px !default;
 $customer-profile-data-width: 100% !default;
 $customer-profile-gap: 24px !default;
 $customer-profile-data-border: 1px solid get-color('neutral', 'grey1') !default;
+$customer-profile-email-gap: 5px !default;
 
 $customer-profile-controls-wrapper-display: inline-flex !default;
 $customer-profile-controls-wrapper-offset-bottom: 20px !default;
@@ -33,3 +34,8 @@ $customer-profile-title-text-font-weight: 600 !default;
 
 $customer-profile-page-title-flex-grow: 1 !default;
 $customer-profile-page-title-margin-bottom: 10px !default;
+
+$customer-profile-email-block-margin: 10px;
+
+$customer-profile-inline-button-margin-top: -5px;
+$customer-profile-inline-button-padding-inline: 10px;

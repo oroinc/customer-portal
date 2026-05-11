@@ -22,7 +22,31 @@
             {% endif %}
 
             {{ UI.renderProperty('oro.customer.customeruser.birthday.label'|trans, UI.render_birthday(entity.birthday)) }}
-            {{ UI.renderHtmlProperty('oro.customer.customeruser.email.label'|trans, Email.email_address_simple(entity.email)) }}
+
+            {% set email %}
+                <div class="attribute-item">
+                    {{ Email.email_address_simple(entity.email) }}&nbsp;
+                    {% if null != entity.newEmail %}
+                        {{ UI.badge('oro.customer.customeruser.profile.email_change.status.confirmed'|trans, 'enabled', null) }}
+                    {% endif %}
+                </div>
+                {% if null != entity.newEmail %}
+                    <div>
+                        {{ Email.email_address_simple(entity.newEmail) }}&nbsp;
+                        {{ UI.badge('oro.customer.customeruser.profile.email_change.status.not_confirmed'|trans, 'tentatively', null) }}
+                        {% if is_granted('VIEW', entity) %}
+                            {{ UI.link({
+                                'path' : path('oro_customer_customer_user_cancel_email_change', {id: entity.id}),
+                                'iCss' : 'fa-remove',
+                                'aCss' : 'btn btn-icon btn-light item-edit-button',
+                                'label': 'oro.customer.customeruser.profile.email_change.cancel_change.label'|trans,
+                                'title': 'oro.customer.customeruser.profile.email_change.cancel_change.tooltip'|trans,
+                            }) }}
+                        {% endif %}
+                    </div>
+                {% endif %}
+            {% endset %}
+            {{ UI.renderHtmlProperty('oro.customer.customeruser.email.label'|trans, email) }}
 
             {% if entity.customer %}
                 {{ UI.renderHtmlProperty('oro.customer.customeruser.customer.label'|trans, UI.entityViewLink(entity.customer, entity.customer.name, 'oro_customer_customer_view')) }}

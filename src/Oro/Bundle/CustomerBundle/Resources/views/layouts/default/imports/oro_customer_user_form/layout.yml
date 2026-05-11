@@ -30,6 +30,9 @@ layout:
                     blockType: container
                 __customer_user_form_fields_information:
                     blockType: container
+                    options:
+                        vars:
+                            myProfilePage: false
                 __customer_user_form_fields_password:
                     blockType: container
                 __customer_user_form_fields_roles:

@@ -1603,3 +1603,10 @@ services:
             - '@logger'
         calls:
             - [setFeatureChecker, ['@oro_featuretoggle.checker.feature_checker']]
+
+    oro_customer.customer_user.email_change_handler:
+        class: Oro\Bundle\CustomerBundle\Handler\ChangeCustomerUserEmailHandler
+        arguments:
+            - '@oro_notification.manager.email_notification'
+            - '@oro_customer_user.manager'
+            - '@logger'

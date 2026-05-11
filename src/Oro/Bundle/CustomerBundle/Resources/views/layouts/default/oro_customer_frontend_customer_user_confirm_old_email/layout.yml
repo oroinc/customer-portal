@@ -1,0 +1,70 @@
+layout:
+    imports:
+        -
+            id: oro_customer_page
+        -
+            id: oro_customer_form_top_bar
+            root: page_content
+
+    actions:
+        - '@setBlockTheme':
+            themes: 'layout.html.twig'
+
+        - '@setOption':
+            id: page_title
+            optionName: defaultValue
+            optionValue:
+                label: 'oro.customer.customeruser.profile.change_email.title'
+
+        - '@setOption':
+            id: back_button
+            optionName: path
+            optionValue: '=data["backToUrl"]'
+
+        - '@remove':
+            id: required_label
+
+        - '@add':
+            id: customer_user_edit_email_page
+            parentId: page_content
+            blockType: container
+
+        - '@add':
+            id: container
+            parentId: page_content
+            blockType: container
+
+        - '@add':
+            id: message
+            parentId: container
+            blockType: container
+            options:
+                vars:
+                    entity: '=data["entity"]'
+
+        - '@add':
+            id: form_actions
+            parentId: container
+            blockType: container
+
+        - '@add':
+            id: form_actions_cancel
+            parentId: form_actions
+            blockType: link
+            options:
+                path: '=data["cancelUrl"]'
+                text: oro.customer.form.action.cancel.label
+                attr:
+                    'class': 'btn btn--outlined '
+                icon: 'close'
+
+        - '@add':
+            id: form_actions_confirm
+            parentId: form_actions
+            blockType: link
+            options:
+                path: '=data["confirmUrl"]'
+                text: oro.customer.form.action.confirm.label
+                attr:
+                    'class': 'btn role-submit '
+                icon: 'check'
