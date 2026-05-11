@@ -119,6 +119,12 @@
         align-items: $main-menu-multi-link-align-items;
         align-self: $main-menu-multi-link-align-self;
         z-index: $main-menu-multi-link-z-index;
+
+        &:focus-visible {
+            outline: $base-ui-element-focus-visible-outline;
+            outline-offset: $base-ui-element-focus-visible-outline-offset;
+            box-shadow: $focus-visible-style;
+        }
     }
 
     &__button {
@@ -136,6 +142,12 @@
         position: $main-menu-multi-button-position;
         cursor: $main-menu-multi-button-cursor;
         z-index: $main-menu-multi-button-z-index;
+
+        &:focus-visible {
+            outline: $base-ui-element-focus-visible-outline;
+            outline-offset: $base-ui-element-focus-visible-outline-offset;
+            box-shadow: $focus-visible-style;
+        }
 
         &::before {
             content: $main-menu-multi-button-before-content;

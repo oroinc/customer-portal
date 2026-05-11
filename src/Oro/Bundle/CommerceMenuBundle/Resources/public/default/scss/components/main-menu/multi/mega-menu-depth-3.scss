@@ -11,10 +11,16 @@
         .mega-menu-depth-3 {
             @include main-menu-stack-actions-arrow();
 
+            &__actions {
+                margin-inline-start: $mega-menu-depth-3-stack-mode-actions-margin-inline-start;
+                margin-inline-end: $mega-menu-depth-3-stack-mode-actions-margin-inline-end;
+            }
+
             &__link {
                 display: grid;
                 align-items: center;
-                padding-inline: 40px 24px;
+                padding-inline-start: $mega-menu-depth-3-stack-mode-link-padding-inline-start;
+                padding-inline-end: $mega-menu-depth-3-stack-mode-link-padding-inline-end;
                 min-height: 44px;
 
                 transition: all 200ms ease-in-out;
@@ -37,6 +43,12 @@
             color: $mega-menu-depth-3-link-color;
             position: $mega-menu-depth-3-link-position;
             text-decoration: $mega-menu-depth-3-link-text-decoration;
+
+            &:focus-visible {
+                outline: $base-ui-element-focus-visible-outline;
+                outline-offset: $base-ui-element-focus-visible-outline-offset;
+                box-shadow: $focus-visible-style;
+            }
 
             &:hover {
                 color: $mega-menu-depth-3-link-hover-color;
@@ -109,7 +121,7 @@
 
         &__actions {
             height: 44px;
-            margin-inline: spacing('base');
+            margin-inline: $main-menu-stack-mode-focus-inset;
 
             &:after {
                 transform: rotate(0deg);
@@ -124,8 +136,12 @@
             &__link {
                 font-weight: font-weight('normal');
                 text-decoration: none;
-                padding-inline: 0;
+                padding-inline: spacing('base');
                 margin-inline-end: spacing('lg');
+            }
+
+            &__button {
+                padding-inline: spacing('base');
             }
         }
     }

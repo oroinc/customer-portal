@@ -157,7 +157,9 @@
 
     {% if menu_item.children is not empty %}
         {% set attr = layout_attr_defaults(attr, {
-            'aria-controls': controlsId
+            'aria-controls': controlsId,
+            'aria-expanded': 'false',
+            'aria-haspopup': 'true'
         }) %}
         <button {{ block('block_attributes') }}>
             {% if linkEnable != true %}

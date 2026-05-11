@@ -37,10 +37,13 @@
     }
 
     &__sale-title {
+        display: $main-menu-column-sale-title-display;
+        align-items: $main-menu-column-sale-title-align-items;
+        min-height: $main-menu-column-sale-title-min-height;
         line-height: $main-menu-column-sale-title-line-height;
         font-weight: $main-menu-column-sale-title-font-weight;
         color: $main-menu-column-sale-title-color;
-        margin-bottom: $main-menu-column-sale-title-margin-bottom;
+        margin: $main-menu-column-sale-title-margin;
         text-decoration: $main-menu-column-sale-title-text-decoration;
     }
 
@@ -71,6 +74,12 @@
     &__item &__link {
         color: $main-menu-column-link-color;
 
+        &:focus-visible {
+            outline: $base-ui-element-focus-visible-outline;
+            outline-offset: $base-ui-element-focus-visible-outline-offset;
+            box-shadow: $focus-visible-style;
+        }
+
         &:hover {
             text-decoration: $main-menu-column-link-hover-text-decoration;
         }
@@ -78,6 +87,12 @@
 
     &__image-link {
         display: $main-menu-column-image-link-display;
+
+        &:focus-visible {
+            outline: $base-ui-element-focus-visible-outline;
+            outline-offset: $base-ui-element-focus-visible-outline-offset;
+            box-shadow: $focus-visible-style;
+        }
     }
 }
 
@@ -94,15 +109,16 @@
 
                 @include safe-area-property-left(
                     padding-inline-start,
-                    spacing('lg')
+                    $main-menu-column-stack-mode-sale-title-padding-inline-start
                 );
 
-                padding-inline-end: 0;
+                padding-inline-end: $main-menu-column-stack-mode-sale-title-padding-inline-end;
             }
 
             &__item {
                 margin: 0;
-                padding: 0;
+                padding-block: 0;
+                padding-inline: $main-menu-column-stack-mode-item-padding-inline;
 
                 &--image {
                     padding-block: 0;
@@ -151,13 +167,8 @@
         .main-menu-column {
             &__link {
                 padding-block: 0;
-
-                @include safe-area-property-left(
-                    padding-inline-start,
-                    spacing('lg')
-                );
-
-                padding-inline-end: 0;
+                padding-inline-start: $main-menu-column-stack-mode-link-padding-inline-start;
+                padding-inline-end: $main-menu-column-stack-mode-link-padding-inline-end;
             }
         }
     }
@@ -216,9 +227,17 @@
 @include breakpoint('mobile-big') {
     .main-menu-stack-mode {
         .main-menu-column {
-            &__item,
+            &__item {
+                padding: 0 $main-menu-stack-mode-focus-inset;
+            }
+
+            &__link {
+                padding-inline: spacing('base');
+            }
+
             &__sale-title {
-                padding: 0 spacing('base');
+                margin-inline: $main-menu-stack-mode-focus-inset;
+                padding-inline: spacing('base');
             }
         }
     }
