@@ -17,6 +17,9 @@ oro:
             label:              'Subsidiaries'
             description:        Subsidiaries represent a set of customers (divisions) that report to the customer (a global organization).
         id.label: 'Id'
+        external_id:
+            label:              External ID
+            description:        A unique identifier from an external system.
         parent:
             label:              'Parent Customer'
             description:        Parent Customer represents a global organization the customer (division) reports to.
@@ -201,6 +204,9 @@ oro.customer:
         frontstore_entity_plural_label: 'Users'
         entity_description:          Customer User represents a person who acts on behalf of the company to buy products using OroCommerce storefront.
         id.label:                    'ID'
+        external_id:
+            label:                   External ID
+            description:             A unique identifier from an external system.
         first_name:
             label:                   'First Name'
             description:             First name of the customer user.

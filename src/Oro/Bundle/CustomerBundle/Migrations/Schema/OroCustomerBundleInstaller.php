@@ -11,9 +11,12 @@ use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareTrai
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectOrCreateType;
 use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
+use Oro\Bundle\EntityConfigBundle\Entity\ConfigModel;
 use Oro\Bundle\EntityExtendBundle\EntityConfig\ExtendScope;
+use Oro\Bundle\EntityExtendBundle\Migration\ExtendOptionsManager;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareInterface;
 use Oro\Bundle\EntityExtendBundle\Migration\Extension\ExtendExtensionAwareTrait;
+use Oro\Bundle\EntityExtendBundle\Migration\OroOptions;
 use Oro\Bundle\EntityExtendBundle\Tools\ExtendHelper;
 use Oro\Bundle\MigrationBundle\Migration\Installation;
 use Oro\Bundle\MigrationBundle\Migration\QueryBag;
@@ -40,7 +43,7 @@ class OroCustomerBundleInstaller implements
     #[\Override]
     public function getMigrationVersion(): string
     {
-        return 'v1_37';
+        return 'v1_38';
     }
 
     #[\Override]
@@ -107,6 +110,9 @@ class OroCustomerBundleInstaller implements
     private function createOroCustomerUserTable(Schema $schema): void
     {
         $table = $schema->createTable('oro_customer_user');
+        $table->addOption(OroOptions::KEY, [
+            'extend' => ['unique_key' => ['keys' => [['name' => 'external_id', 'key' => ['external_id']]]]]
+        ]);
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('owner_id', 'integer', ['notnull' => false]);
         $table->addColumn('organization_id', 'integer', ['notnull' => false]);
@@ -137,6 +143,13 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('new_email', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('new_email_verification_code', 'string', ['notnull' => false, 'length' => 255]);
         $table->addColumn('email_verification_code_requested_at', 'datetime', ['notnull' => false]);
+        $table->addColumn('external_id', 'string', ['length' => 36, 'notnull' => false, OroOptions::KEY => [
+            ExtendOptionsManager::MODE_OPTION => ConfigModel::MODE_READONLY,
+            'extend' => ['is_extend' => true, 'owner' => ExtendScope::OWNER_CUSTOM],
+            'datagrid' => ['is_visible' => DatagridScope::IS_VISIBLE_HIDDEN],
+            'importexport' => ['excluded' => true],
+            'dataaudit' => ['auditable' => true]
+        ]]);
         $table->setPrimaryKey(['id']);
         $table->addIndex(['email'], 'idx_oro_customer_user_email');
         $table->addIndex(['email_lowercase'], 'idx_oro_customer_user_email_lowercase');
@@ -168,6 +181,9 @@ class OroCustomerBundleInstaller implements
     private function createOroCustomerTable(Schema $schema): void
     {
         $table = $schema->createTable('oro_customer');
+        $table->addOption(OroOptions::KEY, [
+            'extend' => ['unique_key' => ['keys' => [['name' => 'external_id', 'key' => ['external_id']]]]]
+        ]);
         $table->addColumn('id', 'integer', ['autoincrement' => true]);
         $table->addColumn('name', 'string', ['length' => 255]);
         $table->addColumn('parent_id', 'integer', ['notnull' => false]);
@@ -176,6 +192,13 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('organization_id', 'integer', ['notnull' => false]);
         $table->addColumn('created_at', 'datetime', ['notnull' => true]);
         $table->addColumn('updated_at', 'datetime', ['notnull' => true]);
+        $table->addColumn('external_id', 'string', ['length' => 36, 'notnull' => false, OroOptions::KEY => [
+            ExtendOptionsManager::MODE_OPTION => ConfigModel::MODE_READONLY,
+            'extend' => ['is_extend' => true, 'owner' => ExtendScope::OWNER_CUSTOM],
+            'datagrid' => ['is_visible' => DatagridScope::IS_VISIBLE_HIDDEN],
+            'importexport' => ['excluded' => true],
+            'dataaudit' => ['auditable' => true]
+        ]]);
         $table->setPrimaryKey(['id']);
         $table->addIndex(['name'], 'oro_customer_name_idx');
         $table->addIndex(['created_at'], 'idx_oro_customer_created_at');

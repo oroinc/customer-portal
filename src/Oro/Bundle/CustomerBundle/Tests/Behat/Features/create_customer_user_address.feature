@@ -19,7 +19,7 @@ Feature: Create customer user address
 
   Scenario: Create customer user address and see validation errors
     Given I go to Customers / Customer Users
-    And I click on first customer in grid
+    And I click on AmandaRCole@example.org in grid
     Then I should not see "Test billing address"
 
     When I click "New Address"
@@ -45,7 +45,7 @@ Feature: Create customer user address
 
   Scenario: Add customer user address via edit page
     Given I go to Customers / Customer Users
-    When I click Edit first customer in grid
+    When I click Edit AmandaRCole@example.org in grid
     And I click "Add"
     And I fill "Customer User Form" with:
       | Second Primary      | true              |
