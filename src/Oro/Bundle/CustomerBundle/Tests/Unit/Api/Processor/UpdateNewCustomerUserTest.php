@@ -38,6 +38,9 @@ class UpdateNewCustomerUserTest extends CustomizeFormDataProcessorTestCase
             ->method('isSubmitted')
             ->willReturn(true);
         $form->expects(self::once())
+            ->method('isSynchronized')
+            ->willReturn(true);
+        $form->expects(self::once())
             ->method('isValid')
             ->willReturn(false);
         $form->expects(self::never())
@@ -58,6 +61,9 @@ class UpdateNewCustomerUserTest extends CustomizeFormDataProcessorTestCase
         $form = $this->context->getForm();
         $form->expects(self::once())
             ->method('isSubmitted')
+            ->willReturn(true);
+        $form->expects(self::once())
+            ->method('isSynchronized')
             ->willReturn(true);
         $form->expects(self::once())
             ->method('isValid')
@@ -91,6 +97,9 @@ class UpdateNewCustomerUserTest extends CustomizeFormDataProcessorTestCase
         $form = $this->context->getForm();
         $form->expects(self::once())
             ->method('isSubmitted')
+            ->willReturn(true);
+        $form->expects(self::once())
+            ->method('isSynchronized')
             ->willReturn(true);
         $form->expects(self::once())
             ->method('isValid')
