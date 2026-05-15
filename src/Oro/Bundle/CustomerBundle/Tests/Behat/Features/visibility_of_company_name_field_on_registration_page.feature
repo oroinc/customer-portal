@@ -37,7 +37,7 @@ Feature: Visibility of Company Name Field on registration page
       | Password         | RuthWMaxwell123          |
       | Confirm Password | RuthWMaxwell123          |
     When I click "Create Account"
-    Then I should see "Please check your email to complete registration"
+    Then I should see "Please check your email to complete registration" flash message
 
   Scenario: Check that company name consists of first name and last name when "Require Company Name" option is disabled
     Given I proceed as the Admin
