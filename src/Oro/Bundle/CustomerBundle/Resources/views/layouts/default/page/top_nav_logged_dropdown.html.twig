@@ -146,7 +146,7 @@
     {% else %}
         <li class="customer-menu-list__item">
             {%- apply spaceless -%}
-            <a href="{{ uri }}" class="{{ ' dropdown-item text-nowrap ' ~ linkCurrentClass ?? '' }}">
+            <a href="{{ uri }}" class="{{ ' dropdown-item text-nowrap ' ~ (linkCurrentClass ?? '') }}">
                 {%- if icon -%}
                     {{ renderIcon.icon({name: icon, extraClass: 'customer-menu__icon'}) }}
                 {%- endif -%}
