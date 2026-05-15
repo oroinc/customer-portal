@@ -31,8 +31,7 @@ Feature: Create customer user from the store-front
       | Confirm Password | 25253124Ff       |
       | Email Address    | newuser@test.com |
     And click "Save"
-    And should see "Customer User has been saved" flash message
-    And click on "Flash Message Close Button"
+    And I should see "Customer User has been saved" flash message and I close it
     And I click "Account Dropdown"
     And click "Users"
     When click view "newuser@test.com" in grid
@@ -49,8 +48,7 @@ Feature: Create customer user from the store-front
       | Generate Password  | true              |
       | Buyer (Predefined) | true              |
     And click "Save"
-    And should see "Customer User has been saved" flash message
-    And click on "Flash Message Close Button"
+    And I should see "Customer User has been saved" flash message and I close it
     And I click "Account Dropdown"
     And click "Users"
     When click view "newuser2@test.com" in grid

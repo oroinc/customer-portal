@@ -113,7 +113,7 @@ Feature: Customer User Case Insensitive Email Addresses
       | Password         | amandarcolE@example.org1 |
       | Confirm Password | amandarcolE@example.org1 |
     And I click "Create Account"
-    Then I should see "Please check your email to complete registration"
+    Then I should see "Please check your email to complete registration" flash message
     When I proceed as the Admin
     And I go to System/Configuration
     And I follow "Commerce/Customer/Customer Users" on configuration sidebar
