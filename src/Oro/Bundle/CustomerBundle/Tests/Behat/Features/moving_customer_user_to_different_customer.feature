@@ -39,7 +39,7 @@ Feature: Moving customer user to different customer
     And I save and close form
     Then I should not see "Customer User has been saved" flash message
     And I should see "Customer User Form" validation errors:
-      | Customer | Can't change customer because you don't have permissions for updating the following related entities: Request For Quote, Order, Checkout, Quote, Shopping List |
+      | Customer | Can't change customer because you don't have permissions for updating the following related entities: Order, Checkout, Request For Quote, Quote, Shopping List |
 
   Scenario: Check validation message for some of the related entities
     Given I go to System/User Management/Roles
