@@ -20,6 +20,7 @@ class FrontendCustomerUserProfileTypeTest extends WebTestCase
 
     public function testUserChangeEmailToAnotherUserEmail()
     {
+        $this->disableEmailApproveFeature();
         $crawler = $this->client->request(
             'GET',
             $this->getUrl('oro_customer_frontend_customer_user_profile_update_email')
@@ -32,6 +33,7 @@ class FrontendCustomerUserProfileTypeTest extends WebTestCase
         $form['frontend_customer_user_profile_email[currentPassword]'] = LoadCustomerUserData::GROUP2_PASSWORD;
 
         $this->client->followRedirects(true);
+        $this->disableEmailApproveFeature();
         $crawler = $this->client->submit($form);
 
         $result = $this->client->getResponse();
@@ -44,5 +46,12 @@ class FrontendCustomerUserProfileTypeTest extends WebTestCase
         $actualUsername = $this->getContainer()->get('security.token_storage')->getToken()->getUserIdentifier();
 
         $this->assertEquals($expectedUser->getUserIdentifier(), $actualUsername);
+    }
+
+    private function disableEmailApproveFeature(): void
+    {
+        $configManager = self::getContainer()->get('oro_config.manager');
+        $configManager->set('oro_customer.email_change_verification_enabled', false);
+        $configManager->flush();
     }
 }

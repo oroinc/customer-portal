@@ -13,12 +13,16 @@ api:
             fields:
                 dataChannel:
                     exclude: true
+                externalId:
+                    property_path: external_id
             filters:
                 fields:
                     createdAt:
                         exclude: false
                     updatedAt:
                         exclude: false
+                    externalId:
+                        allow_array: true
             subresources:
                 addresses:
                     actions:
@@ -66,6 +70,18 @@ api:
                 lastLogin:
                     form_options:
                         mapped: false
+                emailVerificationCodeRequestedAt:
+                    exclude: true
+                newEmail:
+                    exclude: true
+                newEmailVerificationCode:
+                    exclude: true
+                externalId:
+                    property_path: external_id
+            filters:
+                fields:
+                    externalId:
+                        allow_array: true
             actions:
                 create:
                     fields:

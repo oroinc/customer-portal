@@ -137,3 +137,17 @@ features:
             - oro_customer_user_reset_password
             - oro_customer_customeruser_reset_password
             - oro_customer_user_frontend_reset_password
+
+    customer_user_email_change_verification_enabled:
+        label: oro.customer.system_configuration.fields.email_change_verification.label
+        description: oro.customer.system_configuration.fields.email_change_verification.tooltip
+        toggle: oro_customer.email_change_verification_enabled
+        allow_if_all_abstain: true
+        dependencies:
+            - customer_user_login_password
+        routes:
+            - oro_customer_frontend_customer_user_confirm_old_email
+            - oro_customer_frontend_customer_user_confirmed_old_email
+            - oro_customer_frontend_customer_user_confirm_new_email
+            - oro_customer_frontend_customer_user_confirmed_new_email
+            - oro_customer_frontend_customer_user_cancel

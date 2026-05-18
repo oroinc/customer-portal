@@ -135,6 +135,13 @@ oro_customer_user_password_reset:
     options:
         frontend: true
 
+oro_customer_user_change_email:
+    resource: "@OroCustomerBundle/Controller/Frontend/CustomerUserEmailChangeController.php"
+    type: attribute
+    prefix: /customer/user/email
+    options:
+        frontend: true
+
 oro_customer_frontend_customer_user_role:
     resource: "@OroCustomerBundle/Controller/Frontend/CustomerUserRoleController.php"
     type:     attribute
