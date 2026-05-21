@@ -10,11 +10,19 @@ search:
             -
                 name:                   id
                 target_type:            integer
-                target_fields:          [oro_customer_id]
+                target_fields:          [oro_customer_id, id]
             -
                 name:                   name
                 target_type:            text
                 target_fields:          [name]
+            -
+                name: createdAt
+                target_type: datetime
+                target_fields: [ createdAt ]
+            -
+                name: updatedAt
+                target_type: datetime
+                target_fields: [ updatedAt ]
             -
                 name:                   group
                 relation_type:          many-to-one
@@ -75,6 +83,10 @@ search:
         search_template:                '@OroCustomer/CustomerGroup/searchResult.html.twig'
         fields:
             -
+                name: id
+                target_type: integer
+                target_fields: [ id ]
+            -
                 name:                   name
                 target_type:            text
                 target_fields:          [name]
@@ -89,6 +101,10 @@ search:
         search_template: '@OroCustomer/CustomerUser/searchResult.html.twig'
         fields:
             -
+                name: id
+                target_type: integer
+                target_fields: [ id ]
+            -
                 name: email
                 target_type: text
                 target_fields: [email]
@@ -100,6 +116,14 @@ search:
                 name: lastName
                 target_type: text
                 target_fields: [lastName]
+            -
+                name: createdAt
+                target_type: datetime
+                target_fields: [ createdAt ]
+            -
+                name: updatedAt
+                target_type: datetime
+                target_fields: [ updatedAt ]
             -
                 name: customer
                 relation_type: many-to-one

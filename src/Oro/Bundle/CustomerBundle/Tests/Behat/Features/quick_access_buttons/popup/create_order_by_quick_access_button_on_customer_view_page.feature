@@ -33,7 +33,7 @@ Feature: Create order by quick access button on customer view page
       | Billing Address City        | Sydney                |
       | Billing Address State       | New South Wales       |
       | Billing Address Postal Code | B1P 4C4               |
-    And fill "Order Edit Add Line Item Form" with:
+    And fill "Order Line Item Draft Create Form" with:
       | Product  | PSKU1 |
       | Quantity | 10    |
       | Price    | 10    |
@@ -63,7 +63,7 @@ Feature: Create order by quick access button on customer view page
       | Billing Address City        | Sydney                |
       | Billing Address State       | New South Wales       |
       | Billing Address Postal Code | B1P 4C4               |
-    And fill "Order Edit Add Line Item Form" with:
+    And fill "Order Line Item Draft Create Form" with:
       | Product  | PSKU1 |
       | Quantity | 1     |
       | Price    | 9.99  |
