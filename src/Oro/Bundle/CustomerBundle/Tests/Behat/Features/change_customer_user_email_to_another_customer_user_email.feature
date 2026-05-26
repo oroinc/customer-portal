@@ -1,3 +1,4 @@
+@feature-BB-26023-disabled
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 Feature: Change customer user email to another customer user email
 

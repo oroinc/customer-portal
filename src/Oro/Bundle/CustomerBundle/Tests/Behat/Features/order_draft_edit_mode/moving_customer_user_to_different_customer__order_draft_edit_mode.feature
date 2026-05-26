@@ -1,4 +1,4 @@
-@feature-BB-26023-disabled
+@feature-BB-26023-enabled
 @regression
 @fixture-OroCustomerBundle:CustomerUserWithTwoCustomers.yml
 @fixture-OroCustomerBundle:ShoppingListFixture.yml
@@ -7,10 +7,13 @@
 @fixture-OroCustomerBundle:RFQFixture.yml
 @fixture-OroCustomerBundle:CheckoutFixture.yml
 
-Feature: Moving customer user to different customer
+Feature: Moving customer user to different customer - Order Draft Edit Mode
   In order to maintain the ownership of shopping lists, quotes, orders, RFQs and checkouts
   As an administrator
   I want to remove customer user from their associated entities (shopping lists, quotes, orders, RFQs and checkouts) when moving this customer user to another customer
+
+  Scenario: Enable Order Draft Edit Mode
+    Given I set configuration property "oro_order.enable_order_draft_edit_mode" to "1"
 
   Scenario: Create different window session
     Given sessions active:

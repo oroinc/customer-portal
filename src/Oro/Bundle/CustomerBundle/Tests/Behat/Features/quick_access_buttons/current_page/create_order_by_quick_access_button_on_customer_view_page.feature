@@ -1,3 +1,4 @@
+@feature-BB-26023-disabled
 @regression
 @feature-BB-21879
 @fixture-OroProductBundle:single_product.yml

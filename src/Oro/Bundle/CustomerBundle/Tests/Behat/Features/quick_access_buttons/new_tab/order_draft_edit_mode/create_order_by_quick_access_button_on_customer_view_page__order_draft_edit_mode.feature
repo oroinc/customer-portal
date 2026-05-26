@@ -1,9 +1,9 @@
-@feature-BB-26023-disabled
+@feature-BB-26023-enabled
 @regression
 @feature-BB-21879
 @fixture-OroProductBundle:single_product.yml
 
-Feature: Create order by quick access button on customer view page
+Feature: Create order by quick access button on customer view page - Order Draft Edit Mode
   In order to simplify access to most used back-office functionality and speed up data entry
   As an administrator
   I want to create new order from customer view page by quick access button using new tab
@@ -11,6 +11,9 @@ Feature: Create order by quick access button on customer view page
   Scenario: Feature Background
     Given I set configuration property "oro_ui.quick_create_actions" to "new_tab"
     And I login as administrator
+
+  Scenario: Enable Order Draft Edit Mode
+    Given I set configuration property "oro_order.enable_order_draft_edit_mode" to "1"
 
   Scenario: Create order by click on quick access button
     When I go to Customers / Customers
@@ -23,11 +26,7 @@ Feature: Create order by quick access button on customer view page
     Then "Order Form" must contains values:
       | Customer | Company A |
       | Website  | Default   |
-    When I click "Add Product"
     And fill "Order Form" with:
-      | Product                     | PSKU1                 |
-      | Quantity                    | 10                    |
-      | Price                       | 10                    |
       | Billing Address Label       | Order1 with Company A |
       | Billing Address First name  | Company               |
       | Billing Address Last name   | A                     |
@@ -36,6 +35,11 @@ Feature: Create order by quick access button on customer view page
       | Billing Address City        | Sydney                |
       | Billing Address State       | New South Wales       |
       | Billing Address Postal Code | B1P 4C4               |
+    And fill "Order Line Item Draft Create Form" with:
+      | Product  | PSKU1 |
+      | Quantity | 10    |
+      | Price    | 10    |
+    And click "Add Product"
     When I save and close form
     And I click "Save" in modal window
     Then I should see Order with:
@@ -51,11 +55,7 @@ Feature: Create order by quick access button on customer view page
     Then "Order Form" must contains values:
       | Customer | Company A |
       | Website  | Default   |
-    When I click "Add Product"
     And fill "Order Form" with:
-      | Product                     | PSKU1                 |
-      | Quantity                    | 10                    |
-      | Price                       | 10                    |
       | Billing Address Label       | Order2 with Company A |
       | Billing Address First name  | Company               |
       | Billing Address Last name   | A                     |
@@ -64,6 +64,11 @@ Feature: Create order by quick access button on customer view page
       | Billing Address City        | Sydney                |
       | Billing Address State       | New South Wales       |
       | Billing Address Postal Code | B1P 4C4               |
+    And fill "Order Line Item Draft Create Form" with:
+      | Product  | PSKU1 |
+      | Quantity | 10    |
+      | Price    | 10    |
+    And click "Add Product"
     Then I save and close form
     And I click "Save" in modal window
     And I should see Order with:
@@ -83,11 +88,7 @@ Feature: Create order by quick access button on customer view page
     When I open a new browser tab and set "tab3" alias for it
     Then I should see "Save and Return" action button
     When I switch to the browser tab "tab2"
-    And I click "Add Product"
     And fill "Order Form" with:
-      | Product                     | PSKU1                 |
-      | Quantity                    | 1                     |
-      | Price                       | 9.99                  |
       | Billing Address Label       | Order3 with Company A |
       | Billing Address First name  | Company               |
       | Billing Address Last name   | A                     |
@@ -96,14 +97,19 @@ Feature: Create order by quick access button on customer view page
       | Billing Address City        | Sydney                |
       | Billing Address State       | New South Wales       |
       | Billing Address Postal Code | B1P 4C4               |
+    And fill "Order Line Item Draft Create Form" with:
+      | Product  | PSKU1 |
+      | Quantity | 1     |
+      | Price    | 9.99  |
+    And click "Add Product"
     And I save form and return
     And I click "Save" in modal window
     Then I should see "Customers / Company A"
     And I should see following "Sales Orders Grid" grid:
       | Order Number | Internal Status | Total   |
-      | 3            | Open            | $9.99   |
+      | 6            | Open            | $9.99   |
+      | 4            | Open            | $100.00 |
       | 2            | Open            | $100.00 |
-      | 1            | Open            | $100.00 |
 
   Scenario: Set Customer entity view permissions to 'View:None' for Administrator Role
     When I switch to the browser tab "tab1"

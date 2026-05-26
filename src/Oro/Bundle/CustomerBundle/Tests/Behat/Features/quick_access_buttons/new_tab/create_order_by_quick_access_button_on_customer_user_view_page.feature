@@ -1,3 +1,4 @@
+@feature-BB-26023-disabled
 @feature-BB-21879
 @fixture-OroProductBundle:single_product.yml
 
