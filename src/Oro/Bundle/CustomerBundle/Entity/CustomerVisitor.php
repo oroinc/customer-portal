@@ -8,6 +8,7 @@ use Doctrine\ORM\Mapping\Index;
 use Extend\Entity\Autocomplete\OroCustomerBundle_Entity_CustomerVisitor;
 use Oro\Bundle\CustomerBundle\Security\VisitorIdentifierUtil;
 use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -28,12 +29,15 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
     #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     private ?int $id = null;
 
     #[ORM\Column(name: 'last_visit', type: Types::DATETIME_MUTABLE)]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     private ?\DateTimeInterface $lastVisit;
 
     #[ORM\Column(name: 'session_id', type: Types::STRING, length: 255, nullable: false)]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     private ?string $sessionId = null;
 
     #[ORM\OneToOne(targetEntity: CustomerUser::class, cascade: ['persist'])]
@@ -44,6 +48,7 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
         nullable: true,
         onDelete: 'SET NULL'
     )]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     private ?CustomerUser $customerUser = null;
 
     public function __construct()
