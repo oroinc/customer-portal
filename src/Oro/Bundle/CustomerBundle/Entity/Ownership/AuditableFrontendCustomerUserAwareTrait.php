@@ -16,7 +16,7 @@ trait AuditableFrontendCustomerUserAwareTrait
 
     #[ORM\ManyToOne(targetEntity: CustomerUser::class, cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'customer_user_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
-    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'email' => ['available_in_template' => true]])]
     protected ?CustomerUser $customerUser = null;
 
     /**
