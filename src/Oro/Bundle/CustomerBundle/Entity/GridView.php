@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\CustomerBundle\Entity\Repository\GridViewRepository;
 use Oro\Bundle\DataGridBundle\Entity\AbstractGridView;
 use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 use Oro\Bundle\UserBundle\Entity\AbstractUser;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -44,6 +45,7 @@ class GridView extends AbstractGridView
     #[ORM\ManyToOne(targetEntity: CustomerUser::class)]
     #[ORM\JoinColumn(name: 'customer_user_owner_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
     #[Assert\NotBlank]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?CustomerUser $customerUserOwner = null;
 
     #[\Override]

@@ -1604,6 +1604,13 @@ services:
         calls:
             - [setFeatureChecker, ['@oro_featuretoggle.checker.feature_checker']]
 
+    oro_customer.provider.customer_user_email_template_variables:
+        class: Oro\Bundle\CustomerBundle\Provider\CustomerUserEmailTemplateVariablesProvider
+        arguments:
+            - '@translator'
+        tags:
+            - { name: oro_email.emailtemplate.variable_provider, scope: entity }
+
     oro_customer.customer_user.email_change_handler:
         class: Oro\Bundle\CustomerBundle\Handler\ChangeCustomerUserEmailHandler
         arguments:
