@@ -49,7 +49,8 @@ use Oro\Bundle\UserBundle\Entity\AbstractRole;
         'dataaudit' => ['auditable' => true],
         'activity' => [
             'show_on_page' => ActivityScope::UPDATE_PAGE
-        ]
+        ],
+        'email' => ['available_in_template' => true],
     ]
 )]
 class CustomerUserRole extends AbstractRole implements OrganizationAwareInterface, ExtendEntityInterface
@@ -61,24 +62,28 @@ class CustomerUserRole extends AbstractRole implements OrganizationAwareInterfac
     #[ORM\Id]
     #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?int $id = null;
 
     #[ORM\Column(type: Types::STRING, length: 255, unique: true, nullable: false)]
-    #[ConfigField(defaultValues: ['importexport' => ['identity' => true]])]
+    #[ConfigField(defaultValues: [
+        'importexport' => ['identity' => true],
+        'email' => ['available_in_template' => true],
+    ])]
     protected ?string $role = null;
 
     #[ORM\ManyToOne(targetEntity: Customer::class)]
     #[ORM\JoinColumn(name: 'customer_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
-    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'email' => ['available_in_template' => true]])]
     protected ?Customer $customer = null;
 
     #[ORM\ManyToOne(targetEntity: Organization::class)]
     #[ORM\JoinColumn(name: 'organization_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
-    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'email' => ['available_in_template' => true]])]
     protected ?OrganizationInterface $organization = null;
 
     #[ORM\Column(type: Types::STRING, length: 255)]
-    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'email' => ['available_in_template' => true]])]
     protected ?string $label = null;
 
     /**
@@ -95,9 +100,11 @@ class CustomerUserRole extends AbstractRole implements OrganizationAwareInterfac
      * @var boolean
      */
     #[ORM\Column(name: 'self_managed', type: Types::BOOLEAN, options: ['default' => false])]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?bool $selfManaged = false;
 
     #[ORM\Column(name: 'public', type: Types::BOOLEAN, options: ['default' => true])]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?bool $public = true;
 
     public function __construct(string $role = '')
