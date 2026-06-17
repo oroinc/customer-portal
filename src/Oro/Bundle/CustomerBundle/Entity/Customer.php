@@ -59,6 +59,9 @@ use Oro\Bundle\UserBundle\Entity\User;
  *          },
  *          "dataaudit"={
  *              "auditable"=true
+ *          },
+ *          "email"={
+ *              "available_in_template"=true
  *          }
  *      }
  * )
