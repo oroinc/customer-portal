@@ -39,6 +39,9 @@ use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
  *          "security"={
  *              "type"="ACL",
  *              "group_name"="commerce"
+ *          },
+ *          "email"={
+ *              "available_in_template"=true
  *          }
  *      }
  * )

@@ -50,6 +50,9 @@ use Oro\Component\Website\WebsiteInterface;
  *          "security"={
  *              "type"="ACL",
  *              "group_name"=""
+ *          },
+ *          "email"={
+ *              "available_in_template"=true
  *          }
  *      }
  * )
