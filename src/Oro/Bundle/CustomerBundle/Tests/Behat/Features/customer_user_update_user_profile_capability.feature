@@ -58,6 +58,7 @@ Feature: Customer User Update User Profile capability
     When I click "Edit"
     And I check "Update User Profile" entity permission
     And I click "Entity" in scrollspy
+    And I scroll to "Customer User Permission Row"
     And select following permissions:
       | Customer User | View:None | Edit:None |
     And I save and close form
