@@ -16,6 +16,7 @@ abstract class AbstractAddressToAddressType
     #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?int $id = null;
 
     /**
@@ -27,11 +28,11 @@ abstract class AbstractAddressToAddressType
 
     #[ORM\ManyToOne(targetEntity: AddressType::class)]
     #[ORM\JoinColumn(name: 'type_name', referencedColumnName: 'name', onDelete: 'CASCADE')]
-    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'email' => ['available_in_template' => true]])]
     protected ?AddressType $type = null;
 
     #[ORM\Column(name: 'is_default', type: Types::BOOLEAN, nullable: true)]
-    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true]])]
+    #[ConfigField(defaultValues: ['dataaudit' => ['auditable' => true], 'email' => ['available_in_template' => true]])]
     protected ?bool $default = null;
 
     /**

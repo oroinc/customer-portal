@@ -9,6 +9,7 @@ use Oro\Bundle\CustomerBundle\Entity\Ownership\AuditableFrontendCustomerUserAwar
 use Oro\Bundle\EntityBundle\EntityProperty\CreatedAtAwareInterface;
 use Oro\Bundle\EntityBundle\EntityProperty\CreatedAtAwareTrait;
 use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 use Oro\Bundle\FrontendImportExportBundle\Entity\Repository\FrontendImportExportResultRepository;
 use Oro\Bundle\OrganizationBundle\Entity\Ownership\OrganizationAwareTrait;
 use Oro\Bundle\UserBundle\Entity\User;
@@ -33,7 +34,8 @@ use Oro\Bundle\UserBundle\Entity\User;
             'frontend_customer_field_name' => 'customer',
             'frontend_customer_column_name' => 'customer_id'
         ],
-        'security' => ['type' => 'ACL', 'group_name' => 'commerce', 'category' => 'importexport']
+        'security' => ['type' => 'ACL', 'group_name' => 'commerce', 'category' => 'importexport'],
+        'email' => ['available_in_template' => true],
     ]
 )]
 class FrontendImportExportResult implements CreatedAtAwareInterface, CustomerOwnerAwareInterface
@@ -45,22 +47,28 @@ class FrontendImportExportResult implements CreatedAtAwareInterface, CustomerOwn
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
     #[ORM\Column(type: Types::INTEGER)]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?int $id = null;
 
     #[ORM\ManyToOne(targetEntity: User::class)]
     #[ORM\JoinColumn(name: 'owner_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?User $owner = null;
 
     #[ORM\Column(name: 'filename', type: Types::STRING, length: 255, unique: true, nullable: true)]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?string $filename = null;
 
     #[ORM\Column(name: 'job_id', type: Types::INTEGER, unique: true, nullable: false)]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?int $jobId = null;
 
     #[ORM\Column(name: 'type', type: Types::STRING, length: 255, unique: false, nullable: false)]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?string $type = null;
 
     #[ORM\Column(name: 'entity', type: Types::STRING, length: 255, unique: false, nullable: false)]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?string $entity = null;
 
     /**
@@ -70,6 +78,7 @@ class FrontendImportExportResult implements CreatedAtAwareInterface, CustomerOwn
     protected $options = [];
 
     #[ORM\Column(name: 'expired', type: Types::BOOLEAN, options: ['default' => false])]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?bool $expired = false;
 
     public function getId(): ?int
