@@ -68,6 +68,9 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
  *          },
  *          "grid"={
  *              "context"="customer-customer-user-select-grid"
+ *          },
+ *          "email"={
+ *              "available_in_template"=true
  *          }
  *      }
  * )
@@ -446,6 +449,10 @@ class CustomerUser extends ExtendCustomerUser implements
      *      defaultValues={
      *          "importexport"={
      *              "excluded"=true
+     *          },
+     *          "email"={
+     *              "available_in_template"=false,
+     *              "immutable"=true
      *          }
      *      }
      * )

@@ -44,6 +44,9 @@ use Oro\Bundle\UserBundle\Entity\Ownership\UserAwareTrait;
  *          },
  *          "dataaudit"={
  *              "auditable"=true
+ *          },
+ *          "email"={
+ *              "available_in_template"=true
  *          }
  *      }
  * )

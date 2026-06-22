@@ -33,6 +33,9 @@ use Oro\Bundle\UserBundle\Entity\User;
  *              "type"="ACL",
  *              "group_name"="commerce",
  *              "category"="importexport"
+ *          },
+ *          "email"={
+ *              "available_in_template"=true
  *          }
  *     }
  * )

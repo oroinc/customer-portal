@@ -52,6 +52,9 @@ use Oro\Bundle\OrganizationBundle\Entity\OrganizationInterface;
  *          },
  *          "activity"={
  *              "show_on_page"="\Oro\Bundle\ActivityBundle\EntityConfig\ActivityScope::UPDATE_PAGE"
+ *          },
+ *          "email"={
+ *              "available_in_template"=true
  *          }
  *      }
  * )
