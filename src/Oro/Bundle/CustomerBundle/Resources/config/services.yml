@@ -4,6 +4,15 @@ parameters:
     oro_customer.firewall_name: frontend
 
 services:
+    oro_customer.utils.address_copier:
+        class: Oro\Bundle\CustomerBundle\Utils\AddressCopier
+        arguments:
+            - '@doctrine'
+            - '@property_accessor'
+
+    Oro\Bundle\CustomerBundle\Utils\AddressCopier:
+        alias: oro_customer.utils.address_copier
+
     oro_customer.security.customer_user_provider:
         class: 'Oro\Bundle\CustomerBundle\Security\CustomerUserProvider'
         arguments:
