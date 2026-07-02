@@ -1,4 +1,3 @@
-@regression
 @ticket-BB-21246
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 # Suggesting that OroProductBundle:Tests\Behat\Features\product\many_to_many_product_entity_extend_relation.feature
