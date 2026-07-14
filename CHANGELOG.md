@@ -41,6 +41,10 @@ The current file describes significant changes in the code that may affect the u
   More details are available at [Preload Critical Assets](https://doc.oroinc.com/frontend/storefront/preload-critical-assets/)
 * Added `oro_frontend_datagrid_mass_action` storefront route to handle datagrid mass actions.
 
+#### CustomerBundle
+* Added the back-office search configuration for `Oro\Bundle\CustomerBundle\Entity\CustomerAddress` (search alias `oro_customer_customer_address`) together with the `@OroCustomer/CustomerAddress/searchResult.html.twig` template. The same registration was previously provided by `OroOrderRecognitionBundle` (`ai-smart-order`); its `search.yml` was removed and its template is kept only for backward compatibility.
+* Added `Oro\Bundle\CustomerBundle\EventListener\RedirectCustomerAddressSearchToCustomerListener` that redirects a customer address back-office search result to the related customer view page.
+
 ### Changed
 * Updated `\Oro\Bundle\FrontendAttachmentBundle\Provider\FileUrlProvider` to support an API URL resolver for dynamic reference type handling.
 
