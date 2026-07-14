@@ -13,6 +13,10 @@ The current file describes significant changes in the code that may affect the u
 #### FrontendBundle
 * Added a new `preload_fonts` layout block type that uses Symfony WebLink component and pushes fonts to clients before they even know that they need them.
 
+#### CustomerBundle
+* Added search configuration for the `Oro\Bundle\CustomerBundle\Entity\CustomerAddress`.
+* Added `Oro\Bundle\CustomerBundle\EventListener\RedirectCustomerAddressSearchToCustomerListener` listener that redirects `CustomerAddress` search results to the parent Customer view page (`oro_customer_customer_view`).
+
 ### Changed
 * Updated `\Oro\Bundle\FrontendAttachmentBundle\Provider\FileUrlProvider` to support an API URL resolver for dynamic reference type handling.
 

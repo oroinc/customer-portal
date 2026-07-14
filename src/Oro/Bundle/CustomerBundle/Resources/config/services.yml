@@ -87,6 +87,14 @@ services:
               - { name: kernel.event_listener, event: oro_search.prepare_entity_map, method: prepareEntityMapEvent }
               - { name: kernel.event_listener, event: oro_search.search_mapping_collect, method: collectEntityMapEvent }
 
+    oro_customer.event_listener.redirect_customer_address_search_to_customer:
+        class: 'Oro\Bundle\CustomerBundle\EventListener\RedirectCustomerAddressSearchToCustomerListener'
+        arguments:
+            - '@router'
+            - '@doctrine'
+        tags:
+            - { name: kernel.event_listener, event: oro_search.prepare_result_item, method: process, priority: 10 }
+
     oro_customer.form.autocomplete.customer_group.search_handler:
         parent: oro_form.autocomplete.search_handler
         arguments:
