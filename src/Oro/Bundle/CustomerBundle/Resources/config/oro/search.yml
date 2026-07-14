@@ -161,3 +161,60 @@ search:
                 name: label
                 target_type: text
                 target_fields: [label]
+
+    Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
+        alias: oro_customer_customer_address
+        search_template: '@OroCustomer/CustomerAddress/searchResult.html.twig'
+        fields:
+            -
+                name: id
+                target_type: integer
+                target_fields: [oro_customer_address_id]
+            -
+                name: street
+                target_type: text
+                target_fields: [street]
+            -
+                name: street2
+                target_type: text
+                target_fields: [street2]
+            -
+                name: city
+                target_type: text
+                target_fields: [city]
+            -
+                name: country
+                relation_type: many-to-one
+                relation_fields:
+                    -
+                        name: iso2Code
+                        target_type: text
+                        target_fields: [country]
+            -
+                name: region
+                relation_type: many-to-one
+                relation_fields:
+                    -
+                        name: name
+                        target_type: text
+                        target_fields: [region]
+            -
+                name: postalCode
+                target_type: text
+                target_fields: [postalCode]
+            -
+                name: firstName
+                target_type: text
+                target_fields: [firstName]
+            -
+                name: lastName
+                target_type: text
+                target_fields: [lastName]
+            -
+                name: frontendOwner
+                relation_type: many-to-one
+                relation_fields:
+                    -
+                        name: id
+                        target_type: integer
+                        target_fields: [customer_id]

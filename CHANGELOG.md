@@ -14,6 +14,10 @@ The current file describes significant changes in the code that may affect the u
 * Added `\Oro\Bundle\FrontendBundle\Layout\Extension\PageTemplatesThemeConfigurationExtension` that gets `product_page_template` theme configuration option values and adds for page_templates.
 * Added a new `preload_fonts` layout block type that uses Symfony WebLink component and pushes fonts to clients before they even know that they need them.
 
+#### CustomerBundle
+* Added the back-office search configuration for `Oro\Bundle\CustomerBundle\Entity\CustomerAddress` (search alias `oro_customer_customer_address`) together with the `@OroCustomer/CustomerAddress/searchResult.html.twig` template. The same registration was previously provided by `OroOrderRecognitionBundle` (`ai-smart-order`); its `search.yml` was removed and its template is kept only for backward compatibility.
+* Added `Oro\Bundle\CustomerBundle\EventListener\RedirectCustomerAddressSearchToCustomerListener` that redirects a customer address back-office search result to the related customer view page.
+
 ### Changed
 * Replaced all places in code that used old system configuration options on theme configuration options.
 
