@@ -703,6 +703,7 @@ oro_api_frontend_patch_entity_data:
     requirements:
         _format: json
         version: latest|v1
+        className: Oro_Bundle_ShoppingListBundle_Entity_LineItem|Oro_Bundle_ShoppingListBundle_Entity_ShoppingList
     options:
         frontend: true
 
