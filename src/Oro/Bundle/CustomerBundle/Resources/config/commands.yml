@@ -1,0 +1,10 @@
+services:
+    _defaults:
+        public: false
+
+    Oro\Bundle\CustomerBundle\Command\ClearExpiredGuestCustomerUsersCommand:
+        arguments:
+            - '@doctrine'
+            - '@oro_config.manager'
+        tags:
+            - { name: console.command }

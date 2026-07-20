@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Entity\Ownership;
 
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\CustomerBundle\Entity\Customer;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 
 /**
 * FrontendCustomerAware trait
@@ -13,6 +14,7 @@ trait FrontendCustomerAwareTrait
 {
     #[ORM\ManyToOne(targetEntity: Customer::class, cascade: ['persist'])]
     #[ORM\JoinColumn(name: 'customer_id', referencedColumnName: 'id', onDelete: 'SET NULL')]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?Customer $customer = null;
 
     /**

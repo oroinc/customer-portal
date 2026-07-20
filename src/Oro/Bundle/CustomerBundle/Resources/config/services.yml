@@ -87,6 +87,14 @@ services:
               - { name: kernel.event_listener, event: oro_search.prepare_entity_map, method: prepareEntityMapEvent }
               - { name: kernel.event_listener, event: oro_search.search_mapping_collect, method: collectEntityMapEvent }
 
+    oro_customer.event_listener.redirect_customer_address_search_to_customer:
+        class: 'Oro\Bundle\CustomerBundle\EventListener\RedirectCustomerAddressSearchToCustomerListener'
+        arguments:
+            - '@router'
+            - '@doctrine'
+        tags:
+            - { name: kernel.event_listener, event: oro_search.prepare_result_item, method: process, priority: 10 }
+
     oro_customer.form.autocomplete.customer_group.search_handler:
         parent: oro_form.autocomplete.search_handler
         arguments:
@@ -1597,6 +1605,13 @@ services:
             - '@translator'
             - '@logger'
             - '@oro_featuretoggle.checker.feature_checker'
+
+    oro_customer.provider.customer_user_email_template_variables:
+        class: Oro\Bundle\CustomerBundle\Provider\CustomerUserEmailTemplateVariablesProvider
+        arguments:
+            - '@translator'
+        tags:
+            - { name: oro_email.emailtemplate.variable_provider, scope: entity }
 
     oro_customer.customer_user.email_change_handler:
         class: Oro\Bundle\CustomerBundle\Handler\ChangeCustomerUserEmailHandler

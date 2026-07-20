@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 
 /**
  * Customer Address To Address Type Doctrine entity
@@ -19,5 +20,6 @@ class CustomerAddressToAddressType extends AbstractAddressToAddressType
      */
     #[ORM\ManyToOne(targetEntity: CustomerAddress::class, inversedBy: 'types')]
     #[ORM\JoinColumn(name: 'customer_address_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected $address;
 }

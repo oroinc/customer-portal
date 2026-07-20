@@ -85,6 +85,40 @@ Feature: Email templates used for customer user registration
       | Body | Thank you,                                                                                     |
       | Body | ORO Team                                                                                       |
 
+  Scenario: Check email send to the customer user when register by admin console administrator ("Send Welcome Email" option disabled)
+    Given I proceed as the Admin
+    And go to Customers/ Customer Users
+    And click "Create Customer User"
+    And fill form with:
+      | First Name    | LonnieV                      |
+      | Last Name     | Townsend                     |
+      | Email Address | LonnieVTownsend1@example.org |
+    And I focus on "Birthday" field
+    And click "Today"
+    And fill form with:
+      | Administrator (Predefined) | true                         |
+      | Send Welcome Email         | false                        |
+      | Password                   | LonnieVTownsend1@example.org |
+      | Confirm Password           | LonnieVTownsend1@example.org |
+      | Customer                   | Company B                    |
+    And fill "Customer User Addresses Form" with:
+      | Primary          | true          |
+      | First Name Add   | LonnieV       |
+      | Last Name Add    | Townsend      |
+      | Organization     | Smoke Org     |
+      | Country          | United States |
+      | Street           | Market St. 15 |
+      | City             | San Francisco |
+      | State            | California    |
+      | Zip/Postal Code  | 90001         |
+      | Billing          | true          |
+      | Shipping         | true          |
+      | Default Billing  | true          |
+      | Default Shipping | true          |
+    And save and close form
+    Then should see "Customer User has been saved" flash message
+    And email with Subject "Welcome: LonnieV Townsend" was not sent
+
   Scenario: Check email send to the customer user when register by admin console administrator ("Send Welcome Email" option enabled)
     Given I proceed as the Admin
     And go to Customers/ Customer Users
@@ -128,37 +162,7 @@ Feature: Email templates used for customer user registration
       | Body | If you have any questions, please contact us.                                                  |
       | Body | Thank you,                                                                                     |
       | Body | ORO Team                                                                                       |
-
-  Scenario: Check email send to the customer user when register by admin console administrator ("Send Welcome Email" option disabled)
-    Given I proceed as the Admin
-    And go to Customers/ Customer Users
-    And click "Create Customer User"
-    And fill form with:
-      | First Name    | LonnieV                      |
-      | Last Name     | Townsend                     |
-      | Email Address | LonnieVTownsend1@example.org |
-    And I focus on "Birthday" field
-    And click "Today"
-    And fill form with:
-      | Administrator (Predefined) | true                         |
-      | Send Welcome Email         | false                        |
-      | Password                   | LonnieVTownsend1@example.org |
-      | Confirm Password           | LonnieVTownsend1@example.org |
-      | Customer                   | Company B                    |
-    And fill "Customer User Addresses Form" with:
-      | Primary          | true          |
-      | First Name Add   | LonnieV       |
-      | Last Name Add    | Townsend      |
-      | Organization     | Smoke Org     |
-      | Country          | United States |
-      | Street           | Market St. 15 |
-      | City             | San Francisco |
-      | State            | California    |
-      | Zip/Postal Code  | 90001         |
-      | Billing          | true          |
-      | Shipping         | true          |
-      | Default Billing  | true          |
-      | Default Shipping | true          |
-    And save and close form
-    Then should see "Customer User has been saved" flash message
-    And email with Subject "Welcome: LonnieV Townsend" was not sent
+    And I remember "here" link from the email
+    When I follow remembered "here" link from the email
+    Then I should not see "404 Not Found"
+    And I should see "Enter the email address you used to log in, and we’ll send you a reset link."

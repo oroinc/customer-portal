@@ -10,6 +10,7 @@ use Extend\Entity\Autocomplete\OroCommerceMenuBundle_Entity_MenuUpdate;
 use Oro\Bundle\AttachmentBundle\Entity\File;
 use Oro\Bundle\CommerceMenuBundle\Entity\Repository\MenuUpdateRepository;
 use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\LocaleBundle\Entity\Localization;
@@ -108,6 +109,7 @@ class MenuUpdate implements
     public const MAX_TRAVERSE_LEVEL = 'max_traverse_level';
 
     #[ORM\Column(name: '`condition`', type: Types::STRING, length: 512, nullable: true)]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?string $condition = null;
 
     /**
@@ -119,6 +121,7 @@ class MenuUpdate implements
         cascade: ['ALL'],
         orphanRemoval: true
     )]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?Collection $menuUserAgentConditions = null;
 
     /**
@@ -129,9 +132,11 @@ class MenuUpdate implements
 
     #[ORM\ManyToOne(targetEntity: ContentNode::class, inversedBy: 'referencedMenuItems')]
     #[ORM\JoinColumn(name: 'content_node_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?ContentNode $contentNode = null;
 
     #[ORM\Column(name: 'system_page_route', type: Types::STRING, length: 255, nullable: true)]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?string $systemPageRoute = null;
 
     #[ORM\Column(
@@ -140,12 +145,15 @@ class MenuUpdate implements
         nullable: false,
         options: ['default' => MenuUpdate::LINK_TARGET_SAME_WINDOW]
     )]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected int $linkTarget = self::LINK_TARGET_SAME_WINDOW;
 
     #[ORM\Column(name: 'menu_template', type: Types::STRING, length: 255, nullable: true)]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?string $menuTemplate = null;
 
     #[ORM\Column(name: 'max_traverse_level', type: Types::SMALLINT, nullable: true)]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?int $maxTraverseLevel = null;
 
     public function __construct()

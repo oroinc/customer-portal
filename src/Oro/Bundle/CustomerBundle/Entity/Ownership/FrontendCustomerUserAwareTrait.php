@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Entity\Ownership;
 
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 
 /**
 * FrontendCustomerUserAware trait
@@ -15,6 +16,7 @@ trait FrontendCustomerUserAwareTrait
 
     #[ORM\ManyToOne(targetEntity: CustomerUser::class)]
     #[ORM\JoinColumn(name: 'customer_user_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?CustomerUser $customerUser = null;
 
     /**

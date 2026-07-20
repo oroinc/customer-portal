@@ -191,6 +191,7 @@ Feature: Category Menu Items
     And fill "Category Form" with:
       | Title | Category-1-1-1-1-changed-2 |
     And click "Save"
+    And click "Apply" in modal window
     Then I should see "Category has been saved" flash message
 
   Scenario: Check that the title of menu item does not follow the category title anymore

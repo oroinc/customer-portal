@@ -1,0 +1,21 @@
+Oro\Bundle\CustomerBundle\Entity\Customer:
+    searchCustomer:
+        name: 'Backoffice Search Customer'
+        organization: '@organization'
+        owner: '@admin'
+
+Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
+    searchCustomerAddress:
+        frontendOwner: '@searchCustomer'
+        country: '@united_states'
+        region: '@california'
+        owner: '@admin'
+        systemOrganization: '@organization'
+        primary: true
+        firstName: Test
+        lastName: Customer
+        label: 'Primary address'
+        street: '118 Northeast Drive'
+        city: 'Loveland'
+        postalCode: '80538'
+        organization: 'ORO'

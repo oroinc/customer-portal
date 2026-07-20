@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
 
 /**
  * The entity that stores login attempts of customer users.
@@ -26,28 +27,36 @@ class CustomerUserLoginAttempt
 {
     #[ORM\Column(name: 'id', type: Types::GUID)]
     #[ORM\Id]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     private ?string $id = null;
 
     #[ORM\Column(name: 'attempt_at', type: Types::DATETIME_MUTABLE)]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?\DateTime $attemptAt = null;
 
     #[ORM\Column(name: 'success', type: Types::BOOLEAN, nullable: false)]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     private ?bool $success = null;
 
     #[ORM\Column(name: 'source', type: Types::INTEGER, nullable: false)]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     private ?int $source = null;
 
     #[ORM\Column(name: 'username', type: Types::STRING, length: 255, nullable: true)]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     private ?string $username;
 
     #[ORM\ManyToOne(targetEntity: CustomerUser::class)]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     private ?CustomerUser $user;
 
     #[ORM\Column(name: 'ip', type: Types::STRING, length: 255, nullable: true)]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     private ?string $ip;
 
     #[ORM\Column(name: 'user_agent', type: Types::TEXT, nullable: true, options: ['default' => ''])]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     private ?string $userAgent;
 
     #[ORM\Column(name: 'context', type: Types::JSON, nullable: false)]

@@ -39,6 +39,7 @@ use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
             'organization_column_name' => 'system_org_id',
         ],
         'security' => ['type' => 'ACL', 'group_name' => 'commerce'],
+        'email' => ['available_in_template' => true],
     ]
 )]
 class CustomerUserAddress extends AbstractDefaultTypedAddress implements
@@ -52,7 +53,10 @@ class CustomerUserAddress extends AbstractDefaultTypedAddress implements
     #[ORM\Column(name: 'id', type: Types::INTEGER)]
     #[ORM\Id]
     #[ORM\GeneratedValue(strategy: 'AUTO')]
-    #[ConfigField(defaultValues: ['importexport' => ['header' => 'Address ID']])]
+    #[ConfigField(defaultValues: [
+        'importexport' => ['header' => 'Address ID'],
+        'email' => ['available_in_template' => true],
+    ])]
     protected ?int $id = null;
 
     /**
@@ -60,7 +64,10 @@ class CustomerUserAddress extends AbstractDefaultTypedAddress implements
      */
     #[ORM\ManyToOne(targetEntity: CustomerUser::class, inversedBy: 'addresses')]
     #[ORM\JoinColumn(name: 'frontend_owner_id', referencedColumnName: 'id', onDelete: 'CASCADE')]
-    #[ConfigField(defaultValues: ['importexport' => ['header' => 'Customer User', 'identity' => true]])]
+    #[ConfigField(defaultValues: [
+        'importexport' => ['header' => 'Customer User', 'identity' => true],
+        'email' => ['available_in_template' => true],
+    ])]
     protected $frontendOwner;
 
     /**
@@ -72,13 +79,18 @@ class CustomerUserAddress extends AbstractDefaultTypedAddress implements
         cascade: ['persist', 'remove', 'detach', 'refresh'],
         orphanRemoval: true
     )]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?Collection $types = null;
 
     #[ORM\Column(name: 'phone', type: Types::STRING, length: 255, nullable: true)]
-    #[ConfigField(defaultValues: ['entity' => ['contact_information' => 'phone']])]
+    #[ConfigField(defaultValues: [
+        'entity' => ['contact_information' => 'phone'],
+        'email' => ['available_in_template' => true],
+    ])]
     protected ?string $phone = null;
 
     #[ORM\Column(name: 'is_primary', type: Types::BOOLEAN, nullable: true)]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     protected ?bool $primary = null;
 
     public function __construct()

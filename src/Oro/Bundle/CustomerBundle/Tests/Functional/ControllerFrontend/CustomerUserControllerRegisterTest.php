@@ -116,7 +116,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         /** @var SymfonyEmail $emailMessage */
         $emailMessage = array_shift($emailMessages);
 
-        $this->assertWelcomeMessage($email, $emailMessage);
+        $this->assertWelcomeMessage($email, $emailMessage, false);
         self::assertStringNotContainsString(
             'Please follow the link below to create a password for your new account.',
             $emailMessage->getHtmlBody()

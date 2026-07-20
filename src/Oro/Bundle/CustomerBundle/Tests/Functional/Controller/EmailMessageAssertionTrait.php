@@ -15,7 +15,7 @@ trait EmailMessageAssertionTrait
 {
     use ConfigManagerAwareTestTrait;
 
-    protected function assertWelcomeMessage(string $email, RawMessage $welcomeMessage): void
+    protected function assertWelcomeMessage(string $email, RawMessage $welcomeMessage, bool $withToken = true): void
     {
         self::assertInstanceOf(SymfonyEmail::class, $welcomeMessage);
 
@@ -43,7 +43,7 @@ trait EmailMessageAssertionTrait
 
         $resetUrl = $this->getUrl(
             'oro_customer_frontend_customer_user_password_reset',
-            ['token' => $user->getConfirmationToken()]
+            $withToken ? ['token' => $user->getConfirmationToken()] : []
         );
         self::assertEmailHtmlBodyContains($welcomeMessage, htmlentities($resetUrl));
     }
