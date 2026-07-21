@@ -2,6 +2,14 @@ The upgrade instructions are available at [Oro documentation website](https://do
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
+## UNRELEASED
+
+### Added
+
+#### CustomerBundle
+* Added search configuration for the `Oro\Bundle\CustomerBundle\Entity\CustomerAddress`.
+* Added `Oro\Bundle\CustomerBundle\EventListener\RedirectCustomerAddressSearchToCustomerListener` listener that redirects `CustomerAddress` search results to the parent Customer view page (`oro_customer_customer_view`).
+
 ## Changes in the Customer Portal package versions
 
 - [7.0.0](#700-2026-03-31)
