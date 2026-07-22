@@ -45,14 +45,6 @@ services:
         tags:
             - { name: form.type, alias: oro_customer_customer_user_select }
 
-    oro_customer.form.type.frontend.customer_user_select:
-        class: 'Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserSelectType'
-        arguments:
-             - '@oro_security.acl_helper'
-             - '@doctrine'
-        tags:
-            - { name: form.type, alias: oro_customer_frontend_customer_user_select }
-
     oro_customer.form.type.customer_user_multiselect_type:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\CustomerUserMultiSelectType'
         tags:
@@ -306,11 +298,6 @@ services:
             - '@security.token_storage'
         tags:
             - { name: form.type, alias: oro_customer_visitor_email_address }
-
-    oro_customer.form.type.confirm_password:
-        class: 'Oro\Bundle\CustomerBundle\Form\Type\ConfirmPasswordType'
-        tags:
-            - { name: form.type }
 
     oro_customer.form.extension.preferred_localization_customer_user:
         class: Oro\Bundle\CustomerBundle\Form\Extension\PreferredLocalizationCustomerUserExtension
