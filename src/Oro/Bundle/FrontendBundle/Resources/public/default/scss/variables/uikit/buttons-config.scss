@@ -103,7 +103,7 @@ $btn-palette: (
         'active': (
             'background': get-var-color('primary', 'light'),
             'border-color': transparent,
-            'color': get-var-color('text', 'active')
+            'color': get-var-color('text', 'primary')
         ),
         'disabled': (
             'background': transparent,

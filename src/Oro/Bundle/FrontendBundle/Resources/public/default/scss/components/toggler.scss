@@ -1,5 +1,7 @@
 /* @theme: default; */
 
+@use 'sass:math';
+
 .toggle-container {
     display: flex;
     width: 100%;
@@ -73,7 +75,7 @@
                 left: 0;
                 width: 1px;
                 height: $toggle-divider-height;
-                margin-top: -($toggle-divider-height / 2);
+                margin-top: -(math.div($toggle-divider-height, 2));
                 background-color: $toggle-divider-color;
                 transition: opacity .2s ease-in-out;
             }

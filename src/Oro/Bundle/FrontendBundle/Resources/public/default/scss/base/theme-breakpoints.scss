@@ -1,7 +1,6 @@
 /* @theme: default; */
 
 @use 'sass:list';
-@use 'sass:string';
 
 $css-breakpoints: ();
 
@@ -33,5 +32,5 @@ $css-breakpoints: ();
 }
 
 :root {
-    --breakpoints: #{string.unquote('{#{$css-breakpoints}}')};
+    --breakpoints: '{#{$css-breakpoints}}';
 }
