@@ -11,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\CronBundle\Command\CronCommandScheduleDefinitionInterface;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Component\DoctrineUtils\ORM\QueryBuilderUtil;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -155,6 +156,9 @@ HELP
                 continue;
             }
 
+            QueryBuilderUtil::checkIdentifier($table);
+            QueryBuilderUtil::checkIdentifier($column);
+
             $selectQB->andWhere(sprintf(
                 'NOT EXISTS (SELECT 1 FROM %1$s WHERE %1$s.%2$s = cu.id)',
                 $table,
@@ -173,6 +177,9 @@ HELP
             if (!in_array($table, $existingTables, true)) {
                 continue;
             }
+
+            QueryBuilderUtil::checkIdentifier($table);
+            QueryBuilderUtil::checkIdentifier($column);
 
             $selectQB->andWhere(sprintf(
                 'NOT EXISTS (
