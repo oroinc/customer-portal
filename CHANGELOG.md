@@ -6,6 +6,9 @@ The current file describes significant changes in the code that may affect the u
 
 ### Added
 
+#### CustomerBundle
+* Added the `oro:cron:customer-user:clear-expired-guests` console command to clear expired guest customer users (and their customers) that have no related business records.
+
 #### FrontendBundle
 * Added theme `svg_icons_support` option into `\Oro\Bundle\FrontendBundle\Resources\views\layouts\default\theme.yml`.
   Add `svg_icons_support: true` to your `theme.yml` file to enable SVG icons in your theme if it is extended from Refreshing Teal theme.
