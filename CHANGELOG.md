@@ -9,6 +9,7 @@ The current file describes significant changes in the code that may affect the u
 #### CustomerBundle
 * Added search configuration for the `Oro\Bundle\CustomerBundle\Entity\CustomerAddress`.
 * Added `Oro\Bundle\CustomerBundle\EventListener\RedirectCustomerAddressSearchToCustomerListener` listener that redirects `CustomerAddress` search results to the parent Customer view page (`oro_customer_customer_view`).
+* Added `oro:cron:customer-user:clear-expired-guests` console command to clear expired guest customer users (and their customers) that have no related business records.
 
 ## Changes in the Customer Portal package versions
 
