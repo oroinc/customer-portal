@@ -46,6 +46,7 @@
     {% set customerUserInformationWidget %}
     {{ oro_widget_render({
         'widgetType': 'block',
+        'contentClasses': ['user-view-list-attributes'],
         'url': path('oro_customer_customer_user_info', {id: entity.id})
     }) }}
     {% endset %}
@@ -54,7 +55,7 @@
         {% if is_granted('oro_customer_customer_user_address_view') %}
             {{ oro_widget_render({
                 'widgetType': 'block',
-                'contentClasses': [],
+                'contentClasses': ['user-view-address-list'],
                 'url': path('oro_customer_customer_user_address_book', {id: entity.id}),
                 'title': 'oro.customer.customeruser.address_book.label'|trans
             }) }}

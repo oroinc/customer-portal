@@ -44,8 +44,10 @@
         {{ form_row(form.region, {label: 'oro.customer.customeraddress.region.label'}) }}
         {{ form_row(form.postalCode, {label: 'oro.customer.customeraddress.postal_code.label'}) }}
         {{ form_row(form.phone, {label: 'oro.customer.customeraddress.phone.label'}) }}
-        {{ form_row(form.types, {label: 'oro.customer.customeraddress.types.label'}) }}
-        {{ form_row(form.defaults, {label: 'oro.customer.customeraddress.defaults.label'}) }}
+        <div class="customer-address-types__wrapper">
+            {{ form_row(form.types, {label: 'oro.customer.customeraddress.types.label'}) }}
+            {{ form_row(form.defaults, {label: 'oro.customer.customeraddress.defaults.label'}) }}
+        </div>
         {{ form_rest(form) }}
     </div>
 {% endblock %}

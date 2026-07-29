@@ -61,5 +61,5 @@ Feature: Configuration search visibility of validation errors
 
     When uncheck "Use Organization" for "Secure URL" field
     And I type "" in "Secure URL"
-    And I click on empty space
+    And I click "Save settings"
     Then I should see "This value should not be blank"

@@ -76,7 +76,7 @@
     } %}
 
     {% set customerForm %}
-        <div class="control-group-container"
+        <div class="control-group-container responsive-list-with-divider--medium"
              data-page-component-module="orocustomer/js/app/components/customer-user-component"
              data-page-component-options="{{ customerFormOptions|json_encode }}">
             {{ form_row(form.customer) }}
@@ -115,7 +115,7 @@
         form_row(form.birthday)
     ]) %}
     {% if feature_enabled('customer_user_login_password') %}
-        {% set formRows = formRows|merge([form_widget(form.plainPassword, { 'attr': {'class': 'password control-group-container'} })]) %}
+        {% set formRows = formRows|merge([form_widget(form.plainPassword, { 'attr': {'class': 'password control-group-container responsive-list-with-divider--medium'} })]) %}
     {% endif %}
     {% set formRows = formRows|merge([
         customerForm,
