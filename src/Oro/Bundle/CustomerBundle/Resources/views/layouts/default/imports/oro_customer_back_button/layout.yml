@@ -11,6 +11,7 @@ layout:
                             labelClass: 'sr-only'
                         attr:
                             class: 'btn btn--neutral hide-on-print'
+                            data-page-component-view: 'oroui/js/app/views/go-back-view'
             tree:
                 __root:
                     __back_button: ~
