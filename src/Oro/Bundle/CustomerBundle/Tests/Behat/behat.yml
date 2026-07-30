@@ -32,6 +32,11 @@ oro_behat_extension:
         - '@OroCustomerBundle/Tests/Behat/Features'
 
   elements:
+    Customer User Role Cancel Button:
+      selector:
+        type: xpath
+        locator: '//button[contains(@class, "role-submit")]/preceding-sibling::a[contains(@class, "btn--outlined")]'
+
     Customer Login Form:
       selector: 'form[id="form-login"]'
       class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Form
