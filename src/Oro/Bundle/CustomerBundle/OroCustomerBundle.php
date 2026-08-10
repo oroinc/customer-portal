@@ -6,6 +6,7 @@ use Oro\Bundle\ApiBundle\DependencyInjection\Compiler\ProcessorBagCompilerPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\AddLoginFormToCaptchaProtectedPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\DataAuditEntityMappingPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\FrontendApiPass;
+use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\FrontendAutocompleteCompilerPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\LoginManagerPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Compiler\OwnerTreeListenerPass;
 use Oro\Bundle\CustomerBundle\DependencyInjection\Security\AnonymousCustomerUserFactory;
@@ -34,5 +35,6 @@ class OroCustomerBundle extends Bundle
         $extension = $container->getExtension('security');
         $extension->addAuthenticatorFactory(new AnonymousCustomerUserFactory());
         $extension->addAuthenticatorFactory(new ApiAnonymousCustomerUserFactory());
+        $container->addCompilerPass(new FrontendAutocompleteCompilerPass());
     }
 }
