@@ -110,6 +110,7 @@ services:
             - ['name']
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: oro_customer_customer, acl_resource: oro_customer_customer_view }
+            - { name: oro_customer.form.autocomplete.frontend_search_handler, alias: oro_customer_customer, acl_resource: oro_customer_frontend_customer_view }
 
     oro_customer_customer.form.autocomplete.customer_user.search_handler:
         parent: oro_form.autocomplete.search_handler
@@ -136,6 +137,7 @@ services:
             - ['firstname', 'lastname']
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType, acl_resource: oro_customer_customer_user_view }
+            - { name: oro_customer.form.autocomplete.frontend_search_handler, alias: Oro\Bundle\CustomerBundle\Form\Type\CustomerUserType, acl_resource: oro_customer_frontend_customer_user_view }
 
     oro_customer.frontend_form.autocomplete.customer_user_customer.search_handler:
         parent: oro_form.autocomplete.search_handler
@@ -144,7 +146,7 @@ services:
             - 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
             - ['firstname', 'lastname']
         tags:
-            - { name: oro_form.autocomplete.search_handler, alias: Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserType, acl_resource: oro_customer_frontend_customer_user_view }
+            - { name: oro_customer.form.autocomplete.frontend_search_handler, alias: Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserType, acl_resource: oro_customer_frontend_customer_user_view }
 
     oro_customer_customer.form.autocomplete.customer_user_role.search_handler:
         parent: oro_form.autocomplete.search_handler
@@ -1382,6 +1384,7 @@ services:
             - '@doctrine'
         tags:
             - { name: oro_form.autocomplete.search_handler, alias: oro_enabled_localization, acl_resource: oro_locale_localization_view }
+            - { name: oro_customer.form.autocomplete.frontend_search_handler, alias: oro_enabled_localization }
 
     oro_customer.logger.customer_user_login_attempt:
         class: Oro\Bundle\UserBundle\Security\UserLoginAttemptLogger
@@ -1619,3 +1622,18 @@ services:
             - '@oro_notification.manager.email_notification'
             - '@oro_customer_user.manager'
             - '@logger'
+
+    oro_customer.form.autocomplete.search_registry:
+        decorates: oro_form.autocomplete.search_registry
+        class: Oro\Bundle\CustomerBundle\Form\Autocomplete\FrontendSearchRegistry
+        arguments:
+            - '@.inner'
+            - '@oro_frontend.request.frontend_helper'
+
+    oro_customer.form.autocomplete.security:
+        decorates: oro_form.autocomplete.security
+        class: Oro\Bundle\CustomerBundle\Form\Autocomplete\FrontendAutocompleteSecurityChecker
+        arguments:
+            - '@.inner'
+            - '@oro_frontend.request.frontend_helper'
+            - '@security.authorization_checker'
