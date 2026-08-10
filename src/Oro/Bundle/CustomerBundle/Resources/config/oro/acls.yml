@@ -184,3 +184,9 @@ acls:
         type: entity
         class: Oro\Bundle\CustomerBundle\Entity\CustomerUserLoginAttempt
         permission: VIEW
+
+    oro_customer_frontend_customer_view:
+        type: entity
+        permission: VIEW
+        class: Oro\Bundle\CustomerBundle\Entity\Customer
+        group_name: "commerce"
