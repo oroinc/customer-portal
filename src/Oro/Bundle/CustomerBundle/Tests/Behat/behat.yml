@@ -109,6 +109,11 @@ oro_behat_extension:
       selector: '[id^="grid-customer-user-role-permission-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid
 
+    Customer User Permission Row:
+      selector:
+        type: xpath
+        locator: '//div[contains(@class, "entity-name") and normalize-space(.)="Customer User"]/ancestor::tr'
+
     Customer Users Grid:
       selector: '[id^="grid-frontend-customer-customer-user-grid"]'
       class: Oro\Bundle\FrontendBundle\Tests\Behat\Element\Grid

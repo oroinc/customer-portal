@@ -133,7 +133,7 @@
             {% set id = 'menu-update-edit' %}
             {% macro renderTargetTypeFields(form, targetTypeChoices) %}
                 {% import '@OroUI/macros.html.twig' as UI %}
-                <div data-role="target-fields" class="control-group-container" {{ UI.renderPageComponentAttributes({
+                <div data-role="target-fields" class="control-group-container target-fields" {{ UI.renderPageComponentAttributes({
                     'view': 'orocommercemenu/js/app/views/target-fields-view',
                     'options': {
                         'targetTypeField': form.targetType.vars.full_name,
@@ -144,8 +144,10 @@
                         'uriField': '[data-role="uri-field"]',
                     }
                 }) }}>
-                    {{ form_row(form.targetType, {choices: targetTypeChoices|default(form.targetType.vars.choices)}) }}
-                    <div data-role="content-node-field" {{ UI.renderPageComponentAttributes({
+                    <div class="target-choices-field">
+                        {{ form_row(form.targetType, {choices: targetTypeChoices|default(form.targetType.vars.choices)}) }}
+                    </div>
+                    <div data-role="content-node-field" class="control-group-container" {{ UI.renderPageComponentAttributes({
                         'view': 'orowebcatalog/js/app/views/content-node-from-webcatalog-view',
                         'options': {
                             'listenedFieldName': form.webCatalog.vars.full_name,
