@@ -91,6 +91,10 @@
     word-break: break-all;
 }
 
+.wrap-anywhere {
+    overflow-wrap: anywhere;
+}
+
 .no-transition {
     transition: none;
 }

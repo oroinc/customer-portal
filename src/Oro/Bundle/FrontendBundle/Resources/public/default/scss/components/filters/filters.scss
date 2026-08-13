@@ -236,7 +236,15 @@
     }
 
     .reset-filter {
+        --focus-visible-outline-offset: -8px;
+
+        // Squares the control so the focus ring is a circle. $filter-reset-size must stay
+        // equal to the intrinsic width (icon + horizontal padding); widening it instead
+        // would grow every hint chip and shift the responsive collapse.
+        min-height: $filter-reset-size;
+        height: $filter-reset-size;
         border: 0;
+        border-radius: 50%;
         color: $filter-reset-color;
 
         @include element-state('hover') {
