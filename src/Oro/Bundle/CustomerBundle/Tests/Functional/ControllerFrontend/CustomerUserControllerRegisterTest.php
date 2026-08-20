@@ -384,6 +384,9 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         $this->client->followRedirects(false);
         $this->client->submit($form, $submittedData);
 
+        self::flushMessagesBuffer();
+        self::consume();
+
         $emailMessages = self::getMailerMessages();
         self::assertCount(1, $emailMessages);
 

@@ -8,3 +8,4 @@ services:
 
     Oro\Bundle\CustomerBundle\Async\Topic\CustomerCalculateOwnerTreeCacheTopic: ~
     Oro\Bundle\CustomerBundle\Async\Topic\CustomerCalculateOwnerTreeCacheByBusinessUnitTopic: ~
+    Oro\Bundle\CustomerBundle\Async\Topic\CustomerUserPasswordResetRequestTopic: ~
