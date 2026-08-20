@@ -45,9 +45,15 @@ The current file describes significant changes in the code that may affect the u
 * Added the back-office search configuration for `Oro\Bundle\CustomerBundle\Entity\CustomerAddress` (search alias `oro_customer_customer_address`) together with the `@OroCustomer/CustomerAddress/searchResult.html.twig` template. The same registration was previously provided by `OroOrderRecognitionBundle` (`ai-smart-order`); its `search.yml` was removed and its template is kept only for backward compatibility.
 * Added `Oro\Bundle\CustomerBundle\EventListener\RedirectCustomerAddressSearchToCustomerListener` that redirects a customer address back-office search result to the related customer view page.
 * Added the `oro:cron:customer-user:clear-expired-guests` console command to clear expired guest customer users (and their customers) that have no related business records.
+* Added `Oro\Bundle\CustomerBundle\Async\Topic\CustomerUserPasswordResetRequestTopic` (`oro.customer.customer_user_password_reset_request`) and `Oro\Bundle\CustomerBundle\Async\CustomerUserPasswordResetRequestProcessor` that process the forgot password requests submitted in the storefront. The message carries the id of the website the form was submitted on and the id of the localization the storefront was switched to, so that the processor restores this context and, therefore, resolves the customer user and sends the email in the same way as it is done within the request.
+* Added `Oro\Bundle\CustomerBundle\Async\PasswordResetRequestContext` that holds the context of the request a forgot password form was submitted in while the reset password email is being sent by a message queue consumer, and `Oro\Bundle\CustomerBundle\EventListener\PasswordResetRequestEmailTemplateContextListener` that applies the localization from this context to the email template criteria context.
 
 ### Changed
 * Updated `\Oro\Bundle\FrontendAttachmentBundle\Provider\FileUrlProvider` to support an API URL resolver for dynamic reference type handling.
+
+#### CustomerBundle
+* Changed `Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler` so it extends `Oro\Bundle\UserBundle\Form\Handler\AbstractPasswordResetRequestHandler` and only schedules the processing of the submitted email instead of resolving the customer user account and sending the reset password email within the request. Its constructor is kept as is for backward compatibility, but `$userManager` and `$translator` are not used anymore; the message producer, the user logging info provider, the website manager and the user localization manager are injected with the `setMessageProducer()`, `setUserLoggingInfoProvider()`, `setWebsiteManager()` and `setUserLocalizationManager()` methods.
+* Changed the forgot password form so it does not show the "Unable to send email" error anymore: email sending failures are written to the log by the consumer.
 
 ### Removed
 
