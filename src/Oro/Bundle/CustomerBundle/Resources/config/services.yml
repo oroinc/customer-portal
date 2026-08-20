@@ -370,6 +370,23 @@ services:
             - "@oro_customer_user.manager"
             - "@translator"
             - "@logger"
+        calls:
+            - [setMessageProducer, ['@oro_message_queue.client.message_producer']]
+            - [setUserLoggingInfoProvider, ['@oro_user.provider.user_logging_info_provider']]
+            - [setWebsiteManager, ['@oro_website.manager']]
+            - [setUserLocalizationManager, ['@oro_frontend_localization.manager.user_localization']]
+            - [setEventDispatcher, ['@event_dispatcher']]
+
+    oro_customer.async.password_reset_request_context:
+        class: Oro\Bundle\CustomerBundle\Async\PasswordResetRequestContext
+
+    oro_customer.provider.password_reset_request_preferred_localization_provider:
+        class: Oro\Bundle\CustomerBundle\Provider\PasswordResetRequestPreferredLocalizationProvider
+        arguments:
+            - '@oro_customer.async.password_reset_request_context'
+        tags:
+            # Must be called before the providers that resolve the preferred localization of a customer user
+            - { name: oro_locale.preferred_localization_provider, priority: 100 }
 
     oro_customer.customer_user.password_reset.handler:
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler'

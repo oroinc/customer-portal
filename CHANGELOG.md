@@ -23,7 +23,18 @@ The current file describes significant changes in the code that may affect the u
 
 ## UNRELEASED
 
+### Added
+
+#### CustomerBundle
+* Added `Oro\Bundle\CustomerBundle\Async\Topic\CustomerUserPasswordResetRequestTopic` (`oro.customer.customer_user_password_reset_request`) and `Oro\Bundle\CustomerBundle\Async\CustomerUserPasswordResetRequestProcessor` that process the forgot password requests submitted in the storefront. The message carries the id of the website the form was submitted on and the id of the localization the storefront was switched to, so that the processor restores this context and, therefore, resolves the customer user and sends the email in the same way as it is done within the request.
+* Added `Oro\Bundle\CustomerBundle\Async\PasswordResetRequestContext` that holds the context of the request a forgot password form was submitted in while the reset password email is being sent by a message queue consumer, and `Oro\Bundle\CustomerBundle\Provider\PasswordResetRequestPreferredLocalizationProvider` that applies the localization from this context to the reset password email.
+* Added `Oro\Bundle\CustomerBundle\Event\PasswordResetRequestContextCollectEvent` that is dispatched when a forgot password form is submitted in the storefront to collect the parameters of the request that must stay available while the reset password email is being sent by a message queue consumer. The collected parameters are sent within the message body (the `requestParameters` option of `Oro\Bundle\CustomerBundle\Async\Topic\CustomerUserPasswordResetRequestTopic`) and are available from `PasswordResetRequestContext::getRequestParameter()` while the email is being sent.
+
 ### Changed
+
+#### CustomerBundle
+* Changed `Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler` so it extends `Oro\Bundle\UserBundle\Form\Handler\AbstractPasswordResetRequestHandler` and only schedules the processing of the submitted email instead of resolving the customer user account and sending the reset password email within the request. Its constructor is kept as is for backward compatibility, but `$userManager` and `$translator` are not used anymore; the message producer, the user logging info provider, the website manager, the user localization manager and the event dispatcher are injected with the `setMessageProducer()`, `setUserLoggingInfoProvider()`, `setWebsiteManager()`, `setUserLocalizationManager()` and `setEventDispatcher()` methods. This way the forgot password form does the same amount of work for every submitted email, so the response time no longer discloses whether the email belongs to an existing account. A message queue consumer must be running for the reset password emails to be sent.
+* Changed the forgot password form so it does not show the "Unable to send email" error anymore: email sending failures are written to the log by the consumer.
 
 #### FrontendBundle
 * Widget `oro/frontend-dialog-widget` was renamed to `oro/dialog-widget`, so you have to use `oro/dialog-widget` in your customization. 

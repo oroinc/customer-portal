@@ -320,10 +320,21 @@ class CustomerUserManagerTest extends \PHPUnit\Framework\TestCase
     public function testSendResetPasswordEmail(): void
     {
         $user = new CustomerUser();
+
+        $this->em->expects(self::once())
+            ->method('persist')
+            ->with(self::identicalTo($user));
+        $this->em->expects(self::once())
+            ->method('flush');
+
         $this->emailProcessor->expects(self::once())
             ->method('sendResetPasswordEmail')
-            ->with($user);
+            ->with(self::identicalTo($user));
+
         $this->userManager->sendResetPasswordEmail($user);
+
+        self::assertNotEmpty($user->getConfirmationToken());
+        self::assertNotNull($user->getPasswordRequestedAt());
     }
 
     /**

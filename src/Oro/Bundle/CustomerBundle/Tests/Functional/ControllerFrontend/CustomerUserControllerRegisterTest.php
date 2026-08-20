@@ -6,6 +6,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Tests\Functional\Controller\EmailMessageAssertionTrait;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadUserAndGuestWithSameUsername;
+use Oro\Bundle\MessageQueueBundle\Test\Functional\MessageQueueExtension;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\Mime\Email as SymfonyEmail;
@@ -13,6 +14,7 @@ use Symfony\Component\Mime\Email as SymfonyEmail;
 class CustomerUserControllerRegisterTest extends WebTestCase
 {
     use EmailMessageAssertionTrait;
+    use MessageQueueExtension;
 
     private const EMAIL = 'john.doe@example.com';
     private const PASSWORD = '123456';
@@ -352,6 +354,9 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $this->client->followRedirects(false);
         $this->client->submit($form, $submittedData);
+
+        self::flushMessagesBuffer();
+        self::consume();
 
         $emailMessages = self::getMailerMessages();
         self::assertCount(1, $emailMessages);
