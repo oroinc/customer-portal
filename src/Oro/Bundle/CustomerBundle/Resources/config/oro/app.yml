@@ -104,3 +104,9 @@ oro_frontend:
         Oro\Bundle\CustomerBundle\Entity\CustomerUser:
             index: oro_customer_frontend_customer_user_index
             view: oro_customer_frontend_customer_user_view
+
+oro_data_audit:
+    # This bundle contributes the customer and customer group configuration scopes.
+    configuration_level_entities:
+        customer: Oro\Bundle\CustomerBundle\Entity\Customer
+        customer_group: Oro\Bundle\CustomerBundle\Entity\CustomerGroup
