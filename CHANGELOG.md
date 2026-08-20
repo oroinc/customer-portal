@@ -20,9 +20,15 @@ The current file describes significant changes in the code that may affect the u
 #### CustomerBundle
 * Added the back-office search configuration for `Oro\Bundle\CustomerBundle\Entity\CustomerAddress` (search alias `oro_customer_customer_address`) together with the `@OroCustomer/CustomerAddress/searchResult.html.twig` template. The same registration was previously provided by `OroOrderRecognitionBundle` (`ai-smart-order`); its `search.yml` was removed and its template is kept only for backward compatibility.
 * Added `Oro\Bundle\CustomerBundle\EventListener\RedirectCustomerAddressSearchToCustomerListener` that redirects a customer address back-office search result to the related customer view page.
+* Added `Oro\Bundle\CustomerBundle\Async\Topic\CustomerUserPasswordResetRequestTopic` (`oro.customer.customer_user_password_reset_request`) and `Oro\Bundle\CustomerBundle\Async\CustomerUserPasswordResetRequestProcessor` that process the forgot password requests submitted in the storefront. The message carries the id of the website the form was submitted on and the id of the localization the storefront was switched to, so that the processor restores this context and, therefore, resolves the customer user and sends the email in the same way as it is done within the request.
+* Added `Oro\Bundle\CustomerBundle\Async\PasswordResetRequestContext` that holds the context of the request a forgot password form was submitted in while the reset password email is being sent by a message queue consumer, and `Oro\Bundle\CustomerBundle\EventListener\PasswordResetRequestEmailTemplateContextListener` that applies the localization from this context to the email template criteria context.
 
 ### Changed
 * Replaced all places in code that used old system configuration options on theme configuration options.
+
+#### CustomerBundle
+* Changed `Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler` so it extends `Oro\Bundle\UserBundle\Form\Handler\AbstractPasswordResetRequestHandler` and only schedules the processing of the submitted email instead of resolving the customer user account and sending the reset password email within the request. Its constructor is kept as is for backward compatibility, but `$userManager` and `$translator` are not used anymore; the message producer, the user logging info provider, the website manager, the user localization manager and the event dispatcher are injected with the `setMessageProducer()`, `setUserLoggingInfoProvider()`, `setWebsiteManager()`, `setUserLocalizationManager()` and `setEventDispatcher()` methods.
+* Changed the forgot password form so it does not show the "Unable to send email" error anymore: email sending failures are written to the log by the consumer.
 
 ## Changes in the Customer Portal package versions
 

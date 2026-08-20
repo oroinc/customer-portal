@@ -1,86 +1,107 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Async\Topic\CustomerUserPasswordResetRequestTopic;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use Oro\Bundle\CustomerBundle\Event\PasswordResetRequestContextCollectEvent;
+use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManagerInterface;
+use Oro\Bundle\UserBundle\Form\Handler\AbstractPasswordResetRequestHandler;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Form\FormError;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Handles forgot password request.
+ * Handles forgot password request submitted in the storefront.
  */
-class CustomerUserPasswordRequestHandler
+class CustomerUserPasswordRequestHandler extends AbstractPasswordResetRequestHandler
 {
-    /** @var CustomerUserManager */
-    private $userManager;
-
-    /** @var TranslatorInterface */
-    private $translator;
-
-    /** @var LoggerInterface */
-    private $logger;
+    private CustomerUserManager $userManager;
+    private TranslatorInterface $translator;
+    private WebsiteManager $websiteManager;
+    private UserLocalizationManagerInterface $userLocalizationManager;
+    private ?EventDispatcherInterface $eventDispatcher = null;
 
     public function __construct(
         CustomerUserManager $userManager,
         TranslatorInterface $translator,
         LoggerInterface $logger
     ) {
+        parent::__construct($logger);
+
         $this->userManager = $userManager;
         $this->translator = $translator;
-        $this->logger = $logger;
     }
 
-    /**
-     * @param FormInterface $form
-     * @param Request       $request
-     *
-     * @return string|null The requested email address for the reset password message
-     */
+    public function setWebsiteManager(WebsiteManager $websiteManager): self
+    {
+        $this->websiteManager = $websiteManager;
+
+        return $this;
+    }
+
+    public function setUserLocalizationManager(UserLocalizationManagerInterface $userLocalizationManager): self
+    {
+        $this->userLocalizationManager = $userLocalizationManager;
+
+        return $this;
+    }
+
+    public function setEventDispatcher(EventDispatcherInterface $eventDispatcher): self
+    {
+        $this->eventDispatcher = $eventDispatcher;
+
+        return $this;
+    }
+
+    #[\Override]
     public function process(FormInterface $form, Request $request)
     {
-        $result = null;
-        if ($request->isMethod('POST')) {
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $email = $form->get('email')->getData();
-
-                /** @var CustomerUser|null $user */
-                $user = $this->userManager->findUserByUsernameOrEmail($email);
-                if ($user) {
-                    if ($this->sendResetPasswordEmail($user, $email)) {
-                        $this->userManager->updateUser($user);
-                        $result = $email;
-                    } else {
-                        $form->addError(
-                            new FormError($this->translator->trans('oro.email.handler.unable_to_send_email'))
-                        );
-                    }
-                } else {
-                    $result = $email;
-                }
-            }
-        }
-
-        return $result;
+        return parent::process($form, $request);
     }
 
-    private function sendResetPasswordEmail(CustomerUser $user, string $email): bool
+    #[\Override]
+    protected function getFieldName(): string
     {
-        $result = true;
-        try {
-            $this->userManager->sendResetPasswordEmail($user);
-        } catch (\Exception $e) {
-            $result = false;
-            $this->logger->error(
-                'Unable to sent the reset password email.',
-                ['email' => $email, 'exception' => $e]
-            );
+        return 'email';
+    }
+
+    #[\Override]
+    protected function getTopicName(): string
+    {
+        return CustomerUserPasswordResetRequestTopic::getName();
+    }
+
+    #[\Override]
+    protected function createMessageBody(string $userIdentifier, Request $request): array
+    {
+        $messageBody = parent::createMessageBody($userIdentifier, $request);
+        $messageBody[CustomerUserPasswordResetRequestTopic::WEBSITE_ID] = $this->websiteManager
+            ->getCurrentWebsite()
+            ?->getId();
+        $messageBody[CustomerUserPasswordResetRequestTopic::LOCALIZATION_ID] = $this->userLocalizationManager
+            ->getCurrentLocalization()
+            ?->getId();
+        $messageBody[CustomerUserPasswordResetRequestTopic::REQUEST_PARAMETERS] = $this
+            ->collectRequestParameters($request);
+
+        return $messageBody;
+    }
+
+    private function collectRequestParameters(Request $request): array
+    {
+        if (null === $this->eventDispatcher) {
+            return [];
         }
 
-        return $result;
+        $event = new PasswordResetRequestContextCollectEvent($request);
+        $this->eventDispatcher->dispatch($event);
+
+        return $event->getRequestParameters();
     }
 }
