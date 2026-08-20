@@ -358,9 +358,22 @@ services:
     oro_customer.customer_user.password_request.handler:
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler'
         arguments:
-            - "@oro_customer_user.manager"
-            - "@translator"
-            - "@logger"
+            - '@oro_message_queue.client.message_producer'
+            - '@oro_user.provider.user_logging_info_provider'
+            - '@logger'
+            - '@oro_website.manager'
+            - '@oro_frontend_localization.manager.user_localization'
+
+    oro_customer.async.password_reset_request_context:
+        class: Oro\Bundle\CustomerBundle\Async\PasswordResetRequestContext
+
+    oro_customer.event_listener.password_reset_request_email_template_context:
+        class: Oro\Bundle\CustomerBundle\EventListener\PasswordResetRequestEmailTemplateContextListener
+        arguments:
+            - '@oro_customer.async.password_reset_request_context'
+        tags:
+            # Must be processed before the listener that resolves the preferred localization of a recipient
+            - { name: kernel.event_listener, event: Oro\Bundle\EmailBundle\Event\EmailTemplateContextCollectEvent, method: onContextCollect, priority: 10 }
 
     oro_customer.customer_user.password_reset.handler:
         class: 'Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordResetHandler'

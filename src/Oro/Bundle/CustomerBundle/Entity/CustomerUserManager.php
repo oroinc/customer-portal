@@ -167,8 +167,10 @@ class CustomerUserManager extends BaseUserManager
     public function sendResetPasswordEmail(CustomerUser $user): void
     {
         $user->setConfirmationToken($user->generateToken());
-        $this->getEmailProcessor()->sendResetPasswordEmail($user);
         $user->setPasswordRequestedAt(new \DateTime('now', new \DateTimeZone('UTC')));
+        $this->updateUser($user);
+
+        $this->getEmailProcessor()->sendResetPasswordEmail($user);
     }
 
     #[\Override]

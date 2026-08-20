@@ -16,9 +16,15 @@ The current file describes significant changes in the code that may affect the u
 #### CustomerBundle
 * Added search configuration for the `Oro\Bundle\CustomerBundle\Entity\CustomerAddress`.
 * Added `Oro\Bundle\CustomerBundle\EventListener\RedirectCustomerAddressSearchToCustomerListener` listener that redirects `CustomerAddress` search results to the parent Customer view page (`oro_customer_customer_view`).
+* Added `Oro\Bundle\CustomerBundle\Async\Topic\CustomerUserPasswordResetRequestTopic` (`oro.customer.customer_user_password_reset_request`) and `Oro\Bundle\CustomerBundle\Async\CustomerUserPasswordResetRequestProcessor` that process the forgot password requests submitted in the storefront. The message carries the id of the website the form was submitted on and the id of the localization the storefront was switched to, so that the processor restores this context and, therefore, resolves the customer user and sends the email in the same way as it is done within the request.
+* Added `Oro\Bundle\CustomerBundle\Async\PasswordResetRequestContext` that holds the context of the request a forgot password form was submitted in while the reset password email is being sent by a message queue consumer, and `Oro\Bundle\CustomerBundle\EventListener\PasswordResetRequestEmailTemplateContextListener` that applies the localization from this context to the email template criteria context.
 
 ### Changed
 * Updated `\Oro\Bundle\FrontendAttachmentBundle\Provider\FileUrlProvider` to support an API URL resolver for dynamic reference type handling.
+
+#### CustomerBundle
+* Changed `Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler` so it extends `Oro\Bundle\UserBundle\Form\Handler\AbstractPasswordResetRequestHandler` and only schedules the processing of the submitted email instead of resolving the customer user account and sending the reset password email within the request. Its constructor accepts `Oro\Component\MessageQueue\Client\MessageProducerInterface`, `Oro\Bundle\UserBundle\Provider\UserLoggingInfoProviderInterface` and `Psr\Log\LoggerInterface` now. This way the forgot password form does the same amount of work for every submitted email, so the response time no longer discloses whether the email belongs to an existing account. A message queue consumer must be running for the reset password emails to be sent.
+* Changed the forgot password form so it does not show the "Unable to send email" error anymore: email sending failures are written to the log by the consumer.
 
 ## Changes in the Customer Portal package versions
 

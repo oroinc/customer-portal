@@ -313,10 +313,21 @@ class CustomerUserManagerTest extends TestCase
     {
         $user = new CustomerUser();
         $user->setUserIdentifier('test');
+
+        $this->em->expects(self::once())
+            ->method('persist')
+            ->with(self::identicalTo($user));
+        $this->em->expects(self::once())
+            ->method('flush');
+
         $this->emailProcessor->expects(self::once())
             ->method('sendResetPasswordEmail')
-            ->with($user);
+            ->with(self::identicalTo($user));
+
         $this->userManager->sendResetPasswordEmail($user);
+
+        self::assertNotEmpty($user->getConfirmationToken());
+        self::assertNotNull($user->getPasswordRequestedAt());
     }
 
     /**

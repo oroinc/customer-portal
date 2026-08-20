@@ -1,23 +1,35 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Form\Handler;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
-use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use Oro\Bundle\CustomerBundle\Async\Topic\CustomerUserPasswordResetRequestTopic;
 use Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler;
+use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManagerInterface;
+use Oro\Bundle\LocaleBundle\Entity\Localization;
+use Oro\Bundle\MessageQueueBundle\Test\Unit\MessageQueueExtension;
+use Oro\Bundle\UserBundle\Provider\UserLoggingInfoProviderInterface;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
+use Oro\Component\Testing\ReflectionUtil;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CustomerUserPasswordRequestHandlerTest extends TestCase
 {
-    private CustomerUserManager&MockObject $userManager;
-    private TranslatorInterface&MockObject $translator;
+    use MessageQueueExtension;
+
+    private const WEBSITE_ID = 42;
+    private const LOCALIZATION_ID = 4242;
+
+    private UserLoggingInfoProviderInterface&MockObject $userLoggingInfoProvider;
     private LoggerInterface&MockObject $logger;
+    private WebsiteManager&MockObject $websiteManager;
+    private UserLocalizationManagerInterface&MockObject $userLocalizationManager;
     private FormInterface&MockObject $form;
     private Request&MockObject $request;
     private CustomerUserPasswordRequestHandler $handler;
@@ -25,133 +37,173 @@ class CustomerUserPasswordRequestHandlerTest extends TestCase
     #[\Override]
     protected function setUp(): void
     {
-        $this->userManager = $this->createMock(CustomerUserManager::class);
-        $this->translator = $this->createMock(TranslatorInterface::class);
+        $this->userLoggingInfoProvider = $this->createMock(UserLoggingInfoProviderInterface::class);
         $this->logger = $this->createMock(LoggerInterface::class);
+        $this->websiteManager = $this->createMock(WebsiteManager::class);
+        $this->userLocalizationManager = $this->createMock(UserLocalizationManagerInterface::class);
 
         $this->handler = new CustomerUserPasswordRequestHandler(
-            $this->userManager,
-            $this->translator,
-            $this->logger
+            self::getMessageProducer(),
+            $this->userLoggingInfoProvider,
+            $this->logger,
+            $this->websiteManager,
+            $this->userLocalizationManager
         );
 
         $this->form = $this->createMock(FormInterface::class);
         $this->request = $this->createMock(Request::class);
     }
 
-    public function testProcessInvalidUser(): void
+    public function testProcessWithGetRequest(): void
     {
-        $email = 'test@test.com';
+        $this->request->expects(self::once())
+            ->method('isMethod')
+            ->with(Request::METHOD_POST)
+            ->willReturn(false);
 
-        $this->assertValidFormCall($email);
+        $this->form->expects(self::never())
+            ->method('handleRequest');
 
-        $this->userManager->expects($this->once())
-            ->method('findUserByUsernameOrEmail')
-            ->with($email)
-            ->willReturn(null);
-
-        $this->userManager->expects($this->never())
-            ->method('sendResetPasswordEmail');
-        $this->userManager->expects($this->never())
-            ->method('updateUser');
-
-        $this->assertEquals($email, $this->handler->process($this->form, $this->request));
+        self::assertNull($this->handler->process($this->form, $this->request));
+        self::assertMessagesEmpty(CustomerUserPasswordResetRequestTopic::getName());
     }
 
-    public function testProcessEmailSendFail(): void
+    public function testProcessWithNotSubmittedForm(): void
     {
-        $email = 'test@test.com';
-        $exception = new \Exception();
+        $this->request->expects(self::once())
+            ->method('isMethod')
+            ->with(Request::METHOD_POST)
+            ->willReturn(true);
 
-        $user = $this->createMock(CustomerUser::class);
+        $this->form->expects(self::once())
+            ->method('handleRequest')
+            ->with($this->request);
 
+        $this->form->expects(self::once())
+            ->method('isSubmitted')
+            ->willReturn(false);
+
+        self::assertNull($this->handler->process($this->form, $this->request));
+        self::assertMessagesEmpty(CustomerUserPasswordResetRequestTopic::getName());
+    }
+
+    public function testProcessWithInvalidForm(): void
+    {
+        $this->request->expects(self::once())
+            ->method('isMethod')
+            ->with(Request::METHOD_POST)
+            ->willReturn(true);
+
+        $this->form->expects(self::once())
+            ->method('handleRequest')
+            ->with($this->request);
+
+        $this->form->expects(self::once())
+            ->method('isSubmitted')
+            ->willReturn(true);
+
+        $this->form->expects(self::once())
+            ->method('isValid')
+            ->willReturn(false);
+
+        self::assertNull($this->handler->process($this->form, $this->request));
+        self::assertMessagesEmpty(CustomerUserPasswordResetRequestTopic::getName());
+    }
+
+    /**
+     * @dataProvider submittedEmailDataProvider
+     */
+    public function testProcessSchedulesProcessingOfSubmittedEmail(string $email): void
+    {
         $this->assertValidFormCall($email);
 
-        $this->userManager->expects($this->once())
-            ->method('findUserByUsernameOrEmail')
+        $website = new Website();
+        ReflectionUtil::setId($website, self::WEBSITE_ID);
+        $this->websiteManager->expects(self::once())
+            ->method('getCurrentWebsite')
+            ->willReturn($website);
+
+        $localization = new Localization();
+        ReflectionUtil::setId($localization, self::LOCALIZATION_ID);
+        $this->userLocalizationManager->expects(self::once())
+            ->method('getCurrentLocalization')
+            ->willReturn($localization);
+
+        $this->userLoggingInfoProvider->expects(self::once())
+            ->method('getUserLoggingInfo')
             ->with($email)
-            ->willReturn($user);
+            ->willReturn(['username' => $email, 'ipaddress' => '127.0.0.1']);
 
-        $this->userManager->expects($this->once())
-            ->method('sendResetPasswordEmail')
-            ->with($user)
-            ->willThrowException($exception);
-
-        $this->assertFormErrorAdded(
-            $this->form,
-            'oro.email.handler.unable_to_send_email'
-        );
-        $this->logger->expects($this->once())
-            ->method('error')
+        $this->logger->expects(self::once())
+            ->method('notice')
             ->with(
-                'Unable to sent the reset password email.',
-                ['email' => $email, 'exception' => $exception]
+                'Reset password email has been requested.',
+                ['username' => $email, 'ipaddress' => '127.0.0.1']
             );
 
-        $this->assertNull($this->handler->process($this->form, $this->request));
+        self::assertEquals($email, $this->handler->process($this->form, $this->request));
+        self::assertMessageSent(
+            CustomerUserPasswordResetRequestTopic::getName(),
+            [
+                CustomerUserPasswordResetRequestTopic::USER_IDENTIFIER => $email,
+                CustomerUserPasswordResetRequestTopic::WEBSITE_ID => self::WEBSITE_ID,
+                CustomerUserPasswordResetRequestTopic::LOCALIZATION_ID => self::LOCALIZATION_ID,
+            ]
+        );
     }
 
-    public function testProcess(): void
+    public function submittedEmailDataProvider(): array
     {
-        $email = 'test@test.com';
+        return [
+            'existing customer user' => ['email' => 'existing@example.com'],
+            'non-existing customer user' => ['email' => 'nonexisting@example.com'],
+        ];
+    }
 
-        $user = $this->createMock(CustomerUser::class);
-
+    public function testProcessWhenNoCurrentWebsiteAndLocalization(): void
+    {
+        $email = 'test@example.com';
         $this->assertValidFormCall($email);
 
-        $this->userManager->expects($this->once())
-            ->method('findUserByUsernameOrEmail')
-            ->with($email)
-            ->willReturn($user);
+        $this->websiteManager->expects(self::once())
+            ->method('getCurrentWebsite')
+            ->willReturn(null);
 
-        $this->userManager->expects($this->once())
-            ->method('sendResetPasswordEmail')
-            ->with($user);
+        $this->userLocalizationManager->expects(self::once())
+            ->method('getCurrentLocalization')
+            ->willReturn(null);
 
-        $this->userManager->expects($this->once())
-            ->method('updateUser')
-            ->with($user);
-
-        $this->assertEquals($email, $this->handler->process($this->form, $this->request));
-    }
-
-    public function assertFormErrorAdded(FormInterface&MockObject $form, string $message): void
-    {
-        $this->translator->expects($this->once())
-            ->method('trans')
-            ->with($message)
-            ->willReturn($message);
-
-        $form->expects($this->once())
-            ->method('addError')
-            ->with(new FormError($message));
+        self::assertEquals($email, $this->handler->process($this->form, $this->request));
+        self::assertMessageSent(
+            CustomerUserPasswordResetRequestTopic::getName(),
+            [
+                CustomerUserPasswordResetRequestTopic::USER_IDENTIFIER => $email,
+                CustomerUserPasswordResetRequestTopic::WEBSITE_ID => null,
+                CustomerUserPasswordResetRequestTopic::LOCALIZATION_ID => null,
+            ]
+        );
     }
 
     private function assertValidFormCall(string $email): void
     {
-        $this->request->expects($this->once())
+        $this->request->expects(self::once())
             ->method('isMethod')
-            ->with('POST')
+            ->with(Request::METHOD_POST)
             ->willReturn(true);
 
-        $this->form->expects($this->once())
+        $this->form->expects(self::once())
             ->method('handleRequest')
             ->with($this->request);
-        $this->form->expects($this->once())
+        $this->form->expects(self::once())
             ->method('isSubmitted')
             ->willReturn(true);
-        $this->form->expects($this->once())
+        $this->form->expects(self::once())
             ->method('isValid')
             ->willReturn(true);
 
-        $emailSubform = $this->createMock(FormInterface::class);
-        $emailSubform->expects($this->once())
-            ->method('getData')
-            ->willReturn($email);
-
-        $this->form->expects($this->once())
+        $this->form->expects(self::once())
             ->method('get')
             ->with('email')
-            ->willReturn($emailSubform);
+            ->willReturn($this->createConfiguredMock(FormInterface::class, ['getData' => $email]));
     }
 }
