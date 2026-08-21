@@ -102,3 +102,9 @@ oro_entity:
         Oro\Bundle\CustomerBundle\Entity\CustomerUserRole:
             full: [ label ]
             short: [ label ]
+
+oro_data_audit:
+    # This bundle contributes the customer and customer group configuration scopes.
+    configuration_level_entities:
+        customer: Oro\Bundle\CustomerBundle\Entity\Customer
+        customer_group: Oro\Bundle\CustomerBundle\Entity\CustomerGroup
