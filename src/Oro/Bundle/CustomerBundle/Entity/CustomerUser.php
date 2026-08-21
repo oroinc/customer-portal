@@ -65,6 +65,7 @@ use Symfony\Component\Security\Core\User\UserInterface as SymfonyUserInterface;
         'dataaudit' => ['auditable' => true],
         'grid' => ['context' => 'customer-customer-user-select-grid'],
         'email' => ['available_in_template' => true],
+        'integration' => ['webhook_accessible' => true],
     ]
 )]
 class CustomerUser extends AbstractUser implements

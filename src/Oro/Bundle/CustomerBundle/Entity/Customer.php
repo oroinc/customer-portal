@@ -64,6 +64,7 @@ use Oro\Bundle\UserBundle\Entity\User;
         ],
         'dataaudit' => ['auditable' => true],
         'email' => ['available_in_template' => true],
+        'integration' => ['webhook_accessible' => true],
     ]
 )]
 class Customer implements DatesAwareInterface, ExtendEntityInterface
