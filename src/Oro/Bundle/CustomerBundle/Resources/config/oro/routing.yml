@@ -734,20 +734,6 @@ oro_api_frontend_country_get_regions:
     options:
         frontend: true
 
-oro_api_frontend_patch_entity_data:
-    path: '/api/rest/{version}/entity_data/{className}/{id}.{_format}'
-    methods: [PATCH]
-    defaults:
-        _controller: 'Oro\Bundle\EntityBundle\Controller\Api\Rest\EntityDataController::patchAction'
-        _format: json
-        version: latest
-    requirements:
-        _format: json
-        version: latest|v1
-        className: Oro_Bundle_ShoppingListBundle_Entity_LineItem|Oro_Bundle_ShoppingListBundle_Entity_ShoppingList
-    options:
-        frontend: true
-
 oro_api_customer_cget_windows:
     path: '/api/rest/{version}/windows.{_format}'
     methods: [GET]
