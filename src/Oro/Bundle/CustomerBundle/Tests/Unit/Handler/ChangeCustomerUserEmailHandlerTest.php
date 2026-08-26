@@ -61,7 +61,7 @@ class ChangeCustomerUserEmailHandlerTest extends TestCase
 
         $this->handler->initializeEmailChangeAndSendToOldEmail($customerUser);
 
-        self::assertNotEmpty($customerUser->getNewEmailVerificationCode());
+        self::assertMatchesRegularExpression('/^[a-f0-9]{64}$/', $customerUser->getNewEmailVerificationCode());
         self::assertInstanceOf(\DateTimeInterface::class, $customerUser->getEmailVerificationCodeRequestedAt());
     }
 

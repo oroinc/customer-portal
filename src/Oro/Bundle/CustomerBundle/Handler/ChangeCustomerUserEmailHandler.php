@@ -8,6 +8,7 @@ use Oro\Bundle\CustomerBundle\Model\EmailHolder;
 use Oro\Bundle\EmailBundle\Model\EmailTemplateCriteria;
 use Oro\Bundle\NotificationBundle\Manager\EmailNotificationManager;
 use Oro\Bundle\NotificationBundle\Model\TemplateEmailNotification;
+use Oro\Bundle\SecurityBundle\Generator\RandomTokenGenerator;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -24,7 +25,7 @@ class ChangeCustomerUserEmailHandler
 
     public function initializeEmailChangeAndSendToOldEmail(CustomerUser $customerUser): void
     {
-        $customerUser->setNewEmailVerificationCode($customerUser->generateToken());
+        $customerUser->setNewEmailVerificationCode(RandomTokenGenerator::generate());
         $customerUser->setEmailVerificationCodeRequestedAt(new \DateTime('now', new \DateTimeZone('UTC')));
         $this->customerUserManager->updateUser($customerUser);
 

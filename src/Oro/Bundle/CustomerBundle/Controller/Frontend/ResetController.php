@@ -94,8 +94,7 @@ class ResetController extends AbstractController
         if (null === $user) {
             throw $this->createNotFoundException(
                 $this->container->get(TranslatorInterface::class)->trans(
-                    'oro.customer.controller.customeruser.token_not_found.message',
-                    ['%token%' => $token]
+                    'oro.customer.controller.customeruser.token_not_found.message'
                 )
             );
         }
