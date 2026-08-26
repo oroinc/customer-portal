@@ -8,6 +8,7 @@ use Oro\Bundle\EmailBundle\Model\EmailTemplateCriteria;
 use Oro\Bundle\NotificationBundle\Manager\EmailNotificationManager;
 use Oro\Bundle\NotificationBundle\Model\TemplateEmailNotification;
 use Oro\Bundle\NotificationBundle\Model\TemplateEmailNotificationInterface;
+use Oro\Bundle\SecurityBundle\Generator\RandomTokenGenerator;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -43,9 +44,7 @@ class ResetPasswordHandler
             return false;
         }
 
-        if (null === $user->getConfirmationToken()) {
-            $user->setConfirmationToken($user->generateToken());
-        }
+        $user->setConfirmationToken(RandomTokenGenerator::generate());
 
         $this->customerUserManager->setAuthStatus($user, CustomerUserManager::STATUS_RESET);
         $this->customerUserManager->updateUser($user);

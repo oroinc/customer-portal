@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Mailer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Event\CustomerUserEmailSendEvent;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
+use Oro\Bundle\SecurityBundle\Generator\RandomTokenGenerator;
 use Oro\Bundle\UserBundle\Mailer\UserTemplateEmailSender;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -29,7 +30,7 @@ class ProcessorTest extends TestCase
             ->setEmail('email_to@example.com')
             ->setWebsite($website)
             ->setPlainPassword(self::PASSWORD)
-            ->setConfirmationToken($this->user->generateToken());
+            ->setConfirmationToken(RandomTokenGenerator::generate());
 
         $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 
