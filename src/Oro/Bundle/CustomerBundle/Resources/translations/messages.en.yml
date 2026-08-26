@@ -736,7 +736,7 @@ oro.customer:
             disabled.message:  'Customer User has been disabled'
             not_found.message: 'Customer User not found'
             profile_updated.message: 'Customer User profile updated'
-            token_not_found.message: 'The user with "confirmation token" does not exist for value "%token%"'
+            token_not_found.message: 'The user with a confirmation token does not exist.'
             confirmation_sent.message: 'Confirmation email has been sent'
             welcome_failed.message: 'Welcome email sending failed'
         customeruseraddress:
