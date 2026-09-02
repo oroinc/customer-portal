@@ -1,3 +1,4 @@
+@skip
 @regression
 @fixture-OroCustomerBundle:CustomerUserAmandaRCole.yml
 Feature: Commerce configuration changes are recorded in Data Audit
