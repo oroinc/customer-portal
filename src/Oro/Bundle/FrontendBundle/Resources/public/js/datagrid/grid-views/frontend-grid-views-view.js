@@ -166,6 +166,7 @@ const FrontendGridViewsView = GridViewsView.extend({
 
         if (_.isObject(options.gridViewsOptions)) {
             this.titleOptions = _.extend(
+                {},
                 this.defaults.titleOptions,
                 _.pick(options.gridViewsOptions, ['icon', 'iconClass', 'text'])
             );

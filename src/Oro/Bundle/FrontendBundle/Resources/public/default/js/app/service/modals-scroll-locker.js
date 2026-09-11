@@ -20,7 +20,13 @@ export default () => {
         // modals
         'modal:open': modal => scrollLocker.addLocker(modal.cid),
         'modal:close': modal => scrollLocker.removeLocker(modal.cid),
-        'fullscreen:popup:show': modal => scrollLocker.addLocker(modal.cid),
-        'fullscreen:popup:close': modal => scrollLocker.removeLocker(modal.cid)
+        'fullscreen:popup:show'(modal) {
+            scrollLocker.addLocker(modal.cid);
+            observer.listenToOnce(modal, 'dispose', () => scrollLocker.removeLocker(modal.cid));
+        },
+        'fullscreen:popup:close'(modal) {
+            scrollLocker.removeLocker(modal.cid);
+            observer.stopListening(modal);
+        }
     });
 };
