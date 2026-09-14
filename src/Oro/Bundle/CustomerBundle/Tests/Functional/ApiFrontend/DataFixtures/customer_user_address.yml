@@ -168,3 +168,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddressToAddressType:
         address: '@customer_user_address3'
         type: '@billing'
         default: true
+    customer_user_address_from_another_department_billing:
+        address: '@customer_user_address_from_another_department'
+        type: '@billing'
+        default: true
