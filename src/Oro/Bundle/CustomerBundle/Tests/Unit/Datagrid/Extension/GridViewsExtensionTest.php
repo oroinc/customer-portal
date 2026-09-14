@@ -100,7 +100,7 @@ class GridViewsExtensionTest extends \PHPUnit\Framework\TestCase
                     'EDIT' => false,
                     'DELETE' => true,
                     'SHARE' => false,
-                    'EDIT_SHARED' => true
+                    'EDIT_SHARED' => false
                 ],
                 'gridName' => 'grid',
             ],

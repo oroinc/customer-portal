@@ -21,7 +21,7 @@ class GridViewsExtension extends BaseGridViewsExtension
             'EDIT'        => $this->authorizationChecker->isGranted('oro_customer_frontend_gridview_update'),
             'DELETE'      => $this->authorizationChecker->isGranted('oro_customer_frontend_gridview_delete'),
             'SHARE'       => $this->authorizationChecker->isGranted('oro_customer_frontend_gridview_publish'),
-            'EDIT_SHARED' => $this->authorizationChecker->isGranted('oro_customer_frontend_gridview_update_public')
+            'EDIT_SHARED' => $this->authorizationChecker->isGranted('oro_customer_frontend_gridview_publish')
         ];
     }
 }
