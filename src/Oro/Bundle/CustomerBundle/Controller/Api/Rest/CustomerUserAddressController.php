@@ -137,9 +137,14 @@ class CustomerUserAddressController extends RestController
         $customerUser = $this->getCustomerUserManager()->find($entityId);
 
         if ($customerUser) {
+            $this->checkAccess($customerUser);
             $address = $customerUser->getAddressByTypeName($typeName);
         } else {
             $address = null;
+        }
+
+        if ($address && !$this->isGranted('VIEW', $address)) {
+            throw $this->createAccessDeniedException();
         }
 
         $responseData = $address ? json_encode($this->getPreparedItem($address)) : '';
@@ -165,9 +170,14 @@ class CustomerUserAddressController extends RestController
         $customerUser = $this->getCustomerUserManager()->find($entityId);
 
         if ($customerUser) {
+            $this->checkAccess($customerUser);
             $address = $customerUser->getPrimaryAddress();
         } else {
             $address = null;
+        }
+
+        if ($address && !$this->isGranted('VIEW', $address)) {
+            throw $this->createAccessDeniedException();
         }
 
         $responseData = $address ? json_encode($this->getPreparedItem($address)) : '';

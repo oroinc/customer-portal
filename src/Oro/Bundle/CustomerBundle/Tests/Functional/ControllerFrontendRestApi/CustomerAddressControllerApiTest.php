@@ -410,6 +410,69 @@ class CustomerAddressControllerApiTest extends WebTestCase
         self::assertEquals(['code' => 403], $result);
     }
 
+    /**
+     * @dataProvider primaryAndByTypeAddressAclProvider
+     */
+    public function testPrimaryAndByTypeAddressAcl(
+        string $routeName,
+        string $customerReference,
+        array $routeParameters,
+        int $expectedStatusCode,
+        ?string $expectedLabel
+    ): void {
+        $role = $this->getReference('admin')->getRole();
+        $this->updateRolePermission($role, Customer::class, AccessLevel::DEEP_LEVEL);
+        $this->updateRolePermission($role, CustomerAddress::class, AccessLevel::DEEP_LEVEL);
+        $this->loginCustomerUser();
+
+        $customer = $this->getReference($customerReference);
+        $this->client->jsonRequest(
+            'GET',
+            $this->getUrl($routeName, array_merge(['entityId' => $customer->getId()], $routeParameters))
+        );
+
+        $result = self::getJsonResponseContent($this->client->getResponse(), $expectedStatusCode);
+        if (null !== $expectedLabel) {
+            self::assertEquals($expectedLabel, $result['label']);
+        } else {
+            self::assertEquals(['code' => 403], $result);
+        }
+    }
+
+    public function primaryAndByTypeAddressAclProvider(): array
+    {
+        return [
+            'primary address of an accessible customer' => [
+                'oro_api_customer_frontend_get_customer_address_primary',
+                'customer',
+                [],
+                200,
+                'Address 1',
+            ],
+            'address by type of an accessible customer' => [
+                'oro_api_customer_frontend_get_customer_address_by_type',
+                'customer',
+                ['typeName' => 'billing'],
+                200,
+                'Address 1',
+            ],
+            'primary address of another customer' => [
+                'oro_api_customer_frontend_get_customer_address_primary',
+                'another_customer',
+                [],
+                403,
+                null,
+            ],
+            'address by type of another customer' => [
+                'oro_api_customer_frontend_get_customer_address_by_type',
+                'another_customer',
+                ['typeName' => 'billing'],
+                403,
+                null,
+            ],
+        ];
+    }
+
     private function loginCustomerUser(): void
     {
         self::getClientInstance()->setServerParameters(
