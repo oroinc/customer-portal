@@ -1,3 +1,4 @@
+@skip-base
 @regression
 @ticket-BAP-18637
 @fixture-OroFrontendBundle:user_permissions_for_attachments.yml

@@ -1,3 +1,4 @@
+@skip-base
 @ticket-BB-9092
 @regression
 @fixture-OroNotificationBundle:NotifyAssignedSalesRepsFixture.yml

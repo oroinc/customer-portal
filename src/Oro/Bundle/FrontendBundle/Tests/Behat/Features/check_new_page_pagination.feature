@@ -1,3 +1,4 @@
+@skip-base
 @fixture-OroFrontendBundle:AllProductsFixture.yml
 
 Feature: Check new page pagination

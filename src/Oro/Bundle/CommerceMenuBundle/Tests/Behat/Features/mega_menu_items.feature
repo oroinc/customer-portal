@@ -1,3 +1,4 @@
+@skip-base
 @ticket-BB-21885
 @regression
 @fixture-OroCommerceMenuBundle:mega_menu_items/customer_user.yml

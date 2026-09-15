@@ -1,3 +1,4 @@
+@skip-base
 @feature-BB-21879
 @ticket-BB-22049
 @fixture-OroCustomerBundle:CustomerFixture.yml

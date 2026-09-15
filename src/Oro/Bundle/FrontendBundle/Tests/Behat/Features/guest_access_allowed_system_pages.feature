@@ -1,3 +1,4 @@
+@skip-base
 @regression
 @ticket-BB-26729
 @fixture-OroCustomerBundle:CustomerUserAmandaRCole.yml

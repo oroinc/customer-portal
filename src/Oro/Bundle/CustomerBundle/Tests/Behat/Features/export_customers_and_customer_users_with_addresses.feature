@@ -1,3 +1,4 @@
+@skip-base
 @ticket-BB-22348
 @automatically-ticket-tagged
 @fixture-OroCustomerBundle:CustomerAndCustomerUserWithAddressFixture.yml

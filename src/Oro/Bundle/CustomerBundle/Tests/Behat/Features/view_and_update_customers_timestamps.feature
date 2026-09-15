@@ -1,3 +1,4 @@
+@skip-base
 @regression
 @fixture-OroCustomerBundle:CustomerFixture.yml
 @ticket-BB-12096

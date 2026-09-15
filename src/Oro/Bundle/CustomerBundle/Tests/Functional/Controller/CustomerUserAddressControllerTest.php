@@ -4,13 +4,21 @@ namespace Oro\Bundle\CustomerBundle\Tests\Functional\Controller;
 
 use Oro\Bundle\AddressBundle\Entity\AddressType;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
 use Oro\Bundle\CustomerBundle\Tests\Functional\DataFixtures\LoadCustomerUserData;
+use Oro\Bundle\SecurityBundle\Acl\AccessLevel;
+use Oro\Bundle\SecurityBundle\Test\Functional\RolePermissionExtension;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Oro\Bundle\UserBundle\Migrations\Data\ORM\LoadRolesData;
+use Oro\Bundle\UserBundle\Tests\Functional\Api\DataFixtures\LoadUserData;
 use Symfony\Component\DomCrawler\Field\ChoiceFormField;
 use Symfony\Component\DomCrawler\Form;
+use Symfony\Component\HttpFoundation\Response;
 
 class CustomerUserAddressControllerTest extends WebTestCase
 {
+    use RolePermissionExtension;
+
     /** @var CustomerUser */
     private $customerUser;
 
@@ -18,7 +26,7 @@ class CustomerUserAddressControllerTest extends WebTestCase
     protected function setUp(): void
     {
         $this->initClient([], array_merge(self::generateBasicAuthHeader()));
-        $this->loadFixtures([LoadCustomerUserData::class]);
+        $this->loadFixtures([LoadCustomerUserData::class, LoadUserData::class]);
 
         $this->customerUser = $this->getReference(LoadCustomerUserData::EMAIL);
     }
@@ -163,6 +171,56 @@ class CustomerUserAddressControllerTest extends WebTestCase
         ], $result['defaults']);
 
         return $customerUserId;
+    }
+
+    /**
+     * @depends testUpdateAddress
+     */
+    public function testPrimaryAndByTypeAddressAcl(int $customerUserId): void
+    {
+        $this->updateRolePermission(
+            LoadRolesData::ROLE_USER,
+            CustomerUser::class,
+            AccessLevel::GLOBAL_LEVEL
+        );
+
+        $routes = [
+            ['oro_api_customer_get_customeruser_address_primary', []],
+            ['oro_api_customer_get_customeruser_address_by_type', ['typeName' => AddressType::TYPE_BILLING]],
+        ];
+        $accessLevels = [
+            [AccessLevel::GLOBAL_LEVEL, Response::HTTP_OK],
+            [AccessLevel::BASIC_LEVEL, Response::HTTP_FORBIDDEN],
+        ];
+
+        foreach ($accessLevels as [$accessLevel, $expectedStatusCode]) {
+            $this->updateRolePermission(
+                LoadRolesData::ROLE_USER,
+                CustomerUserAddress::class,
+                $accessLevel
+            );
+
+            foreach ($routes as [$routeName, $routeParameters]) {
+                $this->client->jsonRequest(
+                    'GET',
+                    $this->getUrl(
+                        $routeName,
+                        array_merge(['entityId' => $customerUserId], $routeParameters)
+                    ),
+                    [],
+                    self::generateApiAuthHeader(LoadUserData::USER_NAME_2)
+                );
+
+                self::assertJsonResponseStatusCodeEquals(
+                    $this->client->getResponse(),
+                    $expectedStatusCode
+                );
+                if (Response::HTTP_OK === $expectedStatusCode) {
+                    $result = self::getJsonResponseContent($this->client->getResponse(), Response::HTTP_OK);
+                    self::assertEquals('Manicaland', $result['region']);
+                }
+            }
+        }
     }
 
     /**

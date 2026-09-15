@@ -109,6 +109,7 @@ api:
                         allow_array: true
                     customRegion:
                         exclude: false
+                    city: ~
                     addressType:
                         data_type: string
                         property_path: types.type

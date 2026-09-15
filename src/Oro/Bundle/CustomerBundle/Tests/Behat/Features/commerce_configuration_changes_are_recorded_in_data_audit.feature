@@ -21,7 +21,8 @@ Feature: Commerce configuration changes are recorded in Data Audit
     And I check "Enable Search History Reporting"
     And I click "Save settings"
     Then I should see "Configuration saved" flash message
-    When I go to System/ Data Audit
+    When I wait 5 seconds
+    And I go to System/ Data Audit
     Then I should see "Configuration: Organization" in grid
     And I should see "Enable Search History Reporting" in grid
 
@@ -33,7 +34,8 @@ Feature: Commerce configuration changes are recorded in Data Audit
     And I uncheck "Enable Search History Collection"
     And I click "Save settings"
     Then I should see "Configuration saved" flash message
-    When I go to System/ Data Audit
+    When I wait 5 seconds
+    And I go to System/ Data Audit
     Then I should see "Configuration: Website" in grid
 
   Scenario: A customer-group-level change is audited as "Configuration: Customer Group"
@@ -44,7 +46,8 @@ Feature: Commerce configuration changes are recorded in Data Audit
     And I uncheck "Enable Search History Collection"
     And I click "Save settings"
     Then I should see "Configuration saved" flash message
-    When I go to System/ Data Audit
+    When I wait 5 seconds
+    And I go to System/ Data Audit
     Then I should see "Configuration: Customer Group" in grid
 
   Scenario: A customer-level change is audited as "Configuration: Customer"
@@ -55,11 +58,13 @@ Feature: Commerce configuration changes are recorded in Data Audit
     And I check "Enable Search History Collection"
     And I click "Save settings"
     Then I should see "Configuration saved" flash message
-    When I go to System/ Data Audit
+    When I wait 5 seconds
+    And I go to System/ Data Audit
     Then I should see "Configuration: Customer" in grid
 
   Scenario: Data Audit is filtered by the commerce configuration Entity Types
-    Given I go to System/ Data Audit
+    Given I wait 5 seconds
+    And I go to System/ Data Audit
     When I check "Configuration: Organization" in "Entity Type" filter
     And I check "Configuration: Website" in "Entity Type" filter
     And I check "Configuration: Customer Group" in "Entity Type" filter

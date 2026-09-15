@@ -121,3 +121,7 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
         address: '@customer_address3'
         type: '@billing'
         default: true
+    another_customer_address1_billing:
+        address: '@another_customer_address1'
+        type: '@billing'
+        default: true
