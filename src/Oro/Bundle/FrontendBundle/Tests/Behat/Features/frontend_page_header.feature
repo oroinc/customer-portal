@@ -1,3 +1,4 @@
+@skip-base
 @fixture-OroCustomerBundle:BuyerCustomerFixture.yml
 @fixture-OroUserBundle:UserLocalizations.yml
 @regression

@@ -1,3 +1,4 @@
+@skip-base
 @ticket-BB-25656
 @fixture-OroCustomerBundle:CustomerUserAmandaFixture.yml
 

@@ -1,3 +1,4 @@
+@skip-base
 @fixture-OroUserBundle:user.yml
 
 Feature: Customer User Role search

@@ -1,3 +1,4 @@
+@skip-base
 @regression
 
 Feature: Theme Configuration

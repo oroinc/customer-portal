@@ -16,9 +16,9 @@ Feature: Target Type System Page
     And click view "commerce_main_menu" in grid
     And I click "Create Menu Item"
     And I fill "Commerce Menu Form" with:
-      | Title       | SystemPageTarget |
-      | Target Type | System Page      |
-      | System Page | Contact Us       |
+      | Title       | SystemPageTarget                   |
+      | Target Type | System Page                        |
+      | System Page | Oro Product Frontend Product Index |
     And I save form
     Then I should see "Menu item saved successfully." flash message
 
@@ -26,4 +26,4 @@ Feature: Target Type System Page
     Given I proceed as the Buyer
     When I am on the homepage
     Then I should see "SystemPageTarget" button with attributes:
-      | href | /contact-us |
+      | href | /product/ |

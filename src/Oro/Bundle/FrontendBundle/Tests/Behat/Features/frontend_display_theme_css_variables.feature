@@ -1,3 +1,4 @@
+@skip-base
 @feature-BB-23878
 Feature: Frontend Display Theme Css Variables
   In order to see css variables on store front application as an Guest

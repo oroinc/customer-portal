@@ -1,3 +1,4 @@
+@skip-base
 @regression
 @fixture-OroThemeBundle:theme_configuration.yml
 

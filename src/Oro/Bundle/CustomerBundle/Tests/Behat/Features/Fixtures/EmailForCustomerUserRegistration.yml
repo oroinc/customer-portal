@@ -3,12 +3,10 @@ Oro\Bundle\CustomerBundle\Entity\Customer:
         name: 'Company A'
         organization: '@organization'
         owner: '@admin'
-        vatId: 'TESTVATID'
     customer1:
         name: 'Company B'
         organization: '@organization'
         owner: '@admin'
-        vatId: 'TESTVATID'
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUser:
     amanda:
@@ -26,12 +24,12 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
 
 Oro\Bundle\CustomerBundle\Entity\CustomerAddress:
     customerAddress:
-        country: '@germany'
-        region: '@berlin'
+        country: '@united_states'
+        region: '@new_york'
         label: 'Primary address'
         street: 'Fifth avenue'
-        city: 'Berlin'
-        postalCode: '10115'
+        city: 'New York'
+        postalCode: '10001'
         frontendOwner: '@customer'
         owner: '@admin'
         __calls:
@@ -52,12 +50,12 @@ Oro\Bundle\CustomerBundle\Entity\CustomerAddressToAddressType:
 
 Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
     address:
-        country: '@germany'
-        region: '@berlin'
+        country: '@united_states'
+        region: '@new_york'
         label: 'Primary address'
         street: 'Fifth avenue'
-        city: 'Berlin'
-        postalCode: '10115'
+        city: 'New York'
+        postalCode: '10001'
         frontendOwner: '@amanda'
         owner: '@admin'
         __calls:
@@ -66,12 +64,12 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
         primary: true
         organization: 'ORO'
     address2:
-        country: '@germany'
-        region: '@berlin'
+        country: '@united_states'
+        region: '@new_york'
         label: 'label'
         street: 'Fourth avenue'
-        city: 'Berlin'
-        postalCode: '10111'
+        city: 'New York'
+        postalCode: '10011'
         organization: 'ORO'
         frontendOwner: '@amanda'
         owner: '@admin'
