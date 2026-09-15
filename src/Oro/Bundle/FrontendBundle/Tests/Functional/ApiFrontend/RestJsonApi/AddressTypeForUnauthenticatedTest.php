@@ -46,6 +46,7 @@ class AddressTypeForUnauthenticatedTest extends FrontendRestJsonApiTestCase
         );
         self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
     }
+
     public function testTryToUpdate(): void
     {
         $response = $this->patch(
