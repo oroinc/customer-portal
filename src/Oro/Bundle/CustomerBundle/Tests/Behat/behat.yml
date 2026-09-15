@@ -32,6 +32,14 @@ oro_behat_extension:
         - '@OroCustomerBundle/Tests/Behat/Features'
 
   elements:
+    Account Dropdown:
+      selector: '#customer-menu-trigger'
+
+    My Profile:
+      selector:
+        locator: '//a[text()="My Profile"]'
+        type: xpath
+
     Customer User Role Cancel Button:
       selector:
         type: xpath
