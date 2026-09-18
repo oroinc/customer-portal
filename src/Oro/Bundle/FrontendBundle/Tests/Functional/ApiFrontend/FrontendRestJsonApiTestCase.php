@@ -219,7 +219,11 @@ abstract class FrontendRestJsonApiTestCase extends RestJsonApiTestCase
         $this->assertAnonymousVisitorEnabled();
         /** @var CustomerVisitorManager $visitorManager */
         $visitorManager = self::getContainer()->get('oro_customer.customer_visitor_manager');
-        $this->setVisitorCookie($visitorManager->findOrCreate(null));
+        $visitor = $visitorManager->findOrCreate(null);
+        $entityManager = $this->getEntityManager();
+        $entityManager->persist($visitor);
+        $entityManager->flush();
+        $this->setVisitorCookie($visitor);
     }
 
     #[\Override]
