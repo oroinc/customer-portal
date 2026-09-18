@@ -196,7 +196,7 @@ class AnonymousCustomerUserAuthenticatorTest extends TestCase
             ->method('getCurrentWebsite')
             ->willReturn($website);
         $this->visitorManager->expects(self::once())
-            ->method('findOrCreate')
+            ->method('find')
             ->with($visitor->getSessionId())
             ->willReturn($visitor);
 
@@ -235,7 +235,7 @@ class AnonymousCustomerUserAuthenticatorTest extends TestCase
         );
         $passport->setAttribute('organization', new Organization());
         $this->visitorManager->expects(self::once())
-            ->method('findOrCreate')
+            ->method('find')
             ->with($visitor->getSessionId())
             ->willReturn($visitor);
 
@@ -256,6 +256,10 @@ class AnonymousCustomerUserAuthenticatorTest extends TestCase
         $visitor = $this->getCustomerVisitor(1, 'someSessionId');
 
         $this->visitorManager->expects(self::once())
+            ->method('find')
+            ->with(null)
+            ->willReturn(null);
+        $this->visitorManager->expects(self::once())
             ->method('findOrCreate')
             ->with(null)
             ->willReturn($visitor);
@@ -266,19 +270,40 @@ class AnonymousCustomerUserAuthenticatorTest extends TestCase
         );
     }
 
-    public function testGetVisitorWithValidCredentials(): void
+    public function testGetVisitorWithExistingCredentials(): void
     {
         $sessionId = 'sessionId';
 
         $encodedCredentials = base64_encode(json_encode($sessionId, JSON_THROW_ON_ERROR));
         $visitor = $this->getCustomerVisitor(123, $sessionId);
         $this->visitorManager->expects(self::once())
-            ->method('findOrCreate')
+            ->method('find')
             ->with($sessionId)
+            ->willReturn($visitor);
+        $this->visitorManager->expects(self::never())
+            ->method('findOrCreate');
+
+        $foundVisitor = $this->authenticator->getVisitor($encodedCredentials);
+
+        self::assertSame($visitor, $foundVisitor);
+    }
+
+    public function testGetVisitorWithUnknownCredentials(): void
+    {
+        $sessionId = 'unknownSessionId';
+        $encodedCredentials = base64_encode(json_encode($sessionId, JSON_THROW_ON_ERROR));
+        $visitor = $this->getCustomerVisitor(123, 'generatedSessionId');
+        $this->visitorManager->expects(self::once())
+            ->method('find')
+            ->with($sessionId)
+            ->willReturn(null);
+        $this->visitorManager->expects(self::once())
+            ->method('findOrCreate')
+            ->with(null)
             ->willReturn($visitor);
 
         $foundVisitor = $this->authenticator->getVisitor($encodedCredentials);
 
-        self::assertEquals($sessionId, $foundVisitor->getSessionId());
+        self::assertSame($visitor, $foundVisitor);
     }
 }
