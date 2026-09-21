@@ -150,6 +150,7 @@ class AnonymousCustomerUserAuthenticator implements AuthenticatorInterface
             }
         }
 
-        return $this->visitorManager->findOrCreate($sessionId);
+        return $this->visitorManager->find($sessionId)
+            ?? $this->visitorManager->findOrCreate(null);
     }
 }
