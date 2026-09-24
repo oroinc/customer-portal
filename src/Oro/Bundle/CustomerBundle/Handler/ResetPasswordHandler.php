@@ -8,6 +8,7 @@ use Oro\Bundle\EmailBundle\Model\EmailTemplateCriteria;
 use Oro\Bundle\NotificationBundle\Manager\EmailNotificationManager;
 use Oro\Bundle\NotificationBundle\Model\TemplateEmailNotification;
 use Oro\Bundle\NotificationBundle\Model\TemplateEmailNotificationInterface;
+use Oro\Bundle\UserBundle\Mailer\Processor as UserMailerProcessor;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -49,7 +50,11 @@ class ResetPasswordHandler
         $this->customerUserManager->updateUser($user);
 
         try {
-            $this->mailManager->processSingle($this->getNotification($user), [], $this->logger);
+            $this->mailManager->processSingle(
+                $this->getNotification($user),
+                [UserMailerProcessor::CONFIRMATION_TOKEN_TEMPLATE_PARAM => $user->getConfirmationToken() ?: null],
+                $this->logger
+            );
         } catch (\Exception $e) {
             $this->logger->error(
                 sprintf('Sending email to %s failed.', $user->getEmail()),

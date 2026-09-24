@@ -5,6 +5,7 @@ namespace Oro\Bundle\CustomerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\Index;
 use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\Config;
+use Oro\Bundle\EntityConfigBundle\Metadata\Annotation\ConfigField;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityInterface;
 use Oro\Bundle\EntityExtendBundle\Entity\ExtendEntityTrait;
 use Oro\Bundle\OAuth2ServerBundle\Security\VisitorIdentifierUtil;
@@ -43,6 +44,14 @@ class CustomerVisitor implements ExtendEntityInterface
      * @var string
      *
      * @ORM\Column(name="session_id", type="string", length=255, nullable=false)
+     * @ConfigField(
+     *      defaultValues={
+     *          "email"={
+     *              "available_in_template"=false,
+     *              "immutable"=true
+     *          }
+     *      }
+     * )
      */
     private $sessionId;
 

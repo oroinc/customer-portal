@@ -20,8 +20,16 @@ The current file describes significant changes in the code that may affect the u
 - [2.3.0](#230-2017-07-28)
 - [2.2.0](#220-2017-05-31)
 
+## 5.1.19
 
-## UNRELEASED
+### Changed
+
+#### CustomerBundle
+* Changed `\Oro\Bundle\CustomerBundle\Mailer\Processor` and `\Oro\Bundle\CustomerBundle\Handler\ResetPasswordHandler` so they pass the confirmation token as the `confirmationToken` email template parameter (see `\Oro\Bundle\UserBundle\Mailer\Processor::CONFIRMATION_TOKEN_TEMPLATE_PARAM`). The token is not an email template variable anymore, so the welcome, reset password and force reset password templates render a working link only when it is passed this way. Custom code that sends one of these emails must pass the same parameter.
+* Changed `\Oro\Bundle\CustomerBundle\Entity\CustomerVisitor::$sessionId` so it is not available in email templates and is marked immutable, and therefore cannot be enabled from the Entity Management UI. `\Oro\Bundle\CustomerBundle\Migrations\Schema\v5_1_19_0\DisableFieldsInEmailTemplates` applies the same to an existing installation, together with the confirmation token of `\Oro\Bundle\CustomerBundle\Entity\CustomerUser` that is inherited from `\Oro\Bundle\UserBundle\Entity\AbstractUser`.
+* Changed the shipped `customer_user_welcome_email`, `customer_user_welcome_email_registered_by_admin`, `customer_user_reset_password` and `customer_user_force_reset_password` email templates so they read the `confirmationToken` email template parameter instead of `entity.confirmationToken`. `\Oro\Bundle\CustomerBundle\Migrations\Data\ORM\LoadEmailTemplates` applies the new content to an installation that has not customised them.
+
+## 5.1.18
 
 ### Added
 
@@ -41,7 +49,6 @@ The current file describes significant changes in the code that may affect the u
   This widget no longer uses `fullscreen-popup-view` under the hood to render dialog as fullscreen. 
   All logic is done by CSS using an extra class `fullscreen`.  As a result, `fullscreenViewOptions` property was deleted and properties `popupIcon, popupBadge` and events `frontend-dialog:accept, frontend-dialog:cancel, frontend-dialog:close` were renamed to `dialogTitleIcon, dialogTitleBadge`, and `accept, cancel, close`.
 * [Content Providers feature](https://doc.oroinc.com/bundles/platform/UIBundle/content-providers/) is separated now between backoffice and storefront. The tag `oro_ui.content_provider` is used for collecting backoffice content providers and the tag `oro_frontend.content_provider` - for storefront content providers.
-
 
 ## 5.1.0 (2023-03-31)
 [Show detailed list of changes](incompatibilities-5-1.md)
