@@ -16,6 +16,8 @@ use Psr\Log\LoggerInterface;
 
 class ChangeCustomerUserEmailHandlerTest extends TestCase
 {
+    private const string EMAIL_VERIFICATION_CODE = 'aa11bb22cc33';
+
     private EmailNotificationManager&MockObject $emailNotificationManager;
     private CustomerUserManager&MockObject $customerUserManager;
     private LoggerInterface&MockObject $logger;
@@ -47,7 +49,10 @@ class ChangeCustomerUserEmailHandlerTest extends TestCase
 
         $this->emailNotificationManager->expects(self::once())
             ->method('processSingle')
-            ->willReturnCallback(function (TemplateEmailNotification $notification) use ($customerUser) {
+            ->willReturnCallback(function (
+                TemplateEmailNotification $notification,
+                array $params
+            ) use ($customerUser): void {
                 self::assertSame($customerUser, $notification->getEntity());
                 self::assertEquals(
                     new EmailTemplateCriteria(
@@ -57,6 +62,14 @@ class ChangeCustomerUserEmailHandlerTest extends TestCase
                     $notification->getTemplateCriteria()
                 );
                 self::assertSame([$customerUser], $notification->getRecipients());
+                self::assertSame(
+                    [
+                        ChangeCustomerUserEmailHandler::EMAIL_VERIFICATION_CODE_TEMPLATE_PARAM
+                            => $customerUser->getNewEmailVerificationCode(),
+                    ],
+                    $params
+                );
+                self::assertNotEmpty($customerUser->getNewEmailVerificationCode());
             });
 
         $this->handler->initializeEmailChangeAndSendToOldEmail($customerUser);
@@ -70,13 +83,17 @@ class ChangeCustomerUserEmailHandlerTest extends TestCase
         $customerUser = new User();
         $customerUser->setEmail('old@example.com');
         $customerUser->setNewEmail('new@example.com');
+        $customerUser->setNewEmailVerificationCode(self::EMAIL_VERIFICATION_CODE);
 
         $this->customerUserManager->expects(self::never())
             ->method('updateUser');
 
         $this->emailNotificationManager->expects(self::once())
             ->method('processSingle')
-            ->willReturnCallback(function (TemplateEmailNotification $notification) use ($customerUser) {
+            ->willReturnCallback(function (
+                TemplateEmailNotification $notification,
+                array $params
+            ) use ($customerUser): void {
                 self::assertSame($customerUser, $notification->getEntity());
                 self::assertEquals(
                     new EmailTemplateCriteria('customer_user_email_change_confirmation', CustomerUser::class),
@@ -86,6 +103,13 @@ class ChangeCustomerUserEmailHandlerTest extends TestCase
                 self::assertEquals(
                     [new EmailHolder('new@example.com')],
                     $notification->getRecipients()
+                );
+                self::assertSame(
+                    [
+                        ChangeCustomerUserEmailHandler::EMAIL_VERIFICATION_CODE_TEMPLATE_PARAM
+                            => self::EMAIL_VERIFICATION_CODE,
+                    ],
+                    $params
                 );
             });
 

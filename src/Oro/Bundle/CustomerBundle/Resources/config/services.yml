@@ -1659,3 +1659,13 @@ services:
             - '@.inner'
             - '@oro_frontend.request.frontend_helper'
             - '@security.authorization_checker'
+
+    oro_customer.event_listener.customer_user_email_verification_code_email_template:
+        class: Oro\Bundle\EmailBundle\EventListener\EmailTemplateAttributeSubstitutionListener
+        arguments:
+            - Oro\Bundle\CustomerBundle\Entity\CustomerUser
+            - 'newEmailVerificationCode'
+            - !php/const Oro\Bundle\CustomerBundle\Handler\ChangeCustomerUserEmailHandler::EMAIL_VERIFICATION_CODE_TEMPLATE_PARAM
+        tags:
+            - { name: kernel.event_listener, event: Oro\Bundle\EmailBundle\Event\EmailTemplateSecurityPolicyViolationEvent, method: onSecurityPolicyViolation }
+            - { name: oro_email.email_template_substitutable_attribute }
