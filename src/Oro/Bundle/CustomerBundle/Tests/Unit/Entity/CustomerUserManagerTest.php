@@ -104,7 +104,25 @@ class CustomerUserManagerTest extends TestCase
         $this->userManager->confirmRegistration($user);
 
         self::assertTrue($user->isConfirmed());
-        self::assertNotEmpty($user->getConfirmationToken());
+        self::assertNull($user->getConfirmationToken());
+    }
+
+    public function testConfirmRegistrationClearsExistingVerificationToken(): void
+    {
+        $user = new CustomerUser();
+        $user->setUserIdentifier('test');
+        $user->setConfirmed(false);
+        $user->setConfirmationToken('email-verification-token');
+
+        $this->emailProcessor->expects(self::once())
+            ->method('sendWelcomeNotification')
+            ->with(self::identicalTo($user));
+
+        $this->userManager->confirmRegistration($user);
+
+        self::assertTrue($user->isConfirmed());
+        self::assertNull($user->getConfirmationToken());
+        self::assertNull($user->getPasswordRequestedAt());
     }
 
     public function testConfirmRegistrationByAdmin(): void
@@ -135,6 +153,7 @@ class CustomerUserManagerTest extends TestCase
         $this->userManager->sendWelcomeRegisteredByAdminEmail($user);
 
         self::assertNotEmpty($user->getConfirmationToken());
+        self::assertNotNull($user->getPasswordRequestedAt());
     }
 
     public function testRegisterConfirmationRequiredNotFrontendRequest(): void
@@ -169,6 +188,35 @@ class CustomerUserManagerTest extends TestCase
 
         self::assertFalse($user->isEnabled());
         self::assertNotEmpty($user->getConfirmationToken());
+        self::assertNull($user->getPasswordRequestedAt());
+    }
+
+    public function testSendConfirmationEmailClearsPasswordRequestedAtLeftByAnEarlierForceReset(): void
+    {
+        // Regression guard: an admin force-reset (which stamps a live TTL) followed by re-sending the
+        // email-verification link must not leave the fresh verification token redeemable at /reset —
+        // the old TTL anchor has to be cleared, not inherited by the new token.
+        $user = new CustomerUser();
+        $user->setUserIdentifier('test');
+        $user->setConfirmationToken('stale-force-reset-token');
+        $user->setPasswordRequestedAt(new \DateTime('now', new \DateTimeZone('UTC')));
+
+        $this->em->expects(self::once())
+            ->method('persist')
+            ->with(self::identicalTo($user));
+        $this->em->expects(self::once())
+            ->method('flush');
+
+        $this->emailProcessor->expects(self::once())
+            ->method('sendConfirmationEmail')
+            ->with(self::identicalTo($user));
+
+        $this->userManager->sendConfirmationEmail($user);
+
+        self::assertFalse($user->isConfirmed());
+        self::assertNotEmpty($user->getConfirmationToken());
+        self::assertNotEquals('stale-force-reset-token', $user->getConfirmationToken());
+        self::assertNull($user->getPasswordRequestedAt());
     }
 
     public function testRegisterConfirmationNotRequiredWhenWebsiteSettingsExist(): void

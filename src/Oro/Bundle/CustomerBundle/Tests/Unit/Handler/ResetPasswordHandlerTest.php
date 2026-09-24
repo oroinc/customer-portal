@@ -98,9 +98,11 @@ class ResetPasswordHandlerTest extends TestCase
             });
 
         $this->assertEmpty($customerUser->getConfirmationToken());
+        self::assertNull($customerUser->getPasswordRequestedAt());
         $result = $this->handler->resetPasswordAndNotify($customerUser);
         self::assertTrue($result);
         self::assertNotEmpty($customerUser->getConfirmationToken());
+        self::assertNotNull($customerUser->getPasswordRequestedAt());
     }
 
     public function testResetPasswordAndNotify(): void
@@ -130,5 +132,6 @@ class ResetPasswordHandlerTest extends TestCase
         self::assertTrue($result);
         self::assertMatchesRegularExpression('/^[a-f0-9]{64}$/', $customerUser->getConfirmationToken());
         self::assertNotSame($token, $customerUser->getConfirmationToken());
+        self::assertNotNull($customerUser->getPasswordRequestedAt());
     }
 }

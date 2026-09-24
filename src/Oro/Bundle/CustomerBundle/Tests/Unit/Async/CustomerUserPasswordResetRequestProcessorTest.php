@@ -110,28 +110,18 @@ class CustomerUserPasswordResetRequestProcessorTest extends TestCase
         self::assertEquals(MessageProcessorInterface::ACK, $this->process('test@example.com'));
     }
 
-    public function testProcessWhenPasswordAlreadyRequestedWithinTokenLifetime(): void
+    public function testProcessAlwaysSendsEmailEvenWhenAnUnexpiredRequestAlreadyExists(): void
     {
+        // An explicit reset request must always send a fresh email, even with a still-valid token.
         $user = new CustomerUser();
         $user->setEmail('test@example.com');
         $user->setPasswordRequestedAt(new \DateTime('now', new \DateTimeZone('UTC')));
 
         $website = $this->expectWebsiteFound();
+        $localization = $this->expectLocalizationFound();
 
         $this->expectUserLookupWithinWebsiteContext('test@example.com', $website, $user);
-
-        $this->localizationManager->expects(self::never())
-            ->method('getLocalization');
-
-        $this->userManager->expects(self::never())
-            ->method('sendResetPasswordEmail');
-
-        $this->logger->expects(self::once())
-            ->method('notice')
-            ->with(
-                'The password for this user has already been requested within the last 24 hours.',
-                ['email' => 'test@example.com']
-            );
+        $this->expectResetPasswordEmailSentWithinLocalizationContext($user, $localization);
 
         self::assertEquals(MessageProcessorInterface::ACK, $this->process('test@example.com'));
     }
