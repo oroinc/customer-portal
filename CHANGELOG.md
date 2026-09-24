@@ -6,6 +6,9 @@ The current file describes significant changes in the code that may affect the u
 
 ### Added
 
+#### CommerceMenuBundle
+* Added recording of storefront menu changes in Data Audit: every change an administrator makes in **System > Storefront Menus** (and in the storefront menus of an organization, a website, a customer group or a customer) is stored as an audit record of the changed menu item, whose entity type is the level the menu was customized on. The records are produced by the menu audit of the DataAuditBundle, which is registered for the storefront menus in `Resources/config/services.yml`.
+
 #### FrontendAttachmentBundle
 * Added parameter `oro_frontend.frontend_api.use_absolute_urls_for_api`, default true, to enable absolute URLs for attachment images and CMS assets in API responses.
 * Added processor `\Oro\Bundle\FrontendAttachmentBundle\Api\Processor\ConvertProductSearchImageUrlsToAbsolute` to handle URL conversion for ProductSearch entities in API responses.
@@ -21,6 +24,9 @@ The current file describes significant changes in the code that may affect the u
 
 ### Changed
 * Updated `\Oro\Bundle\FrontendAttachmentBundle\Provider\FileUrlProvider` to support an API URL resolver for dynamic reference type handling.
+
+#### CommerceMenuBundle
+* Changed the `Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate` entity configuration: a storefront menu item is a system record managed on the page of its menu, so the entity is hidden from the entity management grid, its entity config pages respond with 404, excluded from the lists of entities (`oro_entity: exclusions`) and its entity audit is turned off and locked (`dataaudit: {auditable: false, immutable: true}`) — the changes of a storefront menu item are recorded by the menu audit, so the entity audit of the same rows would only duplicate them.
 
 #### CustomerBundle
 * Changed `Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler` so it extends `Oro\Bundle\UserBundle\Form\Handler\AbstractPasswordResetRequestHandler` and only schedules the processing of the submitted email instead of resolving the customer user account and sending the reset password email within the request. Its constructor accepts `Oro\Component\MessageQueue\Client\MessageProducerInterface`, `Oro\Bundle\UserBundle\Provider\UserLoggingInfoProviderInterface` and `Psr\Log\LoggerInterface` now. This way the forgot password form does the same amount of work for every submitted email, so the response time no longer discloses whether the email belongs to an existing account. A message queue consumer must be running for the reset password emails to be sent.
