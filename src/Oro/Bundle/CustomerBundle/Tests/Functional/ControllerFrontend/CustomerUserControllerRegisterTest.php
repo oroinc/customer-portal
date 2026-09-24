@@ -111,6 +111,8 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         self::assertTrue($user->isEnabled());
         self::assertTrue($user->isConfirmed());
         self::assertStringContainsString('Registration successful', $crawler->html());
+        // BB-27642: no reset link is sent for self-registration, so no token should be left behind.
+        self::assertNull($user->getConfirmationToken());
     }
 
     public function testRegisterWithConfirmation(): void
@@ -165,13 +167,15 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $this->client->followRedirects(true);
 
+        $verificationToken = $user->getConfirmationToken();
+
         // Follow confirmation link
         $crawler = $this->client->request(
             'GET',
             $this->getUrl(
                 'oro_customer_frontend_customer_user_confirmation',
                 [
-                    'token' => $user->getConfirmationToken(),
+                    'token' => $verificationToken,
                 ]
             )
         );
@@ -184,6 +188,17 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         self::assertNotEmpty($user);
         self::assertTrue($user->isEnabled());
         self::assertTrue($user->isConfirmed());
+
+        // BB-27642: the very token that just verified this email must not double as a password-reset
+        // token once the account is confirmed — confirmRegistration() clears it.
+        self::assertNull($user->getConfirmationToken());
+
+        $this->client->followRedirects(false);
+        $this->client->request(
+            'GET',
+            $this->getUrl('oro_customer_frontend_customer_user_password_reset', ['token' => $verificationToken])
+        );
+        self::assertResponseStatusCodeEquals($this->client->getResponse(), 404);
     }
 
     /**

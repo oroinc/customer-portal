@@ -27,13 +27,21 @@ class LoadEmailTemplates extends AbstractEmailFixture implements VersionedFixtur
      */
     protected $emailsUpdateConfig = [
         'customer_user_welcome_email' => ['d970bd18538742a4702e70df6f14444d', '6f2554689920e2d47ac6ea044fdd8e43'],
-        'customer_user_welcome_email_registered_by_admin' => ['e583b8b7cdea31f8f0ce0a4000b956b9'],
+        'customer_user_welcome_email_registered_by_admin' => [
+            'e583b8b7cdea31f8f0ce0a4000b956b9',
+            'e2a34aa359ce8d958abc7c3eddd7bc93', // 1.5 content actually shipped
+            '88c40b11db82246fea232924fcbc21c4', // 1.6
+        ],
         'customer_user_confirmation_email' => ['47e012b40cec188ad88dfb7e3379446d'],
         'customer_user_reset_password' => [
             '4c987be76cdffc3ade87c9fca27a60be',
             '02c65afdfb3e2c61c0c31cd2ff096d0d'
         ],
-        'customer_user_force_reset_password' => ['beb25a213aa466f95ae48d710478fa13'],
+        'customer_user_force_reset_password' => [
+            'beb25a213aa466f95ae48d710478fa13',
+            '5c9bd2ae22ac6ed6d154fbd62df5cd77', // 1.5 content actually shipped
+            '7a01bfcfff6913d740ba13951df4ad24', // 1.6
+        ],
     ];
 
     /**
@@ -41,7 +49,7 @@ class LoadEmailTemplates extends AbstractEmailFixture implements VersionedFixtur
      */
     public function getVersion()
     {
-        return '1.5';
+        return '1.6';
     }
 
     /**
