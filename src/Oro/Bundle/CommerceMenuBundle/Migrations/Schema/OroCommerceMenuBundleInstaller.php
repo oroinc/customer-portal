@@ -20,7 +20,7 @@ class OroCommerceMenuBundleInstaller implements
      */
     public function getMigrationVersion(): string
     {
-        return 'v1_8';
+        return 'v1_9';
     }
 
     /**

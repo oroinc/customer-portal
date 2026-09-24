@@ -132,9 +132,6 @@ oro_behat_extension:
     Menu Update Category Field:
       selector: 'div[data-role="category-field"]'
 
-    Sidebar Menu Tree:
-      selector: 'div[data-role="sidebar-content"] div[data-role="jstree-wrapper"]'
-
     Content Node Tree Field:
       selector: 'div[data-role="content-node-field"] div[data-role="jstree-wrapper"]'
 

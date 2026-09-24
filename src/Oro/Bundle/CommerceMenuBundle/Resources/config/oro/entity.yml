@@ -1,4 +1,7 @@
 oro_entity:
+    exclusions:
+        - { entity: Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate }
+
     entity_aliases:
         Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate:
             alias:        commercemenumenuupdate

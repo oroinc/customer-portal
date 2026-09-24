@@ -78,7 +78,10 @@ use Oro\Bundle\WebCatalogBundle\Entity\ContentNode;
 #[ORM\HasLifecycleCallbacks]
 #[Config(
     routeName: 'oro_commerce_menu_global_menu_index',
-    defaultValues: ['entity' => ['icon' => 'fa-th']]
+    defaultValues: [
+        'entity' => ['icon' => 'fa-th'],
+        'dataaudit' => ['auditable' => false, 'immutable' => true],
+    ]
 )]
 class MenuUpdate implements
     MenuUpdateInterface,
