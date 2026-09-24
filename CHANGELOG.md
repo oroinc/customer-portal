@@ -36,6 +36,21 @@ The current file describes significant changes in the code that may affect the u
 * Changed `Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler` so it extends `Oro\Bundle\UserBundle\Form\Handler\AbstractPasswordResetRequestHandler` and only schedules the processing of the submitted email instead of resolving the customer user account and sending the reset password email within the request. Its constructor is kept as is for backward compatibility, but `$userManager` and `$translator` are not used anymore; the message producer, the user logging info provider, the website manager, the user localization manager and the event dispatcher are injected with the `setMessageProducer()`, `setUserLoggingInfoProvider()`, `setWebsiteManager()`, `setUserLocalizationManager()` and `setEventDispatcher()` methods.
 * Changed the forgot password form so it does not show the "Unable to send email" error anymore: email sending failures are written to the log by the consumer.
 
+## 6.0.12
+
+### Added
+
+#### CustomerBundle
+* Added `\Oro\Bundle\CustomerBundle\Handler\ChangeCustomerUserEmailHandler::EMAIL_VERIFICATION_CODE_TEMPLATE_PARAM`, the name of the `emailVerificationCode` email template parameter. The verification code is not an email template variable anymore, so the email change flow passes it as this parameter and the `oro_customer.event_listener.customer_user_email_verification_code_email_template` listener resolves `entity.newEmailVerificationCode` from it while the email is rendered. Custom code that sends one of these emails must pass the same parameter, otherwise the rendered link carries no code.
+* Added passing of the `confirmationToken` email template parameter (see `\Oro\Bundle\UserBundle\Mailer\Processor::CONFIRMATION_TOKEN_TEMPLATE_PARAM`) by `\Oro\Bundle\CustomerBundle\Mailer\Processor` and `\Oro\Bundle\CustomerBundle\Handler\ResetPasswordHandler`, so that the reset password, force reset password and welcome email templates still render a working link.
+
+### Changed
+
+#### CustomerBundle
+* Changed `\Oro\Bundle\CustomerBundle\Entity\CustomerUser::$confirmationToken`, `\Oro\Bundle\CustomerBundle\Entity\CustomerUser::$newEmailVerificationCode` and `\Oro\Bundle\CustomerBundle\Entity\CustomerVisitor::$sessionId` so they are not available in email templates and are marked immutable, and therefore cannot be enabled from the Entity Management UI. `\Oro\Bundle\CustomerBundle\Migrations\Schema\v6_0_12_0\DisableFieldsInEmailTemplates` applies the same to an existing installation.
+* Changed the sanitize rules of the `oro_customer_user` and `oro_customer_visitor` tables: `confirmation_token`, `new_email_verification_code` and `session_id` are replaced with an `md5` value and `new_email` with a generated address, so a database dump produced by `php bin/console oro:sanitize:dump-sql` carries no usable password reset token, verification code or visitor session id.
+* Changed the shipped `customer_user_reset_password`, `customer_user_force_reset_password`, `customer_user_welcome_email_registered_by_admin`, `customer_user_email_change_confirmation` and `customer_user_email_change_verification_to_old_email` email templates so they read the `confirmationToken` and `emailVerificationCode` email template parameters instead of `entity.confirmationToken` and `entity.newEmailVerificationCode`. `\Oro\Bundle\CustomerBundle\Migrations\Data\ORM\LoadEmailTemplates` applies the new content to an installation that has not customised them.
+
 ## Changes in the Customer Portal package versions
 
 - [6.0.0](#600-2024-03-30)

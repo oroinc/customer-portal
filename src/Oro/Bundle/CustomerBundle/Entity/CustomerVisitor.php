@@ -37,7 +37,7 @@ class CustomerVisitor implements ExtendEntityInterface, UserInterface
     private ?\DateTimeInterface $lastVisit;
 
     #[ORM\Column(name: 'session_id', type: Types::STRING, length: 255, nullable: false)]
-    #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
+    #[ConfigField(defaultValues: ['email' => ['available_in_template' => false, 'immutable' => true]])]
     private ?string $sessionId = null;
 
     #[ORM\OneToOne(targetEntity: CustomerUser::class, cascade: ['persist'])]

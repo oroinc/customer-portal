@@ -22,6 +22,9 @@ oro_sanitize:
                 email_lowercase: email
                 last_name: md5
                 password: md5
+                confirmation_token: md5
+                new_email: email
+                new_email_verification_code: md5
         oro_customer_user_address:
             fields:
                 street: md5
@@ -35,3 +38,6 @@ oro_sanitize:
         oro_customer_user_api:
             fields:
                 api_key: md5
+        oro_customer_visitor:
+            fields:
+                session_id: md5

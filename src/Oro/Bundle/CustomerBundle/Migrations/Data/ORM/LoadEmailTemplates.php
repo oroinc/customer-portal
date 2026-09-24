@@ -20,7 +20,7 @@ class LoadEmailTemplates extends AbstractHashEmailMigration implements Versioned
 
     public function getVersion(): string
     {
-        return '1.9';
+        return '6.0.12.0';
     }
 
     protected function getEmailHashesToUpdate(): array
@@ -41,9 +41,9 @@ class LoadEmailTemplates extends AbstractHashEmailMigration implements Versioned
                 'a36f8bfd13af225f6fb5a1c79397bb4f', // 1.5
                 'a36f8bfd13af225f6fb5a1c79397bb4f', // 1.6
                 'a36f8bfd13af225f6fb5a1c79397bb4f', // 1.7
-                'a36f8bfd13af225f6fb5a1c79397bb4f', // 1.8
-                '0a24f26d8cd2c15fb396d6bd34e99437', // correctly recalculated hash of the 1.8 content
-                '57ae2ce533a0fee9e6b5b7ae8c83864e', // 1.9
+                '0a24f26d8cd2c15fb396d6bd34e99437', // 1.8
+                '57ae2ce533a0fee9e6b5b7ae8c83864e', // 6.0.10.1
+                'ee2cb1b371450d9410085de4258b516b', // 6.0.12.0
             ],
             'customer_user_confirmation_email' => [
                 '47e012b40cec188ad88dfb7e3379446d', // 1.1
@@ -59,6 +59,7 @@ class LoadEmailTemplates extends AbstractHashEmailMigration implements Versioned
                 'a03885915c75cb0ead5b4e8dc21c457e', // 1.5
                 'a03885915c75cb0ead5b4e8dc21c457e', // 1.6
                 'a03885915c75cb0ead5b4e8dc21c457e', // 1.7
+                '1a2357527186681b32d9e5a6513c40ae', // 6.0.12.0
             ],
             'customer_user_force_reset_password' => [
                 'beb25a213aa466f95ae48d710478fa13', // 1.3
@@ -66,13 +67,18 @@ class LoadEmailTemplates extends AbstractHashEmailMigration implements Versioned
                 '52324c35721f05c73b6c5509633c7908', // 1.5
                 '52324c35721f05c73b6c5509633c7908', // 1.6
                 '52324c35721f05c73b6c5509633c7908', // 1.7
-                '45c84ee889df90521224a212d892e9bb', // 1.9
+                '45c84ee889df90521224a212d892e9bb', // 6.0.10.1
+                'b112d08d3ea68d5909eb9b3495d434aa', // 6.0.12.0
             ],
             'customer_user_email_change_verification_to_old_email' => [
                 'f477160ba58f2bb45eb30a2114d16dc9', // 1.7
+                '4e14e5f94e75a58d2eacdaa423be807b', // 1.8
+                'bd024c44a4f1a3e14f6cb6ccdb8937e2', // 6.0.12.0
             ],
             'customer_user_email_change_confirmation' => [
                 '44d604e21af4dd03913f7860e9a6b441', // 1.7
+                '250896ec2d754259e813db39ea5a0cb3', // 1.8
+                '3d0ef2db5b64f98e462935107e0ec7e4', // 6.0.12.0
             ],
             'customer_user_email_change_verification_to_new_email' => [
                 '43e8ff40dce339110d8a369238ec5820', // 1.7
