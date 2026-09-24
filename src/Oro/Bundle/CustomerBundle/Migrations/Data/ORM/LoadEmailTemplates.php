@@ -20,7 +20,7 @@ class LoadEmailTemplates extends AbstractHashEmailMigration implements Versioned
 
     public function getVersion(): string
     {
-        return '1.8';
+        return '1.9';
     }
 
     protected function getEmailHashesToUpdate(): array
@@ -42,6 +42,8 @@ class LoadEmailTemplates extends AbstractHashEmailMigration implements Versioned
                 'a36f8bfd13af225f6fb5a1c79397bb4f', // 1.6
                 'a36f8bfd13af225f6fb5a1c79397bb4f', // 1.7
                 'a36f8bfd13af225f6fb5a1c79397bb4f', // 1.8
+                '0a24f26d8cd2c15fb396d6bd34e99437', // correctly recalculated hash of the 1.8 content
+                '57ae2ce533a0fee9e6b5b7ae8c83864e', // 1.9
             ],
             'customer_user_confirmation_email' => [
                 '47e012b40cec188ad88dfb7e3379446d', // 1.1
@@ -64,6 +66,7 @@ class LoadEmailTemplates extends AbstractHashEmailMigration implements Versioned
                 '52324c35721f05c73b6c5509633c7908', // 1.5
                 '52324c35721f05c73b6c5509633c7908', // 1.6
                 '52324c35721f05c73b6c5509633c7908', // 1.7
+                '45c84ee889df90521224a212d892e9bb', // 1.9
             ],
             'customer_user_email_change_verification_to_old_email' => [
                 'f477160ba58f2bb45eb30a2114d16dc9', // 1.7
