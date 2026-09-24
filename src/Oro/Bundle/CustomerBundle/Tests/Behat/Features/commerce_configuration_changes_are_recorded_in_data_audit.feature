@@ -21,6 +21,7 @@ Feature: Commerce configuration changes are recorded in Data Audit
     And I check "Enable Search History Reporting"
     And I click "Save settings"
     Then I should see "Configuration saved" flash message
+    And should be 1 audit record for "oro_website_search.enable_global_search_history_feature" configuration option
     When I go to System/ Data Audit
     Then I should see "Configuration: Organization" in grid
     And I should see "Enable Search History Reporting" in grid
@@ -33,6 +34,7 @@ Feature: Commerce configuration changes are recorded in Data Audit
     And I uncheck "Enable Search History Collection"
     And I click "Save settings"
     Then I should see "Configuration saved" flash message
+    And should be 1 audit record for "oro_website_search.enable_global_search_history_tracking" configuration option
     When I go to System/ Data Audit
     Then I should see "Configuration: Website" in grid
 
@@ -44,6 +46,7 @@ Feature: Commerce configuration changes are recorded in Data Audit
     And I uncheck "Enable Search History Collection"
     And I click "Save settings"
     Then I should see "Configuration saved" flash message
+    And should be 2 audit records for "oro_website_search.enable_global_search_history_tracking" configuration option
     When I go to System/ Data Audit
     Then I should see "Configuration: Customer Group" in grid
 
@@ -55,6 +58,7 @@ Feature: Commerce configuration changes are recorded in Data Audit
     And I check "Enable Search History Collection"
     And I click "Save settings"
     Then I should see "Configuration saved" flash message
+    And should be 3 audit records for "oro_website_search.enable_global_search_history_tracking" configuration option
     When I go to System/ Data Audit
     Then I should see "Configuration: Customer" in grid
 

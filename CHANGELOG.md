@@ -28,6 +28,7 @@ The current file describes significant changes in the code that may affect the u
 
 #### CommerceMenuBundle
 * Added `\Oro\Bundle\CommerceMenuBundle\Api\Processor\Menu\LoadMenuProcessor` processor to load menu data as a flat list with parent relationships.
+* Added recording of storefront menu changes in Data Audit: every change an administrator makes in **System > Storefront Menus** (and in the storefront menus of an organization, a website, a customer group or a customer) is stored as an audit record of the changed menu item, whose entity type is the level the menu was customized on. The records are produced by the menu audit of the DataAuditBundle, which is registered for the storefront menus in `Resources/config/services.yml`.
 
 #### FrontendAttachmentBundle
 * Added parameter `oro_frontend.frontend_api.use_absolute_urls_for_api`, default false, to enable absolute URLs for attachment images and CMS assets in API responses.
@@ -50,6 +51,9 @@ The current file describes significant changes in the code that may affect the u
 
 ### Changed
 * Updated `\Oro\Bundle\FrontendAttachmentBundle\Provider\FileUrlProvider` to support an API URL resolver for dynamic reference type handling.
+
+#### CommerceMenuBundle
+* Changed the `Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate` entity configuration: a storefront menu item is a system record managed on the page of its menu, so the entity is hidden from the entity management grid, its entity config pages respond with 404, excluded from the lists of entities (`oro_entity: exclusions`) and its entity audit is turned off and locked (`dataaudit: {auditable: false, immutable: true}`) — the changes of a storefront menu item are recorded by the menu audit, so the entity audit of the same rows would only duplicate them.
 
 #### CustomerBundle
 * Changed `Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler` so it extends `Oro\Bundle\UserBundle\Form\Handler\AbstractPasswordResetRequestHandler` and only schedules the processing of the submitted email instead of resolving the customer user account and sending the reset password email within the request. Its constructor is kept as is for backward compatibility, but `$userManager` and `$translator` are not used anymore; the message producer, the user logging info provider, the website manager and the user localization manager are injected with the `setMessageProducer()`, `setUserLoggingInfoProvider()`, `setWebsiteManager()` and `setUserLocalizationManager()` methods.

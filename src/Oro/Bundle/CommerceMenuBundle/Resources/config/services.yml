@@ -97,6 +97,87 @@ services:
             - '@oro_commerce_menu.manager.menu_update'
             - 'Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate'
 
+    oro_commerce_menu.audit.inherited_state:
+        class: Oro\Bundle\DataAuditBundle\MenuUpdate\MenuUpdateInheritedStatePropagator
+        arguments:
+            - '@doctrine'
+            - '@property_accessor'
+            - '@oro_dataaudit.model.menu_audit_value_normalizer'
+        tags:
+            # Runs last, when a menu update carries everything it inherits and nothing a person changed yet.
+            - { name: oro_commerce_menu.menu_update.propagator.to_menu_update, priority: -255 }
+
+    oro_commerce_menu.audit.level_provider:
+        class: Oro\Bundle\DataAuditBundle\Provider\MenuAuditLevelProvider
+        arguments:
+            - '@oro_scope.scope_manager'
+            - '@oro_entity.entity_name_resolver'
+            - 'menu_frontend_visibility'
+            - 'Oro\Bundle\CommerceMenuBundle\'
+            - 'StorefrontMenu'
+            - 'oro.commercemenu.audit.type.'
+            - 'Storefront Menu'
+
+    oro_commerce_menu.audit.field_label_provider:
+        class: Oro\Bundle\DataAuditBundle\Provider\MenuAuditFieldLabelProvider
+        arguments:
+            - '@oro_commerce_menu.audit.level_provider'
+            - '@oro_entity_config.config_manager'
+            - 'Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate'
+            - '@translator'
+
+    oro_commerce_menu.audit.type:
+        class: Oro\Bundle\DataAuditBundle\Provider\LevelAuditType
+        arguments:
+            - '@oro_commerce_menu.audit.level_provider'
+            - '@oro_commerce_menu.audit.field_label_provider'
+            - '@translator'
+        tags:
+            - { name: oro_dataaudit.audit_type }
+
+    oro_commerce_menu.audit.object_provider:
+        class: Oro\Bundle\DataAuditBundle\Provider\MenuAuditObjectProvider
+        arguments:
+            - '@oro_commerce_menu.audit.level_provider'
+            - 'Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate'
+        tags:
+            - { name: oro_dataaudit.menu_audit_object }
+
+    oro_commerce_menu.provider.menu_user_agent_condition_entity_name:
+        class: Oro\Bundle\CommerceMenuBundle\Provider\MenuUserAgentConditionEntityNameProvider
+        arguments:
+            - '@translator'
+        tags:
+            - { name: oro_entity.name_provider, priority: 100 }
+
+    oro_commerce_menu.audit.item_name_provider:
+        class: Oro\Bundle\DataAuditBundle\Provider\MenuItemNameProvider
+        arguments:
+            - '@doctrine'
+            - '@oro_navigation.configuration.provider'
+            - '@translator'
+            - 'Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate'
+
+    oro_commerce_menu.audit.change_collector:
+        class: Oro\Bundle\DataAuditBundle\EventListener\MenuUpdateChangeCollector
+        arguments:
+            - '@oro_dataaudit.audit_entry_recorder'
+            - 'Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate'
+        tags:
+            - { name: doctrine.event_listener, event: onFlush }
+
+    oro_commerce_menu.event_listener.menu_update_audit:
+        class: Oro\Bundle\DataAuditBundle\EventListener\MenuUpdateAuditListener
+        arguments:
+            - '@oro_dataaudit.audit_entry_recorder'
+            - '@oro_commerce_menu.audit.change_collector'
+            - '@oro_commerce_menu.audit.level_provider'
+            - '@oro_dataaudit.model.menu_audit_value_normalizer'
+            - '@oro_commerce_menu.audit.inherited_state'
+            - '@oro_commerce_menu.audit.item_name_provider'
+        tags:
+            - { name: kernel.event_listener, event: oro_menu.menu_update_change, method: onMenuUpdateChange }
+
     oro_commerce_menu.menu_update.factory:
         class: Oro\Bundle\NavigationBundle\MenuUpdate\Factory\MenuUpdateFactory
         arguments:
@@ -182,6 +263,20 @@ services:
         class: 'Oro\Bundle\NavigationBundle\EventListener\MenuGridListener'
         tags:
             - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.pre.frontend-menu-by-scope-grid, method: onPreBuild }
+
+    oro_commerce_menu.event_listener.entity_config_grid_listener:
+        class: 'Oro\Bundle\NavigationBundle\Datagrid\ExcludedEntitiesConfigGridListener'
+        arguments:
+            - ['Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate']
+        tags:
+            - { name: kernel.event_listener, event: oro_datagrid.datagrid.build.after.entityconfig-grid, method: onBuildAfter }
+
+    oro_commerce_menu.event_listener.entity_config_request_listener:
+        class: 'Oro\Bundle\NavigationBundle\EventListener\ExcludedEntitiesConfigRequestListener'
+        arguments:
+            - ['Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate']
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller_arguments, method: onKernelControllerArguments }
 
     oro_commerce_menu.menu_scope_provider.abstract:
         abstract: true
