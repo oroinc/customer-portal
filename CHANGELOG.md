@@ -6,6 +6,9 @@ The current file describes significant changes in the code that may affect the u
 
 ### Added
 
+#### CommerceMenuBundle
+* Added recording of storefront menu changes in Data Audit: every change an administrator makes in **System > Storefront Menus** (and in the storefront menus of an organization, a website, a customer group or a customer) is stored as an audit record of the changed menu item, whose entity type is the level the menu was customized on. The records are produced by the menu audit of the DataAuditBundle, which is registered for the storefront menus in `Resources/config/services.yml`.
+
 #### CustomerBundle
 * Added search configuration for the `Oro\Bundle\CustomerBundle\Entity\CustomerAddress`.
 * Added `Oro\Bundle\CustomerBundle\EventListener\RedirectCustomerAddressSearchToCustomerListener` listener that redirects `CustomerAddress` search results to the parent Customer view page (`oro_customer_customer_view`).
@@ -14,6 +17,9 @@ The current file describes significant changes in the code that may affect the u
 * Added `Oro\Bundle\CustomerBundle\Async\PasswordResetRequestContext` that holds the context of the request a forgot password form was submitted in while the reset password email is being sent by a message queue consumer, and `Oro\Bundle\CustomerBundle\EventListener\PasswordResetRequestEmailTemplateContextListener` that applies the localization from this context to the email template criteria context.
 
 ### Changed
+
+#### CommerceMenuBundle
+* Changed the `Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate` entity configuration: a storefront menu item is a system record managed on the page of its menu, so the entity is hidden from the entity management grid, its entity config pages respond with 404, excluded from the lists of entities (`oro_entity: exclusions`) and its entity audit is turned off and locked (`dataaudit: {auditable: false, immutable: true}`) — the changes of a storefront menu item are recorded by the menu audit, so the entity audit of the same rows would only duplicate them.
 
 #### CustomerBundle
 * Changed `Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler` so it extends `Oro\Bundle\UserBundle\Form\Handler\AbstractPasswordResetRequestHandler` and only schedules the processing of the submitted email instead of resolving the customer user account and sending the reset password email within the request. Its constructor is kept as is for backward compatibility, but `$userManager` and `$translator` are not used anymore; the message producer, the user logging info provider, the website manager and the user localization manager are injected with the `setMessageProducer()`, `setUserLoggingInfoProvider()`, `setWebsiteManager()` and `setUserLocalizationManager()` methods. This way the forgot password form does the same amount of work for every submitted email, so the response time no longer discloses whether the email belongs to an existing account. A message queue consumer must be running for the reset password emails to be sent.
