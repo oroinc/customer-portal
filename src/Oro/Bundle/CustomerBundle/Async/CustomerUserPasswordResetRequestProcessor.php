@@ -72,7 +72,7 @@ class CustomerUserPasswordResetRequestProcessor extends AbstractPasswordResetReq
     {
         /** @var CustomerUser|null $user */
         $user = $this->userManager->findUserByUsernameOrEmail($email);
-        if (null === $user || $this->isPasswordAlreadyRequested($user)) {
+        if (null === $user) {
             return self::ACK;
         }
 
