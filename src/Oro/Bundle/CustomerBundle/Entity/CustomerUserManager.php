@@ -95,7 +95,7 @@ class CustomerUserManager extends BaseUserManager
     public function confirmRegistration(CustomerUser $user): void
     {
         $user->setConfirmed(true)
-            ->setConfirmationToken($this->generateToken());
+            ->setConfirmationToken(null);
 
         $sent = $this->getEmailProcessor()->sendWelcomeNotification($user);
         if (!$sent) {
@@ -114,7 +114,7 @@ class CustomerUserManager extends BaseUserManager
 
     public function sendWelcomeRegisteredByAdminEmail(CustomerUser $user): void
     {
-        $user->setConfirmationToken($this->generateToken());
+        $user->renewConfirmationToken();
 
         $sent = $this->getEmailProcessor()->sendWelcomeForRegisteredByAdminNotification($user);
         if (!$sent) {
@@ -130,7 +130,8 @@ class CustomerUserManager extends BaseUserManager
     public function sendConfirmationEmail(CustomerUser $user): void
     {
         $user->setConfirmed(false)
-            ->setConfirmationToken($this->generateToken());
+            ->setConfirmationToken($this->generateToken())
+            ->setPasswordRequestedAt(null);
 
         $this->updateUser($user);
 
@@ -166,8 +167,7 @@ class CustomerUserManager extends BaseUserManager
 
     public function sendResetPasswordEmail(CustomerUser $user): void
     {
-        $user->setConfirmationToken($this->generateToken());
-        $user->setPasswordRequestedAt(new \DateTime('now', new \DateTimeZone('UTC')));
+        $user->renewConfirmationToken();
         $this->updateUser($user);
 
         $this->getEmailProcessor()->sendResetPasswordEmail($user);

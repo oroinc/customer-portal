@@ -22,7 +22,7 @@ class LoadEmailTemplates extends AbstractHashEmailMigration implements Versioned
     #[\Override]
     public function getVersion(): string
     {
-        return '7.1.0.1';
+        return '7.1.0.2';
     }
 
     #[\Override]
@@ -46,6 +46,7 @@ class LoadEmailTemplates extends AbstractHashEmailMigration implements Versioned
                 'a36f8bfd13af225f6fb5a1c79397bb4f', // 1.7
                 '0a24f26d8cd2c15fb396d6bd34e99437', // 1.8
                 'ee2cb1b371450d9410085de4258b516b', // 7.1.0.1
+                '1bd5b96da9dde8b95d67cc5534eb6c79', // 7.1.0.2
             ],
             'customer_user_confirmation_email' => [
                 '47e012b40cec188ad88dfb7e3379446d', // 1.1
@@ -70,6 +71,7 @@ class LoadEmailTemplates extends AbstractHashEmailMigration implements Versioned
                 '52324c35721f05c73b6c5509633c7908', // 1.6
                 '52324c35721f05c73b6c5509633c7908', // 1.7
                 'b112d08d3ea68d5909eb9b3495d434aa', // 7.1.0.1
+                '772a15aa4382fb967b60a7c47c5719cd', // 7.1.0.2
             ],
             'customer_user_email_change_verification_to_old_email' => [
                 'f477160ba58f2bb45eb30a2114d16dc9', // 1.7

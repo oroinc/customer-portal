@@ -112,7 +112,8 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
             'email' => self::RESET_EMAIL,
             'password' => self::RESET_PASSWORD,
             'enabled' => true,
-            'confirmationToken' => 'some_token'
+            'confirmationToken' => 'some_token',
+            'passwordRequestedAt' => true
         ]
     ];
 
@@ -153,6 +154,9 @@ class LoadCustomerUserData extends AbstractFixture implements DependentFixtureIn
                 ->setEnabled($user['enabled'])
                 ->setOrganization($customer->getOrganization())
                 ->setConfirmationToken($user['confirmationToken'] ?? null)
+                ->setPasswordRequestedAt(
+                    !empty($user['passwordRequestedAt']) ? new \DateTime('now', new \DateTimeZone('UTC')) : null
+                )
                 ->addUserRole($role)
                 ->setPlainPassword($user['password'])
                 ->setConfirmed(isset($user['confirmed']) ? $user['confirmed'] : true);
