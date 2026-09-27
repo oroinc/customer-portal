@@ -202,7 +202,7 @@ class CustomerUser extends AbstractUser implements
     #[ORM\Column(name: 'new_email_verification_code', type: Types::STRING, nullable: true)]
     #[ConfigField(defaultValues: [
         'importexport' => ['excluded' => true],
-        'email' => ['available_in_template' => true],
+        'email' => ['available_in_template' => false, 'immutable' => true],
     ])]
     protected ?string $newEmailVerificationCode = null;
 

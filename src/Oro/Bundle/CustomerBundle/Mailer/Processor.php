@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Mailer;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Event\CustomerUserEmailSendEvent;
+use Oro\Bundle\UserBundle\Mailer\Processor as UserMailerProcessor;
 use Oro\Bundle\UserBundle\Mailer\UserTemplateEmailSender;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -67,7 +68,10 @@ class Processor
         return $this->getEmailTemplateAndSendEmail(
             $customerUser,
             static::WELCOME_EMAIL_REGISTERED_BY_ADMIN_TEMPLATE_NAME,
-            ['entity' => $customerUser]
+            [
+                'entity' => $customerUser,
+                UserMailerProcessor::CONFIRMATION_TOKEN_TEMPLATE_PARAM => $customerUser->getConfirmationToken() ?: null,
+            ]
         );
     }
 
@@ -93,7 +97,10 @@ class Processor
         return $this->getEmailTemplateAndSendEmail(
             $customerUser,
             static::RESET_PASSWORD_EMAIL_TEMPLATE_NAME,
-            ['entity' => $customerUser]
+            [
+                'entity' => $customerUser,
+                UserMailerProcessor::CONFIRMATION_TOKEN_TEMPLATE_PARAM => $customerUser->getConfirmationToken() ?: null,
+            ]
         );
     }
 
@@ -102,9 +109,22 @@ class Processor
         $emailTemplateName,
         array $emailTemplateParams
     ): int {
+        return $this->sendEmail($user, $this->dispatchEmailSendEvent($user, $emailTemplateName, $emailTemplateParams));
+    }
+
+    private function dispatchEmailSendEvent(
+        CustomerUser $user,
+        string $emailTemplateName,
+        array $emailTemplateParams
+    ): CustomerUserEmailSendEvent {
         $event = new CustomerUserEmailSendEvent($user, $emailTemplateName, $emailTemplateParams, $user->getWebsite());
         $this->eventDispatcher->dispatch($event, CustomerUserEmailSendEvent::NAME);
 
+        return $event;
+    }
+
+    private function sendEmail(CustomerUser $user, CustomerUserEmailSendEvent $event): int
+    {
         return $this->userTemplateEmailSender->sendUserTemplateEmail(
             $user,
             $event->getEmailTemplate(),

@@ -10,7 +10,7 @@
 
 {% block content %}
     <!--{% set frontendUrl = website_secure_path('oro_frontend_root', {}, entity.website) %}-->
-    <!--{% set resetPasswordUrl = website_secure_path('oro_customer_frontend_customer_user_password_reset', { token: entity.confirmationToken }, entity.website) %}-->
+    <!--{% set resetPasswordUrl = website_secure_path('oro_customer_frontend_customer_user_password_reset', { token: confirmationToken|default('N_A') }, entity.website) %}-->
     <!--{% set recoverPasswordUrl = website_secure_path('oro_customer_frontend_customer_user_reset_request', {}, entity.website) %}-->
 
     <h1 style="{{ styleH1 }}">Dear {{ entity|oro_format_name }},</h1>
@@ -25,6 +25,7 @@
 
     <p style="{{ styleP }}">Please follow the link below to create a password for your new account.</p>
     <p style="{{ styleP }}"><a class="link" style="{{ styleLink }}" href="{{ resetPasswordUrl }}">{{ resetPasswordUrl }}</a></p>
+    <p style="{{ styleP }}">Please note that the link above is only valid for 24 hours.</p>
 
     <!--empty space-->
     <table role="presentation" border="0" cellspacing="0" cellpadding="0">

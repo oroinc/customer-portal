@@ -1,5 +1,12 @@
 oro:
     commercemenu:
+        audit:
+            type:
+                global: 'Storefront Menu: Global'
+                organization: 'Storefront Menu: Organization'
+                website: 'Storefront Menu: Website'
+                customer_group: 'Storefront Menu: Customer Group'
+                customer: 'Storefront Menu: Customer'
         menuupdate:
             entity_label: Menu Update
             entity_plural_label: Menu Updates
@@ -80,6 +87,7 @@ oro:
         menu_user_agent_conditions_collection_group:
             add_label.label: "And"
         menu_user_agent_condition:
+            name: 'Group %group%: %operation% "%value%"'
             value.label: ""
             operation:
                 label: ""

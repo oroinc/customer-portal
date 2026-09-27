@@ -19,7 +19,7 @@
     <p style="{{ styleP }}">We received a request to change your account email to <strong>{{ entity.newEmail }}</strong>.</p>
     <p style="{{ styleP }}">Please visit the link below to confirm or cancel the update:
         <a class="link" style="{{ styleLink }}"
-           href="{{ website_path('oro_customer_frontend_customer_user_confirm_old_email', { token: entity.newEmailVerificationCode }) }}">{{ website_path('oro_customer_frontend_customer_user_confirm_old_email', { token: entity.newEmailVerificationCode }) }}</a>
+           href="{{ website_path('oro_customer_frontend_customer_user_confirm_old_email', { token: emailVerificationCode|default('N_A') }) }}">{{ website_path('oro_customer_frontend_customer_user_confirm_old_email', { token: emailVerificationCode|default('N_A') }) }}</a>
     </p>
     <p style="{{ styleP }}">If you did not authorize this change, please contact support immediately to secure your account.</p>
 {% endblock %}

@@ -18,7 +18,7 @@ class OroCommerceMenuBundleInstaller implements
     #[\Override]
     public function getMigrationVersion(): string
     {
-        return 'v1_8';
+        return 'v1_9';
     }
 
     #[\Override]
