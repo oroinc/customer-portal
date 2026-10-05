@@ -6,6 +6,7 @@ use Behat\Mink\Driver\Selenium2Driver;
 use Doctrine\Persistence\ObjectRepository;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
+use Oro\Bundle\TestFrameworkBundle\Behat\Driver\OroPlaywrightDriver;
 use Oro\Bundle\UserBundle\Entity\Role;
 
 class CustomerUserContext extends OroFeatureContext
@@ -64,8 +65,16 @@ class CustomerUserContext extends OroFeatureContext
      */
     public function iRestartTheBrowser()
     {
-        /** @var Selenium2Driver $driver */
         $driver = $this->getSession()->getDriver();
+
+        if ($driver instanceof OroPlaywrightDriver) {
+            $driver->deleteSessionCookies();
+            $this->visitPath('/');
+
+            return;
+        }
+
+        /** @var Selenium2Driver $driver */
         /** @var \WebDriver\Session $session */
         $session = $driver->getWebDriverSession();
         $cookies = $session->getAllCookies();

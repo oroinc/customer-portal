@@ -4,6 +4,7 @@ namespace Oro\Bundle\CustomerBundle\Tests\Behat\Context;
 
 use Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserAuthenticator;
 use Oro\Bundle\TestFrameworkBundle\Behat\Context\OroFeatureContext;
+use Oro\Bundle\TestFrameworkBundle\Behat\Driver\OroPlaywrightDriver;
 
 class CustomerVisitorContext extends OroFeatureContext
 {
@@ -18,7 +19,10 @@ class CustomerVisitorContext extends OroFeatureContext
     {
         $cookie = $this->getSession()->getCookie(AnonymousCustomerUserAuthenticator::COOKIE_NAME);
         static::assertNotNull($cookie, 'Cannot find cookie');
-        $cookies = $this->getSession()->getDriver()->getWebDriverSession()->getAllCookies();
+        $driver = $this->getSession()->getDriver();
+        $cookies = $driver instanceof OroPlaywrightDriver
+            ? $driver->getAllCookies()
+            : $driver->getWebDriverSession()->getAllCookies();
         foreach ($cookies as $cookie) {
             if (AnonymousCustomerUserAuthenticator::COOKIE_NAME === $cookie['name']) {
                 static::assertEquals(
