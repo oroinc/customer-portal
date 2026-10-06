@@ -287,6 +287,7 @@ const StickyElementView = BaseView.extend({
             return;
         }
 
+        this.onChangeDirection.cancel();
         this.cleanup();
         this.$el.removeData(DATA_KEY);
 
