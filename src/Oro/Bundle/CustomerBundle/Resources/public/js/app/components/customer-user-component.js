@@ -10,7 +10,8 @@ const CustomerUser = BaseComponent.extend({
     options: {
         widgetAlias: null,
         customerFormId: null,
-        customerUserId: null
+        customerUserId: null,
+        rolesRoute: 'oro_customer_customer_user_roles'
     },
 
     /**
@@ -49,6 +50,7 @@ const CustomerUser = BaseComponent.extend({
     reloadRoleWidget: function(e) {
         const customerUserId = this.options.customerUserId;
         const customerId = e.target.value;
+        const rolesRoute = this.options.rolesRoute;
 
         widgetManager.getWidgetInstanceByAlias(this.options.widgetAlias, function(widget) {
             const params = {customerId: customerId};
@@ -74,7 +76,7 @@ const CustomerUser = BaseComponent.extend({
                 delete widget._checkboxesState;
             });
             widget.setUrl(
-                routing.generate('oro_customer_customer_user_roles', params)
+                routing.generate(rolesRoute, params)
             );
             widget.render();
         });

@@ -1,0 +1,12 @@
+{% extends '@OroFrontend/layouts/default/form_theme.html.twig' %}
+
+{% block choice_widget_expanded %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' input-widget-select'
+    }) %}
+    <div {{ block('widget_container_attributes') }}>
+        {% for child in form %}
+            <div>{{ form_widget(child) }}</div>
+        {% endfor %}
+    </div>
+{% endblock %}

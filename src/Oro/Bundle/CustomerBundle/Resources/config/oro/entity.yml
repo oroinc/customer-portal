@@ -3,6 +3,7 @@ oro_entity:
         - { entity: Oro\Bundle\CustomerBundle\Entity\CustomerUser, field: password }
         - { entity: Oro\Bundle\CustomerBundle\Entity\CustomerUser, field: salt }
         - { entity: Oro\Bundle\CustomerBundle\Entity\CustomerUser, field: confirmationToken }
+        - { entity: Oro\Bundle\CustomerBundle\Entity\CustomerUserInvitation, field: tokenHash }
         - { entity: Oro\Bundle\CustomerBundle\Entity\CustomerUserLoginAttempt, field: context }
 
     entity_aliases:
@@ -36,6 +37,9 @@ oro_entity:
         Oro\Bundle\CustomerBundle\Entity\GridView:
             alias:        customer_grid_view
             plural_alias: customer_grid_views
+        Oro\Bundle\CustomerBundle\Entity\CustomerUserInvitation:
+            alias:        customer_user_invitation
+            plural_alias: customer_user_invitations
 
     virtual_fields:
         Oro\Bundle\CustomerBundle\Entity\CustomerUser:

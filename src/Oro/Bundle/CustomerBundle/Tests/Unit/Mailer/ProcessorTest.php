@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Tests\Unit\Mailer;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserInvitation;
 use Oro\Bundle\CustomerBundle\Event\CustomerUserEmailSendEvent;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
 use Oro\Bundle\SecurityBundle\Generator\RandomTokenGenerator;
@@ -212,6 +213,29 @@ class ProcessorTest extends TestCase
         );
 
         self::assertEquals(1, $this->mailProcessor->sendResetPasswordEmail($this->user));
+    }
+
+    public function testSendInvitation(): void
+    {
+        $website = new Website();
+        $invitation = (new CustomerUserInvitation())
+            ->setEmail('invited@example.com')
+            ->setWebsite($website);
+        $token = 'invitation-token';
+
+        $this->userTemplateEmailSender->expects(self::once())
+            ->method('sendUserTemplateEmail')
+            ->with(
+                $invitation,
+                Processor::INVITATION_EMAIL_TEMPLATE_NAME,
+                ['entity' => $invitation, 'token' => $token],
+                $website
+            )
+            ->willReturn(1);
+        $this->eventDispatcher->expects(self::never())
+            ->method('dispatch');
+
+        self::assertEquals(1, $this->mailProcessor->sendInvitation($invitation, $token));
     }
 
     private function assertEventDispatched(string $template, array $params): void

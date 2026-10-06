@@ -32,6 +32,13 @@ services:
             - { name: container.service_subscriber, id: oro_customer.customer_user.handler, key: Oro\Bundle\FormBundle\Form\Handler\FormHandlerInterface }
             - { name: container.service_subscriber, id: oro_customer.customer_user.email_change_handler }
 
+    Oro\Bundle\CustomerBundle\Controller\CustomerUserInvitationController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer.manager.customer_user_invitation, key: Oro\Bundle\CustomerBundle\Manager\CustomerUserInvitationManager }
+
     Oro\Bundle\CustomerBundle\Controller\CustomerController:
         calls:
             - ['setContainer', ['@Psr\Container\ContainerInterface']]
@@ -84,6 +91,15 @@ services:
             - { name: container.service_subscriber, id: oro_customer_user.manager, key: Oro\Bundle\CustomerBundle\Entity\CustomerUserManager }
             - { name: container.service_subscriber, id: oro_customer.provider.frontend_customer_user_form, key: Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserFormProvider }
             - { name: container.service_subscriber, id: oro_customer.customer_user.handler, key: Oro\Bundle\FormBundle\Form\Handler\FormHandlerInterface }
+
+    Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerUserInvitationController:
+        calls:
+            - ['setContainer', ['@Psr\Container\ContainerInterface']]
+        tags:
+            - { name: container.service_subscriber }
+            - { name: container.service_subscriber, id: oro_customer.provider.frontend_customer_user_invitation_form, key: Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserInvitationFormProvider }
+            - { name: container.service_subscriber, id: oro_customer.manager.customer_user_invitation, key: Oro\Bundle\CustomerBundle\Manager\CustomerUserInvitationManager }
+            - { name: container.service_subscriber, id: oro_website.manager, key: Oro\Bundle\WebsiteBundle\Manager\WebsiteManager }
 
     Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerUserAddressController:
         calls:

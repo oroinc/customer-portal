@@ -3,6 +3,7 @@
 namespace Oro\Bundle\CustomerBundle\Mailer;
 
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserInvitation;
 use Oro\Bundle\CustomerBundle\Event\CustomerUserEmailSendEvent;
 use Oro\Bundle\UserBundle\Mailer\Processor as UserMailerProcessor;
 use Oro\Bundle\UserBundle\Mailer\UserTemplateEmailSender;
@@ -18,6 +19,7 @@ class Processor
     public const WELCOME_EMAIL_REGISTERED_BY_ADMIN_TEMPLATE_NAME = 'customer_user_welcome_email_registered_by_admin';
     public const CONFIRMATION_EMAIL_TEMPLATE_NAME = 'customer_user_confirmation_email';
     public const RESET_PASSWORD_EMAIL_TEMPLATE_NAME = 'customer_user_reset_password';
+    public const INVITATION_EMAIL_TEMPLATE_NAME = 'customer_user_invitation';
 
     /**
      * @var UserTemplateEmailSender
@@ -101,6 +103,16 @@ class Processor
                 'entity' => $customerUser,
                 UserMailerProcessor::CONFIRMATION_TOKEN_TEMPLATE_PARAM => $customerUser->getConfirmationToken() ?: null,
             ]
+        );
+    }
+
+    public function sendInvitation(CustomerUserInvitation $invitation, string $token): int
+    {
+        return $this->userTemplateEmailSender->sendUserTemplateEmail(
+            $invitation,
+            self::INVITATION_EMAIL_TEMPLATE_NAME,
+            ['entity' => $invitation, 'token' => $token],
+            $invitation->getWebsite()
         );
     }
 

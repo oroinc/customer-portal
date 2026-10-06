@@ -1,0 +1,3 @@
+{%- if record.getValue('acceptedUserId') -%}
+    <a href="{{ path('oro_customer_customer_user_view', {id: record.getValue('acceptedUserId')}) }}">{{ value }}</a>
+{%- endif -%}

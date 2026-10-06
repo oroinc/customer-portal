@@ -25,6 +25,13 @@ oro.customer:
                 title: Reset password
                 label: Reset
 
+    customeruserinvitation:
+        action:
+            revoke: Revoke
+        revoke_confirmation:
+            title: Revoke Invitation
+            message: Are you sure you want to revoke this invitation?
+
     customer_address_book:
         customer_addresses: 'Company Addresses'
 

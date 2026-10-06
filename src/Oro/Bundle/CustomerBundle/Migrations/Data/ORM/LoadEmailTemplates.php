@@ -22,7 +22,7 @@ class LoadEmailTemplates extends AbstractHashEmailMigration implements Versioned
     #[\Override]
     public function getVersion(): string
     {
-        return '7.1.0.2';
+        return '7.1.0.4';
     }
 
     #[\Override]

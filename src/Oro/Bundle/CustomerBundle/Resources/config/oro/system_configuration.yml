@@ -8,6 +8,9 @@ system_configuration:
         customer_users_registration:
             title: oro.customer.system_configuration.groups.customer_users_registration.title
             icon: 'fa-user-plus'
+        customer_user_invitations:
+            title: oro.customer.system_configuration.groups.customer_user_invitations.title
+            icon: 'fa-envelope-o'
         # Start Requirement for "Default Theme 50/51"
         menu_templates:
             title: oro.customer.system_configuration.groups.menu_templates.title
@@ -63,6 +66,13 @@ system_configuration:
             options:
                 label: oro.customer.system_configuration.fields.registration_allowed.label
                 tooltip: oro.customer.system_configuration.fields.registration_allowed.tooltip
+                required: false
+        oro_customer.customer_user_invitations_enabled:
+            data_type: boolean
+            type: Oro\Bundle\ConfigBundle\Form\Type\ConfigCheckbox
+            options:
+                label: oro.customer.system_configuration.fields.customer_user_invitations_enabled.label
+                tooltip: oro.customer.system_configuration.fields.customer_user_invitations_enabled.tooltip
                 required: false
         oro_customer.registration_link_enabled:
             data_type: boolean
@@ -297,6 +307,10 @@ system_configuration:
                                             - oro_customer.registration_instructions_text
                                             - oro_customer.case_insensitive_email_addresses_enabled
                                             - oro_customer.email_enumeration_protection_enabled
+                                    customer_user_invitations:
+                                        priority: 95
+                                        children:
+                                            - oro_customer.customer_user_invitations_enabled
                                     customer_visitor_section:
                                         priority: 90
                                         children:
@@ -356,6 +370,15 @@ system_configuration:
                                         children:
                                             - oro_customer.maps_enabled
         website_configuration:
+            commerce:
+                children:
+                    customer:
+                        children:
+                            customer_users:
+                                children:
+                                    customer_user_invitations:
+                                        children:
+                                            - oro_customer.customer_user_invitations_enabled
             platform:
                 children:
                     general_setup:
@@ -368,6 +391,13 @@ system_configuration:
         organization_configuration:
             commerce:
                 children:
+                    customer:
+                        children:
+                            customer_users:
+                                children:
+                                    customer_user_invitations:
+                                        children:
+                                            - oro_customer.customer_user_invitations_enabled
                     guests:
                         children:
                             website_access:
@@ -388,6 +418,13 @@ system_configuration:
         customer_configuration:
             commerce:
                 children:
+                    customer:
+                        children:
+                            customer_users:
+                                children:
+                                    customer_user_invitations:
+                                        children:
+                                            - oro_customer.customer_user_invitations_enabled
                     search:
                         children:
                             website_search_terms:
@@ -417,6 +454,13 @@ system_configuration:
         customer_group_configuration:
             commerce:
                 children:
+                    customer:
+                        children:
+                            customer_users:
+                                children:
+                                    customer_user_invitations:
+                                        children:
+                                            - oro_customer.customer_user_invitations_enabled
                     search:
                         children:
                             website_search_terms:

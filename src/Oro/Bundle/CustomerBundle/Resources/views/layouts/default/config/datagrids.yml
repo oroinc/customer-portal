@@ -642,3 +642,68 @@ datagrids:
             delete:
                 entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress
                 acl_resource:  oro_customer_frontend_customer_user_address_remove
+
+    frontend-customer-user-invitations-grid:
+        entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerUserInvitation
+        acl_resource: oro_customer_frontend_customer_user_invitation_view
+        options:
+            frontend: true
+            entityHint: oro.customer.customeruserinvitation.entity_plural_label
+        source:
+            type: orm
+            query:
+                select:
+                    - invitation
+                    - invitation.email
+                    - invitation.sentAt
+                    - invitation.expiresAt
+                    - customer.name AS customerName
+                    - CONCAT(invitedBy.firstName, CONCAT(' ', invitedBy.lastName)) AS invitedByName
+                from:
+                    - { table: Oro\Bundle\CustomerBundle\Entity\CustomerUserInvitation, alias: invitation }
+                join:
+                    left:
+                        - { join: invitation.customer, alias: customer }
+                        - { join: invitation.invitedBy, alias: invitedBy }
+                        - { join: Oro\Bundle\EntityExtendBundle\Entity\EnumOption, alias: invitationStatusOption, conditionType: WITH, condition: "JSON_EXTRACT(invitation.serialized_data, 'status') = invitationStatusOption" }
+                where:
+                    and:
+                        - invitationStatusOption.internalId = 'pending'
+                        - invitation.expiresAt > CURRENT_TIMESTAMP()
+        columns:
+            email:
+                label: oro.customer.customeruserinvitation.email.label
+            customerName:
+                label: oro.customer.customeruserinvitation.customer.label
+            invitedByName:
+                label: oro.customer.customeruserinvitation.invited_by.label
+            sentAt:
+                label: oro.customer.customeruserinvitation.sent_at.label
+                frontend_type: datetime
+            expiresAt:
+                label: oro.customer.customeruserinvitation.expires_at.label
+                frontend_type: datetime
+        properties:
+            id: ~
+        sorters:
+            columns:
+                email:
+                    data_name: invitation.email
+                customerName:
+                    data_name: customerName
+                invitedByName:
+                    data_name: invitedByName
+                sentAt:
+                    data_name: invitation.sentAt
+                expiresAt:
+                    data_name: invitation.expiresAt
+            default:
+                sentAt: DESC
+        filters:
+            columns:
+                email:
+                    type: string
+                    data_name: invitation.email
+                customerName:
+                    type: string
+                    data_name: customerName

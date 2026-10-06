@@ -150,6 +150,27 @@ services:
             - { name: form.type, alias: oro_customer_frontend_customer_user_register }
             - { name: oro_form.captcha_protected, form_name: oro_customer_frontend_customer_user_register }
 
+    oro_customer.form.type.frontend.customer_user_invitation:
+        class: Oro\Bundle\CustomerBundle\Form\Type\FrontendCustomerUserInvitationType
+        arguments:
+            - '@doctrine'
+            - '@oro_security.acl_helper'
+        tags:
+            - { name: form.type, alias: oro_customer_frontend_customer_user_invitation }
+
+    oro_customer.form.type.customer_user_invitation:
+        class: Oro\Bundle\CustomerBundle\Form\Type\CustomerUserInvitationType
+        arguments:
+            - '@doctrine'
+            - '@oro_security.acl_helper'
+        tags:
+            - { name: form.type, alias: oro_customer_customer_user_invitation }
+
+    oro_customer.form.type.frontend.customer_user_invitation_accept:
+        class: Oro\Bundle\CustomerBundle\Form\Type\CustomerUserInvitationAcceptType
+        tags:
+            - { name: form.type, alias: oro_customer_frontend_customer_user_invitation_accept }
+
     oro_customer.form.type.frontend.customer_user.password_request:
         class: 'Oro\Bundle\CustomerBundle\Form\Type\CustomerUserPasswordRequestType'
         tags:

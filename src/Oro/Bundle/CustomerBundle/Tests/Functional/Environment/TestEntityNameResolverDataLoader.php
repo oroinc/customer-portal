@@ -9,10 +9,12 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerAddress;
 use Oro\Bundle\CustomerBundle\Entity\CustomerGroup;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserInvitation;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserRole;
 use Oro\Bundle\EntityBundle\Provider\EntityNameProviderInterface;
 use Oro\Bundle\EntityBundle\Tests\Functional\Environment\TestEntityNameResolverDataLoaderInterface;
+use Oro\Bundle\WebsiteBundle\Entity\Website;
 
 class TestEntityNameResolverDataLoader implements TestEntityNameResolverDataLoaderInterface
 {
@@ -89,6 +91,32 @@ class TestEntityNameResolverDataLoader implements TestEntityNameResolverDataLoad
             return ['customerUser'];
         }
 
+        if (CustomerUserInvitation::class === $entityClass) {
+            $customer = new Customer();
+            $customer->setName('Invited Customer');
+            $customer->setOrganization($repository->getReference('organization'));
+            $customer->setOwner($repository->getReference('user'));
+            $em->persist($customer);
+
+            $website = new Website();
+            $website->setName('Invitation Website');
+            $website->setOrganization($repository->getReference('organization'));
+            $website->setOwner($repository->getReference('business_unit'));
+            $em->persist($website);
+
+            $invitation = new CustomerUserInvitation();
+            $invitation->setOrganization($repository->getReference('organization'));
+            $invitation->setWebsite($website);
+            $invitation->setCustomer($customer);
+            $invitation->setEmail('invited@example.com');
+            $invitation->setExpiresAt(new \DateTime('+1 day', new \DateTimeZone('UTC')));
+            $repository->setReference('customerUserInvitation', $invitation);
+            $em->persist($invitation);
+            $em->flush();
+
+            return ['customerUserInvitation'];
+        }
+
         if (CustomerUserAddress::class === $entityClass) {
             $customerUser = new CustomerUser();
             $customerUser->setOrganization($repository->getReference('organization'));
@@ -153,6 +181,9 @@ class TestEntityNameResolverDataLoader implements TestEntityNameResolverDataLoad
             return EntityNameProviderInterface::SHORT === $format
                 ? 'John'
                 : 'John M Doo';
+        }
+        if (CustomerUserInvitation::class === $entityClass) {
+            return 'invited@example.com';
         }
         if (CustomerUserAddress::class === $entityClass) {
             return EntityNameProviderInterface::SHORT === $format

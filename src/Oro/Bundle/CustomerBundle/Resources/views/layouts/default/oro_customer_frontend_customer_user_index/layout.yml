@@ -6,8 +6,15 @@ layout:
             id: oro_customer_user_grid
             root: page_content
             namespace: customer_users
+        -
+            id: oro_customer_user_invitation_grid
+            root: page_content
+            namespace: invitations
 
     actions:
+        - '@setBlockTheme':
+            themes: '@OroCustomer/layouts/default/oro_customer_frontend_customer_user_index/layout.html.twig'
+
         - '@add':
             id: customer_user_external_toolbar
             parentId: page_title_container
@@ -35,3 +42,23 @@ layout:
             optionName: grid_render_parameters.toolbarOptions.itemsCounter
             optionValue:
                 transTemplate: 'oro_frontend.datagrid.pagination.totalRecords.usersPlural'
+
+        - '@add':
+            id: customer_user_open_invitations
+            parentId: page_content
+            siblingId: customer_users_datagrid
+            prepend: false
+            blockType: container
+            options:
+                visible: '=data["feature"].isFeatureEnabled("customer_user_invitations") && data["acl"].isGranted("oro_customer_frontend_customer_user_invitation_view")'
+                attr:
+                    class: customer-user-open-invitations
+
+        - '@add':
+            id: customer_user_open_invitations_title
+            parentId: customer_user_open_invitations
+            blockType: block
+
+        - '@move':
+            id: invitations_datagrid
+            parentId: customer_user_open_invitations

@@ -43,6 +43,11 @@ oro_customer_customer_user:
     type: attribute
     prefix: /customer/user
 
+oro_customer_customer_user_invitation:
+    resource: "@OroCustomerBundle/Controller/CustomerUserInvitationController.php"
+    type: attribute
+    prefix: /customer/user/invitations
+
 oro_customer_customer_user_ajax:
     resource: "@OroCustomerBundle/Controller/AjaxCustomerUserController.php"
     type: attribute
@@ -90,6 +95,13 @@ oro_customer_frontend_customer_user:
     resource: "@OroCustomerBundle/Controller/Frontend/CustomerUserController.php"
     type: attribute
     prefix: /customer/user
+    options:
+        frontend: true
+
+oro_customer_frontend_customer_user_invitation:
+    resource: "@OroCustomerBundle/Controller/Frontend/CustomerUserInvitationController.php"
+    type: attribute
+    prefix: /customer/user/invitations
     options:
         frontend: true
 

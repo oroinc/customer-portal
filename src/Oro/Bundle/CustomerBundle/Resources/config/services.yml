@@ -192,6 +192,24 @@ services:
             - "@oro_user.mailer.user_template_email_sender"
             - "@event_dispatcher"
 
+    oro_customer.manager.customer_user_invitation:
+        class: Oro\Bundle\CustomerBundle\Manager\CustomerUserInvitationManager
+        public: true
+        arguments:
+            - '@doctrine'
+            - '@oro_customer_user.manager'
+            - '@oro_config.manager'
+            - '@oro_featuretoggle.checker.feature_checker'
+            - '@Oro\Bundle\SecurityBundle\Generator\RandomTokenGeneratorInterface'
+            - '@oro_customer.mailer.processor'
+            - '@oro_entity_extend.enum_options_provider'
+            - '@logger'
+            - '%oro_customer_user.invitation.ttl%'
+
+    oro_customer.guest_access.provider.customer_user_invitation_urls_provider:
+        class: Oro\Bundle\CustomerBundle\Provider\CustomerUserInvitationGuestAccessAllowedUrlsProvider
+        tags: ['oro_frontend.guest_access_urls_provider']
+
     oro_customer_user.manager:
         class: 'Oro\Bundle\CustomerBundle\Entity\CustomerUserManager'
         public: true
@@ -591,6 +609,14 @@ services:
             - '@router'
         tags:
             - { name: layout.data_provider, alias: oro_customer_frontend_customer_user_register }
+
+    oro_customer.provider.frontend_customer_user_invitation_form:
+        class: Oro\Bundle\CustomerBundle\Layout\DataProvider\FrontendCustomerUserInvitationFormProvider
+        arguments:
+            - '@form.factory'
+            - '@router'
+        tags:
+            - { name: layout.data_provider, alias: oro_customer_frontend_customer_user_invitation_form }
 
     oro_customer.manager.windows_state:
         class: Oro\Bundle\WindowsBundle\Manager\WindowsStateManager
@@ -1183,6 +1209,7 @@ services:
         tags:
             - { name: kernel.event_listener, event: customer_user.registration.completed, method: authenticateOnRegistrationCompleted }
             - { name: kernel.event_listener, event: customer_user.registration.confirmed, method: authenticateOnRegistrationConfirmed }
+            - { name: kernel.event_listener, event: customer_user.invitation.accepted, method: authenticateOnRegistrationConfirmed }
 
     oro_customer.security.orm.ownership_sql_walker_builder:
         class: 'Oro\Bundle\CustomerBundle\ORM\Walker\CustomerOwnershipConditionDataBuilder'

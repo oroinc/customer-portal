@@ -85,12 +85,14 @@ class Configuration implements ConfigurationInterface
                 ],
                 self::DO_NOT_LEAVE_CHECKOUT => ['type' => 'boolean', 'value' => true],
                 'customer_user_login_password' => ['type' => 'boolean', 'value' => true],
+                'customer_user_invitations_enabled' => ['type' => 'boolean', 'value' => true],
                 'email_change_verification_enabled' => ['type' => 'boolean', 'value' => true]
             ]
         );
 
         $rootNodeChildren = $rootNode->children();
         $this->appendResetNode($rootNodeChildren);
+        $this->appendInvitationNode($rootNodeChildren);
         $this->appendVisitorSessionNode($rootNodeChildren);
         $this->appendLoginSourcesNode($rootNodeChildren);
         $this->appendFrontendApiNode($rootNodeChildren);
@@ -112,6 +114,20 @@ class Configuration implements ConfigurationInterface
                 ->children()
                     // reset password token ttl, sec
                     ->scalarNode('ttl')
+                        ->defaultValue(86400) // 24 hours
+                    ->end()
+                ->end()
+            ->end();
+    }
+
+    private function appendInvitationNode(NodeBuilder $node): void
+    {
+        $node
+            ->arrayNode('invitation')
+                ->addDefaultsIfNotSet()
+                ->children()
+                    ->integerNode('ttl')
+                        ->min(1)
                         ->defaultValue(86400) // 24 hours
                     ->end()
                 ->end()

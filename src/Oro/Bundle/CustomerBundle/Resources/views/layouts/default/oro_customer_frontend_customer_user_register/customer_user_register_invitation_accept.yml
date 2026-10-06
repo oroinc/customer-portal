@@ -1,0 +1,23 @@
+layout:
+    conditions: 'context["route_name"] == "oro_customer_frontend_customer_user_invitation_accept"'
+
+    actions:
+        - '@setOption':
+            id: registration_label
+            optionName: text
+            optionValue: oro.customer.customeruserinvitation.title.accept
+
+        - '@setOption':
+            id: registration_description
+            optionName: text
+            optionValue: oro.customer.customeruserinvitation.description.accept
+
+        - '@setOption':
+            id: registration_form
+            optionName: form
+            optionValue: '=data["oro_customer_frontend_customer_user_invitation_form"].getAcceptFormView(data["customerUser"], data["token"])'
+
+        - '@setOption':
+            id: registration_form_submit
+            optionName: text
+            optionValue: oro.customer.customeruser.profile.create_an_customer

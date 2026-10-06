@@ -12,7 +12,7 @@ Feature: Change customer user email to another customer user email
       | Password | NancyJSallee@example.org |
       | Email    | AmandaRCole@example.org  |
     And I click "Save"
-    Then I should see "This email is already used."
+    Then I should see "This email address is unavailable. Please check the address or contact support."
     And I click "Cancel"
     Then I should see "Nancy Sallee"
 
@@ -27,6 +27,6 @@ Feature: Change customer user email to another customer user email
       | Password | NancyJSallee@example.org |
       | Email    | AmandaRCole@example.org  |
     And I click "Save"
-    Then I should see "This email is already used."
+    Then I should see "This email address is unavailable. Please check the address or contact support."
     And I click "Cancel"
     Then I should see "Nancy Sallee"

@@ -8,6 +8,7 @@ use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareInterfac
 use Oro\Bundle\ActivityBundle\Migration\Extension\ActivityExtensionAwareTrait;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareInterface;
 use Oro\Bundle\AttachmentBundle\Migration\Extension\AttachmentExtensionAwareTrait;
+use Oro\Bundle\CustomerBundle\Entity\CustomerUserInvitation;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
 use Oro\Bundle\CustomerBundle\Form\Type\CustomerUserRoleSelectOrCreateType;
 use Oro\Bundle\EntityBundle\EntityConfig\DatagridScope;
@@ -43,7 +44,7 @@ class OroCustomerBundleInstaller implements
     #[\Override]
     public function getMigrationVersion(): string
     {
-        return 'v7_1_0_3';
+        return 'v7_1_0_4';
     }
 
     #[\Override]
@@ -74,6 +75,7 @@ class OroCustomerBundleInstaller implements
         $this->updateOroGridViewTable($schema);
         $this->updateOroGridViewUserTable($schema);
         $this->createOroCustomerUserLoginAttemptsTable($schema);
+        $this->createCustomerUserInvitationTables($schema);
         $this->addAuthStatusColumnToCustomerUser($schema);
 
         /** Foreign keys generation **/
@@ -102,6 +104,7 @@ class OroCustomerBundleInstaller implements
         $this->addCustomerVisitorForeignKeys($schema);
         $this->addOwnerToOroEmailAddress($schema);
         $this->addOroCustomerUserLoginAttemptsForeignKeys($schema);
+        $this->addCustomerUserInvitationForeignKeys($schema);
     }
 
     /**
@@ -1144,6 +1147,119 @@ class OroCustomerBundleInstaller implements
             ['user_id'],
             ['id'],
             ['onUpdate' => null, 'onDelete' => 'CASCADE']
+        );
+    }
+
+    private function createCustomerUserInvitationTables(Schema $schema): void
+    {
+        $table = $schema->createTable('oro_customer_user_invitation');
+        $table->addColumn('id', 'integer', ['autoincrement' => true]);
+        $table->addColumn('organization_id', 'integer');
+        $table->addColumn('website_id', 'integer');
+        $table->addColumn('customer_id', 'integer');
+        $table->addColumn('invited_by_id', 'integer', ['notnull' => false]);
+        $table->addColumn('accepted_user_id', 'integer', ['notnull' => false]);
+        $table->addColumn('email', 'string', ['length' => 255]);
+        $table->addColumn('email_lowercase', 'string', ['length' => 255]);
+        $table->addColumn('token_hash', 'string', ['length' => 64, 'notnull' => false]);
+        $table->addColumn('expires_at', 'datetime');
+        $table->addColumn('sent_at', 'datetime', ['notnull' => false]);
+        $table->addColumn('accepted_at', 'datetime', ['notnull' => false]);
+        $table->addColumn('revoked_at', 'datetime', ['notnull' => false]);
+        $table->addColumn('created_at', 'datetime');
+        $table->addColumn('updated_at', 'datetime');
+        $table->setPrimaryKey(['id']);
+        $table->addIndex(['organization_id', 'email'], 'oro_cus_usr_inv_org_email_idx');
+        $table->addIndex(['organization_id', 'email_lowercase'], 'oro_cus_usr_inv_org_eml_lc_idx');
+        $table->addUniqueIndex(['token_hash'], 'oro_cus_usr_inv_token_uidx');
+        $table->addIndex(['customer_id'], 'oro_cus_usr_inv_customer_idx');
+
+        $this->extendExtension->addEnumField(
+            $schema,
+            'oro_customer_user_invitation',
+            'status',
+            CustomerUserInvitation::INTERNAL_STATUS_CODE,
+            false,
+            false,
+            [
+                'extend' => ['owner' => ExtendScope::OWNER_SYSTEM],
+                'datagrid' => ['is_visible' => DatagridScope::IS_VISIBLE_TRUE],
+                'dataaudit' => ['auditable' => true],
+                'email' => ['available_in_template' => true],
+            ]
+        );
+        $table->addExtendColumnOption(
+            'status',
+            'enum',
+            'immutable_codes',
+            [
+                ExtendHelper::buildEnumOptionId(
+                    CustomerUserInvitation::INTERNAL_STATUS_CODE,
+                    CustomerUserInvitation::STATUS_PENDING
+                ),
+                ExtendHelper::buildEnumOptionId(
+                    CustomerUserInvitation::INTERNAL_STATUS_CODE,
+                    CustomerUserInvitation::STATUS_ACCEPTED
+                ),
+                ExtendHelper::buildEnumOptionId(
+                    CustomerUserInvitation::INTERNAL_STATUS_CODE,
+                    CustomerUserInvitation::STATUS_REVOKED
+                ),
+            ]
+        );
+
+        $rolesTable = $schema->createTable('oro_cus_usr_inv_role');
+        $rolesTable->addColumn('invitation_id', 'integer');
+        $rolesTable->addColumn('role_id', 'integer');
+        $rolesTable->setPrimaryKey(['invitation_id', 'role_id']);
+    }
+
+    private function addCustomerUserInvitationForeignKeys(Schema $schema): void
+    {
+        $table = $schema->getTable('oro_customer_user_invitation');
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_organization'),
+            ['organization_id'],
+            ['id'],
+            ['onDelete' => 'CASCADE']
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_website'),
+            ['website_id'],
+            ['id'],
+            ['onDelete' => 'CASCADE']
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_customer'),
+            ['customer_id'],
+            ['id'],
+            ['onDelete' => 'CASCADE']
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_customer_user'),
+            ['invited_by_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL']
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_customer_user'),
+            ['accepted_user_id'],
+            ['id'],
+            ['onDelete' => 'SET NULL']
+        );
+
+        $rolesTable = $schema->getTable('oro_cus_usr_inv_role');
+        $rolesTable->addForeignKeyConstraint(
+            $schema->getTable('oro_customer_user_invitation'),
+            ['invitation_id'],
+            ['id'],
+            ['onDelete' => 'CASCADE']
+        );
+        $rolesTable->addForeignKeyConstraint(
+            $schema->getTable('oro_customer_user_role'),
+            ['role_id'],
+            ['id'],
+            ['onDelete' => 'CASCADE']
         );
     }
 

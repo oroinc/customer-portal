@@ -1,0 +1,39 @@
+{% block _invitation_page_widget %}
+    {% set attr = layout_attr_defaults(attr, {
+        '~class': ' customer-user-form',
+        'data-focusable': true,
+    }) %}
+    <div{{ block('block_attributes') }}>{{ block_widget(block) }}</div>
+{% endblock %}
+
+{% block __oro_customer_user_invitation_form__invitation_form_fields_widget %}
+    {% do block|merge_context({
+        form: form,
+    }) %}
+    {{ block('container_widget') }}
+    {{ form_row(form._token) }}
+{% endblock %}
+
+{% block __oro_customer_user_invitation_form__invitation_form_fields_information_widget %}
+    <div class="form-group">
+        <div class="grid">
+            <div class="grid-col-6 grid-col-mobile-landscape-12 grid-start-1">
+                {{ form_row(form.email, {
+                    attr: {placeholder: 'oro.customer.form.placeholder.email'|trans}
+                }) }}
+            </div>
+            <div class="grid-col-6 grid-col-mobile-landscape-12 grid-start-1">
+                {{ form_row(form.customer) }}
+            </div>
+            <div class="grid-col-6 grid-col-mobile-landscape-12 grid-start-1">
+                {{ form_row(form.roles) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block __oro_customer_user_invitation_form__invitation_form_actions_widget %}
+    <div class="form-buttons">
+        {{ block_widget(block) }}
+    </div>
+{% endblock %}
