@@ -4,7 +4,7 @@ namespace Oro\Bundle\FrontendAttachmentBundle\Api\Processor;
 
 use Oro\Bundle\ApiBundle\Processor\CustomizeLoadedData\CustomizeLoadedDataContext;
 use Oro\Bundle\ApiBundle\Provider\ApiUrlResolver;
-use Oro\Bundle\UIBundle\Tools\UrlHelper;
+use Oro\Bundle\UIBundle\Tools\UrlHelperInterface;
 use Oro\Component\ChainProcessor\ContextInterface;
 use Oro\Component\ChainProcessor\ProcessorInterface;
 
@@ -22,7 +22,7 @@ class ConvertProductSearchImageUrlsToAbsolute implements ProcessorInterface
     ];
 
     public function __construct(
-        private readonly UrlHelper $urlHelper,
+        private readonly UrlHelperInterface $urlHelper,
         private readonly ApiUrlResolver $apiUrlResolver
     ) {
     }
