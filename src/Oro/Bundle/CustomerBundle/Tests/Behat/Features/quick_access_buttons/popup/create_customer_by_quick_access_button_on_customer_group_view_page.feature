@@ -1,3 +1,4 @@
+@skip-base
 @regression
 @feature-BB-21879
 Feature: Create customer by quick access button on customer group view page

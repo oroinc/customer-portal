@@ -8,6 +8,7 @@ use Oro\Bundle\CustomerBundle\Model\EmailHolder;
 use Oro\Bundle\EmailBundle\Model\EmailTemplateCriteria;
 use Oro\Bundle\NotificationBundle\Manager\EmailNotificationManager;
 use Oro\Bundle\NotificationBundle\Model\TemplateEmailNotification;
+use Oro\Bundle\SecurityBundle\Generator\RandomTokenGenerator;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -15,6 +16,8 @@ use Psr\Log\LoggerInterface;
  */
 class ChangeCustomerUserEmailHandler
 {
+    public const string EMAIL_VERIFICATION_CODE_TEMPLATE_PARAM = 'emailVerificationCode';
+
     public function __construct(
         private EmailNotificationManager $emailNotificationManager,
         private CustomerUserManager $customerUserManager,
@@ -24,7 +27,7 @@ class ChangeCustomerUserEmailHandler
 
     public function initializeEmailChangeAndSendToOldEmail(CustomerUser $customerUser): void
     {
-        $customerUser->setNewEmailVerificationCode($customerUser->generateToken());
+        $customerUser->setNewEmailVerificationCode(RandomTokenGenerator::generate());
         $customerUser->setEmailVerificationCodeRequestedAt(new \DateTime('now', new \DateTimeZone('UTC')));
         $this->customerUserManager->updateUser($customerUser);
 
@@ -35,7 +38,11 @@ class ChangeCustomerUserEmailHandler
         );
 
         try {
-            $this->emailNotificationManager->processSingle($notification, [], $this->logger);
+            $this->emailNotificationManager->processSingle(
+                $notification,
+                $this->getEmailTemplateParams($customerUser),
+                $this->logger
+            );
         } catch (\Exception $e) {
             $this->logger->error(
                 sprintf('Sending email to %s failed.', $customerUser->getEmail()),
@@ -53,7 +60,11 @@ class ChangeCustomerUserEmailHandler
         );
 
         try {
-            $this->emailNotificationManager->processSingle($notification, [], $this->logger);
+            $this->emailNotificationManager->processSingle(
+                $notification,
+                $this->getEmailTemplateParams($customerUser),
+                $this->logger
+            );
         } catch (\Exception $e) {
             $this->logger->error(
                 sprintf('Sending email to %s failed.', $customerUser->getNewEmail()),
@@ -103,5 +114,15 @@ class ChangeCustomerUserEmailHandler
         $customerUser->setEmailVerificationCodeRequestedAt(null);
         $customerUser->setNewEmailVerificationCode(null);
         $this->customerUserManager->updateUser($customerUser);
+    }
+
+    /**
+     * @return array<string,string|null>
+     */
+    private function getEmailTemplateParams(CustomerUser $customerUser): array
+    {
+        return [
+            self::EMAIL_VERIFICATION_CODE_TEMPLATE_PARAM => $customerUser->getNewEmailVerificationCode() ?: null,
+        ];
     }
 }

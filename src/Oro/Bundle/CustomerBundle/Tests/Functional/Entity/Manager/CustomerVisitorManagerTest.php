@@ -7,6 +7,7 @@ use Oro\Bundle\CustomerBundle\Entity\CustomerVisitor;
 use Oro\Bundle\CustomerBundle\Entity\CustomerVisitorManager;
 use Oro\Bundle\CustomerBundle\Security\AnonymousCustomerUserAuthenticator;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Symfony\Component\BrowserKit\Cookie;
 
 /**
  * @dbIsolationPerTest
@@ -51,18 +52,25 @@ class CustomerVisitorManagerTest extends WebTestCase
     {
         $this->customerUserLoginRequest();
 
-        $responseCookies = $this->client->getResponse()->headers->getCookies();
-        $anonymousVisitorCookieExists = false;
-        foreach ($responseCookies as $cookie) {
-            if ($cookie->getName() === AnonymousCustomerUserAuthenticator::COOKIE_NAME) {
-                $cookieValue = $cookie->getValue();
-                $sessionId = json_decode(base64_decode($cookieValue), null, 2, JSON_THROW_ON_ERROR);
-                self::assertIsString($sessionId);
-                self::assertNotEmpty($sessionId);
-                $anonymousVisitorCookieExists = true;
-            }
-        }
-        self::assertTrue($anonymousVisitorCookieExists);
+        $sessionId = $this->getCustomerVisitorSessionIdFromResponse();
+        self::assertIsString($sessionId);
+        self::assertNotEmpty($sessionId);
+    }
+
+    public function testUnknownCustomerVisitorCookieIsReplaced(): void
+    {
+        $sessionId = 'client-chosen-session-id';
+        $this->client->getCookieJar()->set(new Cookie(
+            AnonymousCustomerUserAuthenticator::COOKIE_NAME,
+            base64_encode(json_encode($sessionId, JSON_THROW_ON_ERROR))
+        ));
+
+        $this->customerUserLoginRequest();
+
+        $newSessionId = $this->getCustomerVisitorSessionIdFromResponse();
+        self::assertIsString($newSessionId);
+        self::assertNotEmpty($newSessionId);
+        self::assertNotSame($sessionId, $newSessionId);
     }
 
     public function testCustomerVisitorInsertion(): void
@@ -73,5 +81,16 @@ class CustomerVisitorManagerTest extends WebTestCase
         $this->customerUserLoginRequest();
 
         self::assertEquals($countCustomerVisitors, $customerVisitorRepository->count([]));
+    }
+
+    private function getCustomerVisitorSessionIdFromResponse(): ?string
+    {
+        foreach ($this->client->getResponse()->headers->getCookies() as $cookie) {
+            if ($cookie->getName() === AnonymousCustomerUserAuthenticator::COOKIE_NAME) {
+                return json_decode(base64_decode($cookie->getValue()), null, 2, JSON_THROW_ON_ERROR);
+            }
+        }
+
+        return null;
     }
 }

@@ -5,6 +5,8 @@ namespace Oro\Bundle\CustomerBundle\Tests\Unit\Mailer;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
 use Oro\Bundle\CustomerBundle\Event\CustomerUserEmailSendEvent;
 use Oro\Bundle\CustomerBundle\Mailer\Processor;
+use Oro\Bundle\SecurityBundle\Generator\RandomTokenGenerator;
+use Oro\Bundle\UserBundle\Mailer\Processor as UserMailerProcessor;
 use Oro\Bundle\UserBundle\Mailer\UserTemplateEmailSender;
 use Oro\Bundle\WebsiteBundle\Entity\Website;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -29,12 +31,15 @@ class ProcessorTest extends TestCase
             ->setEmail('email_to@example.com')
             ->setWebsite($website)
             ->setPlainPassword(self::PASSWORD)
-            ->setConfirmationToken($this->user->generateToken());
+            ->setConfirmationToken(RandomTokenGenerator::generate());
 
         $this->eventDispatcher = $this->createMock(EventDispatcherInterface::class);
 
         $this->userTemplateEmailSender = $this->createMock(UserTemplateEmailSender::class);
-        $this->mailProcessor = new Processor($this->userTemplateEmailSender, $this->eventDispatcher);
+        $this->mailProcessor = new Processor(
+            $this->userTemplateEmailSender,
+            $this->eventDispatcher
+        );
     }
 
     public function testSendWelcomeNotification(): void
@@ -82,26 +87,57 @@ class ProcessorTest extends TestCase
     public function testSendWelcomeForRegisteredByAdminNotification(): void
     {
         $returnValue = 1;
+        $expectedParams = [
+            'entity' => $this->user,
+            UserMailerProcessor::CONFIRMATION_TOKEN_TEMPLATE_PARAM => $this->user->getConfirmationToken(),
+        ];
 
         $this->userTemplateEmailSender->expects($this->once())
             ->method('sendUserTemplateEmail')
             ->with(
                 $this->user,
                 Processor::WELCOME_EMAIL_REGISTERED_BY_ADMIN_TEMPLATE_NAME,
-                ['entity' => $this->user],
+                $expectedParams,
                 $this->user->getWebsite()
             )
             ->willReturn($returnValue);
 
         $this->assertEventDispatched(
             Processor::WELCOME_EMAIL_REGISTERED_BY_ADMIN_TEMPLATE_NAME,
-            ['entity' => $this->user]
+            $expectedParams
         );
 
         self::assertEquals(
             $returnValue,
             $this->mailProcessor->sendWelcomeForRegisteredByAdminNotification($this->user)
         );
+    }
+
+    public function testSendWelcomeForRegisteredByAdminNotificationWithoutConfirmationToken(): void
+    {
+        $this->user->setConfirmationToken(null);
+
+        $expectedParams = [
+            'entity' => $this->user,
+            UserMailerProcessor::CONFIRMATION_TOKEN_TEMPLATE_PARAM => null,
+        ];
+
+        $this->userTemplateEmailSender->expects($this->once())
+            ->method('sendUserTemplateEmail')
+            ->with(
+                $this->user,
+                Processor::WELCOME_EMAIL_REGISTERED_BY_ADMIN_TEMPLATE_NAME,
+                $expectedParams,
+                $this->user->getWebsite()
+            )
+            ->willReturn(1);
+
+        $this->assertEventDispatched(
+            Processor::WELCOME_EMAIL_REGISTERED_BY_ADMIN_TEMPLATE_NAME,
+            $expectedParams
+        );
+
+        self::assertEquals(1, $this->mailProcessor->sendWelcomeForRegisteredByAdminNotification($this->user));
     }
 
     public function testSendConfirmationEmail(): void
@@ -128,22 +164,54 @@ class ProcessorTest extends TestCase
     public function testSendResetPasswordEmail(): void
     {
         $returnValue = 1;
+        $expectedParams = [
+            'entity' => $this->user,
+            UserMailerProcessor::CONFIRMATION_TOKEN_TEMPLATE_PARAM => $this->user->getConfirmationToken(),
+        ];
+
         $this->userTemplateEmailSender->expects($this->once())
             ->method('sendUserTemplateEmail')
             ->with(
                 $this->user,
                 Processor::RESET_PASSWORD_EMAIL_TEMPLATE_NAME,
-                ['entity' => $this->user],
+                $expectedParams,
                 $this->user->getWebsite()
             )
             ->willReturn($returnValue);
 
         $this->assertEventDispatched(
             Processor::RESET_PASSWORD_EMAIL_TEMPLATE_NAME,
-            ['entity' => $this->user]
+            $expectedParams
         );
 
         self::assertEquals($returnValue, $this->mailProcessor->sendResetPasswordEmail($this->user));
+    }
+
+    public function testSendResetPasswordEmailWithoutConfirmationToken(): void
+    {
+        $this->user->setConfirmationToken(null);
+
+        $expectedParams = [
+            'entity' => $this->user,
+            UserMailerProcessor::CONFIRMATION_TOKEN_TEMPLATE_PARAM => null,
+        ];
+
+        $this->userTemplateEmailSender->expects(self::once())
+            ->method('sendUserTemplateEmail')
+            ->with(
+                $this->user,
+                Processor::RESET_PASSWORD_EMAIL_TEMPLATE_NAME,
+                $expectedParams,
+                $this->user->getWebsite()
+            )
+            ->willReturn(1);
+
+        $this->assertEventDispatched(
+            Processor::RESET_PASSWORD_EMAIL_TEMPLATE_NAME,
+            $expectedParams
+        );
+
+        self::assertEquals(1, $this->mailProcessor->sendResetPasswordEmail($this->user));
     }
 
     private function assertEventDispatched(string $template, array $params): void

@@ -31,3 +31,14 @@ services:
             - '@oro_message_queue.job.runner'
             - '@oro_customer.owner.tree_provider'
             - '@oro_customer.model.business_unit_message_factory'
+
+    oro_customer.async.customer_user_password_reset_request_processor:
+        class: Oro\Bundle\CustomerBundle\Async\CustomerUserPasswordResetRequestProcessor
+        arguments:
+            - '@oro_customer_user.manager'
+            - '@oro_website.manager'
+            - '@oro_locale.manager.localization'
+            - '@oro_customer.async.password_reset_request_context'
+            - '@doctrine'
+            - '@logger'
+            - '%oro_customer_user.reset.ttl%'

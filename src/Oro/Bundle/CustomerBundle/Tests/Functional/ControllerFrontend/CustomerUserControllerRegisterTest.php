@@ -131,6 +131,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         self::assertTrue($user->isEnabled());
         self::assertTrue($user->isConfirmed());
         self::assertStringContainsString('Registration successful', $crawler->html());
+        self::assertNull($user->getConfirmationToken());
     }
 
     public function testRegisterWithConfirmation(): void
@@ -189,13 +190,15 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $this->client->followRedirects(true);
 
+        $verificationToken = $user->getConfirmationToken();
+
         // Follow confirmation link
         $crawler = $this->client->request(
             'GET',
             $this->getUrl(
                 'oro_customer_frontend_customer_user_confirmation',
                 [
-                    'token' => $user->getConfirmationToken(),
+                    'token' => $verificationToken,
                 ]
             )
         );
@@ -208,6 +211,15 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         self::assertNotEmpty($user);
         self::assertTrue($user->isEnabled());
         self::assertTrue($user->isConfirmed());
+
+        self::assertNull($user->getConfirmationToken());
+
+        $this->client->followRedirects(false);
+        $this->client->request(
+            'GET',
+            $this->getUrl('oro_customer_frontend_customer_user_password_reset', ['token' => $verificationToken])
+        );
+        self::assertResponseStatusCodeEquals($this->client->getResponse(), 404);
     }
 
     /**
@@ -383,6 +395,9 @@ class CustomerUserControllerRegisterTest extends WebTestCase
 
         $this->client->followRedirects(false);
         $this->client->submit($form, $submittedData);
+
+        self::flushMessagesBuffer();
+        self::consume();
 
         $emailMessages = self::getMailerMessages();
         self::assertCount(1, $emailMessages);

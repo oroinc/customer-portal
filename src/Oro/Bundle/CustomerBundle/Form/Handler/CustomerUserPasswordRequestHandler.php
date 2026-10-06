@@ -1,86 +1,75 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Oro\Bundle\CustomerBundle\Form\Handler;
 
-use Oro\Bundle\CustomerBundle\Entity\CustomerUser;
+use Oro\Bundle\CustomerBundle\Async\Topic\CustomerUserPasswordResetRequestTopic;
 use Oro\Bundle\CustomerBundle\Entity\CustomerUserManager;
+use Oro\Bundle\FrontendLocalizationBundle\Manager\UserLocalizationManagerInterface;
+use Oro\Bundle\UserBundle\Form\Handler\AbstractPasswordResetRequestHandler;
+use Oro\Bundle\WebsiteBundle\Manager\WebsiteManager;
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Form\FormError;
-use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Handles forgot password request.
+ * Handles forgot password request submitted in the storefront.
  */
-class CustomerUserPasswordRequestHandler
+class CustomerUserPasswordRequestHandler extends AbstractPasswordResetRequestHandler
 {
-    /** @var CustomerUserManager */
-    private $userManager;
-
-    /** @var TranslatorInterface */
-    private $translator;
-
-    /** @var LoggerInterface */
-    private $logger;
+    private CustomerUserManager $userManager;
+    private TranslatorInterface $translator;
+    private WebsiteManager $websiteManager;
+    private UserLocalizationManagerInterface $userLocalizationManager;
 
     public function __construct(
         CustomerUserManager $userManager,
         TranslatorInterface $translator,
         LoggerInterface $logger
     ) {
+        parent::__construct($logger);
+
         $this->userManager = $userManager;
         $this->translator = $translator;
-        $this->logger = $logger;
     }
 
-    /**
-     * @param FormInterface $form
-     * @param Request       $request
-     *
-     * @return string|null The requested email address for the reset password message
-     */
-    public function process(FormInterface $form, Request $request)
+    public function setWebsiteManager(WebsiteManager $websiteManager): self
     {
-        $result = null;
-        if ($request->isMethod('POST')) {
-            $form->handleRequest($request);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $email = $form->get('email')->getData();
+        $this->websiteManager = $websiteManager;
 
-                /** @var CustomerUser|null $user */
-                $user = $this->userManager->findUserByUsernameOrEmail($email);
-                if ($user) {
-                    if ($this->sendResetPasswordEmail($user, $email)) {
-                        $this->userManager->updateUser($user);
-                        $result = $email;
-                    } else {
-                        $form->addError(
-                            new FormError($this->translator->trans('oro.email.handler.unable_to_send_email'))
-                        );
-                    }
-                } else {
-                    $result = $email;
-                }
-            }
-        }
-
-        return $result;
+        return $this;
     }
 
-    private function sendResetPasswordEmail(CustomerUser $user, string $email): bool
+    public function setUserLocalizationManager(UserLocalizationManagerInterface $userLocalizationManager): self
     {
-        $result = true;
-        try {
-            $this->userManager->sendResetPasswordEmail($user);
-        } catch (\Exception $e) {
-            $result = false;
-            $this->logger->error(
-                'Unable to sent the reset password email.',
-                ['email' => $email, 'exception' => $e]
-            );
-        }
+        $this->userLocalizationManager = $userLocalizationManager;
 
-        return $result;
+        return $this;
+    }
+
+    #[\Override]
+    protected function getFieldName(): string
+    {
+        return 'email';
+    }
+
+    #[\Override]
+    protected function getTopicName(): string
+    {
+        return CustomerUserPasswordResetRequestTopic::getName();
+    }
+
+    #[\Override]
+    protected function createMessageBody(string $userIdentifier): array
+    {
+        $messageBody = parent::createMessageBody($userIdentifier);
+        $messageBody[CustomerUserPasswordResetRequestTopic::WEBSITE_ID] = $this->websiteManager
+            ->getCurrentWebsite()
+            ?->getId();
+        $messageBody[CustomerUserPasswordResetRequestTopic::LOCALIZATION_ID] = $this->userLocalizationManager
+            ->getCurrentLocalization()
+            ?->getId();
+
+        return $messageBody;
     }
 }

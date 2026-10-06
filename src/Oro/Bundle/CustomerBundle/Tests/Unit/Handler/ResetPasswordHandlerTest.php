@@ -8,6 +8,7 @@ use Oro\Bundle\CustomerBundle\Handler\ResetPasswordHandler;
 use Oro\Bundle\EmailBundle\Model\EmailTemplateCriteria;
 use Oro\Bundle\NotificationBundle\Manager\EmailNotificationManager;
 use Oro\Bundle\NotificationBundle\Model\TemplateEmailNotification;
+use Oro\Bundle\UserBundle\Mailer\Processor as UserMailerProcessor;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Psr\Log\LoggerInterface;
@@ -74,6 +75,27 @@ class ResetPasswordHandlerTest extends TestCase
         self::assertFalse($result);
     }
 
+    public function testResetPasswordAndNotifyPassesGeneratedConfirmationTokenAsTemplateParameter(): void
+    {
+        $customerUser = new CustomerUser();
+        $customerUser->setEmail('example@test.com');
+
+        $this->emailNotificationManager->expects(self::once())
+            ->method('processSingle')
+            ->willReturnCallback(function (
+                TemplateEmailNotification $notification,
+                array $params
+            ) use ($customerUser): void {
+                self::assertSame(
+                    $customerUser->getConfirmationToken(),
+                    $params[UserMailerProcessor::CONFIRMATION_TOKEN_TEMPLATE_PARAM]
+                );
+                self::assertNotEmpty($params[UserMailerProcessor::CONFIRMATION_TOKEN_TEMPLATE_PARAM]);
+            });
+
+        self::assertTrue($this->handler->resetPasswordAndNotify($customerUser));
+    }
+
     public function testResetPasswordAndNotifyWhenNoConfirmationToken(): void
     {
         $email = 'example@test.com';
@@ -87,7 +109,7 @@ class ResetPasswordHandlerTest extends TestCase
             ->with($customerUser);
         $this->emailNotificationManager->expects(self::once())
             ->method('processSingle')
-            ->willReturnCallback(function (TemplateEmailNotification $notification) use ($customerUser) {
+            ->willReturnCallback(function (TemplateEmailNotification $notification) use ($customerUser): void {
                 self::assertSame($customerUser, $notification->getEntity());
                 self::assertInstanceOf(TemplateEmailNotification::class, $notification);
                 self::assertEquals(
@@ -98,9 +120,11 @@ class ResetPasswordHandlerTest extends TestCase
             });
 
         $this->assertEmpty($customerUser->getConfirmationToken());
+        self::assertNull($customerUser->getPasswordRequestedAt());
         $result = $this->handler->resetPasswordAndNotify($customerUser);
         self::assertTrue($result);
         self::assertNotEmpty($customerUser->getConfirmationToken());
+        self::assertNotNull($customerUser->getPasswordRequestedAt());
     }
 
     public function testResetPasswordAndNotify(): void
@@ -124,10 +148,17 @@ class ResetPasswordHandlerTest extends TestCase
         );
         $this->emailNotificationManager->expects(self::once())
             ->method('processSingle')
-            ->with($expectedNotification, [], $this->logger);
+            ->with(
+                $expectedNotification,
+                self::callback(static fn (array $params): bool => \array_keys($params)
+                    === [UserMailerProcessor::CONFIRMATION_TOKEN_TEMPLATE_PARAM]),
+                $this->logger
+            );
 
         $result = $this->handler->resetPasswordAndNotify($customerUser);
         self::assertTrue($result);
-        self::assertEquals($token, $customerUser->getConfirmationToken());
+        self::assertMatchesRegularExpression('/^[a-f0-9]{64}$/', $customerUser->getConfirmationToken());
+        self::assertNotSame($token, $customerUser->getConfirmationToken());
+        self::assertNotNull($customerUser->getPasswordRequestedAt());
     }
 }

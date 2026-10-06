@@ -823,7 +823,7 @@ oro.customer:
             profile_email_updated.message: 'Email updated'
             profile_email_initialized.message: 'A confirmation email to change your email address was sent to your current email address. Please follow the link in it to complete the email change.'
             profile_email_change.hint: For your security, a confirmation link will be sent to <strong>%current_email%</strong> address. The change won't take effect until you approve it.
-            token_not_found.message: 'The user with "confirmation token" does not exist for value "%token%"'
+            token_not_found.message: 'The user with a confirmation token does not exist.'
             confirmation_sent.message: 'Confirmation email has been sent'
             welcome_failed.message: 'Welcome email sending failed'
         customeruseraddress:

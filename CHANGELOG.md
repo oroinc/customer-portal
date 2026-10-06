@@ -2,15 +2,6 @@ The upgrade instructions are available at [Oro documentation website](https://do
 
 The current file describes significant changes in the code that may affect the upgrade of your customizations.
 
-## UNRELEASED
-
-### Added
-
-#### CustomerBundle
-* Added search configuration for the `Oro\Bundle\CustomerBundle\Entity\CustomerAddress`.
-* Added `Oro\Bundle\CustomerBundle\EventListener\RedirectCustomerAddressSearchToCustomerListener` listener that redirects `CustomerAddress` search results to the parent Customer view page (`oro_customer_customer_view`).
-* Added `oro:cron:customer-user:clear-expired-guests` console command to clear expired guest customer users (and their customers) that have no related business records.
-
 ## Changes in the Customer Portal package versions
 
 - [7.0.0](#700-2026-03-31)
@@ -31,6 +22,55 @@ The current file describes significant changes in the code that may affect the u
 - [2.4.0](#240-2017-09-29)
 - [2.3.0](#230-2017-07-28)
 - [2.2.0](#220-2017-05-31)
+
+## 7.0.5
+
+### Added
+
+#### CommerceMenuBundle
+* Added recording of storefront menu changes in Data Audit: every change an administrator makes in **System > Storefront Menus** (and in the storefront menus of an organization, a website, a customer group or a customer) is stored as an audit record of the changed menu item, whose entity type is the level the menu was customized on. The records are produced by the menu audit of the DataAuditBundle, which is registered for the storefront menus in `Resources/config/services.yml`.
+
+#### CustomerBundle
+* Added search configuration for the `Oro\Bundle\CustomerBundle\Entity\CustomerAddress`.
+* Added `Oro\Bundle\CustomerBundle\EventListener\RedirectCustomerAddressSearchToCustomerListener` listener that redirects `CustomerAddress` search results to the parent Customer view page (`oro_customer_customer_view`).
+* Added `oro:cron:customer-user:clear-expired-guests` console command to clear expired guest customer users (and their customers) that have no related business records.
+* Added `Oro\Bundle\CustomerBundle\Async\Topic\CustomerUserPasswordResetRequestTopic` (`oro.customer.customer_user_password_reset_request`) and `Oro\Bundle\CustomerBundle\Async\CustomerUserPasswordResetRequestProcessor` that process the forgot password requests submitted in the storefront. The message carries the id of the website the form was submitted on and the id of the localization the storefront was switched to, so that the processor restores this context and, therefore, resolves the customer user and sends the email in the same way as it is done within the request.
+* Added `Oro\Bundle\CustomerBundle\Async\PasswordResetRequestContext` that holds the context of the request a forgot password form was submitted in while the reset password email is being sent by a message queue consumer, and `Oro\Bundle\CustomerBundle\EventListener\PasswordResetRequestEmailTemplateContextListener` that applies the localization from this context to the email template criteria context.
+
+#### CustomerBundle
+* Added `\Oro\Bundle\CustomerBundle\Handler\ChangeCustomerUserEmailHandler::EMAIL_VERIFICATION_CODE_TEMPLATE_PARAM`, the name of the `emailVerificationCode` email template parameter. The verification code is not an email template variable anymore, so the email change flow passes it as this parameter and the `oro_customer.event_listener.customer_user_email_verification_code_email_template` listener resolves `entity.newEmailVerificationCode` from it while the email is rendered. Custom code that sends one of these emails must pass the same parameter, otherwise the rendered link carries no code.
+* Added passing of the `confirmationToken` email template parameter (see `\Oro\Bundle\UserBundle\Mailer\Processor::CONFIRMATION_TOKEN_TEMPLATE_PARAM`) by `\Oro\Bundle\CustomerBundle\Mailer\Processor` and `\Oro\Bundle\CustomerBundle\Handler\ResetPasswordHandler`, so that the reset password, force reset password and welcome email templates still render a working link.
+
+### Changed
+
+#### CommerceMenuBundle
+* Changed the `Oro\Bundle\CommerceMenuBundle\Entity\MenuUpdate` entity configuration: a storefront menu item is a system record managed on the page of its menu, so the entity is hidden from the entity management grid, its entity config pages respond with 404, excluded from the lists of entities (`oro_entity: exclusions`) and its entity audit is turned off and locked (`dataaudit: {auditable: false, immutable: true}`) — the changes of a storefront menu item are recorded by the menu audit, so the entity audit of the same rows would only duplicate them.
+
+#### CustomerBundle
+* Changed `Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler` so it extends `Oro\Bundle\UserBundle\Form\Handler\AbstractPasswordResetRequestHandler` and only schedules the processing of the submitted email instead of resolving the customer user account and sending the reset password email within the request. Its constructor is kept as is for backward compatibility, but `$userManager` and `$translator` are not used anymore; the message producer, the user logging info provider, the website manager and the user localization manager are injected with the `setMessageProducer()`, `setUserLoggingInfoProvider()`, `setWebsiteManager()` and `setUserLocalizationManager()` methods. This way the forgot password form does the same amount of work for every submitted email, so the response time no longer discloses whether the email belongs to an existing account. A message queue consumer must be running for the reset password emails to be sent.
+* Changed the forgot password form so it does not show the "Unable to send email" error anymore: email sending failures are written to the log by the consumer.
+
+#### CustomerBundle
+* Changed `\Oro\Bundle\CustomerBundle\Entity\CustomerUser::$confirmationToken`, `\Oro\Bundle\CustomerBundle\Entity\CustomerUser::$newEmailVerificationCode` and `\Oro\Bundle\CustomerBundle\Entity\CustomerVisitor::$sessionId` so they are not available in email templates and are marked immutable, and therefore cannot be enabled from the Entity Management UI. `\Oro\Bundle\CustomerBundle\Migrations\Schema\v7_0_5_0\DisableFieldsInEmailTemplates` applies the same to an existing installation.
+* Changed the sanitize rules of the `oro_customer_user` and `oro_customer_visitor` tables: `confirmation_token`, `new_email_verification_code` and `session_id` are replaced with an `md5` value and `new_email` with a generated address, so a database dump produced by `php bin/console oro:sanitize:dump-sql` carries no usable password reset token, verification code or visitor session id.
+* Changed the shipped `customer_user_reset_password`, `customer_user_force_reset_password`, `customer_user_welcome_email_registered_by_admin`, `customer_user_email_change_confirmation` and `customer_user_email_change_verification_to_old_email` email templates so they read the `confirmationToken` and `emailVerificationCode` email template parameters instead of `entity.confirmationToken` and `entity.newEmailVerificationCode`. `\Oro\Bundle\CustomerBundle\Migrations\Data\ORM\LoadEmailTemplates` applies the new content to an installation that has not customised them.
+
+## 7.0.3
+
+### Added
+
+#### CustomerBundle
+* Added search configuration for the `Oro\Bundle\CustomerBundle\Entity\CustomerAddress`.
+* Added `Oro\Bundle\CustomerBundle\EventListener\RedirectCustomerAddressSearchToCustomerListener` listener that redirects `CustomerAddress` search results to the parent Customer view page (`oro_customer_customer_view`).
+* Added `oro:cron:customer-user:clear-expired-guests` console command to clear expired guest customer users (and their customers) that have no related business records.
+* Added `Oro\Bundle\CustomerBundle\Async\Topic\CustomerUserPasswordResetRequestTopic` (`oro.customer.customer_user_password_reset_request`) and `Oro\Bundle\CustomerBundle\Async\CustomerUserPasswordResetRequestProcessor` that process the forgot password requests submitted in the storefront. The message carries the id of the website the form was submitted on and the id of the localization the storefront was switched to, so that the processor restores this context and, therefore, resolves the customer user and sends the email in the same way as it is done within the request.
+* Added `Oro\Bundle\CustomerBundle\Async\PasswordResetRequestContext` that holds the context of the request a forgot password form was submitted in while the reset password email is being sent by a message queue consumer, and `Oro\Bundle\CustomerBundle\EventListener\PasswordResetRequestEmailTemplateContextListener` that applies the localization from this context to the email template criteria context.
+
+### Changed
+
+#### CustomerBundle
+* Changed `Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler` so it extends `Oro\Bundle\UserBundle\Form\Handler\AbstractPasswordResetRequestHandler` and only schedules the processing of the submitted email instead of resolving the customer user account and sending the reset password email within the request. Its constructor is kept as is for backward compatibility, but `$userManager` and `$translator` are not used anymore; the message producer, the user logging info provider, the website manager and the user localization manager are injected with the `setMessageProducer()`, `setUserLoggingInfoProvider()`, `setWebsiteManager()` and `setUserLocalizationManager()` methods. This way the forgot password form does the same amount of work for every submitted email, so the response time no longer discloses whether the email belongs to an existing account. A message queue consumer must be running for the reset password emails to be sent.
+* Changed the forgot password form so it does not show the "Unable to send email" error anymore: email sending failures are written to the log by the consumer.
 
 ## 7.0.0 (2026-03-31)
 [Show detailed list of changes](incompatibilities-7-0.md)
