@@ -1,0 +1,13 @@
+layout:
+    imports:
+        -
+            id: oro_customer_page
+        -
+            id: oro_customer_user_invitation_form
+            root: page_content
+
+    actions:
+        - '@setOption':
+            id: page_title
+            optionName: defaultValue
+            optionValue: oro.customer.customeruserinvitation.title.create

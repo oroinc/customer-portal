@@ -1,5 +1,8 @@
 api:
     entities:
+        Extend\Entity\EV_Cu_Invitation_Status:
+            exclude: true
+
         Oro\Bundle\CustomerBundle\Entity\Customer:
             documentation_resource: '@OroCustomerBundle/Resources/doc/api_frontend/customer.md'
             actions:

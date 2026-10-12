@@ -67,6 +67,8 @@ class CustomerUserController extends AbstractController
     )]
     public function createAction(Request $request): array|RedirectResponse
     {
+        $this->denyAccessUnlessGranted('oro_customer_frontend_customer_user_role_view');
+
         return $this->update(new CustomerUser(), $request);
     }
 

@@ -124,7 +124,7 @@ class UserCaseInsensitiveEmailTest extends RestJsonApiTestCase
         $this->assertResponseValidationError(
             [
                 'title'  => 'unique customer user name and email constraint',
-                'detail' => 'This email is already used.',
+                'detail' => 'This email address is unavailable. Please check the address or contact support.',
                 'source' => ['pointer' => '/data/attributes/email']
             ],
             $response

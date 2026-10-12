@@ -256,7 +256,7 @@ class CustomerUserControllerRegisterTest extends WebTestCase
         self::assertHtmlResponseStatusCodeEquals($result, 200);
         self::assertStringContainsString('/customer/user/login', $crawler->getUri());
         self::assertStringNotContainsString(
-            'This email is already used',
+            'This email address is unavailable. Please check the address or contact support',
             $crawler->html()
         );
         self::assertStringContainsString(

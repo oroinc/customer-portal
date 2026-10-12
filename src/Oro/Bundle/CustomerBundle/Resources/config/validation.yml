@@ -93,6 +93,22 @@ Oro\Bundle\CustomerBundle\Entity\CustomerUser:
             - NotBlank: ~
             - Valid: ~
 
+Oro\Bundle\CustomerBundle\Entity\CustomerUserInvitation:
+    properties:
+        email:
+            - NotBlank: ~
+            - Email:
+                mode: strict
+            - Length:
+                min: 6
+                max: 255
+        customer:
+            - NotBlank: ~
+        roles:
+            - Count:
+                min: 1
+                minMessage: oro.customer.customeruserinvitation.error.role_required
+
 Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress:
     constraints:
         - Oro\Bundle\AddressBundle\Validator\Constraints\ValidRegion: ~

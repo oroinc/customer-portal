@@ -178,7 +178,10 @@ class CustomerUserProfileControllerTest extends WebTestCase
 
         $result = $this->client->getResponse();
         self::assertHtmlResponseStatusCodeEquals($result, 200);
-        self::assertStringContainsString('This email is already used', $crawler->html());
+        self::assertStringContainsString(
+            'This email address is unavailable. Please check the address or contact support',
+            $crawler->html()
+        );
     }
 
     public function testEditEmailWithoutCurrentPassword(): void

@@ -56,6 +56,34 @@ features:
         navigation_items:
             - application_menu.customers_tab.customer_users
 
+    customer_user_invitations:
+        label: oro.customer.customeruserinvitation.feature.label
+        description: oro.customer.customeruserinvitation.feature.description
+        toggle: oro_customer.customer_user_invitations_enabled
+        allow_if_all_abstain: true
+        dependencies:
+            - manage_customer_users
+        routes:
+            - oro_customer_customer_user_invitation_index
+            - oro_customer_customer_user_invitation_create
+            - oro_customer_customer_user_invitation_roles
+            - oro_customer_frontend_customer_user_invitation_create
+            - oro_customer_frontend_customer_user_invitation_accept
+        entities:
+            - Oro\Bundle\CustomerBundle\Entity\CustomerUserInvitation
+        datagrids:
+            - customer-user-invitations-grid
+            - frontend-customer-user-invitations-grid
+        operations:
+            - oro_customer_customer_user_invitation_resend
+            - oro_customer_customer_user_invitation_revoke
+            - oro_customer_customer_user_invitation_delete
+            - oro_customer_frontend_customer_user_invite
+            - oro_customer_frontend_customer_user_invitation_resend
+            - oro_customer_frontend_customer_user_invitation_revoke
+        navigation_items:
+            - application_menu.customers_tab.customer_user_invitations
+
     manage_customer_groups:
         label: oro.customer.customergroup.feature.manage.label
         description: oro.customer.customergroup.feature.manage.description

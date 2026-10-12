@@ -835,13 +835,14 @@ oro.customer:
 
     message:
         password_mismatch: "The entered passwords don't match"
-        user_customer_exists: 'This email is already used.'
+        user_customer_exists: 'This email address is unavailable. Please check the address or contact support.'
 
     system_configuration:
         groups:
             customer.title: 'Customer'
             customer_users.title: 'Customer Users'
             customer_users_registration.title: 'Customer Users Registration'
+            customer_user_invitations.title: 'Customer User Invitations'
             # Start Requirement for "Default Theme 50/51"
             menu_templates.title: 'Menu Templates'
             # End Requirement for "Default Theme 50/51"
@@ -873,6 +874,9 @@ oro.customer:
             registration_allowed:
                 label: 'Registration Allowed'
                 tooltip: 'Select the option to enable registration of new customer users from the OroCommerce storefront. '
+            customer_user_invitations_enabled:
+                label: 'Enable Customer User Invitations'
+                tooltip: 'Enable customer user invitations in the back-office and storefront.'
             confirmation_required:
                 label: 'Email Confirmation Required'
                 tooltip: 'Select the option to enable the email confirmation step after user registration.'
@@ -1135,6 +1139,62 @@ oro.scope:
 oro_form.captcha.protected_form_name.oro_customer_frontend_customer_user_register: Customer User Registration Form
 oro_form.captcha.protected_form_name.oro_customer_customer_user_password_request: Customer User Reset Password Form
 oro_form.captcha.protected_form_name.oro_customer_form_login: Customer User Login Form
+
+oro.customer.customeruserinvitation:
+    entity_label: Customer User Invitation
+    entity_plural_label: Customer User Invitations
+    entity_grid_all_view_label: All %entity_plural_label%
+    open_plural_label: Open Invitations
+    id.label: Id
+    email.label: Email
+    email_lowercase.label: Email (Lowercase)
+    token_hash.label: Token Hash
+    organization.label: Organization
+    website.label: Website
+    customer.label: Customer
+    roles.label: Roles
+    status.label: Status
+    invited_by.label: Invited By
+    accepted_user.label: Accepted User
+    expires_at.label: Expires At
+    sent_at.label: Sent At
+    accepted_at.label: Accepted At
+    revoked_at.label: Revoked At
+    created_at.label: Created At
+    updated_at.label: Updated At
+    feature:
+        label: Customer User Invitations
+        description: Enables customer user invitations in the back-office and storefront.
+    status:
+        pending: Pending
+        accepted: Accepted
+        revoked: Revoked
+        expired: Expired
+    invited_by_customer_user.label: Customer User (Invited By)
+    title:
+        create: Invite Customer User
+        accept: Complete Your Account
+    description:
+        index: View and manage customer user invitations.
+        accept: Provide your details to finish creating your customer account.
+    action:
+        invite: Invite User
+        send: Send Invitation
+        resend: Resend
+        revoke: Revoke
+    error:
+        cannot_invite: This email address cannot be invited.
+        role_required: Select at least one role.
+        inviter_customer_mismatch: The selected customer user must belong to the selected customer.
+        invalid_inviter: Select a non-guest customer user with an organization and website.
+    message:
+        sent: The customer user invitation has been sent.
+        resent: The customer user invitation has been resent.
+        revoked: The customer user invitation has been revoked.
+        saved_email_failed: The invitation was saved, but the email could not be sent. You can resend it from the users page.
+        accepted: Your account has been created successfully.
+        invalid: This invitation link is invalid, expired, or has already been used.
+        sign_out_first: Sign out before accepting an invitation.
 
 oro.address_validation.system_configuration:
     fields:

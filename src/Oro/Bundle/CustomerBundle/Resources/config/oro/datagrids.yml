@@ -938,3 +938,100 @@ datagrids:
                 userAgent:
                     type: string
                     data_name: ul.userAgent
+
+    customer-user-invitations-grid:
+        entity_name: Oro\Bundle\CustomerBundle\Entity\CustomerUserInvitation
+        acl_resource: oro_customer_customer_user_invitation_view
+        options:
+            entityHint: oro.customer.customeruserinvitation.entity_plural_label
+        source:
+            type: orm
+            query:
+                select:
+                    - invitation
+                    - invitation.email
+                    - invitation.sentAt
+                    - invitation.expiresAt
+                    - customer.name AS customerName
+                    - CONCAT(invitedBy.firstName, CONCAT(' ', invitedBy.lastName)) AS invitedByName
+                    - acceptedUser.id AS acceptedUserId
+                    - CONCAT(acceptedUser.firstName, CONCAT(' ', acceptedUser.lastName)) AS acceptedUserName
+                    - >-
+                        CASE WHEN invitationStatusOption.internalId = 'pending'
+                        AND invitation.expiresAt < CURRENT_TIMESTAMP()
+                        THEN 'expired' ELSE invitationStatusOption.internalId END AS invitationStatus
+                from:
+                    - { table: Oro\Bundle\CustomerBundle\Entity\CustomerUserInvitation, alias: invitation }
+                join:
+                    left:
+                        - { join: invitation.customer, alias: customer }
+                        - { join: invitation.invitedBy, alias: invitedBy }
+                        - { join: invitation.acceptedUser, alias: acceptedUser }
+                        - { join: Oro\Bundle\EntityExtendBundle\Entity\EnumOption, alias: invitationStatusOption, conditionType: WITH, condition: "JSON_EXTRACT(invitation.serialized_data, 'status') = invitationStatusOption" }
+        columns:
+            email:
+                label: oro.customer.customeruserinvitation.email.label
+            customerName:
+                label: oro.customer.customeruserinvitation.customer.label
+            invitationStatus:
+                label: oro.customer.customeruserinvitation.status.label
+                frontend_type: select
+                choices:
+                    oro.customer.customeruserinvitation.status.pending: pending
+                    oro.customer.customeruserinvitation.status.accepted: accepted
+                    oro.customer.customeruserinvitation.status.revoked: revoked
+                    oro.customer.customeruserinvitation.status.expired: expired
+            invitedByName:
+                label: oro.customer.customeruserinvitation.invited_by.label
+            acceptedUserName:
+                label: oro.customer.customeruserinvitation.accepted_user.label
+                type: twig
+                frontend_type: html
+                template: '@OroCustomer/CustomerUserInvitation/Datagrid/acceptedUser.html.twig'
+            sentAt:
+                label: oro.customer.customeruserinvitation.sent_at.label
+                frontend_type: datetime
+            expiresAt:
+                label: oro.customer.customeruserinvitation.expires_at.label
+                frontend_type: datetime
+        properties:
+            id: ~
+        sorters:
+            columns:
+                email:
+                    data_name: invitation.email
+                customerName:
+                    data_name: customerName
+                invitationStatus:
+                    data_name: invitationStatus
+                invitedByName:
+                    data_name: invitedByName
+                acceptedUserName:
+                    data_name: acceptedUserName
+                sentAt:
+                    data_name: invitation.sentAt
+                expiresAt:
+                    data_name: invitation.expiresAt
+            default:
+                sentAt: DESC
+        filters:
+            columns:
+                email:
+                    type: string
+                    data_name: invitation.email
+                customerName:
+                    type: string
+                    data_name: customerName
+                invitationStatus:
+                    type: choice
+                    data_name: invitationStatus
+                    options:
+                        field_options:
+                            choices:
+                                oro.customer.customeruserinvitation.status.pending: pending
+                                oro.customer.customeruserinvitation.status.accepted: accepted
+                                oro.customer.customeruserinvitation.status.revoked: revoked
+                                oro.customer.customeruserinvitation.status.expired: expired
+                acceptedUserName:
+                    type: string
+                    data_name: acceptedUserName

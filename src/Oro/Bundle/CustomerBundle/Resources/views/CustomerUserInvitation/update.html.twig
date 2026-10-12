@@ -1,0 +1,90 @@
+{% extends '@OroUI/actions/update.html.twig' %}
+{% import '@OroUI/macros.html.twig' as UI %}
+
+{% form_theme form with '@OroForm/Form/fields.html.twig' %}
+
+{% set formAction = path('oro_customer_customer_user_invitation_create') %}
+
+{% oro_title_set({
+    params: {
+        '%entityName%': 'oro.customer.customeruserinvitation.entity_label'|trans
+    }
+}) %}
+
+{% block navButtons %}
+    {{ parent() }}
+    {{ UI.cancelButton(path('oro_customer_customer_user_invitation_index')) }}
+    {{ UI.saveAndCloseButton({
+        label: 'oro.customer.customeruserinvitation.action.send'|trans,
+        route: 'oro_customer_customer_user_invitation_index'
+    }) }}
+{% endblock %}
+
+{% block pageHeader %}
+    {% set title = 'oro.customer.customeruserinvitation.title.create'|trans %}
+    {% include '@OroUI/page_title_block.html.twig' with {title: title} %}
+{% endblock %}
+
+{% block content_data %}
+    {% set id = 'customer-user-invitation-create' %}
+    {% set roleWidgetAlias = 'oro_customer_customer_user_invitation_roles' %}
+
+    {% set customerFormOptions = {
+        customerFormId: '#' ~ form.customer.vars.id,
+        widgetAlias: roleWidgetAlias,
+        rolesRoute: 'oro_customer_customer_user_invitation_roles'
+    } %}
+
+    {% set customerFields %}
+        <div data-page-component-module="orocustomer/js/app/components/customer-selection-component">
+            <div data-page-component-module="orocustomer/js/app/components/customer-user-component"
+                 data-page-component-options="{{ customerFormOptions|json_encode }}">
+                {{ form_row(form.customer) }}
+            </div>
+            {{ form_row(form.invitedBy) }}
+        </div>
+    {% endset %}
+
+    {% do form.roles.setRendered %}
+    {% set roleWidgetOptions = {} %}
+    {% if entity.customer and entity.customer.id %}
+        {% set roleWidgetOptions = roleWidgetOptions|merge({customerId: entity.customer.id}) %}
+    {% endif %}
+    {% if form.roles.vars.errors|length %}
+        {% set roleWidgetOptions = roleWidgetOptions|merge({error: (form.roles.vars.errors|first).message}) %}
+    {% endif %}
+
+    {% set invitationRoles %}
+        {{ oro_widget_render({
+            widgetType: 'block',
+            url: path('oro_customer_customer_user_invitation_roles', roleWidgetOptions),
+            alias: roleWidgetAlias
+        }) }}
+    {% endset %}
+
+    {% set dataBlocks = [{
+        title: 'oro.customer.sections.general'|trans,
+        subblocks: [{
+            title: '',
+            data: [
+                form_row(form.email),
+                customerFields
+            ]
+        }]
+    }, {
+        title: 'oro.customer.customeruserinvitation.roles.label'|trans,
+        subblocks: [{
+            title: '',
+            data: [invitationRoles]
+        }]
+    }] %}
+
+    {% set data = {
+        formErrors: form_errors(form),
+        dataBlocks: dataBlocks
+    } %}
+
+    <div class="responsive-form-inner">
+        {{ parent() }}
+    </div>
+{% endblock %}

@@ -1,0 +1,79 @@
+layout:
+    imports:
+        -
+            id: oro_customer_form_top_bar
+            root: page_content
+
+    actions:
+        - '@setBlockTheme':
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_user_invitation_form/layout.html.twig'
+
+        - '@setFormTheme':
+            themes: '@OroCustomer/layouts/default/imports/oro_customer_user_invitation_form/form.html.twig'
+
+        - '@addTree':
+            items:
+                __invitation_page:
+                    blockType: container
+                    options:
+                        class_prefix: customer-profile-edit-page
+                __invitation_form_errors:
+                    blockType: form_errors
+                    options:
+                        form: '=data["oro_customer_frontend_customer_user_invitation_form"].getInvitationFormView(data["entity"])'
+                __invitation_form:
+                    blockType: form
+                    options:
+                        form: '=data["oro_customer_frontend_customer_user_invitation_form"].getInvitationFormView(data["entity"])'
+                        render_rest: false
+                __invitation_form_fields_container:
+                    blockType: container
+                __invitation_form_fields_information:
+                    blockType: container
+                __invitation_form_actions:
+                    blockType: container
+                __invitation_form_actions_cancel:
+                    blockType: link
+                    options:
+                        route_name: oro_customer_frontend_customer_user_index
+                        text: oro.customer.form.action.cancel.label
+                        attr:
+                            class: 'btn btn--outlined'
+                        icon: close
+                __invitation_form_actions_submit:
+                    blockType: button
+                    options:
+                        action: submit
+                        text: oro.customer.customeruserinvitation.action.send
+                        attr:
+                            class: role-submit
+                        icon: check
+            tree:
+                __root:
+                    __invitation_page:
+                        __invitation_form_errors: ~
+                        __invitation_form:
+                            __invitation_form_fields_container:
+                                __invitation_form_fields_information: ~
+                            __invitation_form_actions:
+                                __invitation_form_actions_cancel: ~
+                                __invitation_form_actions_submit: ~
+
+        - '@move':
+            id: __invitation_form_fields_container
+            parentId: __invitation_form_fields
+
+        - '@move':
+            id: __invitation_form_actions
+            parentId: __invitation_form
+            siblingId: __invitation_form_fields
+
+        - '@setOption':
+            id: back_button
+            optionName: route_name
+            optionValue: oro_customer_frontend_customer_user_index
+
+        - '@setOption':
+            id: __invitation_form_errors
+            optionName: attr.class
+            optionValue: customer-user-form-validation

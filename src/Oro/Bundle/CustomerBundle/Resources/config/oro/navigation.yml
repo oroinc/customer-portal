@@ -106,6 +106,16 @@ navigation:
                         - 'oro_customer_customer_user_create_for_customer'
                     description: 'oro.customer.menu.customer_users.description'
 
+            customer_user_invitations:
+                label: 'oro.customer.customeruserinvitation.entity_plural_label'
+                route: 'oro_customer_customer_user_invitation_index'
+                position: 35
+                extras:
+                    routes:
+                        - 'oro_customer_customer_user_invitation_index'
+                        - 'oro_customer_customer_user_invitation_create'
+                    description: 'oro.customer.customeruserinvitation.description.index'
+
             customer_users_login_attempts:
                 label: 'oro.customer.customeruserloginattempt.entity_plural_label'
                 route: 'oro_customer_login_attempts'
@@ -253,6 +263,11 @@ navigation:
                 extras:
                     routes: ['oro_customer_frontend_customer_user_view']
 
+            oro_customer_frontend_customer_user_invitation_create:
+                label: 'oro.customer.customeruserinvitation.title.create'
+                extras:
+                    routes: ['oro_customer_frontend_customer_user_invitation_create']
+
             oro_customer_frontend_customer_user_role_index:
                 label: 'oro.customer.frontend.customer_user.role.entity_plural_label'
                 route: 'oro_customer_frontend_customer_user_role_index'
@@ -317,6 +332,7 @@ navigation:
                             customer_list: ~
                             customer_group_list: ~
                             customer_users: ~
+                            customer_user_invitations: ~
                             customer_users_login_attempts: ~
                             customer_user_roles: ~
 
@@ -357,6 +373,7 @@ navigation:
                                             oro_customer_frontend_customer_user_create: ~
                                             oro_customer_frontend_customer_user_update: ~
                                             oro_customer_frontend_customer_user_view: ~
+                                            oro_customer_frontend_customer_user_invitation_create: ~
                                     oro_customer_frontend_customer_user_role_index:
                                         children:
                                             oro_customer_frontend_customer_user_role_create: ~
@@ -394,6 +411,7 @@ navigation:
                             oro_customer_frontend_customer_user_create: ~
                             oro_customer_frontend_customer_user_update: ~
                             oro_customer_frontend_customer_user_view: ~
+                            oro_customer_frontend_customer_user_invitation_create: ~
                     oro_customer_frontend_customer_user_role_index:
                         children:
                             oro_customer_frontend_customer_user_role_create: ~
@@ -430,6 +448,7 @@ navigation:
                                     oro_customer_frontend_customer_user_create: ~
                                     oro_customer_frontend_customer_user_update: ~
                                     oro_customer_frontend_customer_user_view: ~
+                                    oro_customer_frontend_customer_user_invitation_create: ~
                             oro_customer_frontend_customer_user_role_index:
                                 children:
                                     oro_customer_frontend_customer_user_role_create: ~
@@ -469,11 +488,15 @@ navigation:
         oro_customer_customer_user_update:  '%email% - oro.ui.edit'
         oro_customer_customer_user_create:  'oro.ui.create_entity'
         oro_customer_customer_user_create_for_customer: 'oro.ui.create_entity'
+        oro_customer_customer_user_invitation_index: 'oro.customer.customeruserinvitation.entity_plural_label'
+        oro_customer_customer_user_invitation_create: 'oro.customer.customeruserinvitation.title.create'
 
         oro_customer_frontend_customer_user_index:   'oro.customer.frontend.title.customer_user.index'
         oro_customer_frontend_customer_user_view:    '%user%'
         oro_customer_frontend_customer_user_update:  '%user% - oro.ui.edit'
         oro_customer_frontend_customer_user_create:  'oro.customer.frontend.title.customer_user.create'
+        oro_customer_frontend_customer_user_invitation_create: 'oro.customer.customeruserinvitation.title.create'
+        oro_customer_frontend_customer_user_invitation_accept: 'oro.customer.customeruserinvitation.title.accept'
 
         oro_customer_customer_user_role_index:     ~
         oro_customer_customer_user_role_view:      '%label% - oro.ui.view'

@@ -14,6 +14,7 @@ BUYER:
         entity|Oro\Bundle\CustomerBundle\Entity\CustomerUser: [VIEW_LOCAL]
         entity|Oro\Bundle\CustomerBundle\Entity\CustomerUserAddress: [VIEW_BASIC]
         entity|Oro\Bundle\CustomerBundle\Entity\CustomerUserRole: []
+        entity|Oro\Bundle\CustomerBundle\Entity\CustomerUserInvitation: []
 
 ANONYMOUS:
     label: Non-Authenticated Visitors

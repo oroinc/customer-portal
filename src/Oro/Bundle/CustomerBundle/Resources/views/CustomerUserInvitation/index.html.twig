@@ -1,0 +1,17 @@
+{% extends '@OroUI/actions/index.html.twig' %}
+{% import '@OroUI/macros.html.twig' as UI %}
+
+{% set gridName = 'customer-user-invitations-grid' %}
+{% set pageTitle = 'oro.customer.customeruserinvitation.entity_plural_label'|trans %}
+
+{% block navButtons %}
+    {% if is_granted('oro_customer_customer_user_invitation_create') %}
+        <div class="btn-group">
+            {{ UI.addButton({
+                path: path('oro_customer_customer_user_invitation_create'),
+                label: 'oro.customer.customeruserinvitation.action.invite'|trans,
+                title: 'oro.customer.customeruserinvitation.action.invite'|trans
+            }) }}
+        </div>
+    {% endif %}
+{% endblock %}

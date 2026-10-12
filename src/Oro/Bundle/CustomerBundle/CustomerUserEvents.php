@@ -24,4 +24,11 @@ class CustomerUserEvents
      * @Event("Oro\Bundle\CustomerBundle\Event\FilterCustomerUserResponseEvent")
      */
     public const REGISTRATION_CONFIRMED = 'customer_user.registration.confirmed';
+
+    /**
+     * The INVITATION_ACCEPTED event occurs after an invited customer user is created.
+     *
+     * @Event("Oro\Bundle\CustomerBundle\Event\FilterCustomerUserResponseEvent")
+     */
+    public const INVITATION_ACCEPTED = 'customer_user.invitation.accepted';
 }

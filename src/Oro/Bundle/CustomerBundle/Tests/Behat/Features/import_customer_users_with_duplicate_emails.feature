@@ -37,7 +37,7 @@ Feature: Import Customer Users with Duplicate Emails
     Then Email should contains the following "Errors: 1 processed: 1, read: 2, added: 0, updated: 0, replaced: 1" text
 
     When I follow "Error log" link from the email
-    Then I should see "Error in row #2. This email is already used."
+    Then I should see "Error in row #2. This email address is unavailable. Please check the address or contact support."
 
     When I login as administrator
     And go to Customers/ Customer Users
@@ -81,7 +81,7 @@ Feature: Import Customer Users with Duplicate Emails
     When I import file
     Then Email should contains the following "Errors: 1 processed: 0, read: 1, added: 0, updated: 0, replaced: 0" text
     When I follow "Error log" link from the email
-    Then I should see "Error in row #1. Email Address: This email is already used."
+    Then I should see "Error in row #1. Email Address: This email address is unavailable. Please check the address or contact support."
 
     And I login as administrator
     And go to Customers/ Customer Users
@@ -94,7 +94,7 @@ Feature: Import Customer Users with Duplicate Emails
     When I import file
     Then Email should contains the following "Errors: 1 processed: 1, read: 2, added: 0, updated: 0, replaced: 1" text
     When I follow "Error log" link from the email
-    Then I should see "Error in row #2. This email is already used."
+    Then I should see "Error in row #2. This email address is unavailable. Please check the address or contact support."
 
     When I login as administrator
     And go to Customers/ Customer Users
@@ -112,7 +112,7 @@ Feature: Import Customer Users with Duplicate Emails
     When I import file
     Then Email should contains the following "Errors: 1 processed: 1, read: 2, added: 1, updated: 0, replaced: 0" text
     When I follow "Error log" link from the email
-    Then I should see "Error in row #2. This email is already used."
+    Then I should see "Error in row #2. This email address is unavailable. Please check the address or contact support."
 
     And I login as administrator
     And go to Customers/ Customer Users

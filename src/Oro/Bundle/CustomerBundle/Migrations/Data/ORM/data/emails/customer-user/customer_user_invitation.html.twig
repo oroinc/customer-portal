@@ -1,0 +1,27 @@
+{# @name = customer_user_invitation #}
+{# @entityName = Oro\Bundle\CustomerBundle\Entity\CustomerUserInvitation #}
+{# @subject = You have been invited to {{ entity.customer.name }} #}
+{# @isSystem = 1 #}
+{# @isEditable = 1 #}
+
+{% extends oro_get_email_template('base_storefront') %}
+
+{% block content %}
+    <h1 style="{{ styleH1 }}">You have been invited to {{ entity.customer.name }}.</h1>
+
+    <p style="{{ styleP }}">
+        {% if entity.invitedBy %}
+            {{ entity.invitedBy|oro_format_name }} invited you to create your account.
+        {% else %}
+            An account administrator invited you to create your account.
+        {% endif %}
+    </p>
+
+    <p style="{{ styleP }}">Use the link below to provide your profile details and create your password.</p>
+
+    <p style="{{ styleP }}"><strong><a class="link" style="{{ styleLink }}" href="{{ website_secure_path('oro_customer_frontend_customer_user_invitation_accept', { token: token }, entity.website) }}">Accept invitation.</a></strong></p>
+    <p></p>
+    <p style="{{ styleP }}">This invitation expires on {{ entity.expiresAt|oro_format_datetime }}.</p>
+
+    <p style="{{ styleP }}">If you were not expecting this invitation, you can ignore this email.</p>
+{% endblock %}

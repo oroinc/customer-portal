@@ -143,7 +143,7 @@ Feature: Customer User Case Insensitive Email Addresses
       | Administrator (Predefined) | true                     |
     When I save and close form
     Then I should see validation errors:
-      | Email Address | This email is already used. |
+      | Email Address | This email address is unavailable. Please check the address or contact support. |
 
   Scenario: Create second customer user from the Admin panel with enabled "Case Insensitive Email Addresses"
     Given I go to Customers/ Customer Users

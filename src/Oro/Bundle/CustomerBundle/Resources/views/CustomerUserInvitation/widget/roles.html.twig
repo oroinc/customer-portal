@@ -1,0 +1,11 @@
+<div class="widget-content">
+    <div class="row-fluid form-horizontal">
+        <div class="responsive-block">
+            {% if form.roles is defined %}
+                <div class="form-horizontal" id="invitation-roles-list">
+                    {{ form_row(form.roles, {attr: {class: 'horizontal'}}) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

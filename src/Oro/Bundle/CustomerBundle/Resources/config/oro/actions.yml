@@ -242,6 +242,8 @@ operations:
         routes:
            - oro_customer_frontend_customer_user_index
         acl_resource: [CREATE, entity:commerce@Oro\Bundle\CustomerBundle\Entity\CustomerUser]
+        preconditions:
+            '@acl_granted': [oro_customer_frontend_customer_user_role_view]
         button_options:
             icon: plus
         frontend_options:
@@ -450,6 +452,8 @@ operations:
             - customer-user-by-customer-grid
             - customer-groups-grid
             - customer-customers-grid
+            - customer-user-invitations-grid
+            - frontend-customer-user-invitations-grid
 
     oro_customer_delete:
         extends: DELETE
@@ -714,6 +718,156 @@ operations:
                           - '@empty': $.routes[name]
                           - '@not_empty': $.gridName
                   parameters: [$.gridName]
+
+    oro_customer_customer_user_invitation_resend:
+        label: oro.customer.customeruserinvitation.action.resend
+        applications: [default]
+        datagrids:
+            - customer-user-invitations-grid
+        order: 10
+        button_options:
+            icon: fa-repeat
+        acl_resource: [EDIT, $.data]
+        preconditions:
+            '@equal': [$.data.status.internalId, 'pending']
+        actions:
+            - '@call_service_method':
+                  service: oro_customer.manager.customer_user_invitation
+                  method: resend
+                  method_parameters: [$.data]
+            - '@flash_message':
+                  message: oro.customer.customeruserinvitation.message.resent
+                  type: success
+            - '@refresh_grid': customer-user-invitations-grid
+
+    oro_customer_customer_user_invitation_revoke:
+        label: oro.customer.customeruserinvitation.action.revoke
+        applications: [default]
+        datagrids:
+            - customer-user-invitations-grid
+        order: 20
+        button_options:
+            icon: fa-ban
+        frontend_options:
+            confirmation:
+                title: oro.customer.customeruserinvitation.revoke_confirmation.title
+                message: oro.customer.customeruserinvitation.revoke_confirmation.message
+                okText: oro.customer.customeruserinvitation.action.revoke
+                component: oroui/js/standart-confirmation
+        acl_resource: [EDIT, $.data]
+        preconditions:
+            '@equal': [$.data.status.internalId, 'pending']
+        actions:
+            - '@call_service_method':
+                  service: oro_customer.manager.customer_user_invitation
+                  method: revoke
+                  method_parameters: [$.data]
+            - '@flash_message':
+                  message: oro.customer.customeruserinvitation.message.revoked
+                  type: success
+            - '@refresh_grid': customer-user-invitations-grid
+
+    oro_customer_customer_user_invitation_delete:
+        extends: DELETE
+        applications: [default]
+        replace:
+            - for_all_datagrids
+            - for_all_entities
+            - datagrids
+            - exclude_datagrids
+            - acl_resource
+            - actions
+        order: 30
+        datagrids:
+            - customer-user-invitations-grid
+        exclude_datagrids: []
+        acl_resource: [DELETE, $.data]
+        actions:
+            - '@call_service_method':
+                  service: oro_action.handler.delete
+                  method: handleDelete
+                  method_parameters: [$.data]
+            - '@flash_message':
+                  message: oro.action.delete_message
+                  type: success
+                  message_parameters:
+                      entityLabel: $.entityLabel
+            - '@refresh_grid': customer-user-invitations-grid
+
+    oro_customer_frontend_customer_user_invite:
+        label: oro.customer.customeruserinvitation.action.invite
+        applications: [commerce]
+        routes:
+            - oro_customer_frontend_customer_user_index
+        order: 10
+        button_options:
+            icon: fa-envelope-o
+        frontend_options:
+            options:
+                icon: mail
+        acl_resource: [CREATE, entity:commerce@Oro\Bundle\CustomerBundle\Entity\CustomerUserInvitation]
+        preconditions:
+            '@and':
+                - '@acl_granted': [CREATE, entity:commerce@Oro\Bundle\CustomerBundle\Entity\CustomerUser]
+                - '@acl_granted': [oro_customer_frontend_customer_user_role_view]
+        actions:
+            - '@redirect':
+                parameters:
+                    route: oro_customer_frontend_customer_user_invitation_create
+
+    oro_customer_frontend_customer_user_invitation_resend:
+        label: oro.customer.customeruserinvitation.action.resend
+        applications: [commerce]
+        datagrids:
+            - frontend-customer-user-invitations-grid
+        order: 10
+        button_options:
+            icon: fa-refresh
+        frontend_options:
+            options:
+                icon: refresh
+        acl_resource: [EDIT, $.data]
+        preconditions:
+            '@equal': [$.data.status.internalId, 'pending']
+        actions:
+            - '@call_service_method':
+                  service: oro_customer.manager.customer_user_invitation
+                  method: resend
+                  method_parameters: [$.data]
+            - '@flash_message':
+                  message: oro.customer.customeruserinvitation.message.resent
+                  type: success
+            - '@refresh_grid': frontend-customer-user-invitations-grid
+
+    oro_customer_frontend_customer_user_invitation_revoke:
+        label: oro.customer.customeruserinvitation.action.revoke
+        applications: [commerce]
+        datagrids:
+            - frontend-customer-user-invitations-grid
+        order: 20
+        button_options:
+            icon: fa-ban
+            class: btn--destructive
+        frontend_options:
+            options:
+                icon: ban
+            confirmation:
+                title: oro.customer.customeruserinvitation.revoke_confirmation.title
+                message: oro.customer.customeruserinvitation.revoke_confirmation.message
+                okText: oro.customer.customeruserinvitation.action.revoke
+                component: oroui/js/standart-confirmation
+        acl_resource: [EDIT, $.data]
+        preconditions:
+            '@equal': [$.data.status.internalId, 'pending']
+        actions:
+            - '@call_service_method':
+                  service: oro_customer.manager.customer_user_invitation
+                  method: revoke
+                  method_parameters: [$.data]
+            - '@flash_message':
+                  message: oro.customer.customeruserinvitation.message.revoked
+                  type: success
+            - '@refresh_grid': frontend-customer-user-invitations-grid
 
 action_groups:
     oro_customer_delete:

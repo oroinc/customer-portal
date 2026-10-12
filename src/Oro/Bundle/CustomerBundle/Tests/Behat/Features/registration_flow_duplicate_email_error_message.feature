@@ -45,4 +45,4 @@ Feature: Registration flow duplicate email error message
       | Password         | RuthWMaxwell123          |
       | Confirm Password | RuthWMaxwell123          |
     When I click "Create Account"
-    Then I should see that "Customer User Registration Error Container" contains "This email is already used."
+    Then I should see that "Customer User Registration Error Container" contains "This email address is unavailable. Please check the address or contact support."

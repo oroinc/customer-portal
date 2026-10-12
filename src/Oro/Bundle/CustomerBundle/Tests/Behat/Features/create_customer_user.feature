@@ -34,7 +34,7 @@ Feature: Create customer user
       | Confirm Password  | Test1e@example.org |
     And save form
     Then I should see validation errors:
-      | Email Address | This email is already used. |
+      | Email Address | This email address is unavailable. Please check the address or contact support. |
     And the "Buyer (Predefined)" checkbox should be checked
 
   Scenario: Create Customer User
