@@ -33,8 +33,8 @@ Feature: Frontend filters
       | Total: equals 1,000.00          |
       | Currency: EUR                   |
       | Payment Status: Pending payment |
-    And I should see "+2" in the "PastOrdersGrid" element
-    And I click on "Filter Hint Items Toggle" with title "+2" in element "PastOrdersGrid"
+    And I should see a "Past Orders Filter Hint Items Toggle" element
+    And I click on "Past Orders Filter Hint Items Toggle"
     Then should see filter hints in "PastOrdersGrid" frontend grid:
       | Open                                    |
       | Cancelled                               |
@@ -45,7 +45,7 @@ Feature: Frontend filters
       | Payment Status: Pending payment         |
       | Created At: between today-2 and today-1 |
     Then I should see "Clear All Filters" in the "PastOrdersGrid" element
-    And I click on "Filter Hint Items Toggle" with title "+2" in element "PastOrdersGrid"
+    And I click on "Past Orders Filter Hint Items Toggle"
 
   Scenario: Check filter hints responsive
     When I set window size to 992x1024

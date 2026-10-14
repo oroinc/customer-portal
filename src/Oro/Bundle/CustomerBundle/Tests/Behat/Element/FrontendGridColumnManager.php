@@ -37,7 +37,13 @@ class FrontendGridColumnManager extends GridColumnManager
             return;
         }
 
-        $visibilityCheckbox->getParent()->click();
+        // A click can be lost while the dropdown is still rendering, so it is repeated once.
+        // The wait is long enough for a slow re-render: a short one lets a late first click be toggled back
+        // by the second click.
+        for ($attempt = 0; $attempt < 2 && $visibilityCheckbox->isChecked(); $attempt++) {
+            $visibilityCheckbox->getParent()->click();
+            $this->spin(static fn () => !$visibilityCheckbox->isChecked(), 5);
+        }
 
         self::assertFalse(
             $visibilityCheckbox->isChecked(),
