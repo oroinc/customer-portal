@@ -51,7 +51,7 @@ Feature: System Configuration - Main Navigation Menu
 
   Scenario: Change main navigation menu for the customer scope
     Given I proceed as the Admin
-    And I go to Customers/Customer
+    And I go to Customers/ Customers
     And I click Configuration Customer-1 in grid
     When I follow "System Configuration/Websites/Routing" on configuration sidebar
     And uncheck "Use Customer Group" for "Main Navigation Menu" field
