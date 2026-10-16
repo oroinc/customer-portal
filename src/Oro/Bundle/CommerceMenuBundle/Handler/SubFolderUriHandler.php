@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\CommerceMenuBundle\Handler;
 
-use Oro\Bundle\UIBundle\Tools\UrlHelper;
+use Oro\Bundle\UIBundle\Tools\UrlHelperInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 /**
@@ -12,7 +12,7 @@ class SubFolderUriHandler
 {
     public function __construct(
         private RequestStack $requestStack,
-        private UrlHelper $urlHelper
+        private UrlHelperInterface $urlHelper
     ) {
     }
 

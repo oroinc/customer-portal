@@ -5,13 +5,13 @@ namespace Oro\Bundle\FrontendAttachmentBundle\Tests\Unit\Api\Processor;
 use Oro\Bundle\ApiBundle\Processor\CustomizeLoadedData\CustomizeLoadedDataContext;
 use Oro\Bundle\ApiBundle\Provider\ApiUrlResolver;
 use Oro\Bundle\FrontendAttachmentBundle\Api\Processor\ConvertProductSearchImageUrlsToAbsolute;
-use Oro\Bundle\UIBundle\Tools\UrlHelper;
+use Oro\Bundle\UIBundle\Tools\UrlHelperInterface;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
 class ConvertProductSearchImageUrlsToAbsoluteTest extends TestCase
 {
-    private UrlHelper&MockObject $urlHelper;
+    private UrlHelperInterface&MockObject $urlHelper;
 
     private ApiUrlResolver&MockObject $apiUrlResolver;
 
@@ -20,7 +20,7 @@ class ConvertProductSearchImageUrlsToAbsoluteTest extends TestCase
     #[\Override]
     protected function setUp(): void
     {
-        $this->urlHelper = $this->createMock(UrlHelper::class);
+        $this->urlHelper = $this->createMock(UrlHelperInterface::class);
         $this->apiUrlResolver = $this->createMock(ApiUrlResolver::class);
 
         $this->processor = new ConvertProductSearchImageUrlsToAbsolute(

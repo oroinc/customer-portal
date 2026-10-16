@@ -1,7 +1,7 @@
 /* @theme: default; */
 
 .page-content {
-    padding-top: $page-content-offset-top;
+    padding-top: var(--page-content-offset-top, #{$page-content-offset-top});
     width: $page-content-width;
 
     @include clearfix();

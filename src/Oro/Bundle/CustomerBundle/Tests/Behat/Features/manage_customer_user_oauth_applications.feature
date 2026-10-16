@@ -120,7 +120,9 @@ Feature: Manage Customer User OAuth Applications
       | Application Name | Auth Code App                           |
       | Grant Type       | Authorization Code                      |
       | Redirect URLs    | [https://test.com, https://another.com] |
+      | Post-Logout URLs | [https://test.com/logged-out]           |
     And I should not see "User*"
+    And I check "Enable Logout"
     And I click "Save and Close"
     Then I should see "OAuth application has been created." flash message
     And I should see "Please copy Client Secret and save it somewhere safe. For security reasons, we cannot show it to you again."
@@ -138,5 +140,7 @@ Feature: Manage Customer User OAuth Applications
     And I should see OAuth Application with:
       | Application Name | Auth Code App edited |
       | Grant Type       | Authorization Code   |
+      | Enable Logout    | Yes                  |
     And I should see "https://test.com"
     And I should see "https://another.com"
+    And I should see "https://test.com/logged-out"
