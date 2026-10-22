@@ -44,7 +44,7 @@ class OroCustomerBundleInstaller implements
     #[\Override]
     public function getMigrationVersion(): string
     {
-        return 'v7_1_0_4';
+        return 'v7_1_0_5';
     }
 
     #[\Override]
@@ -1058,10 +1058,12 @@ class OroCustomerBundleInstaller implements
         $table->addColumn('user_id', 'integer', ['notnull' => false]);
         $table->addColumn('ip', 'string', ['length' => 255, 'notnull' => false]);
         $table->addColumn('user_agent', 'text', ['notnull' => false, 'default' => '']);
+        $table->addColumn('impersonator_id', 'integer', ['notnull' => false]);
         $table->addColumn('context', 'json', ['notnull' => true, 'comment' => '(DC2Type:json)']);
         $table->setPrimaryKey(['id']);
         $table->addIndex(['user_id'], 'idx_5a4c6465a76ed395');
         $table->addIndex(['attempt_at'], 'oro_cuser_log_att_at_idx');
+        $table->addIndex(['impersonator_id'], 'oro_cus_usr_login_imp_idx');
     }
 
     /**
@@ -1147,6 +1149,12 @@ class OroCustomerBundleInstaller implements
             ['user_id'],
             ['id'],
             ['onUpdate' => null, 'onDelete' => 'CASCADE']
+        );
+        $table->addForeignKeyConstraint(
+            $schema->getTable('oro_user'),
+            ['impersonator_id'],
+            ['id'],
+            ['onUpdate' => null, 'onDelete' => 'SET NULL']
         );
     }
 

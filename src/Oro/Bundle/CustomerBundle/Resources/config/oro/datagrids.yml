@@ -851,11 +851,13 @@ datagrids:
                     - ul.userAgent
                     - CONCAT_WS(' ', user.firstName, user.lastName) as userInfo
                     - user
+                    - impersonator
                 from:
                     - { table: 'Oro\Bundle\CustomerBundle\Entity\CustomerUserLoginAttempt', alias: ul }
                 join:
                     left:
                         - { join: ul.user, alias: user }
+                        - { join: ul.impersonator, alias: impersonator }
         columns:
             id:
                 label: oro.customer.customeruserloginattempt.id.label
@@ -877,7 +879,7 @@ datagrids:
                 label: oro.customer.customeruserloginattempt.user.label
                 type: twig
                 frontend_type: html
-                template: '@OroCustomer/Datagrid/Column/customerUser.html.twig'
+                template: '@OroCustomer/Datagrid/Column/customerUserLoginAttempt.html.twig'
             ip:
                 label: oro.customer.customeruserloginattempt.ip.label
             userAgent:
@@ -932,6 +934,13 @@ datagrids:
                     autocomplete_alias: oro_customer_user
                     renderedPropertyName: 'fullName'
                     className: 'Oro\Bundle\CustomerBundle\Entity\CustomerUser'
+                impersonator:
+                    type: choice-tree
+                    label: oro.customer.customeruserloginattempt.impersonated_by
+                    data_name: ul.impersonator
+                    autocomplete_alias: users
+                    renderedPropertyName: 'fullName'
+                    className: 'Oro\Bundle\UserBundle\Entity\User'
                 ip:
                     type: string
                     data_name: ul.ip

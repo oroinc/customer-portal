@@ -6,6 +6,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\Config;
 use Oro\Bundle\EntityConfigBundle\Metadata\Attribute\ConfigField;
+use Oro\Bundle\UserBundle\Entity\User;
 
 /**
  * The entity that stores login attempts of customer users.
@@ -58,6 +59,10 @@ class CustomerUserLoginAttempt
     #[ORM\Column(name: 'user_agent', type: Types::TEXT, nullable: true, options: ['default' => ''])]
     #[ConfigField(defaultValues: ['email' => ['available_in_template' => true]])]
     private ?string $userAgent;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'impersonator_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
+    private ?User $impersonator = null;
 
     #[ORM\Column(name: 'context', type: Types::JSON, nullable: false)]
     private array $context = [];
@@ -130,6 +135,16 @@ class CustomerUserLoginAttempt
     public function setIp(string $ip): void
     {
         $this->ip = $ip;
+    }
+
+    public function getImpersonator(): ?User
+    {
+        return $this->impersonator;
+    }
+
+    public function setImpersonator(?User $impersonator): void
+    {
+        $this->impersonator = $impersonator;
     }
 
     public function getContext(): array

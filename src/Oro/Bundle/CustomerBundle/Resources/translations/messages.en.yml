@@ -600,6 +600,8 @@ oro.customer:
         feature:
             label: Customer User Login Attempts
             description: Enables access to view successful and unsuccessful login attempts of customer users.
+        impersonated_by: Impersonated by
+        impersonator.label: Impersonator
 
     action:
         customer_user:
@@ -1101,6 +1103,7 @@ oro.customer:
         version.label: Audit version
         fields.label: Audit fields
         impersonation.label: Audit impersonation
+        impersonator_user.label: Impersonator User
         organization.label: Audit organization
         user.label: Audit user
         customer_user.label: Customer user
