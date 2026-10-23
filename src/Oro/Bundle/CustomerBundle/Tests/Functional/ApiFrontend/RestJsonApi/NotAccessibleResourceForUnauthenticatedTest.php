@@ -109,4 +109,19 @@ class NotAccessibleResourceForUnauthenticatedTest extends FrontendRestJsonApiTes
         self::assertSame('', $response->getContent());
         self::assertResponseHeader($response, 'WWW-Authenticate', self::WWW_AUTHENTICATE_HEADER_VALUE);
     }
+
+    public function testUnauthorizedResponseHasSecurityHeaders(): void
+    {
+        $response = $this->get(
+            ['entity' => 'testapiunaccessiblemodel', 'id' => 'access_granted'],
+            [],
+            [],
+            false
+        );
+
+        self::assertResponseStatusCodeEquals($response, Response::HTTP_UNAUTHORIZED);
+        self::assertResponseHeader($response, 'X-Content-Type-Options', 'nosniff');
+        self::assertTrue($response->headers->has('X-Frame-Options'));
+        self::assertTrue($response->headers->has('X-XSS-Protection'));
+    }
 }

@@ -15,6 +15,7 @@ The current file describes significant changes in the code that may affect the u
 
 #### FrontendBundle
 * Added a new `preload_fonts` layout block type that uses Symfony WebLink component and pushes fonts to clients before they even know that they need them.
+* Added `Oro\Bundle\FrontendBundle\EventListener\UnauthorizedApiRequestListener::setCopiedHeaders()`. It receives the `oro_api.unauthorized_api_request.copied_headers` parameter.
 
 #### CustomerBundle
 * Added search configuration for the `Oro\Bundle\CustomerBundle\Entity\CustomerAddress`.

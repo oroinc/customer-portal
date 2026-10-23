@@ -22,6 +22,7 @@ class UnauthorizedApiRequestListener implements ServiceSubscriberInterface
     private ApiRequestHelper $apiRequestHelper;
     private FrontendHelper $frontendHelper;
     private string $backendPrefix;
+    private array $copiedHeaders = [];
 
     public function __construct(
         ContainerInterface $container,
@@ -33,6 +34,14 @@ class UnauthorizedApiRequestListener implements ServiceSubscriberInterface
         $this->apiRequestHelper = $apiRequestHelper;
         $this->frontendHelper = $frontendHelper;
         $this->backendPrefix = $backendPrefix;
+    }
+
+    /**
+     * @param string[] $copiedHeaders
+     */
+    public function setCopiedHeaders(array $copiedHeaders): void
+    {
+        $this->copiedHeaders = $copiedHeaders;
     }
 
     #[\Override]
@@ -61,12 +70,21 @@ class UnauthorizedApiRequestListener implements ServiceSubscriberInterface
             return;
         }
 
-        $event->setResponse(
-            $this->getActionHandler($isFrontendRequest)->handleUnhandledError(
-                $request,
-                $this->createUnauthorizedHttpException($response)
-            )
+        $apiResponse = $this->getActionHandler($isFrontendRequest)->handleUnhandledError(
+            $request,
+            $this->createUnauthorizedHttpException($response)
         );
+        $this->copyHeaders($response, $apiResponse);
+        $event->setResponse($apiResponse);
+    }
+
+    private function copyHeaders(Response $source, Response $target): void
+    {
+        foreach ($this->copiedHeaders as $name) {
+            if ($source->headers->has($name) && !$target->headers->has($name)) {
+                $target->headers->set($name, $source->headers->all($name));
+            }
+        }
     }
 
     private function getActionHandler(bool $isFrontendRequest): RequestActionHandler
