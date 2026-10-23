@@ -15,6 +15,7 @@ use Oro\Bundle\FormBundle\Provider\FormTemplateDataProviderInterface;
 use Oro\Bundle\FormBundle\Provider\SaveAndReturnActionFormTemplateDataProvider;
 use Oro\Bundle\SecurityBundle\Attribute\Acl;
 use Oro\Bundle\SecurityBundle\Attribute\AclAncestor;
+use Oro\Bundle\SecurityBundle\Attribute\CsrfProtection;
 use Oro\Bundle\SecurityBundle\Authentication\TokenAccessorInterface;
 use Oro\Bundle\UIBundle\Tools\FlashMessageHelper;
 use Psr\Log\LoggerInterface;
@@ -174,6 +175,7 @@ class CustomerUserController extends AbstractController
         requirements: ['id' => '\d+']
     )]
     #[AclAncestor(id: 'oro_customer_customer_user_update')]
+    #[CsrfProtection]
     public function cancelEmailChangeAction(CustomerUser $customerUser): RedirectResponse
     {
         if ($customerUser->getNewEmail()) {

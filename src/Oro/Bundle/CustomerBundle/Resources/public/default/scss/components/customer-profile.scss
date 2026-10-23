@@ -85,6 +85,10 @@
         margin-top: $customer-profile-inline-button-margin-top;
         padding-inline: $customer-profile-inline-button-padding-inline;
     }
+
+    &__inline-form {
+        display: $customer-profile-inline-form-display;
+    }
 }
 
 @include breakpoint('mobile') {

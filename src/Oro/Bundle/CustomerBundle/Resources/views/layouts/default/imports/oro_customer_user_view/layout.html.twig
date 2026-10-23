@@ -148,13 +148,18 @@
                                 map: {'not_confirmed': 'destructive'}
                             }) }}
                             {% if is_granted('VIEW', customerUser) %}
-                                <a href="{{ path('oro_customer_frontend_customer_user_cancel_user_view', {id: customerUser.id}) }}"
-                                   class="btn btn--flat customer-profile__inline-button"
-                                   title="{{ 'oro.customer.customeruser.profile.email_change.cancel_change.tooltip'|trans }}"
-                                   aria-label="{{ 'oro.customer.customeruser.profile.email_change.cancel_change.tooltip'|trans }}"
-                                >
-                                    {{ renderIcon.icon({name: 'close'}) }} {{ 'oro.customer.customeruser.profile.email_change.cancel_change.label'|trans }}
-                                </a>
+                                <form method="post"
+                                      class="customer-profile__inline-form"
+                                      action="{{ path('oro_customer_frontend_customer_user_cancel_user_view', {id: customerUser.id}) }}">
+                                    <input type="hidden" name="_token" value="{{ csrf_token('oro_customer_frontend_customer_user_cancel_user_view') }}">
+                                    <button type="submit"
+                                            class="btn btn--flat customer-profile__inline-button"
+                                            title="{{ 'oro.customer.customeruser.profile.email_change.cancel_change.tooltip'|trans }}"
+                                            aria-label="{{ 'oro.customer.customeruser.profile.email_change.cancel_change.tooltip'|trans }}"
+                                    >
+                                        {{ renderIcon.icon({name: 'close'}) }} {{ 'oro.customer.customeruser.profile.email_change.cancel_change.label'|trans }}
+                                    </button>
+                                </form>
                             {% endif %}
                         </div>
 

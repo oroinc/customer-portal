@@ -39,6 +39,15 @@ The current file describes significant changes in the code that may affect the u
 * Changed `Oro\Bundle\CustomerBundle\Form\Handler\CustomerUserPasswordRequestHandler` so it extends `Oro\Bundle\UserBundle\Form\Handler\AbstractPasswordResetRequestHandler` and only schedules the processing of the submitted email instead of resolving the customer user account and sending the reset password email within the request. Its constructor accepts `Oro\Component\MessageQueue\Client\MessageProducerInterface`, `Oro\Bundle\UserBundle\Provider\UserLoggingInfoProviderInterface` and `Psr\Log\LoggerInterface` now. This way the forgot password form does the same amount of work for every submitted email, so the response time no longer discloses whether the email belongs to an existing account. A message queue consumer must be running for the reset password emails to be sent.
 * Changed the forgot password form so it does not show the "Unable to send email" error anymore: email sending failures are written to the log by the consumer.
 * Changed `\Oro\Bundle\CustomerBundle\Entity\CustomerUser::$confirmationToken`, `\Oro\Bundle\CustomerBundle\Entity\CustomerUser::$newEmailVerificationCode` and `\Oro\Bundle\CustomerBundle\Entity\CustomerVisitor::$sessionId` so they are not available in email templates and are marked immutable.
+* Changed the `oro_customer_frontend_customer_user_cancel_user_view` route (`\Oro\Bundle\CustomerBundle\Controller\Frontend\CustomerUserEmailChangeController::cancelOnUserViewAction()`):
+  it now accepts only `POST` requests with a valid CSRF token in the `_token` request parameter (token id `oro_customer_frontend_customer_user_cancel_user_view`),
+  and a `GET` request from a link or a bookmark gets a 405 response. The cancel button in the `oro_customer_user_view` storefront layout is now a form,
+  so a customized layout must replace the cancel link with a form that submits the token.
+  The action now accepts `\Symfony\Component\HttpFoundation\Request $request` as the first argument,
+  so a class that extends the controller and overrides this action must add this parameter to its own signature.
+* Changed the `oro_customer_customer_user_cancel_email_change` route
+  (`\Oro\Bundle\CustomerBundle\Controller\CustomerUserController::cancelEmailChangeAction()`):
+  it now requires a valid `X-CSRF-Header` and responds with 403 otherwise. Custom code that calls the route directly must send the header.
 
 ## Changes in the Customer Portal package versions
 

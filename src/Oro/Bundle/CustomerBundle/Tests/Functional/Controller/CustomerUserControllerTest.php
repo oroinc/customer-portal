@@ -33,6 +33,7 @@ class CustomerUserControllerTest extends WebTestCase
     private const UPDATED_LAST_NAME = 'UpdLastName';
     private const UPDATED_NAME_SUFFIX = 'UNameSuffix';
     private const UPDATED_EMAIL = 'updated@example.com';
+    private const NEW_EMAIL = 'new.email@example.com';
 
     #[\Override]
     protected function setUp(): void
@@ -339,6 +340,45 @@ class CustomerUserControllerTest extends WebTestCase
         self::assertStringContainsString(self::UPDATED_EMAIL, $result->getContent());
         self::assertStringContainsString($user->getCustomer()->getName(), $result->getContent());
         self::assertStringContainsString($role->getLabel(), $result->getContent());
+    }
+
+    /**
+     * @depends testUpdate
+     */
+    public function testCancelEmailChangeWithoutCsrfToken(int $id): void
+    {
+        $entityManager = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
+        $customerUser = $entityManager->find(CustomerUser::class, $id);
+        $customerUser->setNewEmail(self::NEW_EMAIL);
+        $entityManager->flush();
+
+        $this->client->request('GET', $this->getUrl('oro_customer_customer_user_cancel_email_change', ['id' => $id]));
+
+        self::assertResponseStatusCodeEquals($this->client->getResponse(), 403);
+        $customerUser = self::getContainer()->get('doctrine')
+            ->getManagerForClass(CustomerUser::class)
+            ->find(CustomerUser::class, $id);
+        self::assertSame(self::NEW_EMAIL, $customerUser->getNewEmail());
+    }
+
+    /**
+     * @depends testUpdate
+     */
+    public function testCancelEmailChangeWithCsrfToken(int $id): void
+    {
+        $entityManager = self::getContainer()->get('doctrine')->getManagerForClass(CustomerUser::class);
+        $customerUser = $entityManager->find(CustomerUser::class, $id);
+        $customerUser->setNewEmail(self::NEW_EMAIL);
+        $entityManager->flush();
+
+        $this->client->followRedirects(false);
+        $this->ajaxRequest('GET', $this->getUrl('oro_customer_customer_user_cancel_email_change', ['id' => $id]));
+
+        self::assertResponseStatusCodeEquals($this->client->getResponse(), 302);
+        $customerUser = self::getContainer()->get('doctrine')
+            ->getManagerForClass(CustomerUser::class)
+            ->find(CustomerUser::class, $id);
+        self::assertNull($customerUser->getNewEmail());
     }
 
     public function testGetRolesWithCustomerAction(): void

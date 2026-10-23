@@ -11,6 +11,7 @@ use Oro\Bundle\UIBundle\Tools\FlashMessageHelper;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
@@ -93,10 +94,22 @@ class CustomerUserEmailChangeController extends AbstractController
         return $this->redirectToRoute('oro_customer_frontend_customer_user_profile');
     }
 
-    #[Route(path: '/cancel_uv/{id}', name: 'oro_customer_frontend_customer_user_cancel_user_view')]
+    /**
+     * @throws AccessDeniedHttpException
+     */
+    #[Route(
+        path: '/cancel_uv/{id}',
+        name: 'oro_customer_frontend_customer_user_cancel_user_view',
+        methods: ['POST']
+    )]
     #[AclAncestor('oro_customer_frontend_customer_user_update')]
-    public function cancelOnUserViewAction(CustomerUser $customerUser): RedirectResponse
+    public function cancelOnUserViewAction(Request $request, CustomerUser $customerUser): RedirectResponse
     {
+        $token = $request->request->get('_token');
+        if (!$this->isCsrfTokenValid('oro_customer_frontend_customer_user_cancel_user_view', $token)) {
+            throw new AccessDeniedHttpException('Invalid CSRF token');
+        }
+
         $emailChangeHandler = $this->container->get('oro_customer.customer_user.email_change_handler');
         $emailChangeHandler->cancelEmailChange($customerUser);
 
