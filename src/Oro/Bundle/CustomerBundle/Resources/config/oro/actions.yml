@@ -196,6 +196,7 @@ operations:
 
     oro_customer_customeruser_confirm:
         label: oro.customer.action.customer_user.confirm
+        applications: [default, commerce]
         routes:
             - oro_customer_customer_user_view
             - oro_customer_frontend_customer_user_view
@@ -217,6 +218,7 @@ operations:
 
     oro_customer_customeruser_sendconfirmation:
         label: oro.customer.action.customer_user.send_confirmation
+        applications: [default, commerce]
         routes:
             - oro_customer_customer_user_view
             - oro_customer_frontend_customer_user_view
@@ -511,6 +513,7 @@ operations:
 
     oro_customer_frontend_user_delete:
         extends: DELETE
+        applications: [commerce]
         replace:
             - preconditions
             - for_all_datagrids
@@ -589,6 +592,7 @@ operations:
 
     oro_customer_frontend_address_delete:
         label: oro.customer.action.customer_frontend_address.delete
+        applications: [commerce]
         extends: DELETE
         replace:
             - preconditions
@@ -609,6 +613,7 @@ operations:
 
     oro_customer_user_frontend_address_delete:
         label: oro.customer.action.customer_user_frontend_address.delete
+        applications: [commerce]
         extends: DELETE
         replace:
             - preconditions

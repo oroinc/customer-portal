@@ -28,13 +28,30 @@ class FrontendCurrentApplicationProviderTest extends TestCase
         );
     }
 
-    public function testIsApplicationsValidForEmptyApplications(): void
+    public function testIsApplicationsValidForEmptyApplicationsAndBackendRequest(): void
     {
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn(false);
+
         $this->assertTrue($this->provider->isApplicationsValid([]));
     }
 
-    public function testIsApplicationsValidForFrontendRequestAndApplicationsHasValidApplication(): void
+    public function testIsApplicationsValidForEmptyApplicationsAndFrontendRequest(): void
     {
+        $this->frontendHelper->expects(self::once())
+            ->method('isFrontendRequest')
+            ->willReturn(true);
+
+        $this->assertFalse($this->provider->isApplicationsValid([]));
+    }
+
+    /**
+     * @dataProvider validFrontendApplicationsProvider
+     */
+    public function testIsApplicationsValidForFrontendRequestAndApplicationsHasValidApplication(
+        array $applications
+    ): void {
         $this->frontendHelper->expects(self::once())
             ->method('isFrontendRequest')
             ->willReturn(true);
@@ -42,12 +59,22 @@ class FrontendCurrentApplicationProviderTest extends TestCase
             ->method('getToken')
             ->willReturn($this->createMock(TokenInterface::class));
 
-        $this->assertTrue(
-            $this->provider->isApplicationsValid([
-                FrontendCurrentApplicationProvider::COMMERCE_APPLICATION,
-                'another'
-            ])
-        );
+        $this->assertTrue($this->provider->isApplicationsValid($applications));
+    }
+
+    public function validFrontendApplicationsProvider(): array
+    {
+        return [
+            'storefront only' => [
+                [FrontendCurrentApplicationProvider::COMMERCE_APPLICATION],
+            ],
+            'back-office and storefront' => [
+                [
+                    FrontendCurrentApplicationProvider::DEFAULT_APPLICATION,
+                    FrontendCurrentApplicationProvider::COMMERCE_APPLICATION,
+                ],
+            ],
+        ];
     }
 
     public function testIsApplicationsValidForFrontendRequestWithoutTokenAndApplicationsHasValidApplication(): void
@@ -61,8 +88,7 @@ class FrontendCurrentApplicationProviderTest extends TestCase
 
         $this->assertFalse(
             $this->provider->isApplicationsValid([
-                FrontendCurrentApplicationProvider::COMMERCE_APPLICATION,
-                'another'
+                FrontendCurrentApplicationProvider::COMMERCE_APPLICATION
             ])
         );
     }
@@ -78,7 +104,7 @@ class FrontendCurrentApplicationProviderTest extends TestCase
 
         $this->assertFalse(
             $this->provider->isApplicationsValid([
-                'another'
+                FrontendCurrentApplicationProvider::DEFAULT_APPLICATION
             ])
         );
     }
@@ -94,13 +120,17 @@ class FrontendCurrentApplicationProviderTest extends TestCase
 
         $this->assertFalse(
             $this->provider->isApplicationsValid([
-                'another'
+                FrontendCurrentApplicationProvider::DEFAULT_APPLICATION
             ])
         );
     }
 
-    public function testIsApplicationsValidForBackendRequestAndApplicationsHasValidApplication(): void
-    {
+    /**
+     * @dataProvider validBackendApplicationsProvider
+     */
+    public function testIsApplicationsValidForBackendRequestAndApplicationsHasValidApplication(
+        array $applications
+    ): void {
         $token = $this->createMock(TokenInterface::class);
         $token->expects(self::once())
             ->method('getUser')
@@ -113,12 +143,22 @@ class FrontendCurrentApplicationProviderTest extends TestCase
             ->method('getToken')
             ->willReturn($token);
 
-        $this->assertTrue(
-            $this->provider->isApplicationsValid([
-                FrontendCurrentApplicationProvider::DEFAULT_APPLICATION,
-                'another'
-            ])
-        );
+        $this->assertTrue($this->provider->isApplicationsValid($applications));
+    }
+
+    public function validBackendApplicationsProvider(): array
+    {
+        return [
+            'back-office only' => [
+                [FrontendCurrentApplicationProvider::DEFAULT_APPLICATION],
+            ],
+            'back-office and storefront' => [
+                [
+                    FrontendCurrentApplicationProvider::DEFAULT_APPLICATION,
+                    FrontendCurrentApplicationProvider::COMMERCE_APPLICATION,
+                ],
+            ],
+        ];
     }
 
     public function testIsApplicationsValidForBackendRequestAndApplicationsDoesNotHaveValidApplication(): void
@@ -137,7 +177,7 @@ class FrontendCurrentApplicationProviderTest extends TestCase
 
         $this->assertFalse(
             $this->provider->isApplicationsValid([
-                'another'
+                FrontendCurrentApplicationProvider::COMMERCE_APPLICATION
             ])
         );
     }

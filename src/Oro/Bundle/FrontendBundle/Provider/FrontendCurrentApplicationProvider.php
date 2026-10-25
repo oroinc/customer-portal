@@ -24,6 +24,16 @@ class FrontendCurrentApplicationProvider extends CurrentApplicationProvider
     }
 
     #[\Override]
+    public function isApplicationsValid(array $applications): bool
+    {
+        if (!$applications) {
+            return !$this->frontendHelper->isFrontendRequest();
+        }
+
+        return parent::isApplicationsValid($applications);
+    }
+
+    #[\Override]
     public function getCurrentApplication(): ?string
     {
         if ($this->frontendHelper->isFrontendRequest()) {
