@@ -80,7 +80,7 @@ class QuickAccessButtonConfigType extends AbstractType
                 'tooltip' =>
                     'oro_frontend.form.quick_access_button.fields.web_catalog_node.tooltip',
                 'attr' => [
-                    'data-page-component-module' => 'orosale/js/app/components/dependent-field-component',
+                    'data-page-component-module' => 'oroform/js/app/components/dependent-field-component',
                     'data-page-component-options' => json_encode([
                         'groupContainerSelector' => '.control-group.control-group-preview'
                     ]),

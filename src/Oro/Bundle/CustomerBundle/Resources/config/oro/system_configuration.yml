@@ -186,7 +186,7 @@ system_configuration:
                 tooltip: oro.customer.system_configuration.fields.non_authenticated_visitors_api.tooltip
                 required: false
                 attr:
-                    'data-page-component-module': 'orosale/js/app/components/dependent-field-component'
+                    'data-page-component-module': 'oroform/js/app/components/dependent-field-component'
                     'data-depend-on': 'frontend_web_api'
                     'data-show-if': 'checked'
         oro_customer.case_insensitive_email_addresses_enabled:
