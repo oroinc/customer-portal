@@ -23,12 +23,6 @@ class AssetBuildCommandListener
         $output = $event->getOutput();
         $io = new SymfonyStyle($input, $output);
 
-        if (!$input->getArgument('theme') && $input->getOption('hot')) {
-            $io->note(
-                'For performance reasons, it is highly recommended to use the --hot option ' .
-                "with the <theme> argument. For example: \nbin/console oro:assets:build --hot -- <theme>"
-            );
-        }
         if (!$input->getArgument('theme') && $input->getOption('watch')) {
             $io->note(
                 'For performance reasons, it is highly recommended to use the --watch option ' .
